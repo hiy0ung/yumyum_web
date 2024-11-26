@@ -225,7 +225,7 @@ function SignUp() {
       [item]: !prev[item],
     }));
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const hasErrors =

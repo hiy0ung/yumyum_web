@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useCallback, useEffect, useState } from "react";
-import * as css from "../../../../../../Users/cksdn/Desktop/yum_practice/yam-web/yumyum_front/src/views/Stats/Styles"
+import * as css from "./Styles";
 import axios from "axios";
 import { PieChart, Pie, Sector } from "recharts";
 
