@@ -1,5 +1,7 @@
-import axios from "axios";
+/** @jsxImportSource @emotion/react */
 import React, { useCallback, useEffect, useState } from "react";
+import * as css from "../../../../../../Users/cksdn/Desktop/yum_practice/yam-web/yumyum_front/src/views/Stats/Styles"
+import axios from "axios";
 import { PieChart, Pie, Sector } from "recharts";
 
 const renderActiveShape = (props: any) => {
@@ -16,7 +18,6 @@ const renderActiveShape = (props: any) => {
     payload,
     percent,
     value,
-    name
   } = props;
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
@@ -30,25 +31,13 @@ const renderActiveShape = (props: any) => {
 
   return (
     <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-        {payload.name}
-      </text>
       <Sector
         cx={cx}
         cy={cy}
         innerRadius={innerRadius}
-        outerRadius={outerRadius}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        fill={fill}
-      />
-      <Sector
-        cx={cx}
-        cy={cy}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        innerRadius={outerRadius + 6}
         outerRadius={outerRadius + 10}
+        startAngle={startAngle}
+        endAngle={endAngle}
         fill={fill}
       />
       <path
@@ -57,60 +46,82 @@ const renderActiveShape = (props: any) => {
         fill="none"
       />
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <text x={cx} y={cy} dy={8} 
+        textAnchor="middle" 
+        fontSize={25}
+        fontWeight={600}
+        fill={fill}>
+        {payload.dailyData}
+      </text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill="#333"
-      >{`${name} ${value}`}</text>
+        fontSize={20}
+        fontWeight={500}
+        fill="#1230AE"
+      >{`${payload.name} 판매량[${value}개]`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         dy={18}
         textAnchor={textAnchor}
-        fill="#999"
+        fill="#666"
       >
-        {`(Rate ${(percent * 100).toFixed(2)}%)`}
+        {`판매 비율 ${(percent * 100).toFixed(0)}%`}
       </text>
     </g>
   );
 };
 
 export default function MenusStats() {
-  const [date, setDate] = useState("2024-11-12");
+  const [date, setDate] = useState("2024-11-13");
   const [data, setData] = useState([]);
-  
+  const [dailyData, setDailyData] = useState(0)
+
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
-    (_ : any, index : any) => {
+    (_: any, index: any) => {
       setActiveIndex(index);
     },
     [setActiveIndex]
   );
+  const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#a4de6c"];
 
-  const fetchDay = async() => {
-    const response = (await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${date}`)).data.data;
+  const fetchDay = async () => {
+    const response = (
+      await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${date}`)
+    ).data.data;
 
-      const data = response.map((item : any) => ({
-      name : item.orderProductName,
-      value : item.totalQuantitySold
-      }))
-      setData(data);
-  }
+    const data = response.map((item: any, index: number) => ({
+      name: item.orderProductName,
+      value: item.totalQuantitySold,
+      fill: colors[index % colors.length]
+    }));
+
+    let count = 0;
+    const dailyData = data.map((item : any, index : number) => (
+     count += item.value 
+    ))
+
+    setData(data);
+    setDailyData(dailyData)
+  };
+
   useEffect(() => {
     fetchDay();
-  },[])
+  }, []);
+
   return (
-    <PieChart width={400} height={400}>
+    <PieChart css={css.dayBox} width={1000} height={700}>
       <Pie
         activeIndex={activeIndex}
         activeShape={renderActiveShape}
         data={data}
-        cx={300}
-        cy={300}
-        innerRadius={60}
-        outerRadius={80}
-        fill="#8884d8"
+        cx={500}
+        cy={350}
+        innerRadius={100}
+        outerRadius={200}
         dataKey="value"
         onMouseEnter={onPieEnter}
       />
