@@ -1,7 +1,11 @@
-import React from 'react'
+import Box from "@mui/material/Box";
 
-export default function index() {
+export default function Footer() {
   return (
-    <div>index</div>
-  )
+    <Box>
+        <Box component="footer" sx={{ py: 2, textAlign: "center", borderTop: "1px solid #ccc", mt: "auto", marginTop: "20px", width: "100%"}}>
+          © 2024 Your Company
+        </Box>
+      </Box>
+  );
 }
