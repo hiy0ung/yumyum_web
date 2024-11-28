@@ -80,6 +80,6 @@ export const duplicatedContainer = css`
 
     & button {
         flex: 1;
-
+        margin-left: 20px;
     }
 `;
