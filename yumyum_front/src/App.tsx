@@ -15,7 +15,7 @@ import {
 } from "./constants";
 import Header from "./layouts/Header/index";
 import Footer from "./layouts/Footer";
-import SideBar from "./layouts/SideBar";
+import SideBar from "./layouts/SideBar2";
 import StoreManagement from "./views/StoreManagement/StoreManagement";
 import MenuManagement from "./views/MenuManagement/MenuManagement";
 import MenusStats from "./views/Stats/Menus/MenusStats";
