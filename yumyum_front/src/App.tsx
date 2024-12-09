@@ -8,7 +8,7 @@ import MenusStats from "./views/Stats/MenusStats";
 import SignUp from "./views/Authentication/SignUp/SignUp";
 import Header from "./layouts/Header/index";
 import Footer from "./layouts/Footer";
-import SideBar from "./layouts/SideBar";
+import SideBar from "./layouts/sideBar/index"
 import * as css from "./Styles/MainStyle";
 
 function App() {
