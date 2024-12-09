@@ -230,7 +230,7 @@ function SignUp() {
     e.preventDefault();
     const hasErrors =
     Object.entries(errorsMsg).some(([key, msg]) => key !== "form" && msg !== "") ||
-    userSignUpInfo.privacyPolicyAgreed === false;
+    !userSignUpInfo.privacyPolicyAgreed;
   if (hasErrors) {
     setErrorsMsg((prev) => ({ ...prev, form: "Errors in errorText" }));
     return;
