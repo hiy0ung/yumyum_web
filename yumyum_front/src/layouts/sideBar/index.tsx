@@ -10,7 +10,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DonutSmallIcon from '@mui/icons-material/DonutSmall';
 import InsightsIcon from '@mui/icons-material/Insights';
 import HomeIcon from '@mui/icons-material/Home';
-import * as css from "../sideBar/Style";
+import * as css from "./Style";
 import {
     MAIN_PATH,
     MENU_PATH,
