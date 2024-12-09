@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import {css} from "@emotion/react";
 
 export const headerContainer = css`
     position: relative;
@@ -27,12 +27,9 @@ export const headerLogoImg = css`
 `;
 
 export const headerLeftContainer = css`
-    & > a {
-        display: block;
-        width: 100%;
-        height: 90px;
-        background-color: #FAFAFA;
-    }
+    display: block;
+    height: 90px;
+    background-color: #FAFAFA;
 `;
 
 export const headerMiddleContainer = css`
@@ -49,9 +46,56 @@ export const headerMiddleContainer = css`
     }
 `;
 
-export const headerRightContainer  = css`
+export const headerRightContainer = css`
     width: 250px;
-    line-height: 90px;
-    text-align: center;
     background-color: #3874CB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+`;
+
+export const statusToggleButtonGroup = css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 30px;
+    background-color: cornflowerblue;
+    width: 200px;
+    padding: 15px;
+    height: 60px;
+`;
+
+export const statusToggleButtonStyles = css`
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    padding: 7px;
+    height: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+`;
+
+export const openStyle = css`
+    background-color: #4caf50;
+    color: white;
+`;
+
+export const breakStyle = css`
+    background-color: #ff9800;
+    color: white;
+`;
+
+export const closeStyle = css`
+    background-color: #f44336;
+    color: white;
+`;
+
+export const activeStyle = css`
+    transform: scale(1.3);
+`;
+
+export const passive = css`
+    background-color: gray;
 `;

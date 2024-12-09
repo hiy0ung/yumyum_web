@@ -1,5 +1,6 @@
-import axios from 'axios';
+/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { REVIEWS_LIST_URL } from '../../apis';
 
 interface ReviewsPhotoArray {
@@ -23,7 +24,7 @@ interface ReviewsList{
 */
 function Review() {
   const [reviewsList, setReviewList] = useState<ReviewsList>();
-  
+
 
   const reviewsListGetApi = async() => {
     const response = await axios.get(`${REVIEWS_LIST_URL}`);
@@ -31,7 +32,7 @@ function Review() {
 
     // }))
 
-  } 
+  }
   useEffect( () => {
     reviewsListGetApi();
   },[])
