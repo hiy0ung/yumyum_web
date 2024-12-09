@@ -134,7 +134,7 @@ export default function SideBar() {
                     </li>
                 </ul>
             </nav>
-            <Link css={css.profile} to={USER_MY_PAGE_PATH}><img src={defaultProfileImg} alt="프로필 사진"/></Link>
+            <Link css={css.profile} to={USER_MY_PAGE_PATH}><img src={defaultProfileImg} alt="프로필 사진입니다"/></Link>
         </aside>
     );
 }
