@@ -11,12 +11,14 @@ import {
     STATS_PERIOD_PATH,
     STATS_TIME_PATH,
     STORE_PATH,
+    CREATE_STORE_PATH,
     USER_MY_PAGE_PATH
 } from "./constants";
 import Header from "./layouts/Header/index";
 import Footer from "./layouts/Footer";
 import SideBar from "./layouts/SideBar";
-import StoreManagement from "./views/StoreManagement/StoreManagement";
+import Store from "./views/StoreManagement/GetStore/GetStore";
+import CreateStore from "./views/StoreManagement/CreateStore/CreateStore"
 import MenuManagement from "./views/MenuManagement/MenuManagement";
 import MenusStats from "./views/Stats/Menus/MenusStats";
 import PeriodStats from "./views/Stats/Period/PeriodStats";
@@ -39,8 +41,9 @@ function App() {
                 </div>
                 <main css={css.middleRightContainer}>
                     <Routes>
-                        <Route path={"/"} element={<Main/>}/>
-                        <Route path={STORE_PATH} element={<StoreManagement/>}/>
+                    <Route path={"/main"} element={<Main/>}/>
+                        <Route path={STORE_PATH} element={<Store />}></Route>
+                        <Route path={CREATE_STORE_PATH} element={<CreateStore/>}/>
                         <Route path={MENU_PATH} element={<MenuManagement />}></Route>
                         <Route path={STATS_PERIOD_PATH} element={<PeriodStats/>}></Route>
                         <Route path={STATS_MENUS_PATH} element={<MenusStats/>}></Route>
