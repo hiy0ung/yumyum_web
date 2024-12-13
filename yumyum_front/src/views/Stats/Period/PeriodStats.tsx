@@ -2,7 +2,7 @@ import FullCalendar from "@fullcalendar/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import "../../Styles/calendar.css";
+import "../../../Styles/calendar.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
