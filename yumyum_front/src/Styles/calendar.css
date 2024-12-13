@@ -31,7 +31,7 @@
 
 /* 월 뷰에서 날짜의 글자 크기 조절 */ 
 .fc-daygrid-day-number { 
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 700;
 }
 
