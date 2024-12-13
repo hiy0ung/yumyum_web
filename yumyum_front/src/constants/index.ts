@@ -2,9 +2,11 @@ export const MAIN_PATH = "/";
 export const MAIN_MAIN_PATH = "/main"
 
 export const AUTH_PATH = '/auth';
+export const AUTH_PATH_LOGIN = '/auth/logIn';
 export const AUTH_PATH_SIGN_UP = '/auth/signUp';
 
 export const STORE_PATH = '/store'
+export const CREATE_STORE_PATH = '/store/create'
 
 export const MENU_PATH = '/menus';
 
