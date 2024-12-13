@@ -1,0 +1,76 @@
+/* 일요일 색상 변경 */
+.fc-day-sun a{
+  color: red
+}
+
+/* 토요일 색상 변경 */
+.fc-day-sat a{
+  color:blue
+}
+
+/* 버튼 삭제 */
+.fc .fc-button {
+  display: none;
+}
+
+
+/* 캘린더 내부 색상 */
+:root {
+  --fc-button-active-bg-color: transparent;
+
+  --fc-event-bg-color: #fb8494;
+  --fc-event-border-color: #fb8494;
+  top: 5px;
+}
+
+/* 이벤트 제목의 글자 크기 조절 */ 
+.fc-event-title 
+{ 
+  font-size: 15px; 
+}
+
+/* 월 뷰에서 날짜의 글자 크기 조절 */ 
+.fc-daygrid-day-number { 
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* 날짜 삭제 */
+.fc-toolbar-title {
+  display: none;
+}
+
+/* 이벤트 위치 변경 */
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+  position: absolute;
+  bottom: -10px;
+  width: 100%;
+}
+
+/* 캘린더 각 줄 추가 */
+.react-calendar button {
+  outline: none !important; 
+  border: 1px solid #444 !important; 
+}
+
+/* 현재 날짜의 배경색 삭제 (미완) */
+.react-calendar__tile--now {
+  background: #fff !important; 
+  pointer-events: auto;
+}
+
+/* 11월은 호버가 안되던 버그 수정 */
+.react-calendar__tile--now:hover {
+  background-color: #e6e6e6 !important; 
+  cursor: pointer;
+}
+
+/* 2024년 클릭시 2021년으로 가던 상황 수정 */
+.react-calendar__navigation__label {
+  pointer-events: none;
+}
+
+/* 클릭된 월 색상 변경 */
+.selected {
+  background-color: #ffd700 !important; 
+}
