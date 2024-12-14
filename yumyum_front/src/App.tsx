@@ -12,7 +12,8 @@ import {
     STATS_TIME_PATH,
     STORE_PATH,
     CREATE_STORE_PATH,
-    USER_MY_PAGE_PATH
+    USER_MY_PAGE_PATH,
+    AUTH_PATH_LOGIN
 } from "./constants";
 import Header from "./layouts/Header/index";
 import Footer from "./layouts/Footer";
@@ -29,6 +30,7 @@ import Contact from "./views/Contact/Contact";
 import * as css from "./Styles/MainStyle";
 import Main from "./views/Main/Main";
 import SignUp from "./views/Authentication/SignUp/SignUp";
+import LogIn from "./views/Authentication/LogIn/LogIn";
 
 
 function App() {
@@ -52,6 +54,7 @@ function App() {
                         <Route path={USER_MY_PAGE_PATH} element={<UserMyPage />}></Route>
                         <Route path={CONTACT_PATH} element={<Contact/>}></Route>
                         <Route path={AUTH_PATH_SIGN_UP} element={<SignUp/>}></Route>
+                        <Route path={AUTH_PATH_LOGIN} element={<LogIn/>}></Route>
                     </Routes>
                 </main>
             </div>
