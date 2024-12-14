@@ -11,6 +11,7 @@ import {
   AUTH_PATH_SIGN_UP,
   MAIN_PATH,
   AUTH_PATH_LOGIN,
+  MAIN_MAIN_PATH,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../Stroes/autn.store";
@@ -69,7 +70,7 @@ export default function LogIn() {
         token: token,
       });
       console.log(token);
-      navigate(MAIN_PATH);
+      navigate(MAIN_MAIN_PATH);
     } else {
       alert(error);
       setError("로그인 실패: 인증 정보를 확인해주세요.");
