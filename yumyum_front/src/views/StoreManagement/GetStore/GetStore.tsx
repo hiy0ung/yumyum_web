@@ -49,7 +49,7 @@ export default function Store() {
     <>
       <Box css={css.StoreInfo}>
         <Box css={css.BasicInfo}>
-          <img src={`http://localhost:4041/image/${store.logoUrl}`} css={css.logoUrl}/>
+          <img src={`http://localhost:4041/image/${store.logoUrl}`} css={css.logoUrl} alt="스토어 사진"/>
           <Box css={css.BasicInfoContent}>
             <p>가게명: {store.storeName}</p>
             <p>가게주소: {store.address}</p>

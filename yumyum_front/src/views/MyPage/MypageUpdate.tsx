@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as s from "./MypageCss";
 import { Link, useNavigate } from "react-router-dom";
-import { MAIN_MAIN_PATH, MY_PAGE, MY_PAGE_UPDATE } from "../../constants";
+import { MAIN_PATH, MY_PAGE, MY_PAGE_UPDATE } from "../../constants";
 
 interface User {
   userId: string;
@@ -16,7 +16,7 @@ interface User {
   marketingAgreed: boolean;
 }
 
-export default function Mypage() {
+export default function MypageUpdate() {
   const [user, setUser] = useState<User>({
     userId: "",
     userPw: "",
@@ -108,7 +108,7 @@ export default function Mypage() {
     } catch(e) {
       console.error("데이터를 불러오지 못했습니다.", e);
     }
-    navigate(MAIN_MAIN_PATH)
+    navigate(MAIN_PATH)
   }
 
   return (
@@ -233,7 +233,6 @@ export default function Mypage() {
           <button css={s.updateConfirm} onClick={handlePutUser}>저장하기</button>
           <button css={s.updateConfirm} onClick={() => { navigate(-1); }}>
             취소하기
-            
           </button>
         </div>
       </div>
