@@ -253,7 +253,7 @@ export default function Store() {
         </Box>
         <Button
           css={css.storeSubmitButton}
-          onClick={(e) => {
+          onClick={(e:any) => {
             if (checkStoreInput()) {
               handleSubmit(e);
             }

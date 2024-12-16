@@ -1,5 +1,5 @@
-export const MAIN_PATH = "/";
-export const MAIN_MAIN_PATH = "/main"
+export const HOME_PATH = "/";
+export const MAIN_PATH = "/main";
 
 export const AUTH_PATH = '/auth';
 export const AUTH_PATH_LOGIN = '/auth/logIn';
@@ -17,7 +17,6 @@ export const STATS_TIME_PATH = '/stats/time';
 
 export const REVIEW_PATH = '/reviews';
 
-export const USER_MY_PAGE_PATH = '/users/myPage';
 export const CONTACT_PATH = '/contact';
 
 export const MY_PAGE = '/mypage'

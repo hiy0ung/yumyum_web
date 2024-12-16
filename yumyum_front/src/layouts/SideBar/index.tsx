@@ -14,14 +14,13 @@ import * as css from "./Style";
 import {
     CREATE_STORE_PATH,
     MAIN_PATH,
-    MENU_PATH,
+    MENU_PATH, MY_PAGE,
     REVIEW_PATH,
     STATS_MENUS_PATH,
     STATS_PATH,
     STATS_PERIOD_PATH,
     STATS_TIME_PATH,
     STORE_PATH,
-    USER_MY_PAGE_PATH,
 } from "../../constants";
 import defaultProfileImg from "../../img/default_Profile_Img.png";
 import { useCookies } from "react-cookie";
@@ -194,7 +193,7 @@ export default function SideBar() {
             </li>
             </ul>
         </nav>
-        <Link css={css.profile} to={USER_MY_PAGE_PATH}>
+        <Link css={css.profile} to={MY_PAGE}>
             <img src={defaultProfileImg} alt="프로필 사진입니다" />
         </Link>
         </aside>

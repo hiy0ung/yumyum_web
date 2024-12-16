@@ -12,8 +12,7 @@ import {
     STATS_TIME_PATH,
     STORE_PATH,
     CREATE_STORE_PATH,
-    USER_MY_PAGE_PATH,
-    AUTH_PATH_LOGIN
+    AUTH_PATH_LOGIN, MY_PAGE, MY_PAGE_UPDATE, MAIN_PATH
 } from "./constants";
 import Header from "./layouts/Header/index";
 import Footer from "./layouts/Footer";
@@ -25,12 +24,13 @@ import MenusStats from "./views/Stats/Menus/MenusStats";
 import PeriodStats from "./views/Stats/Period/PeriodStats";
 import TimeStats from "./views/Stats/Time/TimeStats";
 import Review from "./views/Review/Review";
-import UserMyPage from "./views/UserMyPage/UserMyPage";
 import Contact from "./views/Contact/Contact";
 import * as css from "./Styles/MainStyle";
 import Main from "./views/Main/Main";
 import SignUp from "./views/Authentication/SignUp/SignUp";
 import LogIn from "./views/Authentication/LogIn/LogIn";
+import Mypage from "./views/MyPage/Mypage";
+import MypageUpdate from "./views/MyPage/MypageUpdate";
 
 
 function App() {
@@ -43,15 +43,16 @@ function App() {
                 </div>
                 <main css={css.middleRightContainer}>
                     <Routes>
-                    <Route path={"/main"} element={<Main/>}/>
-                        <Route path={STORE_PATH} element={<Store />}></Route>
+                        <Route path={MAIN_PATH} element={<Main/>}/>
+                        <Route path={STORE_PATH} element={<Store/>}></Route>
                         <Route path={CREATE_STORE_PATH} element={<CreateStore/>}/>
-                        <Route path={MENU_PATH} element={<MenuManagement />}></Route>
+                        <Route path={MENU_PATH} element={<MenuManagement/>}></Route>
                         <Route path={STATS_PERIOD_PATH} element={<PeriodStats/>}></Route>
                         <Route path={STATS_MENUS_PATH} element={<MenusStats/>}></Route>
                         <Route path={STATS_TIME_PATH} element={<TimeStats/>}></Route>
                         <Route path={REVIEW_PATH} element={<Review/>}></Route>
-                        <Route path={USER_MY_PAGE_PATH} element={<UserMyPage />}></Route>
+                        <Route path={MY_PAGE} element={<Mypage/>}></Route>
+                        <Route path={MY_PAGE_UPDATE} element={<MypageUpdate/>}></Route>
                         <Route path={CONTACT_PATH} element={<Contact/>}></Route>
                         <Route path={AUTH_PATH_SIGN_UP} element={<SignUp/>}></Route>
                         <Route path={AUTH_PATH_LOGIN} element={<LogIn/>}></Route>
@@ -62,4 +63,5 @@ function App() {
         </>
     );
 }
+
 export default App;
