@@ -26,7 +26,8 @@ import defaultProfileImg from "../../img/default_Profile_Img.png";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
-export default function SideBar() {
+const SideBar = React.memo(function Sidebar () {
+
     const [pathValue, setPathValue] = useState("");
     const [cookies, setCookies] = useCookies(["token"]);
     const token = cookies.token;
@@ -198,4 +199,6 @@ export default function SideBar() {
         </Link>
         </aside>
     );
-}
+});
+
+export default SideBar;
