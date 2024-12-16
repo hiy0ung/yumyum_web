@@ -242,7 +242,7 @@ function SignUp() {
         userSignUpInfo
       );
       if (response.data.data) {
-        navigate("/logIn");
+        navigate("/auth/logIn");
       } else {
         setErrorsMsg((prev) => ({ ...prev, form: "회원가입에 실패했습니다." }));
       }

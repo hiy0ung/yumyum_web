@@ -4,7 +4,7 @@ import * as css from "./Style";
 import YumYumLogoImg from "../../img/yumyumLogo.png"
 import {useState} from "react";
 
-export default function Header() {
+const Header = React.memo(function Header(){
 
     interface Status {
         status: "OPEN" | "BREAK" | "CLOSE";
@@ -56,4 +56,6 @@ export default function Header() {
             </div>
         </header>
     );
-}
+});
+
+export default Header;

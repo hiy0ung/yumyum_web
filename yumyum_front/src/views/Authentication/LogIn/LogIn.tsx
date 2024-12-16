@@ -40,7 +40,7 @@ export default function LogIn() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:4041/api/v1${AUTH_PATH_LOGIN}`,
+        `http://localhost:4041/api/v1/auth/logIn`,
         userLogInInfo
       );
       if (response.data) {

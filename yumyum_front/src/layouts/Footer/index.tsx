@@ -5,7 +5,8 @@ import {Link} from "react-router-dom";
 import {CONTACT_PATH} from "../../constants";
 
 
-export default function Footer() {
+const Footer = React.memo(function Footer () {
+
     return (
         <footer css={css.footerContainer}>
             <div css={css.footerLeftContainer}>
@@ -21,4 +22,6 @@ export default function Footer() {
             </div>
         </footer>
     );
-}
+});
+
+export default Footer;
