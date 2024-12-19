@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Box } from "@mui/system";
 import * as css from "./Style";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   FormControl,
@@ -18,12 +18,16 @@ import dayjs from "dayjs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { STORE_PATH } from "../../../constants";
+
 
 export default function Store() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
+  const token = cookies.token;
 
   const [img, setImg] = useState<File | null>(null);
+  const [serverImg, setServerImg] = useState<string>("");
   const [imgPreview, setImgPreview] = useState<string>("");
   const [category, setCategory] = useState<string>("");
 
@@ -39,6 +43,44 @@ export default function Store() {
     description: "",
   });
 
+  const [updateStore, setUpdateStore] = useState<StoreInfo>({
+    storeName: "",
+    logoUrl: null,
+    category: "",
+    openingTime: "",
+    closingTime: "",
+    breakStartTime: "",
+    breakEndTime: "",
+    address: "",
+    description: "",
+  });
+
+  const fetchStore = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4041/api/v1/stores/get",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data) {
+        const data = response.data.data;
+        setStore(data);
+        setUpdateStore(data);
+        setServerImg(data.logoUrl);
+        setCategory(data.category);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchStore();
+  }, []);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -53,9 +95,62 @@ export default function Store() {
     }
   };
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const checkUrl = () => {
+    if (typeof store.logoUrl === "string") {
+      const validExtensions = [".jpg", ".jpeg", ".png"];
+      const urlExtension = store.logoUrl
+        .slice(store.logoUrl.lastIndexOf("."))
+        .toLowerCase();
+
+      const url = store.logoUrl.slice(store.logoUrl.indexOf("."));
+
+      if (validExtensions.includes(urlExtension)) {
+        return url;
+      }else {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  const changeBlob = () => {
+    const urlExtension = checkUrl();
+    if(urlExtension && typeof store.logoUrl === 'string') {
+      const mimeTypeMap: {[key: string]: string} = {
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".png": "image/png"
+      };
+      const mimeType = mimeTypeMap[urlExtension];
+      const blob = new Blob([store.logoUrl], {type: mimeType});
+      return blob;
+    }
+    return null;
+  }
+
+  const changeFile = () => {
+    const blob = changeBlob();
+    if(blob && typeof store.logoUrl === 'string') {
+      const file = new File([blob], store.logoUrl.split("/")[1], {
+        type: blob.type
+      });
+      return file;
+    }
+    return null;
+  }
+
+  
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setCategory(event.target.value);
-    setStore({
+    setUpdateStore({
       ...store,
       category: event.target.value,
     });
@@ -63,13 +158,13 @@ export default function Store() {
 
   const handleTimeChange = (name: string, newTime: dayjs.Dayjs | null) => {
     if (newTime) {
-      setStore({
-        ...store,
+      setUpdateStore({
+        ...updateStore,
         [name]: newTime.format("HH:mm"),
       });
     } else {
-      setStore({
-        ...store,
+      setUpdateStore({
+        ...updateStore,
         [name]: "",
       });
     }
@@ -79,8 +174,8 @@ export default function Store() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     e.preventDefault();
-    setStore({
-      ...store,
+    setUpdateStore({
+      ...updateStore,
       [e.target.name]: e.target.value,
     });
   };
@@ -102,38 +197,47 @@ export default function Store() {
     }
   };
 
-  const formData = new FormData();
-  formData.append("storeName", store.storeName);
-  formData.append("category", store.category);
-  formData.append("openingTime", store.openingTime);
-  formData.append("closingTime", store.closingTime);
-  formData.append("breakStartTime", store.breakStartTime);
-  formData.append("breakEndTime", store.breakEndTime);
-  formData.append("address", store.address);
-  formData.append("description", store.description);
-  if (img) {
-    formData.append("logoUrl", img);
-  }
-
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const token = cookies.token;
+    const formData = new FormData();
+    const fields = [
+      "storeName",
+      "category",
+      "openingTime",
+      "closingTime",
+      "breakStartTime",
+      "breakEndTime",
+      "address",
+      "description",
+    ];
+
+    fields.forEach((field) => {
+      const newValue = updateStore[field as keyof StoreInfo];
+      const oldValue = store[field as keyof StoreInfo];
+      formData.append(field, newValue || oldValue || "");
+    });
+
+    if (img) {
+      formData.append("logoUrl", img);
+    } 
+    
     if (!token) {
       alert("로그인 해주세요.");
       return;
     }
     try {
-      const response = await axios.post(
-        "http://localhost:4041/api/v1/stores/create",
+      console.log(changeFile());
+      const response = await axios.put(
+        "http://localhost:4041/api/v1/stores/update",
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       if (response.data) {
-        alert("가게등록에 성공하였습니다.");
-        navigate("/main");
+        alert("가게수정에 성공하였습니다.");
+        navigate(STORE_PATH);
       }
     } catch (e) {
       console.error(e);
@@ -142,14 +246,34 @@ export default function Store() {
 
   return (
     <>
-      <h2 css={css.storeTitle}>가게등록</h2>
+      <h2 css={css.storeTitle}>가게수정</h2>
       <Box css={css.formStyle} component="form">
         <Box css={css.basicProfile}>
           <Box>
-            {imgPreview && (
-              <img src={imgPreview} alt="logo" css={css.logoImg}></img>
+            {imgPreview ? (
+              <img
+                src={imgPreview}
+                alt="logo preview"
+                css={css.logoImg}
+                onClick={handleImageClick}
+              ></img>
+            ) : (
+              serverImg && (
+                <img
+                  src={`http://localhost:4041/image/${serverImg}`}
+                  alt="logo"
+                  css={css.logoImg}
+                  onClick={handleImageClick}
+                ></img>
+              )
             )}
-            <input type="file" onChange={handleFileChange} name="img" />
+            <input
+              ref={fileInputRef}
+              type="file"
+              onChange={handleFileChange}
+              name="img"
+              style={{ display: "none" }}
+            />
           </Box>
           <Box css={css.storeNameAndCategory}>
             <TextField
@@ -157,7 +281,8 @@ export default function Store() {
               id="outlined-required"
               label="가게명"
               name="storeName"
-              value={store.storeName}
+              value={updateStore.storeName}
+              defaultValue={store.storeName}
               onChange={handleStoreChange}
             />
             <FormControl css={css.category}>
@@ -166,6 +291,7 @@ export default function Store() {
                 labelId="category-select-label"
                 id="category-select"
                 value={category}
+                defaultValue={store.category}
                 label="카테고리*"
                 onChange={handleCategoryChange}
               >
@@ -192,10 +318,13 @@ export default function Store() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TimePicker
               label="오픈 시간 *"
-              name="opningTime"
+              name="openingTime"
               value={
-                store.openingTime ? dayjs(store.openingTime, "HH:mm") : null
+                updateStore.openingTime
+                  ? dayjs(updateStore.openingTime, "HH:mm")
+                  : null
               }
+              defaultValue={dayjs(store.openingTime)}
               onChange={(newTime) => handleTimeChange("openingTime", newTime)}
             />
           </LocalizationProvider>
@@ -204,8 +333,11 @@ export default function Store() {
               label="마감 시간 *"
               name="closingTime"
               value={
-                store.closingTime ? dayjs(store.closingTime, "HH:mm") : null
+                store.closingTime
+                  ? dayjs(updateStore.closingTime, "HH:mm")
+                  : null
               }
+              defaultValue={dayjs(store.closingTime)}
               onChange={(newTime) => handleTimeChange("closingTime", newTime)}
             />
           </LocalizationProvider>
@@ -216,8 +348,8 @@ export default function Store() {
               label="브레이크 시간"
               name="breakStartTime"
               value={
-                store.breakStartTime
-                  ? dayjs(store.breakStartTime, "HH:mm")
+                updateStore.breakStartTime
+                  ? dayjs(updateStore.breakStartTime, "HH:mm")
                   : null
               }
               onChange={(newTime) =>
@@ -230,7 +362,9 @@ export default function Store() {
               label="브레이크 시간"
               name="breakEndTime"
               value={
-                store.breakEndTime ? dayjs(store.breakEndTime, "HH:mm") : null
+                updateStore.breakEndTime
+                  ? dayjs(updateStore.breakEndTime, "HH:mm")
+                  : null
               }
               onChange={(newTime) => handleTimeChange("breakEndTime", newTime)}
             />
@@ -239,7 +373,8 @@ export default function Store() {
         <Box css={css.address}>
           <p style={{ fontSize: "20px", margin: "10px" }}>주소 API</p>
           <textarea
-            value={store.address}
+            value={updateStore.address}
+            defaultValue={store.address}
             name="address"
             onChange={handleStoreChange}
           ></textarea>
@@ -248,7 +383,8 @@ export default function Store() {
           <p style={{ fontSize: "20px", margin: "10px" }}>가게 설명</p>
           <textarea
             css={css.descriptionBox}
-            value={store.description}
+            value={updateStore.description}
+            defaultValue={store.description}
             name="description"
             onChange={handleStoreChange}
           ></textarea>
@@ -261,7 +397,7 @@ export default function Store() {
             }
           }}
         >
-          가게 등록
+          가게 수정
         </Button>
       </Box>
     </>

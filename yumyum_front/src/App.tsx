@@ -12,6 +12,7 @@ import {
     STATS_TIME_PATH,
     STORE_PATH,
     CREATE_STORE_PATH,
+    UPDATE_STORE_PATH,
     AUTH_PATH_LOGIN, MY_PAGE, MY_PAGE_UPDATE, MAIN_PATH
 } from "./constants";
 import Header from "./layouts/Header/index";
@@ -19,6 +20,7 @@ import Footer from "./layouts/Footer";
 import SideBar from "./layouts/SideBar";
 import Store from "./views/StoreManagement/GetStore/GetStore";
 import CreateStore from "./views/StoreManagement/CreateStore/CreateStore"
+import UpdateStore from "./views/StoreManagement/UpdateStore/UpdateStore"
 import MenuManagement from "./views/MenuManagement/MenuManagement";
 import MenusStats from "./views/Stats/Menus/MenusStats";
 import PeriodStats from "./views/Stats/Period/PeriodStats";
@@ -46,6 +48,7 @@ function App() {
                         <Route path={MAIN_PATH} element={<Main/>}/>
                         <Route path={STORE_PATH} element={<Store/>}></Route>
                         <Route path={CREATE_STORE_PATH} element={<CreateStore/>}/>
+                        <Route path={UPDATE_STORE_PATH} element={<UpdateStore/>}/>
                         <Route path={MENU_PATH} element={<MenuManagement/>}></Route>
                         <Route path={STATS_PERIOD_PATH} element={<PeriodStats/>}></Route>
                         <Route path={STATS_MENUS_PATH} element={<MenusStats/>}></Route>

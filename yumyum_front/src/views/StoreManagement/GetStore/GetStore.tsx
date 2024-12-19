@@ -1,13 +1,17 @@
 /** @jsxImportSource @emotion/react */
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { StoreInfo } from "../../../types/Store";
 import * as css from "./Style";
+import { useNavigate } from "react-router-dom";
+import { MAIN_PATH, UPDATE_STORE_PATH } from "../../../constants";
 
 export default function Store() {
-  const [cookies, , setCookies] = useCookies(["token"]);
+  const navigate = useNavigate();
+  const [cookies] = useCookies(["token"]);
   const token = cookies.token;
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
@@ -22,7 +26,6 @@ export default function Store() {
   });
 
   useEffect(() => {
-    console.log("token:", token);
     fetchStore();
   }, []);
 
@@ -37,8 +40,29 @@ export default function Store() {
         }
       );
       if (response.data) {
-        setStore(response.data.data);
-        console.log(response.data.data);
+        const data = response.data.data;
+        setStore(data);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const deleteStore = async () => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:4041/api/v1/stores/delete",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.data) {
+        const data = response.data.data;
+        alert(data);
+        navigate(MAIN_PATH);
       }
     } catch (e) {
       console.error(e);
@@ -49,25 +73,58 @@ export default function Store() {
     <>
       <Box css={css.StoreInfo}>
         <Box css={css.BasicInfo}>
-          <img src={`http://localhost:4041/image/${store.logoUrl}`} css={css.logoUrl} alt="스토어 사진"/>
+          <img
+            src={`http://localhost:4041/image/${store.logoUrl}`}
+            css={css.logoUrl}
+          />
           <Box css={css.BasicInfoContent}>
-            <p>가게명: {store.storeName}</p>
-            <p>가게주소: {store.address}</p>
+          <p>가게명: {store.storeName}</p>
+            {store.address && <p>가게주소: {store.address}</p>}
             <p>카테고리: {store.category}</p>
-            <p>가게설명: {store.description}</p>
+            {store.description && <p>가게설명: {store.description}</p>}
           </Box>
         </Box>
         <Box css={css.Time}>
-          <p>오픈시간</p>
-          <div>{store.openingTime}</div>
-          <p>마감시간</p>
-          <div>{store.closingTime}</div>
+          <div>
+            <p>오픈시간</p>
+            <div>{store.openingTime}</div>
+          </div>
+          <div>
+            <p>마감시간</p>
+            <div>{store.closingTime}</div>
+          </div>
         </Box>
-        <Box css={css.Time}>
-          <p>브레이크 시작</p>
-          <div>{store.breakStartTime}</div>
-          <p>브레이크 마감</p>
-          <div>{store.breakEndTime}</div>
+        {(store.breakStartTime || store.breakEndTime) && (
+          <Box css={css.Time}>
+            <div>
+              <p>브레이크 시작</p>
+              <div>{store.breakStartTime}</div>
+            </div>
+            <div>
+              <p>브레이크 마감</p>
+              <div>{store.breakEndTime}</div>
+            </div>
+          </Box>
+        )}
+        <Box css={css.buttons}>
+          <Button
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            css={css.updateButton}
+            onClick={() => {
+              navigate(UPDATE_STORE_PATH);
+            }}
+          >
+            가게 수정
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            css={css.deleteButton}
+            onClick={deleteStore}
+          >
+            가게 삭제
+          </Button>
         </Box>
       </Box>
     </>
