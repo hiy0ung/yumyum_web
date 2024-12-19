@@ -7,6 +7,7 @@ export const AUTH_PATH_SIGN_UP = '/auth/signUp';
 
 export const STORE_PATH = '/store'
 export const CREATE_STORE_PATH = '/store/create'
+export const UPDATE_STORE_PATH = '/store/update'
 
 export const MENU_PATH = '/menus';
 

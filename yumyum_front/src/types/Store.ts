@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 
 export interface StoreInfo {
   storeName: string;
-  logoUrl: string | ArrayBuffer | null;
+  logoUrl: string | File | null;
   category: string;
   openingTime: string;
   closingTime: string;
