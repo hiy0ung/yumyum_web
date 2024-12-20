@@ -2,8 +2,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import * as css from "./Styles";
 import axios from "axios";
-import {PieChart, Pie, Sector} from "recharts";
-import Calendar from 'react-calendar';
+import {PieChart, Pie, Sector, ResponsiveContainer} from "recharts";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
@@ -21,7 +20,6 @@ const renderActiveShape = (props: any) => {
         fill,
         payload,
         percent,
-        totalQuantitySold,
     } = props;
 
     const sin = Math.sin(-RADIAN * midAngle);
@@ -48,13 +46,13 @@ const renderActiveShape = (props: any) => {
                 style={{
                     filter: "drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.3))", borderRadius: "10px"
                 }}
-                cornerRadius={5}
+                cornerRadius={10}
             />
             <text
                 x={cx + (innerRadius + (outerRadius - innerRadius) / 2) * Math.cos(-RADIAN * midAngle)}
                 y={cy + (innerRadius + (outerRadius - innerRadius) / 2) * Math.sin(-RADIAN * midAngle)}
                 textAnchor="middle"
-                fontSize={14}
+                fontSize={20}
                 fontWeight={500}
                 fill="#ffffff"
             >
@@ -64,7 +62,7 @@ const renderActiveShape = (props: any) => {
                 x={cx + (innerRadius + (outerRadius - innerRadius) / 2) * Math.cos(-RADIAN * midAngle)}
                 y={cy + (innerRadius + (outerRadius - innerRadius) / 2) * Math.sin(-RADIAN * midAngle) + 16}
                 textAnchor="middle"
-                fontSize={12}
+                fontSize={18}
                 fontWeight={400}
                 fill="#ffffff"
             >
@@ -81,7 +79,7 @@ interface TabMenuStats {
 const today = moment().format("YYYY-MM-DD");
 export default function MenusStats() {
     const [calendarBox, setCalendarBox] = useState<boolean>(false); // 캘린더 아이콘을 클릭시 보여주기/가리기
-    const [selectDate, setSelectDate] = useState<string>(today); // 캘린더의 해당 구간을 누르면 현재 날짜 받기
+    const [selectDate, setSelectDate] = useState<string>(today); // 캘린더의 해당 구간을 누르면 현재 날짜 받기 "2024-11-12"
     const [tabMenuStats, setTabMenuStats] = useState<TabMenuStats>({status: "day"}); // 일, 주, 월에 따른 탭 메뉴 선택
 
     const [data, setData] = useState<any[]>([]); // response 로 데이터를 받아오면 저장시킬 곳
@@ -135,9 +133,35 @@ export default function MenusStats() {
                 },
                 {
                     orderProductName: "인삼버거",
-                    totalQuantitySold: 2,
+                    totalQuantitySold: 50,
                     totalPrice: 54000,
                 },
+                {
+                    orderProductName: "치킨버거",
+                    totalQuantitySold: 150,
+                    totalPrice: 225000,
+                },
+                {
+                    orderProductName: "불고기 버거",
+                    totalQuantitySold: 90,
+                    totalPrice: 135000,
+                },
+                {
+                    orderProductName: "감자튀김",
+                    totalQuantitySold: 200,
+                    totalPrice: 60000,
+                },
+                {
+                    orderProductName: "콜라",
+                    totalQuantitySold: 180,
+                    totalPrice: 54000,
+                },
+                {
+                    orderProductName: "인삼버거",
+                    totalQuantitySold: 50,
+                    totalPrice: 54000,
+                },
+
             ];
 
             const processedData = response.map((item: any, index: number) => ({
@@ -171,7 +195,6 @@ export default function MenusStats() {
 
     return (
         <>
-            <div css={css.menusStatsTitle}>메뉴별 통계</div>
             <div css={css.menusStatsContainer}>
                 <div css={css.menuStatsLeft}>
                     <div css={css.menuStatsLeftTopContainer}>
@@ -181,12 +204,12 @@ export default function MenusStats() {
                             <div css={css.thisMonth}>이번 달</div>
                         </div>
                         <div css={css.calendarContainer}
-                            onClick={() => {
-                                calendarDisplayHandler()
-                            }}
+                             onClick={() => {
+                                 calendarDisplayHandler()
+                             }}
                         >
                             <div>
-                                <EventAvailableIcon sx={{fontSize: 26, marginTop: 1}}/>
+                                <EventAvailableIcon sx={{fontSize: 26, margin: "10px 5px 0  5px",}}/>
                             </div>
                             <div css={css.calendarDate}>
                                 {selectDate} ~ {selectDate}
@@ -201,24 +224,30 @@ export default function MenusStats() {
                         {/*</div>*/}
                     </div>
                     <div css={css.chartResultLeftContainer}>
-                        <PieChart width={540} height={440} style={{
-                            filter: "drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.3))", borderRadius: "10px", padding: "30px",boxSizing : "border-box",
-                        }}>
-                            <Pie
-                                activeIndex={activeIndex}
-                                activeShape={renderActiveShape}
-                                data={data}
-                                cx="50%"
-                                cy="50%"
-                                innerRadius={90}
-                                outerRadius={180}
-                                dataKey="totalQuantitySold"
-                                onMouseEnter={onPieEnter}
-                                stroke="none"
-                                cornerRadius={5}
-                                paddingAngle={5}
-                            />
-                        </PieChart>
+                        <ResponsiveContainer width="100%" aspect={1}>
+                            <PieChart
+                                style={{
+                                    filter: "drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.3))",
+                                    borderRadius: "10px",
+                                    padding: "30px",
+                                    boxSizing: "border-box",
+                                }}>
+                                <Pie
+                                    activeIndex={activeIndex}
+                                    activeShape={renderActiveShape}
+                                    data={data}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={100}
+                                    outerRadius={250}
+                                    dataKey="totalQuantitySold"
+                                    onMouseEnter={onPieEnter}
+                                    stroke="none"
+                                    cornerRadius={5}
+                                    paddingAngle={5}
+                                />
+                            </PieChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
                 <div css={css.menuStatsRightContainer}>
