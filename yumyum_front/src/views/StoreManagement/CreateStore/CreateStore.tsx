@@ -22,11 +22,10 @@ import { useCookies } from "react-cookie";
 export default function Store() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
-
   const [img, setImg] = useState<File | null>(null);
   const [imgPreview, setImgPreview] = useState<string>("");
   const [category, setCategory] = useState<string>("");
-
+  const [base64, setBase64] = useState<string | null>();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: null,
@@ -40,16 +39,13 @@ export default function Store() {
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setImg(file);
+    const file = e.target.files?.[0];
+    if(file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          setImgPreview(e.target?.result as string);
-        }
-      };
       reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setBase64(reader.result as string);
+      }
     }
   };
 
@@ -111,8 +107,8 @@ export default function Store() {
   formData.append("breakEndTime", store.breakEndTime);
   formData.append("address", store.address);
   formData.append("description", store.description);
-  if (img) {
-    formData.append("logoUrl", img);
+  if (base64) {
+    formData.append("logoUrl", base64);
   }
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
