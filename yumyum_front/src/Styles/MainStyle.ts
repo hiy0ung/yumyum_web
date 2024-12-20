@@ -1,24 +1,18 @@
 import {css} from "@emotion/react";
 
-export const middleContainer = css`
+export const wrap = css`
     display: flex;
 `;
 
-export const middleLeftContainer = css`
-    position: relative;
-    min-width: 250px;
-    height: calc(100vh - 90px - 90px);
-`;
-
-export const middleRightContainer = css`
+export const rightContainer = css`
     position: fixed;
     left: 250px;
+    top :0;
     right: 0;
-    min-width: calc(1280px - 250px);
+    bottom: 0;
     flex: 1;
-    font-size: 100px;
-    padding: 30px 15px;
+    min-width: calc(1280px - 250px);
+    height: 100vh;
+    font-size: 16px;
     overflow-y: auto;
-    height: calc(100vh - 90px - 90px);
-    z-index: 100;
 `;

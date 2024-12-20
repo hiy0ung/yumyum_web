@@ -34,12 +34,6 @@ export default function DailyStats() {
 
   const fullCalendarRef = useRef<FullCalendar>(null);
 
-  useEffect(() => {
-    const calendarApi = fullCalendarRef.current?.getApi();
-    calendarApi?.setOption("height", "100%")
-    calendarApi?.updateSize();
-  }, []);
-
   const date = new Date();
   const [orderDate, setOrderDate] = useState<String>(isoDate(date));
   const [responseDailyData, setResponseDailyData] = useState<DailyStat[]>([]);
@@ -70,16 +64,16 @@ export default function DailyStats() {
   const fetchDay = async () => {
     try {
       const responseDay = await axios.get(
-        `http://localhost:4041/api/v1/stats/daily/${orderDate}`,
-        { params: { orderDate: orderDate } }
+          `http://localhost:4041/api/v1/stats/daily/${orderDate}`,
+          { params: { orderDate: orderDate } }
       );
       const responseMonth = await axios.get(
-        `http://localhost:4041/api/v1/stats/month/${orderDate}`,
-        { params: { orderDate: orderDate } }
+          `http://localhost:4041/api/v1/stats/month/${orderDate}`,
+          { params: { orderDate: orderDate } }
       );
       const responseYear = await axios.get(
-        `http://localhost:4041/api/v1/stats/year/${orderDate}`,
-        { params: { orderDate: orderDate } }
+          `http://localhost:4041/api/v1/stats/year/${orderDate}`,
+          { params: { orderDate: orderDate } }
       );
 
       // const responseStroeTime = await axios.get(
@@ -109,61 +103,46 @@ export default function DailyStats() {
   }));
 
   return (
-    <>
-    <div className="body">
-    <div className="selectDate">
-
-      <Calendar
-        calendarType="gregory"
-        className="calendar"
-        view="year"
-        prev2Label={null}
-        next2Label={null}
-        maxDate={new Date()}
-        onClickMonth={(value) => handleClickMonth(value)}
-        tileClassName={({ date, view }) => {
-          if (
-            view === "year" &&
-            selectedDate &&
-            date.getMonth() === selectedDate.getMonth() &&
-            date.getFullYear() === selectedDate.getFullYear()
-          ) {
-            return "selected";
-          }
-          return null;
-        }}
-      />
-      <div className="salesContainer">
-        <div className="monthSales">
-          {responseMonthData && responseMonthData.length > 0 ? (
-            <h5 className="sales">
-              월 매출: {formatNumber(responseMonthData[0].monthSales)}원
-            </h5>
-          ) : (
-            <h5 className="sales">월 매출: 0원</h5>
-          )}
-        </div>
-        <div className="yearSales">
-          {responseYearData && responseYearData.length > 0 ? (
-            <h5 className="sales">
-              연 매출: {formatNumber(responseYearData[0].yearSales)}원
-            </h5>
-          ) : (
-            <h5 className="sales">연 매출: 0원</h5>
-          )}
-        </div>
-      </div>
-      </div>
-
-      <div className="full-calendar">
-        <FullCalendar
-          initialView="dayGridMonth"
-          plugins={[dayGridPlugin]}
-          events={events}
-          ref={fullCalendarRef}
+      <>
+        <h1>Daily Stats</h1>
+        <Calendar
+            calendarType="gregory"
+            view="year"
+            prev2Label={null}
+            next2Label={null}
+            maxDate={new Date()}
+            onClickMonth={(value) => handleClickMonth(value)}
+            tileClassName={({ date, view }) => {
+              if (
+                  view === "year" &&
+                  selectedDate &&
+                  date.getMonth() === selectedDate.getMonth() &&
+                  date.getFullYear() === selectedDate.getFullYear()
+              ) {
+                return "selected";
+              }
+              return null;
+            }}
         />
-      </div>
-      </div>
-    </>
+        <div className="App">
+          <FullCalendar
+              initialView="dayGridMonth"
+              plugins={[dayGridPlugin]}
+              events={events}
+              ref={fullCalendarRef}
+          />
+          {responseMonthData && responseMonthData.length > 0 ? (
+              <h2>월 매출: {formatNumber(responseMonthData[0].monthSales)}원</h2>
+          ) : (
+              <h2>월 매출: 0원</h2>
+          )}
+
+          {responseYearData && responseYearData.length > 0 ? (
+              <h2>연 매출: {formatNumber(responseYearData[0].yearSales)}원</h2>
+          ) : (
+              <h2>연 매출: 0원</h2>
+          )}
+        </div>
+      </>
   );
 }

@@ -3,9 +3,9 @@ import {css} from "@emotion/react";
 export const categoryContainer = css`
     position: fixed;
     min-width: 250px;
-    height: calc(100vh - 90px - 90px);
+    height: 100vh;
     text-align: center;
-    z-index: 100;
+    z-index: 9999;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -15,6 +15,7 @@ export const categoryContainer = css`
         margin-bottom: 10px;
         transition: transform 0.2s ease;
     }
+
     & > nav > ul > li:hover {
         transform: scale(1.05);
     }
@@ -80,18 +81,20 @@ export const categoryContainer = css`
     }
 `;
 
-export const profile = css`
-    display: block;
-    justify-content: center;
-    height: 50px;
-
-    & > img {
-        height: 50px;
-        border-radius: 50%;
-        text-align: center;
-        border: 1px solid gray;
-    }
+export const categoryLogoImg = css`
+    min-width: 250px;
+    height: 90px;
+    object-fit: cover;
+    text-align: center;
+    line-height: 90px;
 `;
+
+export const categoryLogoImgContainer = css`
+    display: block;
+    height: 90px;
+    background-color: #FAFAFA;
+`;
+
 export const categoriesStyle = css`
     background-color: #d4ebf8;
     border-radius: 20px;
@@ -117,4 +120,68 @@ export const categoriesChildStyle = css`
     & span {
         color: black;
     }
+`;
+
+export const profile = css`
+    height: 70px;
+    font-size: 16px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fafafa;
+    margin : 10px 20px;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+
+    & > img {
+        height: 50px;
+        border-radius: 50%;
+        text-align: center;
+        border: 1px solid gray;
+        margin-right: 10px;
+    }
+    
+    &:hover {
+        background-color: #d4ebf8;
+        transform: scale(1.05);
+    }
+`;
+
+export const userActionsContainer = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:70px;
+
+    
+    &  > a {
+        width: 40%;
+        height: 50px;
+        line-height: 50px;
+        transition: transform 0.2s ease;
+        margin: 0 10px;
+        border-radius: 10px;
+        color: black;
+    }
+    & > button {
+        width: 40%;
+        height: 50px;
+        transition: transform 0.2s ease;
+        border: none;
+        margin: 0 10px;
+        background-color: #FAFAFA ;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+    
+    &  > a:hover {
+        transform: scale(1.05);
+        background-color: #D4EBF8;
+    }
+    & > button:hover {
+        transform: scale(1.05);
+        background-color: #D4EBF8;
+    }
+    
 `;
