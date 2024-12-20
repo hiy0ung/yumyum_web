@@ -13,9 +13,10 @@ export default function Store() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const token = cookies.token;
+  const [imageData, setImgData] = useState<string>();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
-    logoUrl: null,
+    logoUrl: "",
     category: "",
     openingTime: "",
     closingTime: "",
@@ -42,6 +43,7 @@ export default function Store() {
       if (response.data) {
         const data = response.data.data;
         setStore(data);
+        setImgData(data.logoUrl);
       }
     } catch (e) {
       console.error(e);
@@ -58,7 +60,6 @@ export default function Store() {
           },
         }
       );
-      console.log(response.data);
       if (response.data) {
         const data = response.data.data;
         alert(data);
@@ -73,12 +74,14 @@ export default function Store() {
     <>
       <Box css={css.StoreInfo}>
         <Box css={css.BasicInfo}>
-          <img
-            src={`http://localhost:4041/image/${store.logoUrl}`}
-            css={css.logoUrl}
-          />
+          {store.logoUrl && (
+            <img
+              src={imageData}
+              css={css.logoUrl}
+            />
+          )}
           <Box css={css.BasicInfoContent}>
-          <p>가게명: {store.storeName}</p>
+            <p>가게명: {store.storeName}</p>
             {store.address && <p>가게주소: {store.address}</p>}
             <p>카테고리: {store.category}</p>
             {store.description && <p>가게설명: {store.description}</p>}

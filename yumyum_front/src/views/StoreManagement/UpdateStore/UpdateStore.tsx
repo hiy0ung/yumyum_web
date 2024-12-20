@@ -20,20 +20,17 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
 
-
 export default function Store() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const token = cookies.token;
-
-  const [img, setImg] = useState<File | null>(null);
-  const [serverImg, setServerImg] = useState<string>("");
-  const [imgPreview, setImgPreview] = useState<string>("");
   const [category, setCategory] = useState<string>("");
-
+  const [imageData, setImgData] = useState<string>();
+  const [base64, setBase64] = useState<string | null>();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
-    logoUrl: null,
+    logoUrl: "",
     category: "",
     openingTime: "",
     closingTime: "",
@@ -45,7 +42,7 @@ export default function Store() {
 
   const [updateStore, setUpdateStore] = useState<StoreInfo>({
     storeName: "",
-    logoUrl: null,
+    logoUrl: "",
     category: "",
     openingTime: "",
     closingTime: "",
@@ -69,7 +66,7 @@ export default function Store() {
         const data = response.data.data;
         setStore(data);
         setUpdateStore(data);
-        setServerImg(data.logoUrl);
+        setImgData(data.logoUrl);
         setCategory(data.category);
       }
     } catch (e) {
@@ -82,20 +79,15 @@ export default function Store() {
   }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setImg(file);
+    const file = e.target.files?.[0];
+    if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          setImgPreview(e.target?.result as string);
-        }
-      };
       reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setBase64(reader.result as string);
+      };
     }
   };
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
@@ -103,51 +95,6 @@ export default function Store() {
     }
   };
 
-  const checkUrl = () => {
-    if (typeof store.logoUrl === "string") {
-      const validExtensions = [".jpg", ".jpeg", ".png"];
-      const urlExtension = store.logoUrl
-        .slice(store.logoUrl.lastIndexOf("."))
-        .toLowerCase();
-
-      const url = store.logoUrl.slice(store.logoUrl.indexOf("."));
-
-      if (validExtensions.includes(urlExtension)) {
-        return url;
-      }else {
-        return null;
-      }
-    }
-    return null;
-  };
-
-  const changeBlob = () => {
-    const urlExtension = checkUrl();
-    if(urlExtension && typeof store.logoUrl === 'string') {
-      const mimeTypeMap: {[key: string]: string} = {
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".png": "image/png"
-      };
-      const mimeType = mimeTypeMap[urlExtension];
-      const blob = new Blob([store.logoUrl], {type: mimeType});
-      return blob;
-    }
-    return null;
-  }
-
-  const changeFile = () => {
-    const blob = changeBlob();
-    if(blob && typeof store.logoUrl === 'string') {
-      const file = new File([blob], store.logoUrl.split("/")[1], {
-        type: blob.type
-      });
-      return file;
-    }
-    return null;
-  }
-
-  
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setCategory(event.target.value);
     setUpdateStore({
@@ -184,7 +131,7 @@ export default function Store() {
     const emptyFields: string[] = [];
 
     if (!store.storeName) emptyFields.push("가게명");
-    if (!img) emptyFields.push("가게 로고");
+    if (!store.logoUrl) emptyFields.push("가게 로고");
     if (!store.category) emptyFields.push("카테고리");
     if (!store.openingTime) emptyFields.push("오픈시간");
     if (!store.closingTime) emptyFields.push("마감시간");
@@ -216,22 +163,22 @@ export default function Store() {
       formData.append(field, newValue || oldValue || "");
     });
 
-    if (img) {
-      formData.append("logoUrl", img);
-    } 
-    
+    if(base64) {
+      formData.append("logoUrl", base64);
+    }
+
     if (!token) {
       alert("로그인 해주세요.");
       return;
     }
     try {
-      console.log(changeFile());
       const response = await axios.put(
         "http://localhost:4041/api/v1/stores/update",
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'form-data'
           },
         }
       );
@@ -250,23 +197,11 @@ export default function Store() {
       <Box css={css.formStyle} component="form">
         <Box css={css.basicProfile}>
           <Box>
-            {imgPreview ? (
-              <img
-                src={imgPreview}
-                alt="logo preview"
-                css={css.logoImg}
-                onClick={handleImageClick}
-              ></img>
-            ) : (
-              serverImg && (
-                <img
-                  src={`http://localhost:4041/image/${serverImg}`}
-                  alt="logo"
-                  css={css.logoImg}
-                  onClick={handleImageClick}
-                ></img>
-              )
-            )}
+            {
+              base64 ? (
+                <img src={base64} alt="profile" css={css.logoImg} onClick={handleImageClick}></img>
+              ) : (<img src={imageData} alt="profile" style={{maxHeight: "200px"}} onClick={handleImageClick} css={css.logoImg}></img>)
+            }
             <input
               ref={fileInputRef}
               type="file"
