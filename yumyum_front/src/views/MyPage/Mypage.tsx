@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import * as s from "./Style";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { MAIN_PATH, MY_PAGE_UPDATE } from "../../constants";
+import * as s from "./MypageCss";
+import { Link, useNavigate } from "react-router-dom";
+import { HOME_PATH, MY_PAGE_UPDATE } from "../../constants";
 
 interface User {
   userId: string;
@@ -43,7 +43,7 @@ export default function Mypage() {
         console.log("해당 아이디가 없습니다.");
       }
       alert("성공적으로 삭제되었습니다.");
-      navigate(MAIN_PATH)
+      navigate(HOME_PATH)
     } else {
       return;
     }
