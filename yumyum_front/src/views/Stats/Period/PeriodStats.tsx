@@ -34,6 +34,12 @@ export default function DailyStats() {
 
   const fullCalendarRef = useRef<FullCalendar>(null);
 
+  useEffect(() => {
+    const calendarApi = fullCalendarRef.current?.getApi();
+    calendarApi?.setOption("height", "100%")
+    calendarApi?.updateSize();
+  }, []);
+
   const date = new Date();
   const [orderDate, setOrderDate] = useState<String>(isoDate(date));
   const [responseDailyData, setResponseDailyData] = useState<DailyStat[]>([]);
@@ -104,9 +110,12 @@ export default function DailyStats() {
 
   return (
     <>
-      <h1>Daily Stats</h1>
+    <div className="body">
+    <div className="selectDate">
+
       <Calendar
         calendarType="gregory"
+        className="calendar"
         view="year"
         prev2Label={null}
         next2Label={null}
@@ -124,24 +133,36 @@ export default function DailyStats() {
           return null;
         }}
       />
-      <div className="App">
+      <div className="salesContainer">
+        <div className="monthSales">
+          {responseMonthData && responseMonthData.length > 0 ? (
+            <h5 className="sales">
+              월 매출: {formatNumber(responseMonthData[0].monthSales)}원
+            </h5>
+          ) : (
+            <h5 className="sales">월 매출: 0원</h5>
+          )}
+        </div>
+        <div className="yearSales">
+          {responseYearData && responseYearData.length > 0 ? (
+            <h5 className="sales">
+              연 매출: {formatNumber(responseYearData[0].yearSales)}원
+            </h5>
+          ) : (
+            <h5 className="sales">연 매출: 0원</h5>
+          )}
+        </div>
+      </div>
+      </div>
+
+      <div className="full-calendar">
         <FullCalendar
           initialView="dayGridMonth"
           plugins={[dayGridPlugin]}
           events={events}
           ref={fullCalendarRef}
         />
-        {responseMonthData && responseMonthData.length > 0 ? (
-          <h2>월 매출: {formatNumber(responseMonthData[0].monthSales)}원</h2>
-        ) : (
-          <h2>월 매출: 0원</h2>
-        )}
-
-        {responseYearData && responseYearData.length > 0 ? (
-          <h2>연 매출: {formatNumber(responseYearData[0].yearSales)}원</h2>
-        ) : (
-          <h2>연 매출: 0원</h2>
-        )}
+      </div>
       </div>
     </>
   );

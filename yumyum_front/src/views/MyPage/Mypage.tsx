@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import * as s from "./MypageCss";
+import * as s from "./Style";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { MAIN_PATH, MY_PAGE_UPDATE } from "../../constants";
 
@@ -26,7 +26,7 @@ export default function Mypage() {
     userBusinessNumber: "",
     marketingAgreed: false,
   });
-  const [id, SetId] = useState<Number>(8);
+  const [id, setId] = useState<Number>(1);
 
   const handleCheckBox = () => {
     user.marketingAgreed = !user.marketingAgreed;
@@ -54,8 +54,8 @@ export default function Mypage() {
       const userData = await axios.get(
         `http://localhost:4041/api/v1/mypage/${id}`
       );
-      console.log(userData.data);
       setUser(userData.data.data);
+      setId(userData.data.data.id)
     } catch (e) {
       console.error("데이터를 불러오지 못했습니다.", e);
     }
@@ -69,7 +69,7 @@ export default function Mypage() {
       <div css={s.header}>
         <h1>마이페이지</h1>
       </div>
-      <hr style={{ border: "2px solid #000" }} />
+      <hr style={{ border: "2px solid #000", marginTop: "0px", marginBottom: "10px"}} />
       <div css={s.body}>
         <div css={s.sort}>
           <div css={s.myProfile}>아이디</div>

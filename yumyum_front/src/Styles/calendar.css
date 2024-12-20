@@ -21,12 +21,13 @@
   --fc-event-bg-color: #fb8494;
   --fc-event-border-color: #fb8494;
   top: 5px;
+
 }
 
 /* 이벤트 제목의 글자 크기 조절 */ 
 .fc-event-title 
 { 
-  font-size: 15px; 
+  font-size: 13px; 
 }
 
 /* 월 뷰에서 날짜의 글자 크기 조절 */ 
@@ -43,8 +44,13 @@
 /* 이벤트 위치 변경 */
 .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
   position: absolute;
-  bottom: -10px;
   width: 100%;
+  min-height: 0;
+  top: 77px;
+}
+
+.sales{
+  font-size: 24px;
 }
 
 /* 캘린더 각 줄 추가 */
@@ -73,4 +79,76 @@
 /* 클릭된 월 색상 변경 */
 .selected {
   background-color: #ffd700 !important; 
+}
+
+.fc-event-title-container {
+  height: 15px;
+  top: 60px;
+}
+
+
+
+.react-calendar__tile {
+  max-width: 100%;
+  padding: 0 !important;
+  background: none;
+  text-align: center;
+  font: inherit;
+  font-size: 18px;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  height: 44px;
+  margin-bottom: 0.3px;
+}
+
+.react-calendar {
+  width: 250px;
+  max-width: 100%;
+  background: white;
+  border: 1px solid #a0a096;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  line-height: 70px;
+}
+
+
+
+.fc th {
+  text-align: center;
+  font-size: 16px;
+}
+
+.fc {
+  width: 100%;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0;
+}
+
+.fc-header-toolbar.fc-toolbar {
+  display: none;
+}
+
+/* 캘린더 크기 조절 */
+.full-calendar {
+  width: 80%;
+  margin-left: 10px;
+}
+
+.monthSales {
+  margin: 20px 10px;
+}
+
+.yearSales {
+  margin: 20px 10px;
+}
+
+.salesContainer {
+  margin-top: 200px;
+}
+
+.body { 
+  display: flex;
 }
