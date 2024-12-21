@@ -4,7 +4,7 @@ import * as css from "./Style";
 
 export default function Footer() {
     return (
-        <footer css={css.footerContainer}>
+        <footer>
         </footer>
     );
 }
