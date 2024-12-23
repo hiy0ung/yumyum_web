@@ -21,9 +21,11 @@ const TimeStats = () => {
   const [stats, setStats] = useState<StatsTime[]>([]);
 
   const fetch = async () => {
-    const response = await axios.get(`http://localhost:4041/api/v1/stats/time/${orderDate}T00:00:00`);
+    const response = await axios.get(
+      `http://localhost:4041/api/v1/stats/time/${orderDate}T00:00:00`
+    );
     const statsTimes: ResponseStatsTime[] = response.data.data;
-    console.log(response)
+
     setStats(
       statsTimes.map((statsTime) => ({
         name: statsTime.hour,

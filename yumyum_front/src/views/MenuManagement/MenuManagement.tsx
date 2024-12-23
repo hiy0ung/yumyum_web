@@ -3,8 +3,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as s from "./Style";
 import Modal from "@mui/material/Modal";
-import {Fade, FormControlLabel, Switch} from "@mui/material";
-import {Box} from "@mui/system";
 
 interface Menus {
   menuId: number;
@@ -230,6 +228,7 @@ export default function MenuManagement() {
                     onChange={handleCheckboxChange}
                   />
                 </div>
+
                 <div css={s.modalButton}>
                   <div>
                     <button css={s.modalSubmitButton} onClick={menuAdd}>
