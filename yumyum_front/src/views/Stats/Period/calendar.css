@@ -59,12 +59,6 @@
   border: 1px solid #444 !important; 
 }
 
-/* 현재 날짜의 배경색 삭제 (미완) */
-.react-calendar__tile--now {
-  background: #fff !important; 
-  pointer-events: auto;
-}
-
 /* 11월은 호버가 안되던 버그 수정 */
 .react-calendar__tile--now:hover {
   background-color: #e6e6e6 !important; 
@@ -133,7 +127,7 @@
 
 /* 캘린더 크기 조절 */
 .full-calendar {
-  width: 80%;
+  width: 84%;
   margin-left: 10px;
 }
 
@@ -146,9 +140,10 @@
 }
 
 .salesContainer {
-  margin-top: 200px;
+  margin-top: 380px;
+  font-size: 20px;
 }
 
 .body { 
-  display: flex;
+  margin-top: 10px;
 }
