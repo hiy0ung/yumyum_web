@@ -2,7 +2,7 @@ import FullCalendar from "@fullcalendar/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import "../../../Styles/calendar.css";
+import "./calendar.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -64,16 +64,16 @@ export default function DailyStats() {
   const fetchDay = async () => {
     try {
       const responseDay = await axios.get(
-          `http://localhost:4041/api/v1/stats/daily/${orderDate}`,
-          { params: { orderDate: orderDate } }
+        `http://localhost:4041/api/v1/stats/daily/${orderDate}`,
+        { params: { orderDate: orderDate } }
       );
       const responseMonth = await axios.get(
-          `http://localhost:4041/api/v1/stats/month/${orderDate}`,
-          { params: { orderDate: orderDate } }
+        `http://localhost:4041/api/v1/stats/month/${orderDate}`,
+        { params: { orderDate: orderDate } }
       );
       const responseYear = await axios.get(
-          `http://localhost:4041/api/v1/stats/year/${orderDate}`,
-          { params: { orderDate: orderDate } }
+        `http://localhost:4041/api/v1/stats/year/${orderDate}`,
+        { params: { orderDate: orderDate } }
       );
 
       // const responseStroeTime = await axios.get(
@@ -103,46 +103,58 @@ export default function DailyStats() {
   }));
 
   return (
-      <>
-        <h1>Daily Stats</h1>
-        <Calendar
-            calendarType="gregory"
-            view="year"
-            prev2Label={null}
-            next2Label={null}
-            maxDate={new Date()}
-            onClickMonth={(value) => handleClickMonth(value)}
-            tileClassName={({ date, view }) => {
-              if (
+    <>
+      <div className="body">
+        <div style={{ display: "flex" }}>
+          <div>
+            <Calendar
+              calendarType="gregory"
+              view="year"
+              prev2Label={null}
+              next2Label={null}
+              maxDate={new Date()}
+              onClickMonth={(value) => handleClickMonth(value)}
+              tileClassName={({ date, view }) => {
+                if (
                   view === "year" &&
                   selectedDate &&
                   date.getMonth() === selectedDate.getMonth() &&
                   date.getFullYear() === selectedDate.getFullYear()
-              ) {
-                return "selected";
-              }
-              return null;
-            }}
-        />
-        <div className="App">
-          <FullCalendar
+                ) {
+                  return "selected";
+                }
+                return null;
+              }}
+            />
+            <div className="salesContainer">
+              {responseMonthData && responseMonthData.length > 0 ? (
+                <h2 className="monthSales">
+                  월 매출: {formatNumber(responseMonthData[0].monthSales)}원
+                </h2>
+              ) : (
+                <h2 className="monthSales">월 매출: 0원</h2>
+              )}
+
+              {responseYearData && responseYearData.length > 0 ? (
+                <h2 className="yearSales">
+                  연 매출: {formatNumber(responseYearData[0].yearSales)}원
+                </h2>
+              ) : (
+                <h2 className="yearSales">연 매출: 0원</h2>
+              )}
+            </div>
+          </div>
+          <div className="full-calendar">
+            <FullCalendar
               initialView="dayGridMonth"
+              height={"100%"}
               plugins={[dayGridPlugin]}
               events={events}
               ref={fullCalendarRef}
-          />
-          {responseMonthData && responseMonthData.length > 0 ? (
-              <h2>월 매출: {formatNumber(responseMonthData[0].monthSales)}원</h2>
-          ) : (
-              <h2>월 매출: 0원</h2>
-          )}
-
-          {responseYearData && responseYearData.length > 0 ? (
-              <h2>연 매출: {formatNumber(responseYearData[0].yearSales)}원</h2>
-          ) : (
-              <h2>연 매출: 0원</h2>
-          )}
+            />
+          </div>
         </div>
-      </>
+      </div>
+    </>
   );
 }

@@ -22,6 +22,8 @@ export const addMenu = css`
   height: 30px;
   width: 100%;
   justify-content: end;
+  margin-top: 10px;
+  margin-right: 5px;
 `
 
 export const selectMenu = css`
@@ -30,6 +32,8 @@ export const selectMenu = css`
   width: 300px;
   margin-bottom: 20px;
   justify-content: start;
+  margin-top: 10px;
+  margin-left: 5px;
 `
 
 export const selectMenuName = css`
@@ -48,11 +52,9 @@ export const selectMenuCategory = css`
 export const inputMenu = css`
   font-size: 16px;
   position: absolute;
-  top: 45%;
-  left: 80%;
-  transform: translate(-29.5%, -55%);
+  top: 150px;
+  right: 20px;
   width: 400px;
-  height: 450px;
   background-color: #fff;
   border: 2px solid #000;
   border-radius: 5px;
@@ -74,10 +76,11 @@ export const inputMenu = css`
 
 export const modalSubmitButton = css`
   position: relative;
-  top: 60px;
   margin-left: 130px;
   width: 50px;
   height: 30px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   
 `
 
@@ -88,13 +91,36 @@ export const modalButton = css`
 
 export const modalCancleButton = css`
   position: relative;
-  top: 60px;
   margin-left: 20px;
   width: 50px;
   height: 30px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 `
 
 export const submitMenu = css`
   border: 1px solid #000;
   border-radius: 5px;
 `
+
+export const addCategory = css`
+  list-style: none;
+  font-size: 18px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+`
+
+export const addCategoryButton = css`
+  margin-top: 20px;
+`
+
+export const modalCategory = css`
+  margin-left: 10px;
+`
+
+export const categorySubmit = css`
+  margin-bottom: 10px;
+  margin-top: 10px;
+`
+
