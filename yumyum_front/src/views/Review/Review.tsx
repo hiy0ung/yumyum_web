@@ -4,7 +4,50 @@ import axios from 'axios';
 import {REVIEWS_LIST_URL} from '../../apis';
 import * as css from './Style';
 import starImg from "../../img/star.png"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  LabelList,
+} from "recharts";
 
+const data = [
+  {
+    name: "5월",
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: "6월",
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: "7월",
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: "8월",
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: "9월",
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: "10월",
+    pv: 3800,
+    amt: 2500,
+  }
+];
 interface ReviewsPhotoArray {
   photo_url: string[];
 }
@@ -52,13 +95,11 @@ function Review() {
       ]
     }
     setReviewList(response)
-
-
-
   }
   useEffect(() => {
     reviewsListGetApi();
   }, [])
+
 
 
   return (
@@ -95,7 +136,7 @@ function Review() {
                   </div>
                   {
                     reviewsList.reviews.length > 0
-                        ? (<div css={css.reviewCount}>{"(" + reviewsList.reviews[1].count + ")"}</div>)
+                        ? (<div css={css.reviewCount}>{reviewsList.reviews[1].count}</div>)
                         : (<div css={css.reviewCount}>{"( error )"}</div>)
                   }
                 </div>
@@ -109,7 +150,7 @@ function Review() {
                   </div>
                   {
                     reviewsList.reviews.length > 0
-                        ? (<div css={css.reviewCount}>{"(" + reviewsList.reviews[2].count + ")"}</div>)
+                        ? (<div css={css.reviewCount}>{reviewsList.reviews[2].count}</div>)
                         : (<div css={css.reviewCount}>{"( error )"}</div>)
                   }
                 </div>
@@ -123,7 +164,7 @@ function Review() {
                   </div>
                   {
                     reviewsList.reviews.length > 0
-                        ? (<div css={css.reviewCount}>{"(" + reviewsList.reviews[3].count + ")"}</div>)
+                        ? (<div css={css.reviewCount}>{reviewsList.reviews[3].count}</div>)
                         : (<div css={css.reviewCount}>{"( error )"}</div>)
                   }
                 </div>
@@ -143,20 +184,28 @@ function Review() {
                 </div>
               </div>
             </div>
+            <ResponsiveContainer width={"90%"} height={300}  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <LineChart data={data} margin={{ top: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" padding={{ left: 30, right: 30 }} />
+                {/*<YAxis />*/}
+                <Tooltip />
+                <Legend />
+                <Line
+                    type="linear"
+                    dataKey="pv"
+                    stroke="black"
+                    activeDot={{ r: 4}}
+                >
+                  <LabelList position="top" offset={5} />
+                </Line>
+              </LineChart>
+            </ResponsiveContainer>
           </div>
           <div css={css.reviewRightContainer}>
 
           </div>
-          {/*<div>프로필 사진 : {}</div>*/}
-          {/*<div>유저 닉네임</div>*/}
-          {/*<div>유저 별점</div>*/}
-          {/*<div>유저 리뷰 글</div>*/}
-          {/*<div>유저 사진</div>*/}
-          {/*<div>리뷰 작성 시간 :</div>*/}
-          {/*<div>유저 신고 상태 :</div>*/}
-          {/*<div>사장님 프로필 사진</div>*/}
-          {/*<div>사장님 닉네임</div>*/}
-          {/*<div>사장님 댓글 내용</div>*/}
+
         </div>
       </>
   )

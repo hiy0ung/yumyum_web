@@ -11,7 +11,7 @@
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
-    "@mui/icons-material": "^6.1.8",
+    "@mui/icons-material": "^6.2.1",
     "@mui/material": "^6.2.0",
     "@mui/x-date-pickers": "^7.23.2",
     "@testing-library/jest-dom": "^5.17.0",
@@ -35,6 +35,7 @@
     "sass": "^1.83.0",
     "sass-loader": "^16.0.3",
     "style-loader": "^4.0.0",
+    "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "zustand": "^5.0.1"
   },
@@ -61,8 +62,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "typescript": "^5.7.2"
   }
 }
