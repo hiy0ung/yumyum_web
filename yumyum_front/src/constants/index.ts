@@ -11,7 +11,7 @@ export const UPDATE_STORE_PATH = '/store/update'
 
 export const MENU_PATH = '/menus';
 
-export const STATS_PATH = '/stats/'
+export const STATS_PATH = '/stats'
 export const STATS_PERIOD_PATH = '/stats/period';
 export const STATS_MENUS_PATH = '/stats/menu';
 export const STATS_TIME_PATH = '/stats/time';

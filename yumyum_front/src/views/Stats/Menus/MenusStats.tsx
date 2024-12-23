@@ -204,9 +204,9 @@ export default function MenusStats() {
                             <div css={css.thisMonth}>이번 달</div>
                         </div>
                         <div css={css.calendarContainer}
-                             onClick={() => {
-                                 calendarDisplayHandler()
-                             }}
+                            onClick={() => {
+                                calendarDisplayHandler()
+                            }}
                         >
                             <div>
                                 <EventAvailableIcon sx={{fontSize: 26, margin: "10px 5px 0  5px",}}/>
