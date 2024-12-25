@@ -6,7 +6,7 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import Calendar from "react-calendar";
-import {monthContainer} from "./Styles";
+import axios from "axios";
 
 const calendarStyles = {
     ".react-calendar__tile--active": {
@@ -68,7 +68,7 @@ const renderActiveShape = (props: any) => {
                 fontWeight={500}
                 fill="#ffffff"
             >
-                {`${payload.orderProductName}`}
+                {`${payload.name}`}
             </text>
             <text
                 x={cx + (innerRadius + (outerRadius - innerRadius) / 2) * Math.cos(-RADIAN * midAngle)}
@@ -92,7 +92,7 @@ export default function MenusStats() {
     });
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"));
 
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<any>([]);
 
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const onPieEnter = useCallback((_: any, index: any) => {
@@ -109,74 +109,17 @@ export default function MenusStats() {
 
     const fetchDay = async () => {
         try {
-            // API 호출 예시
-            // const response = (
-            //     await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${selectDate}`)
-            // ).data.data;
-            // console.log(response)
+            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${selectDate}`);
+            const data = response.data.data;
 
-            // 여기는 하드코딩된 데이터 예시
-            const response = [
-                {
-                    orderProductName: "치킨버거",
-                    totalQuantitySold: 150,
-                    totalPrice: 225000,
-                },
-                {
-                    orderProductName: "불고기 버거",
-                    totalQuantitySold: 90,
-                    totalPrice: 135000,
-                },
-                {
-                    orderProductName: "감자튀김",
-                    totalQuantitySold: 200,
-                    totalPrice: 60000,
-                },
-                {
-                    orderProductName: "콜라",
-                    totalQuantitySold: 180,
-                    totalPrice: 54000,
-                },
-                {
-                    orderProductName: "인삼버거",
-                    totalQuantitySold: 50,
-                    totalPrice: 54000,
-                },
-                {
-                    orderProductName: "치킨버거",
-                    totalQuantitySold: 150,
-                    totalPrice: 225000,
-                },
-                {
-                    orderProductName: "불고기 버거",
-                    totalQuantitySold: 90,
-                    totalPrice: 135000,
-                },
-                {
-                    orderProductName: "감자튀김",
-                    totalQuantitySold: 200,
-                    totalPrice: 60000,
-                },
-                {
-                    orderProductName: "콜라",
-                    totalQuantitySold: 180,
-                    totalPrice: 54000,
-                },
-                {
-                    orderProductName: "인삼버거",
-                    totalQuantitySold: 50,
-                    totalPrice: 54000,
-                },
-
-            ];
-
-            const processedData = response.map((item: any, index: number) => ({
-                orderProductName: item.orderProductName,
-                totalQuantitySold: item.totalQuantitySold,
-                totalPrice: item.totalPrice,
+            const menuNameFilter =  data.map((item :  any , index : number) => ({
+                name: item.menuName,
+                quantity : item.quantity,
+                price : item.sumTotalPrice,
                 fill: colors[index % colors.length],
-            }));
-            setData(processedData);
+            }))
+            setData(menuNameFilter)
+
 
         } catch (error) {
             console.error("Failed to fetch data:", error);
@@ -185,7 +128,6 @@ export default function MenusStats() {
 
     const handleDateTodayChange = () => {
         const TodayFormatted = moment().format("YYYY-MM-DD");
-
     }
     const handleDateDayChange = (date: any) => {
         const dayFormatted = moment(date).format('YYYY-MM-DD');
@@ -296,7 +238,7 @@ export default function MenusStats() {
                                     cy="50%"
                                     innerRadius={100}
                                     outerRadius={250}
-                                    dataKey="totalQuantitySold"
+                                    dataKey="quantity"
                                     onMouseEnter={onPieEnter}
                                     stroke="none"
                                     cornerRadius={5}
@@ -317,7 +259,7 @@ export default function MenusStats() {
                             <div>제품명</div>
                             {data.map((item: any, index: number) => (
                                 <div key={index}>
-                                    {item.orderProductName}
+                                    {item.name}
                                 </div>
                             ))}
                         </div>
@@ -326,7 +268,7 @@ export default function MenusStats() {
                             <div>판매 개수</div>
                             {data.map((item: any, index: number) => (
                                 <div key={index}>
-                                    {item.totalQuantitySold}
+                                    {item.quantity}
                                 </div>
                             ))}
                         </div>
@@ -335,7 +277,7 @@ export default function MenusStats() {
                             <div>총 판매 가격</div>
                             {data.map((item: any, index: number) => (
                                 <div key={index}>
-                                    {item.totalPrice}
+                                    {item.price}
                                 </div>
                             ))}
                         </div>
