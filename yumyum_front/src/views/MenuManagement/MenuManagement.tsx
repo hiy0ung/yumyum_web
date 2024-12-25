@@ -311,8 +311,11 @@ export default function MenuManagement() {
                         </div>
                       </li>
                     ))}
-
-                  <Modal open={isModalOpen} onClose={closeModal}>
+                  <Modal open={isModalOpen} onClose={closeModal}
+                    style={{
+                      backgroundColor:"white",
+                    }}
+                  >
                     <div css={s.inputMenu}>
                       <div>
                         <div>메뉴명</div>

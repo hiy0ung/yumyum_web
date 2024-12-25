@@ -7,7 +7,6 @@ export const menusStatsContainer = css`
     padding: 70px 30px 0 30px;
 `;
 
-/* Left Container */
 export const menuStatsLeft = css`
     width: 40%;
     min-width: 600px;

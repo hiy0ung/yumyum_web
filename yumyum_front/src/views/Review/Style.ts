@@ -6,11 +6,14 @@ export const reviewContainer = css`
     justify-content: space-around;
 `;
 export const reviewLeftContainer = css`
-    background-color: #e6e6e6;
-    width: 45%;
+    width: 40%;
     min-width: 600px;
-    margin-right: 30px;
     aspect-ratio: 1;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border: 1px solid #e9e9e9;
+    margin-right: 30px;
 `;
 export const reviewAverageContainer = css`
     padding: 40px 0 0 0 ;
@@ -45,7 +48,6 @@ export const ratingBarSet = css`
     padding: 5px 0;
     
     & > div:nth-of-type(2) {
-        background-color: gold;
         overflow: hidden;
         text-overflow: ellipsis;  
         white-space: nowrap; 
@@ -94,9 +96,13 @@ export const reviewCount = css`
 `;
 
 export const reviewRightContainer = css`
-    background-color: #e6e6e6;
-    width: 45%;
+    width: 40%;
     min-width: 600px;
     aspect-ratio: 1;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border: 1px solid #e9e9e9;
+    margin-right: 30px;
     
 `;

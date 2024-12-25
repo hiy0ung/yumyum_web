@@ -19,33 +19,27 @@ import {
 const data = [
   {
     name: "5월",
-    pv: 2400,
-    amt: 2400,
+    pv: 4.5,
   },
   {
     name: "6월",
-    pv: 1398,
-    amt: 2210,
+    pv: 4.2,
   },
   {
     name: "7월",
-    pv: 9800,
-    amt: 2290,
+    pv: 3.9,
   },
   {
     name: "8월",
-    pv: 3908,
-    amt: 2000,
+    pv: 4.8,
   },
   {
     name: "9월",
-    pv: 4800,
-    amt: 2181,
+    pv: 3.6,
   },
   {
     name: "10월",
-    pv: 3800,
-    amt: 2500,
+    pv: 4.2,
   }
 ];
 interface ReviewsPhotoArray {
@@ -184,18 +178,26 @@ function Review() {
                 </div>
               </div>
             </div>
-            <ResponsiveContainer width={"90%"} height={300}  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <ResponsiveContainer width={"90%"} height={300}
+                                 style={{ display: 'flex',
+                                   justifyContent: 'center',
+                                   alignItems: 'center',
+                                   paddingTop:"50px",
+                                 }}>
               <LineChart data={data} margin={{ top: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" padding={{ left: 30, right: 30 }} />
-                {/*<YAxis />*/}
-                <Tooltip />
-                <Legend />
+                <XAxis dataKey="name"
+                       padding={{ left: 30, right: 30 }} />
+                <YAxis
+                    domain={[0, 5]} // 최소값 0, 최대값 5로 설정
+                    ticks={[0, 1, 2, 3, 4, 5]} // 눈금 값 지정
+                    axisLine={{ stroke: "none"}} // 축 선 색상 변경
+                    tickLine={{display:"none"}}
+                />
                 <Line
                     type="linear"
                     dataKey="pv"
                     stroke="black"
-                    activeDot={{ r: 4}}
                 >
                   <LabelList position="top" offset={5} />
                 </Line>
@@ -203,7 +205,7 @@ function Review() {
             </ResponsiveContainer>
           </div>
           <div css={css.reviewRightContainer}>
-
+            <></>
           </div>
 
         </div>
