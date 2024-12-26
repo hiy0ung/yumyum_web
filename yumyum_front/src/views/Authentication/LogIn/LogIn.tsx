@@ -46,6 +46,7 @@ export default function LogIn() {
 
       if (response.data) {
         signInSuccessResponse(response.data.data);
+        console.log(response.data.data);
       }
 
     } catch (e) {
@@ -71,6 +72,7 @@ export default function LogIn() {
       });
       
       navigate(MAIN_PATH);
+      console.log(token);
     } else {
       alert(error);
       setError("로그인 실패: 인증 정보를 확인해주세요.");
