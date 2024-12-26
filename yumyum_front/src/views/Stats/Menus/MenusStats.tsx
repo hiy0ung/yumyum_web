@@ -7,6 +7,7 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import Calendar from "react-calendar";
 import axios from "axios";
+import StatsReview from "../../Review/StatsReview";
 
 const calendarStyles = {
     ".react-calendar__tile--active": {
@@ -84,6 +85,12 @@ const renderActiveShape = (props: any) => {
     );
 };
 
+interface Props {
+    menuName: string;
+    quantity : number;
+    sumTotalPrice : number;
+    fill : string;
+}
 export default function MenusStats() {
 
     const [calendarBox, setCalendarBox] = useState({
@@ -92,7 +99,7 @@ export default function MenusStats() {
     });
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"));
 
-    const [data, setData] = useState<any>([]);
+    const [data, setData] = useState<Props[]>([]);
 
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const onPieEnter = useCallback((_: any, index: any) => {
@@ -163,9 +170,9 @@ export default function MenusStats() {
                         <div css={css.menuStatsLeftTopLeft}>
                             <div css={css.today}>오늘</div>
                             <div css={css.day}
-                                 onClick={() => {
-                                     calendarDisplayHandler("day")
-                                 }}
+                                onClick={() => {
+                                    calendarDisplayHandler("day")
+                                }}
                             >
                                 <div>
                                     <div css={css.todayContainer}>
@@ -187,9 +194,9 @@ export default function MenusStats() {
                                 </div>
                             </div>
                             <div
-                                 onClick={() => {
-                                     calendarDisplayHandler("month")
-                                 }}>
+                                onClick={() => {
+                                    calendarDisplayHandler("month")
+                                }}>
                                 <div>
                                     <div css={css.monthContainer}>
                                         <EventAvailableIcon sx={{fontSize: 26, margin: "10px 5px 0  5px",}}/>
@@ -247,6 +254,9 @@ export default function MenusStats() {
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
+                </div>
+                <div>
+                {/*<StatsReview data={data} />*/}
                 </div>
                 <div css={css.menuStatsRightContainer}>
                     <div css={css.menuStatsRightTitle}>메뉴별 판매 현황</div>

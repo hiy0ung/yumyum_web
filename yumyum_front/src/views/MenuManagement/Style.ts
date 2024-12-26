@@ -52,12 +52,12 @@ export const selectMenuCategory = css`
 export const inputMenu = css`
   font-size: 16px;
   position: absolute;
-  top: 150px;
-  right: 20px;
-  width: 400px;
   background-color: #fff;
   border: 2px solid #000;
   border-radius: 5px;
+  right: 20px;
+  top: 180px;
+  
 
 
   & > div {
@@ -124,3 +124,8 @@ export const categorySubmit = css`
   margin-top: 10px;
 `
 
+export const categoryCancle = css`
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+`
