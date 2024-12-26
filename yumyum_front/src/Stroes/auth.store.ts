@@ -3,7 +3,7 @@ import { create } from "zustand";
 interface User {
   id: number;
   userId: string;
-  token: string
+  token: string;
 }
 
 //# 인증상태의 interface 정의 //
