@@ -72,6 +72,7 @@ export default function Store() {
 
   return (
     <>
+    <h2 css={css.storeTitle}>{store.storeName}</h2>
       <Box css={css.StoreInfo}>
         <Box css={css.BasicInfo}>
           {store.logoUrl && (
@@ -81,12 +82,12 @@ export default function Store() {
             />
           )}
           <Box css={css.BasicInfoContent}>
-            <p>가게명: {store.storeName}</p>
             {store.address && <p>가게주소: {store.address}</p>}
             <p>카테고리: {store.category}</p>
-            {store.description && <p>가게설명: {store.description}</p>}
+            {store.description && <div css={css.description}><p>가게설명: {store.description}</p></div>}
           </Box>
         </Box>
+        <Box css={css.StoreTimeAndBreakTime}>
         <Box css={css.Time}>
           <div>
             <p>오픈시간</p>
@@ -109,6 +110,7 @@ export default function Store() {
             </div>
           </Box>
         )}
+        </Box>
         <Box css={css.buttons}>
           <Button
             variant="outlined"
