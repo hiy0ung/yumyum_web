@@ -43,9 +43,11 @@ export default function LogIn() {
         `http://localhost:4041/api/v1/auth/login`,
         userLogInInfo
       );
+
       if (response.data) {
         signInSuccessResponse(response.data.data);
       }
+
     } catch (e) {
       setError("로그인 중 문제가 발생했습니다.");
     }
@@ -61,14 +63,13 @@ export default function LogIn() {
 
   const signInSuccessResponse = (data: SignInResponseDto) => {
     if (data) {
-      const { token, exprTime, user } = data;
+      const { token, exprTime } = data;
       setToken(token, exprTime);
+
       login({
-        id: user.id,
-        userId: user.userId,
-        token: token,
+        token: token
       });
-      console.log(token);
+      
       navigate(MAIN_PATH);
     } else {
       alert(error);
