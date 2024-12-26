@@ -1,8 +1,6 @@
 import { create } from "zustand";
 
 interface User {
-  id: number;
-  userId: string;
   token: string
 }
 
