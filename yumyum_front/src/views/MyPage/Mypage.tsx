@@ -30,7 +30,6 @@ export default function Mypage() {
 
   const handleCheckBox = () => {
     user.marketingAgreed = !user.marketingAgreed;
-    console.log(user);
   };
 
   const navigate = useNavigate();
