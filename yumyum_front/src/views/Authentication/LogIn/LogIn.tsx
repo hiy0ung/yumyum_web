@@ -13,7 +13,7 @@ import {
   MAIN_PATH,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
-import useAuthStore from "../../../Stroes/autn.store";
+import useAuthStore from "../../../Stroes/auth.store";
 
 export default function LogIn() {
   const navigate = useNavigate();

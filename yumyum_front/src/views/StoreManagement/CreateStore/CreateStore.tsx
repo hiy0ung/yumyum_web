@@ -41,10 +41,12 @@ export default function Store() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if(file) {
+      setImg(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         setBase64(reader.result as string);
+        setImgPreview(reader.result as string);
       }
     }
   };
@@ -123,7 +125,8 @@ export default function Store() {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            "content-Type": "multipart/form-data",
           },
         }
       );
@@ -132,6 +135,7 @@ export default function Store() {
         navigate("/main");
       }
     } catch (e) {
+      console.log(token);
       console.error(e);
     }
   };
