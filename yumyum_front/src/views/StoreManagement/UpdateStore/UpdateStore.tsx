@@ -28,6 +28,7 @@ export default function Store() {
   const [imageData, setImgData] = useState<string>();
   const [base64, setBase64] = useState<string | null>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: "",
@@ -160,11 +161,17 @@ export default function Store() {
     fields.forEach((field) => {
       const newValue = updateStore[field as keyof StoreInfo];
       const oldValue = store[field as keyof StoreInfo];
-      formData.append(field, newValue || oldValue || "");
+      const valueToAppend = newValue || oldValue || "";
+      formData.append(field, valueToAppend);
     });
 
     if(base64) {
       formData.append("logoUrl", base64);
+    }else if(imageData){
+      formData.append("logoUrl", imageData);
+    } else {
+      alert("이미지는 jpg 또는 jpeg로 선택해주세요");
+      return;
     }
 
     if (!token) {
@@ -178,7 +185,7 @@ export default function Store() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'form-data'
+            "content-Type": "multipart/form-data",
           },
         }
       );
@@ -325,7 +332,7 @@ export default function Store() {
           ></textarea>
         </Box>
         <Button
-          css={css.storeSubmitButton}
+          css={css.storeUpdateButton}
           onClick={(e) => {
             if (checkStoreInput()) {
               handleSubmit(e);
