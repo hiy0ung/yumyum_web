@@ -105,7 +105,7 @@ function Review() {
             <StatsReview />
           </div>
           <div css={css.reviewRightContainer}>
-            <R
+            
           </div>
 
         </div>

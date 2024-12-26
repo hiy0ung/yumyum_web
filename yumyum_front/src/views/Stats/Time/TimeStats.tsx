@@ -20,9 +20,7 @@ import Calendar from "react-calendar";
 const TimeStats = () => {
   const convertDate = new Date().toISOString().slice(0, 10);
 
-  const [calendarBox, setCalendarBox] = useState({
-    calendar: false,
-  });
+  const [calendarBox, setCalendarBox] = useState(false);
 
   const [orderDate, setOrderDate] = useState<string>(convertDate);
   const [stats, setStats] = useState<StatsTime[]>([]);
@@ -62,11 +60,11 @@ const TimeStats = () => {
     const selectDate = new Date(date);
     const formattedDate = selectDate.toLocaleDateString('en-CA');
     setOrderDate(formattedDate);
-    setCalendarBox({ calendar: false });
+    setCalendarBox( false );
   };
 
   const handleCalendarOpen = () => {
-    setCalendarBox((prev) => ({ calendar: !prev.calendar}))
+    setCalendarBox((prev) => ( !prev ))
   }
 
   useEffect(() => {
@@ -101,7 +99,7 @@ const TimeStats = () => {
               e.stopPropagation();
             }}
             css={
-              calendarBox.calendar
+              calendarBox
                 ? css.calendarContainerBlock
                 : css.calendarContainerNone
             }
