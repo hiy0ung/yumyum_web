@@ -7,7 +7,6 @@ export const menusStatsContainer = css`
     padding: 70px 30px 0 30px;
 `;
 
-/* Left Container */
 export const menuStatsLeft = css`
     width: 40%;
     min-width: 600px;
@@ -17,6 +16,7 @@ export const menuStatsLeft = css`
     box-shadow: 0 0 10px 1px #e9e9e9;
     border: 1px solid #e9e9e9;
     margin-right: 30px;
+    position: relative;
 `;
 
 export const menuStatsLeftTopContainer = css`
@@ -43,13 +43,29 @@ export const today = css`
     margin-right: 10px;
 `;
 
-export const yesterday = css`
+export const todayContainer = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    & > svg {
+        margin-top: 0;
+    }
+`;
+export const day = css`
     margin-right: 10px;
 `;
 
-export const thisMonth = css``;
+export const monthContainer = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-/* Calendar */
+    & > svg {
+        margin-top: 0;
+    }
+`
+
 export const calendarContainer = css`
     display: flex;
     align-items: center;
@@ -65,8 +81,52 @@ export const calendarDate = css`
     text-align: center;
 `;
 
-export const calendarContainerBlock = css``;
-export const calendarContainerNone = css``;
+export const dayCalendarContainerBlock = css`
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    width: 400px;
+    height: 50px;
+    
+    & > div {
+        width: 100%;
+    }
+    & div {
+        font-size: 8px
+    }
+    & abbr {
+        font-size: 14px;
+    }
+    
+`;
+export const dayCalendarContainerNone = css`
+    display: none;
+`;
+
+export const monthCalendarContainerBlock = css`
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    width: 400px;
+    height: 50px;
+    
+    & > div {
+        width: 100%;
+    }
+    & div {
+        font-size: 8px
+    }
+    & abbr {
+        font-size: 14px;
+    }
+    
+`;
+export const monthCalendarContainerNone = css`
+    display: none;
+`;
+
 
 /* Chart Left Result */
 export const chartResultLeftContainer = css`

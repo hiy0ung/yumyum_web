@@ -278,6 +278,7 @@ export default function MenuManagement() {
                 <div>카테고리없음</div>
               </>
             )}
+
           </ul>
           <button onClick={openModal}>메뉴추가</button>
           <MenuModal

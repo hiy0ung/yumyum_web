@@ -11,7 +11,6 @@ export interface UserLogInError {
 export interface SignInResponseDto {
   token: string;
   exprTime: number;
-  user: UserAuthData
 }
 
 export interface UserAuthData {

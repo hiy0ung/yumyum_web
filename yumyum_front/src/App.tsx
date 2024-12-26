@@ -15,7 +15,6 @@ import {
     AUTH_PATH_LOGIN, MY_PAGE, MY_PAGE_UPDATE, MAIN_PATH
 } from "./constants";
 import Header from "./layouts/Header/index";
-import Footer from "./layouts/Footer";
 import SideBar from "./layouts/SideBar";
 import Store from "./views/StoreManagement/GetStore/GetStore";
 import CreateStore from "./views/StoreManagement/CreateStore/CreateStore"
