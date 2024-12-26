@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import * as s from "./Style";
 import Modal from "@mui/material/Modal";
 import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
-
+import MenuModal from "./MenuModal";
+import { useModalStore } from "../../Stroes/menuModal.store";
 interface Menus {
   menuId: number;
   menuCategory: string;
@@ -57,30 +58,14 @@ export default function MenuManagement() {
   });
   const [menus, setMenus] = useState<Menus[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [categoryModalOepn, setIsCategoryModalOpen] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [menuChecked, setMenuChecked] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModalStore();
 
   const categoryOpenModal = () => setIsCategoryModalOpen(true);
   const categoryCloseModal = () => {
     setIsCategoryModalOpen(false);
   };
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => {
-    setMenu({
-      menuName: "",
-      imageUrl: "",
-      menuDescription: "",
-      menuPrice: 0,
-      isAvailable: false,
-    });
-    setChecked(true);
-    setMenuChecked(true);
-    setIsModalOpen(false);
-  };
-
   const fetchCategoryData = async () => {
     try {
       const data = await axios.get(
@@ -101,21 +86,8 @@ export default function MenuManagement() {
     }
   };
 
-  const menuAdd = async () => {
-    try {
-      await axios.post(`http://localhost:4041/api/v1/add`, menu);
-      // closeModal()
-    } catch (e) {
-      console.error("object");
-    }
-  };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-  };
-
-  const menuHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMenuChecked(event.target.checked);
   };
 
   const updateCategorySequence = async (updatedCategories: Category[]) => {
@@ -142,7 +114,7 @@ export default function MenuManagement() {
           alert("이미 추가되있는 카테고리 순번입니다.");
           return;
         }
-        if(AddCategory.menuCategory === "") {
+        if (AddCategory.menuCategory === "") {
           alert("빈 값은 추가할 수 없습니다.");
           return;
         }
@@ -155,7 +127,7 @@ export default function MenuManagement() {
     } catch (e) {
       console.error("오류");
     }
-    alert("성공적으로 추가되었습니다.")
+    alert("성공적으로 추가되었습니다.");
     fetchCategoryData();
     setIsCategoryModalOpen(false);
   };
@@ -167,11 +139,9 @@ export default function MenuManagement() {
   useEffect(() => {
     setAddCategory({
       menuCategory: "",
-      menuCategorySequence: categories.length + 1
-    })
+      menuCategorySequence: categories.length + 1,
+    });
   }, [categories]);
-
-
 
   const upChange = (index: number) => {
     if (index === 0) return;
@@ -199,15 +169,6 @@ export default function MenuManagement() {
     updateCategorySequence(updatedCategories);
   };
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setMenu((prev) => ({
-      ...prev,
-      [name]: name !== "menuPrice" ? value : Number(value),
-    }));
-  };
-
   const categoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setAddCategory((prev) => ({
@@ -215,12 +176,6 @@ export default function MenuManagement() {
       [name]: value,
     }));
   };
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMenu({ ...menu, isAvailable: event.target.checked });
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
   console.log(menus);
   console.log(categories);
@@ -284,162 +239,53 @@ export default function MenuManagement() {
                     </button>
                   </div>
                 </Fade>
+                <div css={s.categoryCancle}>
+                  <button onClick={categoryCloseModal}>취소</button>
+                </div>
               </Box>
             </div>
           </Modal>
         </div>
         <div>
           <ul>
-            {categories.map((category, index) => (
-              <li key={category.id}>
-                <h2 className="h2">{category.menuCategory}</h2>
-                <button onClick={() => upChange(index)}>올리기</button>
-                <button onClick={() => downChange(index)}>내리기</button>
-                <ul>
-                  {menus
-                    .filter(
-                      (menu) => menu.menuCategory === category.menuCategory
-                    )
-                    .map((menu) => (
-                      <li>
-                        <div css={s.menu}>
-                          <div>{menu.imageUrl}</div>
-                          <div>{menu.menuName}</div>
-                          <div>{menu.menuDescription}</div>
-                          <div>{menu.menuPrice}</div>
-                          <div>{menu.isAvailable ? "가능" : "불가능"}</div>
-                        </div>
-                      </li>
-                    ))}
-                  <Modal open={isModalOpen} onClose={closeModal}
-                    style={{
-                      backgroundColor:"white",
-                    }}
-                  >
-                    <div css={s.inputMenu}>
-                      <div>
-                        <div>메뉴명</div>
-                        <input
-                          css={s.submitMenu}
-                          type="text"
-                          name="menuName"
-                          value={menu.menuName}
-                          onChange={changeHandler}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <div>이미지</div>
-                        <input
-                          type="file"
-                          onChange={handleFileChange}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <div>메뉴 설명</div>
-                        <input
-                          css={s.submitMenu}
-                          type="text"
-                          name="menuDescription"
-                          value={menu.menuDescription}
-                          onChange={changeHandler}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <div>메뉴 가격</div>
-                        <input
-                          css={s.submitMenu}
-                          type="text"
-                          name="menuPrice"
-                          value={menu.menuPrice}
-                          onChange={changeHandler}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <div>메뉴 카테고리 선택</div>
-                        <select css={s.submitMenu} name="menuCategory" id="">
-                          {categories.map((category) => (
-                            <option>{category.menuCategory}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <div>메뉴 판매 가능 여부</div>
-                        <input
-                          type="checkbox"
-                          checked={menu.isAvailable}
-                          onChange={handleCheckboxChange}
-                        />
-                      </div>
-                      <FormControlLabel
-                        control={
-                          <Switch checked={checked} onChange={handleChange} />
-                        }
-                        label="옵션 추가"
-                      />
-                      <Box sx={{ display: "flex" }}>
-                        <Fade in={checked}>
-                          {checked ? (
-                            <div>
-                              <div>
-                                <div>옵션명</div>
-                                <input type="text" />
-                              </div>
-                              <FormControlLabel
-                                control={
-                                  <Switch
-                                    checked={menuChecked}
-                                    onChange={menuHandleChange}
-                                  />
-                                }
-                                label="옵션 정보 추가"
-                              />
-                              <Box sx={{ display: "flex" }}>
-                                <Fade in={menuChecked}>
-                                  {menuChecked ? (
-                                    <div>
-                                      <div>추가 메뉴명</div>
-                                      <input type="text" />
-                                      <div>추가 메뉴 가격</div>
-                                      <input type="number" />
-                                    </div>
-                                  ) : (
-                                    <div>not</div>
-                                  )}
-                                </Fade>
-                              </Box>
-                            </div>
-                          ) : (
-                            <div>not</div>
-                          )}
-                        </Fade>
-                      </Box>
+            {categories && categories.length > 0 ? (
+              categories.map((category, index) => (
+                <li key={category.id}>
+                  <h2 className="h2">{category.menuCategory}</h2>
+                  <button onClick={() => upChange(index)}>올리기</button>
+                  <button onClick={() => downChange(index)}>내리기</button>
+                  <ul>
+                    {menus
+                      .filter(
+                        (menu) => menu.menuCategory === category.menuCategory
+                      )
+                      .map((menu) => (
+                        <li>
+                          <div css={s.menu}>
+                            <div>{menu.imageUrl}</div>
+                            <div>{menu.menuName}</div>
+                            <div>{menu.menuDescription}</div>
+                            <div>{menu.menuPrice}</div>
+                            <div>{menu.isAvailable ? "가능" : "불가능"}</div>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
+                </li>
+              ))
+            ) : (
+              <>
+                <div>카테고리없음</div>
+              </>
+            )}
 
-                      <div css={s.modalButton}>
-                        <div>
-                          <button css={s.modalSubmitButton} onClick={menuAdd}>
-                            저장
-                          </button>
-                        </div>
-                        <div>
-                          <button
-                            css={s.modalCancleButton}
-                            onClick={closeModal}
-                          >
-                            취소
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </Modal>
-                </ul>
-              </li>
-            ))}
           </ul>
           <button onClick={openModal}>메뉴추가</button>
+          <MenuModal
+            modalStatus={isModalOpen}
+            closeModal={closeModal}
+            categories={categories}
+          />
         </div>
       </div>
     </>
