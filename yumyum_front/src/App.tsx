@@ -24,7 +24,7 @@ import MenuManagement from "./views/MenuManagement/MenuManagement";
 import MenusStats from "./views/Stats/Menus/MenusStats";
 import PeriodStats from "./views/Stats/Period/PeriodStats";
 import TimeStats from "./views/Stats/Time/TimeStats";
-import Review from "./views/Review/Review";
+import ReviewComment from "./views/Review/ReviewComment";
 import Contact from "./views/Contact/Contact";
 import * as css from "./Styles/MainStyle";
 import Main from "./views/Main/Main";
@@ -56,7 +56,7 @@ function App() {
                             <Route path={STATS_PERIOD_PATH} element={<PeriodStats/>}></Route>
                             <Route path={STATS_MENUS_PATH} element={<MenusStats/>}></Route>
                             <Route path={STATS_TIME_PATH} element={<TimeStats/>}></Route>
-                            <Route path={REVIEW_PATH} element={<Review/>}></Route>
+                            <Route path={REVIEW_PATH} element={<ReviewComment/>}></Route>
                             <Route path={MY_PAGE} element={<Mypage/>}></Route>
                             <Route path={MY_PAGE_UPDATE} element={<MypageUpdate/>}></Route>
                             <Route path={CONTACT_PATH} element={<Contact/>}></Route>
