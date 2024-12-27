@@ -92,12 +92,29 @@ export const calendarStyle = css`
 `;
 
 
-  export const chartContainer = css`
-    /* background-color: pink; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    margin: auto 0;
-    min-width: 1280px;
-  `;
+export const chartContainer = css`
+  /* background-color: pink; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: auto 0;
+  min-width: 1280px;
+
+  & path {
+    display: block;
+  }
+`;
+
+export const chartLineNone = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: auto 0;
+  min-width: 1280px;
+  
+  & path {
+  display: none;
+  }
+`;
