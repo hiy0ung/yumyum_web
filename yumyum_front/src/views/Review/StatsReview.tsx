@@ -1,9 +1,61 @@
-import React from 'react';
+import React, {useState} from 'react';
 import * as css from "./Style";
 import starImg from "../../img/star.png";
 import {CartesianGrid, LabelList, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
-//
+
+
+interface ReviewsPhotoArray {
+    photo_url: string[];
+}
+
+
+interface ReviewsList {
+    id: number;
+    profile_image: string;
+    nickname: string;
+    rating: number;
+    review_date: number;
+    review_content: string;
+    is_reported: boolean;
+    photo_url: ReviewsPhotoArray
+    comments: string;
+    comment_date: Date;
+}
+const data = [
+    {
+        name: "5월",
+        pv: 4.5,
+    },
+    {
+        name: "6월",
+        pv: 4.2,
+    },
+    {
+        name: "7월",
+        pv: 3.9,
+    },
+    {
+        name: "8월",
+        pv: 4.8,
+    },
+    {
+        name: "9월",
+        pv: 3.6,
+    },
+    {
+        name: "10월",
+        pv: 4.2,
+    }
+];
+
 const StatsReview = () => {
+
+    const [reviewsList, setReviewList] = useState<any>({
+        average: 0,
+        reviews: [
+
+        ]
+    });
     return (
         <>
         <h2 css={css.reviewAverageContainer}>
@@ -106,7 +158,8 @@ const StatsReview = () => {
                 dataKey="pv"
                 stroke="black"
             >
-                <LabelList position="top" offset={5}/>
+                <LabelList
+                    position="top" offset={5}/>
             </Line>
         </LineChart>
     </ResponsiveContainer>
