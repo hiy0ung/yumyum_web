@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as css from "./Style";
 import {
   Calender,
@@ -60,23 +60,28 @@ const TimeStats = () => {
     console.log(currentDate.toISOString().slice(0, 10));
   };
 
+  const handleCalendarOpen = () => {
+    setCalendarBox((prevState) => ({
+      ...prevState,
+      calendar: !prevState.calendar,
+    }));
+  };
+
   const handleDateChange = (date: any) => {
     const selectDate = new Date(date);
     const formattedDate = selectDate.toLocaleDateString("en-CA");
     setOrderDate(formattedDate);
-    setCalendarBox({ calendar: false });
-  };
-
-  const handleCalendarOpen = () => {
-    setCalendarBox((prev) => ({
-      ...prev,
-      calendar: !prev.calendar,
+  
+    setCalendarBox((prevState) => ({
+      ...prevState,
+      calendar: false,
     }));
   };
 
   useEffect(() => {
     fetch();
   }, [orderDate]);
+
   return (
     <>
       <div css={css.topContainer}>
@@ -96,21 +101,16 @@ const TimeStats = () => {
           </button>
         </div>
         <div css={css.calendarContainer}>
-          <div css={css.calendarIconStyle} onClick={handleCalendarOpen}>
-            <EventAvailableIcon sx={{ fontSize: 26 }} />
+          <div css={css.calendarIconStyle} onClick={handleCalendarOpen} >
+            <EventAvailableIcon sx={{ fontSize: 26 }}  />
           </div>
           <div
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            css={
-              calendarBox
-                ? css.calendarContainerBlock
-                : css.calendarContainerNone
-            }
+            onClick={(e) => e.stopPropagation()}
+            css={calendarBox.calendar ? css.calendarContainerBlock : css.calendarContainerNone}
           >
             <Calendar
               css={css.calendarStyle}
+              value={new Date(orderDate)}
               calendarType="gregory"
               defaultView="month"
               onChange={handleDateChange}
@@ -118,8 +118,13 @@ const TimeStats = () => {
           </div>
         </div>
       </div>
-      <div css={css.chartContainer}>
-        <ResponsiveContainer width={"85%"} height={500}>
+      <div css={stats.length > 0 ? css.chartContainer : css.chartLineNone}>
+        <ResponsiveContainer 
+          width={"90%"} 
+          height={500} 
+          style={{
+            "border": "none"
+        }}>
           <LineChart data={stats}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" padding={{ left: 30, right: 30 }} />
@@ -130,7 +135,7 @@ const TimeStats = () => {
               type="monotone"
               dataKey="revenue"
               name="매출"
-              stroke="#8884d8"
+              stroke="#1681FF"
               activeDot={{ r: 8 }}
             />
           </LineChart>
