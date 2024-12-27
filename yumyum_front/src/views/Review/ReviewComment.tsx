@@ -12,10 +12,10 @@ function ReviewComment() {
   });
 
 
-  const reviewsListGetApi = async () => {
-    const response = await axios.get(`http://localhost:4041/api/v1/reviews/${1}`);
-    setReviewList(response.data.data);
-    console.log(response.data.data);
+  // const reviewsListGetApi = async () => {
+  //   const response = await axios.get(`http://localhost:4041/api/v1/reviews/${1}`);
+  //   setReviewList(response.data.data);
+  //   console.log(response.data.data);
     // 일단 하드 코딩
 
     // const response = {
@@ -29,10 +29,7 @@ function ReviewComment() {
     //   ]
     // }
     // setReviewList(response)
-  }
-  useEffect(() => {
-    reviewsListGetApi();
-  }, [])
+
 
 
 
