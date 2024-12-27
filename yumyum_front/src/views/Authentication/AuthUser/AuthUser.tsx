@@ -15,7 +15,7 @@ import {
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../Stroes/auth.store";
 
-export default function LogIn() {
+export default function AuthUser() {
   const navigate = useNavigate();
 
   const [userLogInInfo, setUserLogInInfo] = useState<UserLogInInfo>({
@@ -86,17 +86,10 @@ export default function LogIn() {
   };
 
   const handleLogout = () => {
-    console.log("확인");
-    setCookies("token", "");
+    setCookies("token", "", { path: "/", expires: new Date(0) }); 
     logout();
-    navigate(AUTH_PATH_LOGIN);
     console.log("로그아웃 성공");
   }
-
-  const a =  () => {
-    console.log("first")
-  }
-
   return (
     <>
       <h2 css={css.logInTitle}>로그인</h2>

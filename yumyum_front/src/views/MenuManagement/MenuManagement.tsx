@@ -285,6 +285,7 @@ export default function MenuManagement() {
             modalStatus={isModalOpen}
             closeModal={closeModal}
             categories={categories}
+            fetchData={fetchData}
           />
         </div>
       </div>
