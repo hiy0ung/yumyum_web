@@ -35,11 +35,6 @@ import MypageUpdate from "./views/MyPage/MypageUpdate";
 
 
 function App() {
-    const location = useLocation();
-    const token = "token";
-    useEffect(() => {
-        console.log("토큰 검사 : " + token);
-    }, [location.pathname]);
     return (
         <>
             <div css={css.wrap}>
