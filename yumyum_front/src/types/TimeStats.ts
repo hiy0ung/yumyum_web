@@ -9,6 +9,6 @@ export interface StatsTime {
   revenue: number;
 }
 
-// export interface calender { 
-//   calendar: boolean;
-// }
+export interface Calender { 
+  calendar: boolean;
+}

@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
 import { useModalStore } from "../../Stroes/menuModal.store";
+import { useCookies } from "react-cookie";
 interface Menus {
   menuId: number;
   menuCategory: string;
@@ -45,13 +46,7 @@ interface AddCategory {
 }
 
 export default function MenuManagement() {
-  const [menu, setMenu] = useState<Menu>({
-    menuName: "",
-    imageUrl: "",
-    menuDescription: "",
-    menuPrice: 0,
-    isAvailable: false,
-  });
+  const [cookies] = useCookies(['token']);
   const [AddCategory, setAddCategory] = useState<AddCategory>({
     menuCategory: "",
     menuCategorySequence: 0,
@@ -67,9 +62,14 @@ export default function MenuManagement() {
     setIsCategoryModalOpen(false);
   };
   const fetchCategoryData = async () => {
+    const token = cookies.token;
     try {
       const data = await axios.get(
-        `http://localhost:4041/api/v1/categories/get`
+        `http://localhost:4041/api/v1/categories/get`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
       );
       setCategories(data.data.data);
     } catch (e) {
@@ -78,8 +78,13 @@ export default function MenuManagement() {
   };
 
   const fetchData = async () => {
+    const token = cookies.token;
     try {
-      const data = await axios.get(`http://localhost:4041/api/v1/menus/`);
+      const data = await axios.get(`http://localhost:4041/api/v1/menus/`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setMenus(data.data.data);
     } catch (e) {
       console.log("object");
@@ -90,19 +95,32 @@ export default function MenuManagement() {
     setChecked(event.target.checked);
   };
 
+  const stateIsAvailable = (index: number) => {
+    setMenus(prevMenu => {
+      const updateMenus = prevMenu.map((menu) => menu.menuId === index ? { ...menu, isAvailable: !menu.isAvailable} : menu);
+      return updateMenus;
+    })
+  }
+
   const updateCategorySequence = async (updatedCategories: Category[]) => {
     setCategories(updatedCategories);
-
+    const token = cookies.token;
     for (const category of updatedCategories) {
       await axios.put(`http://localhost:4041/api/v1/categories/sequence`, {
         id: category.id,
         menuCategorySequence: category.menuCategorySequence,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
     }
   };
 
   const CategorySubmit = async () => {
     try {
+      const token = cookies.token;
+      console.log("Token:", token);
       for (const category of categories) {
         if (category.menuCategory === AddCategory.menuCategory) {
           alert("이미 추가된 카테고리 명 입니다.");
@@ -119,10 +137,14 @@ export default function MenuManagement() {
           return;
         }
       }
-      console.log(AddCategory);
+      console.log("Category to add:", AddCategory);
       await axios.post(`http://localhost:4041/api/v1/categories/post`, {
         menuCategory: AddCategory.menuCategory,
         menuCategorySequence: AddCategory.menuCategorySequence,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
     } catch (e) {
       console.error("오류");
@@ -176,6 +198,26 @@ export default function MenuManagement() {
       [name]: value,
     }));
   };
+
+  const deleteMenu = async (menuId: number) => {
+    const token = cookies.token;
+    
+      if(window.confirm("정말 삭제하시겠습니까?")) {
+        try {
+        await axios.delete(`http://localhost:4041/api/v1/menus/delete/${menuId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      } catch (e) {
+        console.error("메뉴 삭제가 안됨");
+      }
+      alert("성공적으로 삭제되었습니다.");
+      fetchData();
+    } else {
+      return;
+    }
+  }
 
   console.log(menus);
   console.log(categories);
@@ -260,13 +302,27 @@ export default function MenuManagement() {
                         (menu) => menu.menuCategory === category.menuCategory
                       )
                       .map((menu) => (
-                        <li>
+                        <li key={menu.menuId}>
                           <div css={s.menu}>
-                            <div>{menu.imageUrl}</div>
-                            <div>{menu.menuName}</div>
-                            <div>{menu.menuDescription}</div>
-                            <div>{menu.menuPrice}</div>
-                            <div>{menu.isAvailable ? "가능" : "불가능"}</div>
+                            <div css={s.menuImage}>{menu.imageUrl}
+                            </div>
+                            <div css={s.menuBody}>
+                              <div css={s.menuName}>{menu.menuName}</div>
+                              <div css={s.menuDescription}>
+                                {menu.menuDescription}
+                              </div>
+                            </div>
+                            <div css={s.menuFoot}>
+                              <div css={s.menuButtonContainer}>
+                                <button>수정</button>
+                                <button onClick={() => deleteMenu(menu.menuId)}>삭제</button>
+                              </div>
+                              <div css={s.menuIsAvailable}>
+                                메뉴 판매 가능 여부
+                                <Switch checked={menu.isAvailable} onClick={() => stateIsAvailable(menu.menuId)}/>
+                              </div>
+                              <div css={s.menuPrice}>가격: {menu.menuPrice}원</div>
+                            </div>
                           </div>
                         </li>
                       ))}
@@ -278,13 +334,13 @@ export default function MenuManagement() {
                 <div>카테고리없음</div>
               </>
             )}
-
           </ul>
           <button onClick={openModal}>메뉴추가</button>
           <MenuModal
             modalStatus={isModalOpen}
             closeModal={closeModal}
             categories={categories}
+            fetchData={fetchData}
           />
         </div>
       </div>
