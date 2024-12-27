@@ -43,7 +43,7 @@ function App() {
                     <Header/>
                     <main>
                         <Routes>
-                            <Route path={MAIN_PATH} element={<Main/>}/>
+                            <Route path={MAIN_PATH} element={<Main/>}/>       
                             <Route path={STORE_PATH} element={<Store/>}></Route>
                             <Route path={CREATE_STORE_PATH} element={<CreateStore/>}/>
                             <Route path={UPDATE_STORE_PATH} element={<UpdateStore />}></Route>

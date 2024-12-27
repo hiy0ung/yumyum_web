@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
+import Order from '../Order/Order';
 
 const Main = () => {
     return (
         <>
-            메인 화면
+            <Order />
         </>
     );
 };
