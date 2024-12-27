@@ -66,41 +66,55 @@ export const calendarIconStyle = css`
 
 export const calendarContainerBlock = css`
   position: absolute;
-  top: 0;
-  left: 80px;
-  margin-top: 30px;
-  z-index: 999;
-  width: 300px;
-  height: auto;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  padding: 10px;
-  
-  & > div {
-    width: 100%;
-    font-size: 14px;
-  }
-  & div {
-    font-size: 8px
-  }
-  & abbr {
-    font-size: 14px;
-  }
+    top: 0;
+    left: 80px;
+    z-index: 999;
+    width: 400px;
+    height: 50px;
+    
+    & > div {
+        width: 100%;
+    }
+    & div {
+        font-size: 8px
+    }
+    & abbr {
+        font-size: 14px;
+    }
+    
 `;
 
 export const calendarContainerNone = css`
-    display: none;
+  display: none;
 `;
 
 export const calendarStyle = css`
 `;
 
 
-  export const chartContainer = css`
-    /* background-color: pink;/ */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    margin: auto 0;
-  `;
+export const chartContainer = css`
+  /* background-color: pink; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: auto 0;
+  min-width: 1280px;
+
+  & path {
+    display: block;
+  }
+`;
+
+export const chartLineNone = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: auto 0;
+  min-width: 1280px;
+  
+  & path {
+  display: none;
+  }
+`;

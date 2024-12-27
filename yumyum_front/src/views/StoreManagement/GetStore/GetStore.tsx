@@ -44,6 +44,7 @@ export default function Store() {
         const data = response.data.data;
         setStore(data);
         setImgData(data.logoUrl);
+        console.log(token);
       }
     } catch (e) {
       console.error(e);
