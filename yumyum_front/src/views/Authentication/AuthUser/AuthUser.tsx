@@ -15,7 +15,7 @@ import {
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../Stroes/auth.store";
 
-export default function LogIn() {
+export default function AuthUser() {
   const navigate = useNavigate();
 
   const [userLogInInfo, setUserLogInInfo] = useState<UserLogInInfo>({
@@ -25,7 +25,7 @@ export default function LogIn() {
 
   const [error, setError] = useState<string>("");
   const [, setCookies] = useCookies(["token"]);
-  const { login } = useAuthStore();
+  const { login, logout, user } = useAuthStore();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -46,6 +46,7 @@ export default function LogIn() {
 
       if (response.data) {
         signInSuccessResponse(response.data.data);
+        console.log(response.data.data);
       }
 
     } catch (e) {
@@ -71,11 +72,18 @@ export default function LogIn() {
       });
       
       navigate(MAIN_PATH);
+      console.log(token);
     } else {
       alert(error);
       setError("로그인 실패: 인증 정보를 확인해주세요.");
     }
   };
+
+  const handleLogout = () => {
+    setCookies("token", "", { path: "/", expires: new Date(0) }); 
+    logout();
+    console.log("로그아웃 성공");
+  }
 
   return (
     <>
@@ -121,11 +129,11 @@ export default function LogIn() {
           <Button
             css={css.submitButton}
             type="submit"
-            onClick={handleSubmit}
+            onClick={user ? handleLogout : handleSubmit}
             variant="contained"
             color="primary"
           >
-            로그인
+            {user ? "로그아웃" : "로그인"}
           </Button>
         </Box>
         <Box css={css.link}>
