@@ -57,6 +57,7 @@ export const inputMenu = css`
   border-radius: 5px;
   right: 20px;
   top: 180px;
+  padding: 10px;
   
 
 
@@ -66,7 +67,7 @@ export const inputMenu = css`
   }
 
   & > div > input {
-    margin: 5px 0px 10px 0px;
+    margin: 5px 0px 5px 0px;
   }
 
   & > div > select {
@@ -128,4 +129,58 @@ export const categoryCancle = css`
   position: absolute;
   right: 10px;
   bottom: 10px;
+`
+
+export const option = css`
+  border: 1px solid #999;
+  border-radius: 5px;
+  margin-bottom: 3px;
+  padding: 10px;
+
+  & > div {
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  
+`
+
+export const cancelOption = css`
+  margin-left: 5px;
+`
+
+export const cancel = css`
+  margin-left: 5px;
+  margin-bottom: 5px;
+`
+
+export const optionModal = css`
+  font-size: 16px;
+  position: absolute;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 5px;
+  right: 40px;
+  top: 200px;
+`
+
+export const optionDetail = css`
+  margin-left: 10px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+`
+
+export const optionAdd = css`
+  margin-bottom: 5px;
+`
+
+export const optionConfirm = css`
+  position: relative;
+  display: flex;
+  padding: 10px;
+  right: -110px;
+`
+
+export const optionCheck = css`
+  margin-right: 10px;
 `
