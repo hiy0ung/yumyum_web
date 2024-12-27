@@ -1,7 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import * as css from "./Style";
-import { ResponseStatsTime, StatsTime } from "../../../types/TimeStats";
+import {
+  Calender,
+  ResponseStatsTime,
+  StatsTime,
+} from "../../../types/TimeStats";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import axios from "axios";
 import {
@@ -20,7 +24,7 @@ import Calendar from "react-calendar";
 const TimeStats = () => {
   const convertDate = new Date().toISOString().slice(0, 10);
 
-  const [calendarBox, setCalendarBox] = useState(false);
+  const [calendarBox, setCalendarBox] = useState<Calender>({ calendar: false });
 
   const [orderDate, setOrderDate] = useState<string>(convertDate);
   const [stats, setStats] = useState<StatsTime[]>([]);
@@ -58,14 +62,17 @@ const TimeStats = () => {
 
   const handleDateChange = (date: any) => {
     const selectDate = new Date(date);
-    const formattedDate = selectDate.toLocaleDateString('en-CA');
+    const formattedDate = selectDate.toLocaleDateString("en-CA");
     setOrderDate(formattedDate);
-    setCalendarBox( false );
+    setCalendarBox({ calendar: false });
   };
 
   const handleCalendarOpen = () => {
-    setCalendarBox((prev) => ( !prev ))
-  }
+    setCalendarBox((prev) => ({
+      ...prev,
+      calendar: !prev.calendar,
+    }));
+  };
 
   useEffect(() => {
     fetch();
@@ -90,9 +97,7 @@ const TimeStats = () => {
         </div>
         <div css={css.calendarContainer}>
           <div css={css.calendarIconStyle} onClick={handleCalendarOpen}>
-            <EventAvailableIcon
-              sx={{ fontSize: 26 }}
-            />
+            <EventAvailableIcon sx={{ fontSize: 26 }} />
           </div>
           <div
             onClick={(e) => {

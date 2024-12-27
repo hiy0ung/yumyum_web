@@ -25,7 +25,7 @@ export default function LogIn() {
 
   const [error, setError] = useState<string>("");
   const [, setCookies] = useCookies(["token"]);
-  const { login } = useAuthStore();
+  const { login, logout, user } = useAuthStore();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -38,19 +38,25 @@ export default function LogIn() {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        `http://localhost:4041/api/v1/auth/login`,
-        userLogInInfo
-      );
+    if (!user) {
+      try {
+        const response = await axios.post(
+          `http://localhost:4041/api/v1/auth/login`,
+          userLogInInfo
+        );
 
-      if (response.data) {
-        signInSuccessResponse(response.data.data);
-        console.log(response.data.data);
+        if (response.data) {
+          signInSuccessResponse(response.data.data);
+          console.log(response.data.data);
+        }
+      } catch (e) {
+        setError("로그인 중 문제가 발생했습니다.");
       }
-
-    } catch (e) {
-      setError("로그인 중 문제가 발생했습니다.");
+    } else {
+        // console.log("first")
+        setCookies("token", "");
+        logout();
+        navigate(AUTH_PATH_LOGIN);
     }
   };
 
@@ -68,9 +74,9 @@ export default function LogIn() {
       setToken(token, exprTime);
 
       login({
-        token: token
+        token: token,
       });
-      
+
       navigate(MAIN_PATH);
       console.log(token);
     } else {
@@ -78,6 +84,18 @@ export default function LogIn() {
       setError("로그인 실패: 인증 정보를 확인해주세요.");
     }
   };
+
+  const handleLogout = () => {
+    console.log("확인");
+    setCookies("token", "");
+    logout();
+    navigate(AUTH_PATH_LOGIN);
+    console.log("로그아웃 성공");
+  }
+
+  const a =  () => {
+    console.log("first")
+  }
 
   return (
     <>
@@ -123,11 +141,11 @@ export default function LogIn() {
           <Button
             css={css.submitButton}
             type="submit"
-            onClick={handleSubmit}
+            onClick={user ? handleLogout : handleSubmit}
             variant="contained"
             color="primary"
           >
-            로그인
+            {user ? "로그아웃" : "로그인"}
           </Button>
         </Box>
         <Box css={css.link}>
