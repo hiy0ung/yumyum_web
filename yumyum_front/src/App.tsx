@@ -29,7 +29,7 @@ import Contact from "./views/Contact/Contact";
 import * as css from "./Styles/MainStyle";
 import Main from "./views/Main/Main";
 import SignUp from "./views/Authentication/SignUp/SignUp";
-import LogIn from "./views/Authentication/LogIn/LogIn";
+import AuthUser from "./views/Authentication/AuthUser/AuthUser";
 import Mypage from "./views/MyPage/Mypage";
 import MypageUpdate from "./views/MyPage/MypageUpdate";
 
@@ -61,7 +61,7 @@ function App() {
                             <Route path={MY_PAGE_UPDATE} element={<MypageUpdate/>}></Route>
                             <Route path={CONTACT_PATH} element={<Contact/>}></Route>
                             <Route path={AUTH_PATH_SIGN_UP} element={<SignUp/>}></Route>
-                            <Route path={AUTH_PATH_LOGIN} element={<LogIn/>}></Route>
+                            <Route path={AUTH_PATH_LOGIN} element={<AuthUser/>}></Route>
                         </Routes>
                     </main>
                 </div>
