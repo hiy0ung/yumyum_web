@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SignInResponseDto, UserLogInInfo } from "../../../types/logIn";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, TextField, InputAdornment } from "@mui/material";
@@ -26,6 +26,10 @@ export default function AuthUser() {
   const [error, setError] = useState<string>("");
   const [, setCookies] = useCookies(["token"]);
   const { login, logout, user } = useAuthStore();
+
+  useEffect(() => {
+    console.log("로그인 상태", user)
+  }, [user])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
