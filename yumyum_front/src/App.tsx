@@ -35,11 +35,6 @@ import MypageUpdate from "./views/MyPage/MypageUpdate";
 
 
 function App() {
-    const location = useLocation();
-    const token = "token";
-    useEffect(() => {
-        console.log("토큰 검사 : " + token);
-    }, [location.pathname]);
     return (
         <>
             <div css={css.wrap}>
@@ -48,7 +43,7 @@ function App() {
                     <Header/>
                     <main>
                         <Routes>
-                            <Route path={MAIN_PATH} element={<Main/>}/>
+                            <Route path={MAIN_PATH} element={<Main/>}/>       
                             <Route path={STORE_PATH} element={<Store/>}></Route>
                             <Route path={CREATE_STORE_PATH} element={<CreateStore/>}/>
                             <Route path={UPDATE_STORE_PATH} element={<UpdateStore />}></Route>
