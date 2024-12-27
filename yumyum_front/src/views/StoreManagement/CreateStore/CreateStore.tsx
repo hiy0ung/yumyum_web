@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { MAIN_PATH } from "../../../constants";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -132,7 +133,7 @@ export default function Store() {
       );
       if (response.data) {
         alert("가게등록에 성공하였습니다.");
-        navigate("/main");
+        navigate(MAIN_PATH);
       }
     } catch (e) {
       console.log(token);

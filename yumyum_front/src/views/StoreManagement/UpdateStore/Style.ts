@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 
 export const formStyle = css`
-    width: 900px !important;
+    width: 700px !important;
+    min-height: 100vh;
     padding: 16px;
     margin: 0 auto;
     border: 1px solid #ccc;
@@ -10,7 +11,7 @@ export const formStyle = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    margin-bottom: 50px;
 `;
 
 export const storeTitle = css`
@@ -78,13 +79,19 @@ export const descriptionBox = css`
     border-radius: 8px;
     resize: none;
     font-size: 14px;
+    margin-bottom: 20px;
 `;
 
-export const storeSubmitButton = css`
+export const storeUpdateButton = css`
     border: 1px solid #ccc;
     color: black;
     margin-left: auto;
-    margin-right: 180px;
-    margin-top: 10px;
+    margin-top: 20px;
     display: block;
+
+    :hover {
+        background-color: #1681FF;
+        color: white;
+    }
 `;
+

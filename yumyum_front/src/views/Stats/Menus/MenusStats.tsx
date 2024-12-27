@@ -170,9 +170,9 @@ export default function MenusStats() {
                         <div css={css.menuStatsLeftTopLeft}>
                             <div css={css.today}>오늘</div>
                             <div css={css.day}
-                                 onClick={() => {
-                                     calendarDisplayHandler("day")
-                                 }}
+                                onClick={() => {
+                                    calendarDisplayHandler("day")
+                                }}
                             >
                                 <div>
                                     <div css={css.todayContainer}>
@@ -194,9 +194,9 @@ export default function MenusStats() {
                                 </div>
                             </div>
                             <div
-                                 onClick={() => {
-                                     calendarDisplayHandler("month")
-                                 }}>
+                                onClick={() => {
+                                    calendarDisplayHandler("month")
+                                }}>
                                 <div>
                                     <div css={css.monthContainer}>
                                         <EventAvailableIcon sx={{fontSize: 26, margin: "10px 5px 0  5px",}}/>
