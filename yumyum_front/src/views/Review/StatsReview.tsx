@@ -1,28 +1,9 @@
-import React, {useEffect, useState} from 'react';
+/** @jsxImportSource @emotion/react */
+import React, {useEffect, useMemo, useState} from 'react';
 import * as css from "./Style";
 import starImg from "../../img/star.png";
 import {CartesianGrid, LabelList, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
-import axios from "axios";
-import useAuthStore from "../../Stroes/auth.store";
-
-
-interface ReviewsPhotoArray {
-    photo_url: string[];
-}
-
-
-interface ReviewsList {
-    id: number;
-    profile_image: string;
-    nickname: string;
-    rating: number;
-    review_date: number;
-    review_content: string;
-    is_reported: boolean;
-    photo_url: ReviewsPhotoArray
-    comments: string;
-    comment_date: Date;
-}
+import {reviewsStatsProps} from "../../types/ReviewStats";
 
 const data = [
     {
@@ -50,107 +31,42 @@ const data = [
         pv: 4.2,
     }
 ];
+const StatsReview = ({reviewStats}: reviewsStatsProps) => {
 
-const reviewStats = async () => {
+    const averageRating : number | string = useMemo(() : number | string => {
+            const totalWeightedRating = reviewStats.reduce((sum, item) => sum + item.rating * item.reviewCount, 0);
+            const totalReviewCount = reviewStats.reduce((sum, item) => sum + item.reviewCount, 0);
+            return totalReviewCount > 0 ? (totalWeightedRating / totalReviewCount).toFixed(1) : 0;
+        }
+        , [reviewStats]);
 
-    const {user} = useAuthStore();
-    const response = await axios.get(`http://localhost:4041/api/v1/reveiws/rating`,
-        {
-            headers: {
-                Authorization: `Bearer ${user?.token}`,
-            }
-        });
-    console.log(response)
-
-}
-useEffect(() => {
-    reviewStats();
-}, []);
-const StatsReview = () => {
-
-    const [reviewsList, setReviewList] = useState<any>({
-        average: 0,
-        reviews: []
-    });
     return (
         <>
             <h2 css={css.reviewAverageContainer}>
                 <div css={css.reviewAverageTitle}>평균 별점</div>
-                <div css={css.reviewAverage}>{reviewsList.average}</div>
+                <div css={css.reviewAverage}>{averageRating}</div>
             </h2>
             <div css={css.ratingBarContainer}>
-                <div css={css.ratingBarMargin}>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>5점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
+                <div css={css.ratingBarContainer}>
+                    {[5, 4, 3, 2, 1].map((starScore) => {
+                        const found = reviewStats.find((item) => item.rating === starScore);
+                        const reviewCount = found ? found.reviewCount : 0;
+
+                        return (
+                            <div css={css.ratingBarSet} key={starScore}>
+                                <div css={css.ratingBarLeftContainer}>
+                                    <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
+                                    <div css={css.starScore}>{starScore}점</div>
+                                    <div css={css.ratingBar}>
+                                        <div></div>
+                                    </div>
+                                </div>
+                                <div css={css.reviewCount}>{reviewCount}</div>
                             </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[0].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>4점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
-                            </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[1].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>3점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
-                            </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[2].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>2점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
-                            </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[3].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>1점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
-                            </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[4].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
+                        );
+                    })}
                 </div>
+
             </div>
             <ResponsiveContainer width={"90%"} height={300}
                                  style={{
