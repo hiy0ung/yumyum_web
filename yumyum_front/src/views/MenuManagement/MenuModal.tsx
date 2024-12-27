@@ -175,6 +175,16 @@ export default function MenuModal({
     }));
   };
 
+  const removeOptionDetail = (optionIndex: number, detailIndex: number) => {
+    setAddMenu(prev => ({
+      ...prev,
+      menuOption: prev.menuOption.map((option, index) => index === optionIndex ? {
+        ...option,
+        optionDetail: option.optionDetail.filter((_, dIndex) => dIndex !== detailIndex)
+      } : option)
+    }))
+  }
+
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddMenu({ ...addMenu, isAvailable: event.target.checked });
   };
@@ -372,6 +382,7 @@ export default function MenuModal({
                                         )
                                       }
                                     />
+                                    <button css={s.cancel} onClick={() => removeOptionDetail(optionIndex, detailIndex)}>추가 옵션 삭제</button>
                                   </div>
                                   ))}
                                   <button onClick={() => addNewOptionDetail(optionIndex)}>추가 옵션 추가</button>
