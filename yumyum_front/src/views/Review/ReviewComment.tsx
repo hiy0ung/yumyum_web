@@ -2,6 +2,23 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import * as css from './Style';
+interface ReviewsPhotoArray {
+    photo_url: string[];
+}
+
+
+interface ReviewsList {
+    id: number;
+    profile_image: string;
+    nickname: string;
+    rating: number;
+    review_date: number;
+    review_content: string;
+    is_reported: boolean;
+    photo_url: ReviewsPhotoArray
+    comments: string;
+    comment_date: Date;
+}
 
 function ReviewComment() {
   const [reviewsList, setReviewList] = useState<any>({
