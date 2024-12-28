@@ -29,7 +29,7 @@ import Contact from "./views/Contact/Contact";
 import * as css from "./Styles/MainStyle";
 import Main from "./views/Main/Main";
 import SignUp from "./views/Authentication/SignUp/SignUp";
-import AuthUser from "./views/Authentication/AuthUser/AuthUser";
+import AuthUser from "./views/Authentication/Login/Login";
 import Mypage from "./views/MyPage/Mypage";
 import MypageUpdate from "./views/MyPage/MypageUpdate";
 
