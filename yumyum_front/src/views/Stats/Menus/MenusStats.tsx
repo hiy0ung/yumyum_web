@@ -133,9 +133,6 @@ export default function MenusStats() {
         }
     };
 
-    const handleDateTodayChange = () => {
-        const TodayFormatted = moment().format("YYYY-MM-DD");
-    }
     const handleDateDayChange = (date: any) => {
         const dayFormatted = moment(date).format('YYYY-MM-DD');
         setSelectDate(dayFormatted);
@@ -256,7 +253,6 @@ export default function MenusStats() {
                     </div>
                 </div>
                 <div>
-                {/*<StatsReview data={data} />*/}
                 </div>
                 <div css={css.menuStatsRightContainer}>
                     <div css={css.menuStatsRightTitle}>메뉴별 판매 현황</div>
