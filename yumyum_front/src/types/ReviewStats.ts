@@ -2,14 +2,14 @@ export interface TotalReviewsStats {
     rating: number;
     reviewCount: number;
 }
-export interface TotalReviewsStatsProps {
-    totalReviewStats: TotalReviewsStats[];
-}
 
 export interface MonthReviewsStats {
     avgRating: number;
-    reviewMonth : number;
+    reviewMonth: number;
+    reviewMonthCount: number;
 }
-export interface MonthReviewsStatsProps {
 
+export interface ReviewStatsProps {
+    totalReviewStats: TotalReviewsStats[];
+    monthReviewStats: MonthReviewsStats[];
 }

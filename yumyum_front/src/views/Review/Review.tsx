@@ -6,13 +6,19 @@ import StatsReview from "./StatsReview";
 import ReviewComment from "./ReviewComment";
 import axios from "axios";
 import {useCookies} from "react-cookie";
-import {TotalReviewsStats} from "../../types/ReviewStats";
+import {MonthReviewsStats, TotalReviewsStats, } from "../../types/ReviewStats";
 import moment from "moment";
 
 
 function Review() {
     const [totalReviewStats, setTotalTotalReviewStats] = useState<TotalReviewsStats[]>([]);
-    const [monthReviewStats, setMonthReviewStats] = useState();
+    const [monthReviewStats, setMonthReviewStats] = useState<MonthReviewsStats[]>([
+        {
+            avgRating: 3.5,
+            reviewMonth : 12,
+            reviewMonthCount : 442
+        }
+    ]);
     const [cookies] = useCookies(["token"])
     const token = cookies.token;
 
@@ -63,7 +69,7 @@ function Review() {
         <>
             <div css={css.reviewContainer}>
                 <div css={css.reviewLeftContainer}>
-                    <StatsReview totalReviewStats={totalReviewStats} />
+                    <StatsReview totalReviewStats={totalReviewStats} monthReviewStats={monthReviewStats} />
                 </div>
                 <div css={css.reviewRightContainer}>
                     <ReviewComment />

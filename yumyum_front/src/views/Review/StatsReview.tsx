@@ -11,7 +11,7 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import {TotalReviewsStats, TotalReviewsStatsProps} from "../../types/ReviewStats";
+import {ReviewStatsProps, TotalReviewsStats} from "../../types/ReviewStats";
 
 // 차트 예시 데이터
 const data = [
@@ -23,7 +23,7 @@ const data = [
     {name: "10월", pv: 4.2},
 ];
 
-const StatsReview = ({totalReviewStats}: TotalReviewsStatsProps) => {
+const StatsReview : React.FC<ReviewStatsProps> = ({totalReviewStats, monthReviewStats}) => {
     const totalReviewCount = useMemo(() => {
         return totalReviewStats.reduce((sum: number, item: TotalReviewsStats) => {
             return sum + item.reviewCount;

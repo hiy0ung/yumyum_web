@@ -4,6 +4,7 @@ export const reviewContainer = css`
     padding: 70px 30px 0 30px;
     display: flex;
     justify-content: space-around;
+
 `;
 export const reviewLeftContainer = css`
     width: 40%;
@@ -13,6 +14,7 @@ export const reviewLeftContainer = css`
     padding: 30px;
     box-shadow: 0 0 10px 1px #e9e9e9;
     border: 1px solid #e9e9e9;
+    margin-right: 30px;
 `;
 export const reviewAverageContainer = css`
     padding: 40px 0 0 0 ;
@@ -115,16 +117,60 @@ export const reviewCount = css`
     line-height: calc( 200px / 5);
 `;
 
+export const charStyle = css`
+    margin-top: 30px;
+    padding: 0 10px;
+`
 export const reviewRightContainer = css`
     width: 40%;
     min-width: 600px;
     aspect-ratio: 1;
     border-radius: 20px;
-    padding: 30px;
     box-shadow: 0 0 10px 1px #e9e9e9;
-    border: 1px solid #e9e9e9;
 `;
-export const charStyle = css`
-    margin-top: 30px;
-    padding: 0 10px;
-`
+export const reviewTabMenu = css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    
+    & > div{
+        flex: 1;
+    }
+    & > div:nth-of-type(3) {
+        border-right: 1px solid #a0a096;
+    }
+    
+`;
+
+export const reviewTabMenuTotal = css`
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border: 1px solid #a0a096;
+    padding: 30px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: none;
+`;
+
+export const reviewTabMenuNoAnswer = css`
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border: 1px solid #a0a096;
+    padding: 30px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: none;
+`;
+
+export const reviewTabMenuEvent = css`
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border: 1px solid #a0a096;
+    padding: 30px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-right: none;
+    border-bottom: none;
+`;
+
+export const reviewNoticeTabMenu = css`
+
+`;
