@@ -5,6 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import "./calendar.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { useCookies } from "react-cookie";
 
 interface DailyStat {
   orderDay: string;
@@ -31,6 +32,7 @@ export default function DailyStats() {
   const isoDate = (date: Date) => {
     return date.toISOString().slice(0, 19);
   };
+  const [cookies] = useCookies(["token"]);
 
   const fullCalendarRef = useRef<FullCalendar>(null);
 
@@ -62,18 +64,31 @@ export default function DailyStats() {
   };
 
   const fetchDay = async () => {
+    const token = cookies.token;
     try {
       const responseDay = await axios.get(
         `http://localhost:4041/api/v1/stats/daily/${orderDate}`,
-        { params: { orderDate: orderDate } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const responseMonth = await axios.get(
         `http://localhost:4041/api/v1/stats/month/${orderDate}`,
-        { params: { orderDate: orderDate } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const responseYear = await axios.get(
         `http://localhost:4041/api/v1/stats/year/${orderDate}`,
-        { params: { orderDate: orderDate } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       // const responseStroeTime = await axios.get(
