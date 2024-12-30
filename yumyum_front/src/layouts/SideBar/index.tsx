@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
@@ -12,6 +12,7 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import HomeIcon from "@mui/icons-material/Home";
 import * as css from "./Style";
 import {
+    AUTH_PATH_LOGIN,
     CONTACT_PATH,
     CREATE_STORE_PATH,
     MAIN_PATH,
@@ -27,12 +28,23 @@ import defaultProfileImg from "../../img/default_Profile_Img.png";
 import {useCookies} from "react-cookie";
 import axios from "axios";
 import YumYumLogoImg from "../../img/yumyumLogo.png";
+import useAuthStore from "../../Stroes/auth.store";
 
 export default function SideBar() {
     const [pathValue, setPathValue] = useState("");
     const [cookies, setCookies] = useCookies(["token"]);
     const token = cookies.token;
     const location = useLocation();
+    const { logout } = useAuthStore();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        setCookies("token", "", { path: "/", expires: new Date(0) }); 
+        logout();
+        console.log("로그아웃 성공");
+        navigate(AUTH_PATH_LOGIN);
+    }
+
     const pathHandle = (path: any) => {
         switch (true) {
             case path === MAIN_PATH:
@@ -206,7 +218,7 @@ export default function SideBar() {
 
                 <div css={css.userActionsContainer}>
                     <Link to={CONTACT_PATH}>문의하기</Link>
-                    <button>로그아웃</button>
+                    <button onClick={handleLogout}>로그아웃</button>
                 </div>
             </div>
         </aside>

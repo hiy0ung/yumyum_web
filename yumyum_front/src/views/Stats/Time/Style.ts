@@ -89,6 +89,27 @@ export const calendarContainerNone = css`
 `;
 
 export const calendarStyle = css`
+  display: flex;
+  flex-direction: column;
+  
+  border: none;
+
+  .react-calendar__tile {
+    height: 50px;
+    border: none;
+    text-align: center;
+    
+  }
+
+  .react-calendar__month-view__weekdays {
+    font-size: 10px;
+    height: 50px;
+  }
+
+  .react-calendar__navigation button {
+    font-size: 12px;
+    padding: 5px;
+  }
 `;
 
 

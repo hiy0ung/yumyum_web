@@ -1,187 +1,128 @@
-import React, {useEffect, useState} from 'react';
+/** @jsxImportSource @emotion/react */
+import React, {useMemo} from "react";
 import * as css from "./Style";
 import starImg from "../../img/star.png";
-import {CartesianGrid, LabelList, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
-import axios from "axios";
-import useAuthStore from "../../Stroes/auth.store";
+import {
+    CartesianGrid,
+    LabelList,
+    Line,
+    LineChart,
+    ResponsiveContainer,
+    XAxis,
+    YAxis,
+} from "recharts";
+import {ReviewStatsProps, TotalReviewsStats} from "../../types/ReviewStats";
 
-
-interface ReviewsPhotoArray {
-    photo_url: string[];
-}
-
-
-interface ReviewsList {
-    id: number;
-    profile_image: string;
-    nickname: string;
-    rating: number;
-    review_date: number;
-    review_content: string;
-    is_reported: boolean;
-    photo_url: ReviewsPhotoArray
-    comments: string;
-    comment_date: Date;
-}
-
+// 차트 예시 데이터
 const data = [
-    {
-        name: "5월",
-        pv: 4.5,
-    },
-    {
-        name: "6월",
-        pv: 4.2,
-    },
-    {
-        name: "7월",
-        pv: 3.9,
-    },
-    {
-        name: "8월",
-        pv: 4.8,
-    },
-    {
-        name: "9월",
-        pv: 3.6,
-    },
-    {
-        name: "10월",
-        pv: 4.2,
-    }
+    {name: "5월", pv: 4.5},
+    {name: "6월", pv: 4.2},
+    {name: "7월", pv: 3.9},
+    {name: "8월", pv: 4.8},
+    {name: "9월", pv: 3.6},
+    {name: "10월", pv: 4.2},
 ];
 
-const reviewStats = async () => {
+const StatsReview : React.FC<ReviewStatsProps> = ({totalReviewStats, monthReviewStats}) => {
+    const totalReviewCount = useMemo(() => {
+        return totalReviewStats.reduce((sum: number, item: TotalReviewsStats) => {
+            return sum + item.reviewCount;
+        }, 0);
+    }, [totalReviewStats]);
+    const averageRating = useMemo(() => {
+        const totalWeightedRating = totalReviewStats.reduce(
+            (sum: number, item: TotalReviewsStats) =>
+                sum + item.rating * item.reviewCount,
+            0
+        );
+        return totalReviewCount > 0
+            ? (totalWeightedRating / totalReviewCount).toFixed(1)
+            : "0";
+    }, [totalReviewStats, totalReviewCount]);
 
-    const {user} = useAuthStore();
-    const response = await axios.get(`http://localhost:4041/api/v1/reveiws/rating`,
-        {
-            headers: {
-                Authorization: `Bearer ${user?.token}`,
-            }
-        });
-    console.log(response)
-
-}
-useEffect(() => {
-    reviewStats();
-}, []);
-const StatsReview = () => {
-
-    const [reviewsList, setReviewList] = useState<any>({
-        average: 0,
-        reviews: []
-    });
     return (
         <>
             <h2 css={css.reviewAverageContainer}>
                 <div css={css.reviewAverageTitle}>평균 별점</div>
-                <div css={css.reviewAverage}>{reviewsList.average}</div>
+                <div css={css.reviewAverage}>{averageRating}</div>
             </h2>
-            <div css={css.ratingBarContainer}>
-                <div css={css.ratingBarMargin}>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>5점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
-                            </div>
+
+            <div css={css.totalRatingBarContainer}>
+                <div css={css.reviewImgContainer}>
+                    {[5, 4, 3, 2, 1].map((starScore) => (
+                        <div key={starScore}>
+                            <img src={starImg} alt="별 이미지"/>
                         </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[0].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>4점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
+                    ))}
+                </div>
+
+                <div css={css.reviewRatingContainer}>
+                    {[5, 4, 3, 2, 1].map((starScore) => (
+                        <div key={starScore}>{starScore}점</div>
+                    ))}
+                </div>
+                <div css={css.reviewRatingBarContainer}>
+                    {[5, 4, 3, 2, 1].map((starScore) => {
+                        const found = totalReviewStats.find(
+                            (item: TotalReviewsStats) => item.rating === starScore
+                        );
+                        const reviewCount = found ? found.reviewCount : 0;
+                        const percentage =
+                            totalReviewCount === 0
+                                ? 0
+                                : (reviewCount / totalReviewCount) * 100;
+
+                        return (
+                            <div key={starScore} css={css.ratingBar}>
+                                <div>
+                                    <div css={css.ratingBarFill(percentage)}/>
+                                </div>
                             </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[1].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>3점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
+                        );
+                    })}
+                </div>
+                <div css={css.reviewCounterContainer}>
+                    {[5, 4, 3, 2, 1].map((starScore) => {
+                        const found = totalReviewStats.find(
+                            (item: TotalReviewsStats) => item.rating === starScore
+                        );
+                        const reviewCount = found ? found.reviewCount : 0;
+                        return (
+                            <div key={starScore} css={css.reviewCount}>
+                                {reviewCount}
                             </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[2].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>2점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
-                            </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[3].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
-                    <div css={css.ratingBarSet}>
-                        <div css={css.ratingBarLeftContainer}>
-                            <img css={css.starImg} src={starImg} alt="리뷰 별점 사진"/>
-                            <div css={css.starScore}>1점</div>
-                            <div css={css.ratingBar}>
-                                <div></div>
-                            </div>
-                        </div>
-                        {
-                            reviewsList.reviews.length > 0
-                                ? (<div css={css.reviewCount}>{reviewsList.reviews[4].count}</div>)
-                                : (<div css={css.reviewCount}>{"( error )"}</div>)
-                        }
-                    </div>
+                        );
+                    })}
                 </div>
             </div>
-            <ResponsiveContainer width={"90%"} height={300}
-                                 style={{
-                                     display: 'flex',
-                                     justifyContent: 'center',
-                                     alignItems: 'center',
-                                     paddingTop: "50px",
-                                 }}>
-                <LineChart data={data} margin={{top: 20}}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false}/>
-                    <XAxis dataKey="name"
-                           padding={{left: 30, right: 30}}/>
-                    <YAxis
-                        domain={[0, 5]} // 최소값 0, 최대값 5로 설정
-                        ticks={[0, 1, 2, 3, 4, 5]} // 눈금 값 지정
-                        axisLine={{stroke: "none"}} // 축 선 색상 변경
-                        tickLine={{display: "none"}}
-                    />
-                    <Line
-                        type="linear"
-                        dataKey="pv"
-                        stroke="black"
-                    >
-                        <LabelList
-                            position="top" offset={5}/>
-                    </Line>
-                </LineChart>
-            </ResponsiveContainer>
+            <div
+                css={css.charStyle}>
+                <ResponsiveContainer
+                    width={"100%"}
+                    height={250}
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <LineChart data={data} margin={{top: 20, right: 40}}>
+                        <CartesianGrid strokeDasharray="1000 0" vertical={false}/>
+                        <XAxis dataKey="name" padding={{left: 30, right: 30}}/>
+                        <YAxis
+                            domain={[0, 5]}
+                            ticks={[0, 1, 2, 3, 4, 5]}
+                            axisLine={{stroke: "none"}}
+                            tickLine={{display: "none"}}
+                        />
+                        <Line type="linear" dataKey="pv" stroke="black">
+                            <LabelList position="top" offset={5}/>
+                        </Line>
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
         </>
-    )
-        ;
+    );
 };
 
 export default StatsReview;
