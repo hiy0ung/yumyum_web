@@ -139,6 +139,8 @@ export const option = css`
   border-radius: 5px;
   margin-bottom: 3px;
   padding: 10px;
+  margin-left: 3px;
+  margin-top: 3px;
 
   & > div {
     margin-top: 5px;
