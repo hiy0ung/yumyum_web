@@ -81,36 +81,47 @@ export const calendarContainerBlock = css`
     & abbr {
         font-size: 14px;
     }
-    
 `;
 
 export const calendarContainerNone = css`
   display: none;
 `;
 
-export const calendarStyle = css`
-  display: flex;
-  flex-direction: column;
-  
-  border: none;
+// export const calendarStyle = css`
+//   display: flex;
+//   flex-direction: column;
+//   border: none;
 
-  .react-calendar__tile {
-    height: 50px;
-    border: none;
-    text-align: center;
+//   .react-calendar__tile {
+//     height: 50px;
+//     border: none;
+//     text-align: center;
     
-  }
+//   }
 
-  .react-calendar__month-view__weekdays {
-    font-size: 10px;
-    height: 50px;
-  }
+//   .react-calendar__month-view {
+//   }
 
-  .react-calendar__navigation button {
-    font-size: 12px;
-    padding: 5px;
-  }
-`;
+//   .react-calendar__month-view__weekdays {
+//     font-size: 10px;
+//     height: 50px;
+//   }
+
+//   .react-calendar__navigation button {
+//     font-size: 12px;
+//     padding: 5px;
+//   }
+
+//   .calendar-cell {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 50px; /* 셀 높이 */
+//   width: 50px;  /* 셀 너비 */
+//   border: 1px solid #000; /* 셀 경계선 */
+//   box-sizing: border-box; /* 박스 크기 계산 */
+// }
+// `;
 
 
 export const chartContainer = css`
