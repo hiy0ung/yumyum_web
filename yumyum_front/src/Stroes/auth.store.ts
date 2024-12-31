@@ -4,7 +4,7 @@ interface User {
   token: string
 }
 
-//# 인증상태의 interface 정의 //
+
 interface AuthStoreType {
   isAuthenticated: boolean; 
   user: User | null; 
