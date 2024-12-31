@@ -7,35 +7,7 @@ import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
 import { updateModalStore, useModalStore } from "../../Stroes/menuModal.store";
 import { useCookies } from "react-cookie";
-interface Menus {
-  menuId: number;
-  menuCategory: string;
-  menuName: string;
-  imageUrl: string;
-  menuDescription: string;
-  menuPrice: number;
-  isAvailable: boolean;
-  menuOptions: {
-    menuOptionId: number;
-    optionName: string;
-    optionDetails: {
-      detailId: number;
-      optionDetailName: string;
-      additiionalFee: number;
-    };
-  };
-}
-
-interface Category {
-  id: number;
-  menuCategory: String;
-  menuCategorySequence: number;
-}
-
-interface AddCategory {
-  menuCategory: string;
-  menuCategorySequence: number;
-}
+import { Menus, Category, AddCategory, UpdateMenu } from "../../types/Menu"
 
 export default function MenuManagement() {
   const [cookies] = useCookies(["token"]);
@@ -47,6 +19,36 @@ export default function MenuManagement() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryModalOepn, setIsCategoryModalOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [updateMenudata, setUpdateMenudata] = useState<UpdateMenu>({
+    categoryId: categories.length > 0 ? categories[0].id : 0,
+    menuName: "",
+    imageUrl: "",
+    menuDescription: "",
+    menuPrice: 0,
+    isAvailable: false,
+    menuCategory: "",
+    menuOption: [
+      {
+        optionName: "옵션 없음",
+        optionDetail: [
+          {
+            optionDetailName: "옵션 없음",
+            additionalFee: 0,
+          },
+        ],
+      },
+    ],
+  });
+
+  useEffect(() => {
+    if(categories.length > 0) {
+      setUpdateMenudata(prevState => ({
+        ...prevState,
+        categoryId: categories[0].id
+      }));
+    }
+  }, [categories])
+
   const { updateModalState, updateModalOpen, updateModalClose} = updateModalStore();
   const { isModalOpen, openModal, closeModal } = useModalStore();
 
@@ -254,6 +256,36 @@ export default function MenuManagement() {
       [name]: value,
     }));
   };
+  const getCategoryId = (categoryName: string) => {
+    const category = categories.find(cate => cate.menuCategory === categoryName);
+    return category ? category.id : 0;
+  }
+  const updateButton = async (menuId: number) => {
+    const selectedMenu = menus.find(menu => menu.menuId === menuId);
+    if (selectedMenu) {
+      setUpdateMenudata({
+        categoryId: getCategoryId(selectedMenu.menuCategory),
+        menuName: selectedMenu.menuName,
+        imageUrl: selectedMenu.imageUrl,
+        menuDescription: selectedMenu.menuDescription,
+        menuPrice: selectedMenu.menuPrice,
+        isAvailable: selectedMenu.isAvailable,
+        menuCategory: selectedMenu.menuCategory,
+        menuOption: selectedMenu.menuOptions,
+      })
+    }
+    try {
+      const data = await axios.get(`http://localhost:4041/api/v1/menus/${menuId}`);
+      const result = data.data.data;
+      setUpdateMenudata(prev => ({
+        ...prev,
+        ...result
+      }));
+    } catch (e) {
+      console.error(e);
+    }
+    updateModalOpen();
+  }
 
   const deleteMenu = async (menuId: number) => {
     const token = cookies.token;
@@ -278,8 +310,8 @@ export default function MenuManagement() {
     }
   };
 
-  console.log(menus);
-  console.log(categories);
+  // console.log(menus);
+  // console.log(categories);
   return (
     <>
       <div css={s.menuAll}>
@@ -373,7 +405,7 @@ export default function MenuManagement() {
                             </div>
                             <div css={s.menuFoot}>
                               <div css={s.menuButtonContainer}>
-                                <button onClick={updateModalOpen}>수정</button>
+                                <button onClick={() => updateButton(menu.menuId)}>수정</button>
                                 <button onClick={() => deleteMenu(menu.menuId)}>
                                   삭제
                                 </button>
@@ -409,6 +441,7 @@ export default function MenuManagement() {
             closeModal={closeModal}
             categories={categories}
             fetchData={fetchData}
+            updateMenudata={updateMenudata}
           />
         </div>
       </div>
