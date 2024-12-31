@@ -69,8 +69,7 @@ export const calendarContainerBlock = css`
     top: 0;
     left: 80px;
     z-index: 999;
-    width: 400px;
-    height: 50px;
+    width: 350px;
     
     & > div {
         width: 100%;

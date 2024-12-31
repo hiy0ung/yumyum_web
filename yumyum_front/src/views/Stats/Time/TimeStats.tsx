@@ -129,8 +129,8 @@ export default function TimeStats() {
             css={calendarBox.calendar ? css.calendarContainerBlock : css.calendarContainerNone}
           >
             <Calendar
-              // css={css.calendarStyle}
               value={new Date(orderDate)}
+              maxDate={new Date()}
               calendarType="gregory"
               defaultView="month"
               onChange={handleDateChange}
