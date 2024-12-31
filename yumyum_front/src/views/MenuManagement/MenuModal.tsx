@@ -6,6 +6,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AUTH_PATH_LOGIN } from "../../constants";
+import { updateModalStore } from "../../Stroes/menuModal.store";
 
 interface Category {
   id: number;
@@ -71,6 +72,7 @@ export default function MenuModal({
   const [checked, setChecked] = useState(false);
   const [menuChecked, setMenuChecked] = useState(true);
   const [optionModal, setOptionModal] = useState(false);
+  const {updateModalState, updateModalOpen, updateModalClose} = updateModalStore();
 
   const openOptionModal = () => {
     setOptionModal(true);
