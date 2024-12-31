@@ -200,6 +200,7 @@ export default function MenusStats() {
                                         }}
                                         css={calendarBox.dayCalendar ? css.dayCalendarContainerBlock : css.dayCalendarContainerNone}>
                                         <Calendar
+                                            maxDate={new Date()}
                                             css={calendarStyles}
                                             calendarType='gregory'
                                             defaultView="month"
@@ -224,6 +225,7 @@ export default function MenusStats() {
                                         }}
                                         css={calendarBox.monthCalender ? css.monthCalendarContainerBlock : css.monthCalendarContainerNone}>
                                         <Calendar
+                                            maxDate={new Date()}
                                             css={calendarStyles}
                                             calendarType="gregory"
                                             view="year"
