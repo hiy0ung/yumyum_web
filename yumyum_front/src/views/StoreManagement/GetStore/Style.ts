@@ -10,7 +10,7 @@ export const storeTitle = css`
 
 export const StoreInfo = css`
     width: 700px !important;
-    min-height: 700px;
+    min-height: 500px;
     padding: 16px;
     margin: 0 auto;
     border: 1px solid #ccc;
@@ -74,8 +74,12 @@ export const Time = css`
 export const buttons = css`
   margin-top: 100px;
   display: flex;
-  width: 300px;
-  justify-content: space-around;
+  width: 100%;
+  justify-content: flex-end;
+
+  & > button {
+    margin: 10px;
+  }
 `;
 
 export const updateButton = css`

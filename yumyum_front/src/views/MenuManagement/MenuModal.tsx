@@ -6,6 +6,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AUTH_PATH_LOGIN } from "../../constants";
+import { updateModalStore } from "../../Stroes/menuModal.store";
 
 interface Category {
   id: number;
@@ -71,9 +72,11 @@ export default function MenuModal({
   const [checked, setChecked] = useState(false);
   const [menuChecked, setMenuChecked] = useState(true);
   const [optionModal, setOptionModal] = useState(false);
+  const {updateModalState, updateModalOpen, updateModalClose} = updateModalStore();
 
   const openOptionModal = () => {
     setOptionModal(true);
+    setMenuChecked(true);
   };
 
   const closeOptionModal = () => {
@@ -201,13 +204,22 @@ export default function MenuModal({
       const token = cookies.token;
       console.log(token);
       console.log(addMenu);
+      if (addMenu.menuName === "") {
+        alert("메뉴명을 입력해주세요");
+      } else if (addMenu.menuDescription === "") {
+        alert("메뉴 설명을 입력해주세요");
+      } else if (addMenu.menuPrice === 0) {
+        alert("메뉴 가격을 입력해주세요");
+      } else if (addMenu.categoryId === 0) {
+        alert("메뉴 카테고리를 선택해주세요");
+      } else {
       await axios.post(`http://localhost:4041/api/v1/menus/add`, addMenu, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setAddMenu({
-        categoryId: 1,
+        categoryId: 0,
         menuName: "",
         imageUrl: "",
         menuDescription: "",
@@ -229,6 +241,7 @@ export default function MenuModal({
       setMenuChecked(false);
       closeModal();
       fetchData();
+    }
     } catch (e) {
       console.error("토큰 없음");
       alert("다시 로그인 해주세요");
@@ -286,8 +299,9 @@ export default function MenuModal({
               name="menuCategory"
               onChange={changeValue}
             >
+                <option value="0">옵션 없음</option>
               {categories.map((category, index) => (
-                <option key={index} value={index + 1}>
+                <option key={index} value={category.id}>
                   {category.menuCategory}
                 </option>
               ))}

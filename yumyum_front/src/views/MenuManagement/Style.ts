@@ -139,6 +139,8 @@ export const option = css`
   border-radius: 5px;
   margin-bottom: 3px;
   padding: 10px;
+  margin-left: 3px;
+  margin-top: 3px;
 
   & > div {
     margin-top: 5px;
@@ -220,11 +222,12 @@ export const menuDescription = css`
 `
 
 export const menuPrice = css`
-  position: relative;
   font-size: 18px;
   margin-top: 40px;
   right: -90px;
   bottom: 5px;
+  text-align: end;
+  padding-right: 5px;
   
 `
 
