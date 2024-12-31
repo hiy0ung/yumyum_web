@@ -10,6 +10,8 @@ export const categoryContainer = css`
     flex-direction: column;
     justify-content: space-between;
     background-color: #fafafa;
+    overflow: auto;
+    overflow-x: hidden;
 
     & > nav > ul > li {
         margin-bottom: 10px;

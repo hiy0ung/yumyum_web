@@ -22,3 +22,6 @@ export const CONTACT_PATH = '/contact';
 
 export const MY_PAGE = '/mypage'
 export const MY_PAGE_UPDATE = '/update'
+
+export const SEARCH_PATH = '/search';
+export const SEARCH_PATH_LOGIN = '/search/login';

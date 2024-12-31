@@ -126,9 +126,8 @@ export const reviewRightContainer = css`
     min-width: 600px;
     aspect-ratio: 1;
     border-radius: 20px;
-    box-shadow: 0 0 10px 1px #e9e9e9;
 `;
-export const reviewTabMenu = css`
+export const reviewTabMenuContainer = css`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -136,41 +135,88 @@ export const reviewTabMenu = css`
     
     & > div{
         flex: 1;
+        padding: 30px 20px;
+        font-size: 20px;
     }
-    & > div:nth-of-type(3) {
-        border-right: 1px solid #a0a096;
-    }
-    
 `;
 
 export const reviewTabMenuTotal = css`
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #F5F7FA;
+    color: white;
+`;
+export const reviewTabMenuTotalFocus= css`
     box-shadow: 0 0 10px 1px #e9e9e9;
-    border: 1px solid #a0a096;
-    padding: 30px;
+    color: #1681FF;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom: none;
+    background-color: #EFF6FF;
 `;
 
 export const reviewTabMenuNoAnswer = css`
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #F5F7FA;
+    color: white;
+`;
+
+export const reviewTabMenuNoAnswerFocus = css`
     box-shadow: 0 0 10px 1px #e9e9e9;
-    border: 1px solid #a0a096;
-    padding: 30px;
+    color: #1681FF;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom: none;
+    background-color: #EFF6FF;
 `;
+
 
 export const reviewTabMenuEvent = css`
-    box-shadow: 0 0 10px 1px #e9e9e9;
-    border: 1px solid #a0a096;
-    padding: 30px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    border-right: none;
+    background-color: #F5F7FA;
+    color: white;
+`;
+export const reviewTabMenuEventFocus = css`
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    color: #1681FF;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     border-bottom: none;
+    background-color: #EFF6FF;
 `;
 
-export const reviewNoticeTabMenu = css`
+export const reviewTabMenuContext = css`
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+`;
+export const displayNone = css`
+    display: none;
+`;
 
+export const reviewTabMenuTotalContext = css`
+    background-color: #EFF6FF;
+    border-top: none;
+    aspect-ratio: 1;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    
+`;
+export const reviewTabMenuNoAnswerContext = css`
+    background-color: #EFF6FF;
+    border-top: none;
+    aspect-ratio: 1;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    
+`;
+export const reviewTabMenuEventContext = css`
+    background-color: #EFF6FF;
+    border-top: none;
+    aspect-ratio: 1;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    
 `;
