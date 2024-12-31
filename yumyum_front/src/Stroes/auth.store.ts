@@ -4,7 +4,6 @@ interface User {
   token: string
 }
 
-
 interface AuthStoreType {
   isAuthenticated: boolean; 
   user: User | null; 
