@@ -20,8 +20,9 @@ import {
 } from "recharts";
 import { useCookies } from "react-cookie";
 import Calendar from "react-calendar";
+import "../../../assets/src/Calendar.css";
 
-const TimeStats = () => {
+export default function TimeStats() {
   const convertDate = new Date().toISOString().slice(0, 10);
 
   const [calendarBox, setCalendarBox] = useState<Calender>({ calendar: false });
@@ -31,6 +32,9 @@ const TimeStats = () => {
   const [cookies] = useCookies(["token"]);
 
   const token = cookies.token;
+
+  const calendarRef = useRef<HTMLDivElement>(null);
+
   const fetch = async () => {
     try {
       const response = await axios.get(
@@ -78,6 +82,21 @@ const TimeStats = () => {
     }));
   };
 
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      calendarRef.current && !calendarRef.current?.contains(e.target as Node)
+    ) {
+      setCalendarBox({ calendar: false });
+    }
+  };
+  
+  useEffect (() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     fetch();
   }, [orderDate]);
@@ -105,11 +124,12 @@ const TimeStats = () => {
             <EventAvailableIcon sx={{ fontSize: 26 }}  />
           </div>
           <div
+            ref={calendarRef}
             onClick={(e) => e.stopPropagation()}
             css={calendarBox.calendar ? css.calendarContainerBlock : css.calendarContainerNone}
           >
             <Calendar
-              css={css.calendarStyle}
+              // css={css.calendarStyle}
               value={new Date(orderDate)}
               calendarType="gregory"
               defaultView="month"
@@ -144,5 +164,3 @@ const TimeStats = () => {
     </>
   );
 };
-
-export default TimeStats;
