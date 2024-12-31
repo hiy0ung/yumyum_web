@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import * as css from "./Styles";
 import {Pie, PieChart, ResponsiveContainer, Sector} from "recharts";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
@@ -106,6 +106,8 @@ export default function MenusStats() {
         setActiveIndex(index);
     }, []);
 
+    const calendarRef = useRef<HTMLDivElement>(null);
+
     const calendarDisplayHandler = (type: "day" | "month") => {
         setCalendarBox(prev => ({
             dayCalendar: type === "day" ? !prev.dayCalendar : false,
@@ -152,6 +154,21 @@ export default function MenusStats() {
     // 날짜가 변화함에 따라 변경되는 값을 계속 봐야하나? 어차피 누를떄마다 변경될 함수를 지정하는데?
     // 딱 도착하면 한번만 실행되게 오늘 날짜만 받자 ( 오늘 날짜를 받으려면 usestate 값을 초기값에 오늘 날짜 넣기
 
+    const handleClickOutside = (e: MouseEvent) => {
+        if (
+            calendarRef.current && !calendarRef.current?.contains(e.target as Node)
+        ) {
+            setCalendarBox({ dayCalendar: false, monthCalender: false });
+        }
+    };
+
+    useEffect (() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     useEffect(() => {
         fetchDay(); // 상태가 변경된 이후 최신 값 사용
     }, [selectDate]);
@@ -177,11 +194,13 @@ export default function MenusStats() {
                                         <span>일</span>
                                     </div>
                                     <div
+                                        ref={calendarRef}
                                         onClick={(e) => {
                                             e.stopPropagation()
                                         }}
                                         css={calendarBox.dayCalendar ? css.dayCalendarContainerBlock : css.dayCalendarContainerNone}>
                                         <Calendar
+                                            maxDate={new Date()}
                                             css={calendarStyles}
                                             calendarType='gregory'
                                             defaultView="month"
@@ -200,11 +219,13 @@ export default function MenusStats() {
                                         <span>월</span>
                                     </div>
                                     <div
+                                        ref={calendarRef}
                                         onClick={(e) => {
                                             e.stopPropagation()
                                         }}
                                         css={calendarBox.monthCalender ? css.monthCalendarContainerBlock : css.monthCalendarContainerNone}>
                                         <Calendar
+                                            maxDate={new Date()}
                                             css={calendarStyles}
                                             calendarType="gregory"
                                             view="year"

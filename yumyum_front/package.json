@@ -34,6 +34,7 @@
     "react-calendar": "^5.1.0",
     "react-cookie": "^7.2.2",
     "react-dom": "^18.3.1",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
     "recharts": "^2.13.3",
@@ -67,5 +68,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/locomotive-scroll": "^4.1.4",
+    "@types/react-scroll": "^1.8.10"
   }
 }
