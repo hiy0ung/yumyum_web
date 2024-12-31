@@ -5,7 +5,7 @@ import * as s from "./Style";
 import Modal from "@mui/material/Modal";
 import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
-import { useModalStore } from "../../Stroes/menuModal.store";
+import { updateModalStore, useModalStore } from "../../Stroes/menuModal.store";
 import { useCookies } from "react-cookie";
 interface Menus {
   menuId: number;
@@ -24,14 +24,6 @@ interface Menus {
       additiionalFee: number;
     };
   };
-}
-
-interface Menu {
-  menuName: string;
-  imageUrl: string;
-  menuDescription: string;
-  menuPrice: number;
-  isAvailable: boolean;
 }
 
 interface Category {
@@ -55,6 +47,7 @@ export default function MenuManagement() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryModalOepn, setIsCategoryModalOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+  const { updateModalState, updateModalOpen, updateModalClose} = updateModalStore();
   const { isModalOpen, openModal, closeModal } = useModalStore();
 
   const categoryOpenModal = () => setIsCategoryModalOpen(true);
@@ -202,6 +195,20 @@ export default function MenuManagement() {
     fetchCategoryData();
     setIsCategoryModalOpen(false);
   };
+
+  const deleteCategory = async (categoryId: number) => {
+    try {
+      await axios.delete(`http://localhost:4041/api/v1/categories/delete/${categoryId}`);
+
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+    alert("성공적으로 삭제되었습니다.");
+    fetchCategoryData();
+
+  }
+
   useEffect(() => {
     fetchData();
     fetchCategoryData();
@@ -297,6 +304,7 @@ export default function MenuManagement() {
               {categories.map((category, index) => (
                 <li key={category.id} css={s.addCategory}>
                   {index + 1}. {category.menuCategory}
+                  <button onClick={() => deleteCategory(category.id)}>X</button>
                 </li>
               ))}
               <FormControlLabel
@@ -365,7 +373,7 @@ export default function MenuManagement() {
                             </div>
                             <div css={s.menuFoot}>
                               <div css={s.menuButtonContainer}>
-                                <button>수정</button>
+                                <button onClick={updateModalOpen}>수정</button>
                                 <button onClick={() => deleteMenu(menu.menuId)}>
                                   삭제
                                 </button>

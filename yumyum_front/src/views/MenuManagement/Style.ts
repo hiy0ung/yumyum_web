@@ -222,11 +222,12 @@ export const menuDescription = css`
 `
 
 export const menuPrice = css`
-  position: relative;
   font-size: 18px;
   margin-top: 40px;
   right: -90px;
   bottom: 5px;
+  text-align: end;
+  padding-right: 5px;
   
 `
 
