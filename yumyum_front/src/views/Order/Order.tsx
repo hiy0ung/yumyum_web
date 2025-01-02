@@ -85,6 +85,15 @@ export default function Order() {
     }
   }
 
+  const orderTable = () => {
+    return (
+      <>
+        <p>오늘의 주문 건수 건</p>
+        <p>오늘의 매출 원</p>
+      </>
+    );
+  }
+
   const renderTable = () => {
     return (
       <div css={css.tableContainer}>
@@ -180,6 +189,9 @@ export default function Order() {
 
   return (
     <div css={css.container}>
+      <div style={{
+        padding: "30px"
+      }}>{orderTable()}</div>
       <div>
         <button onClick={() => setCurrentTab("0")} css={css.button}>
           접수 대기
