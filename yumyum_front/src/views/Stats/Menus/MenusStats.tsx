@@ -7,7 +7,6 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import Calendar from "react-calendar";
 import axios from "axios";
-import StatsReview from "../../Review/StatsReview";
 
 const calendarStyles = {
     ".react-calendar__month-view__weekdays": {
@@ -102,7 +101,8 @@ export default function MenusStats() {
         setActiveIndex(index);
     }, []);
 
-    const calendarRef = useRef<HTMLDivElement>(null);
+    const calendarRef1 = useRef<HTMLDivElement>(null);
+    const calendarRef2 = useRef<HTMLDivElement>(null);
 
     const calendarDisplayHandler = (type: "day" | "month") => {
         setCalendarBox(prev => ({
@@ -116,6 +116,7 @@ export default function MenusStats() {
         try {
             const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${selectDate}`);
             const data = response.data.data;
+            console.log(data);
 
             const menuNameFilter =  data.map((item :  any , index : number) => ({
                 name: item.menuName,
@@ -134,6 +135,7 @@ export default function MenusStats() {
     const handleDateDayChange = (date: any) => {
         const dayFormatted = moment(date).format('YYYY-MM-DD');
         setSelectDate(dayFormatted);
+        console.log(dayFormatted);
         setCalendarBox(prevState => ({
             ...prevState,
             dayCalendar: false
@@ -147,18 +149,27 @@ export default function MenusStats() {
             monthCalender: false
         }));
     };
-    // 날짜가 변화함에 따라 변경되는 값을 계속 봐야하나? 어차피 누를떄마다 변경될 함수를 지정하는데?
-    // 딱 도착하면 한번만 실행되게 오늘 날짜만 받자 ( 오늘 날짜를 받으려면 usestate 값을 초기값에 오늘 날짜 넣기
 
-    const handleClickOutside = (e: MouseEvent) => {
-        if (
-            calendarRef.current && !calendarRef.current?.contains(e.target as Node)
-        ) {
-            setCalendarBox({ dayCalendar: false, monthCalender: false });
-        }
-    };
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (
+                calendarRef1.current && !calendarRef1.current.contains(e.target as Node)
+            ) {
+                setCalendarBox(prevState => ({
+                    ...prevState,
+                    dayCalendar: false,
+                }));
+            }
 
-    useEffect (() => {
+            if (
+                calendarRef2.current && !calendarRef2.current.contains(e.target as Node)
+            ) {
+                setCalendarBox(prevState => ({
+                    ...prevState,
+                    monthCalender: false,
+                }));
+            }
+        };
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -190,7 +201,7 @@ export default function MenusStats() {
                                         <span>일</span>
                                     </div>
                                     <div
-                                        ref={calendarRef}
+                                        ref={calendarRef1}
                                         onClick={(e) => {
                                             e.stopPropagation()
                                         }}
@@ -215,7 +226,7 @@ export default function MenusStats() {
                                         <span>월</span>
                                     </div>
                                     <div
-                                        ref={calendarRef}
+                                        ref={calendarRef2}
                                         onClick={(e) => {
                                             e.stopPropagation()
                                         }}

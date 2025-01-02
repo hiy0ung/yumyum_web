@@ -24,10 +24,10 @@ import {
     STATS_TIME_PATH,
     STORE_PATH,
 } from "../../constants";
-import defaultProfileImg from "../../img/default_Profile_Img.png";
+import defaultProfileImg from "../../img/default_Profile_Img.webp";
 import {useCookies} from "react-cookie";
 import axios from "axios";
-import YumYumLogoImg from "../../img/yumyumLogo.png";
+import YumYumLogoImg from "../../img/yumyumLogo.webp";
 import useAuthStore from "../../Stroes/auth.store";
 
 export default function SideBar() {

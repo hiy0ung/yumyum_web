@@ -242,7 +242,8 @@ function SignUp() {
           userSignUpInfo
       );
       if (response.data.data) {
-        navigate("/logIn");
+        alert("회원가입에 성공했습니다.")
+        navigate("/");
       } else {
         setErrorsMsg((prev) => ({ ...prev, form: "회원가입에 실패했습니다." }));
       }
@@ -272,6 +273,7 @@ function SignUp() {
                 value={userSignUpInfo.userId}
                 onChange={handleInputChange}
                 error={!!errorsMsg?.userId}
+                autoComplete="아이디를 입력해주세요"
                 helperText={
                   successMsg.userId ? successMsg?.userId : errorsMsg?.userId
                 }
