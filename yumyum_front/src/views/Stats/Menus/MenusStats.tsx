@@ -10,10 +10,6 @@ import axios from "axios";
 import StatsReview from "../../Review/StatsReview";
 
 const calendarStyles = {
-    ".react-calendar__tile--active": {
-        backgroundColor: "blue",
-        color: "white",
-    },
     ".react-calendar__month-view__weekdays": {
         lineHeight: "40px",
         height: "50px"
