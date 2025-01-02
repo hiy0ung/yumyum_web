@@ -7,6 +7,7 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import Calendar from "react-calendar";
 import axios from "axios";
+import {useCookies} from "react-cookie";
 
 const calendarStyles = {
     ".react-calendar__month-view__weekdays": {
@@ -16,6 +17,7 @@ const calendarStyles = {
 }
 
 const renderActiveShape = (props: any) => {
+
     const RADIAN = Math.PI / 180;
     const {
         cx,
@@ -87,7 +89,8 @@ interface Props {
     fill : string;
 }
 export default function MenusStats() {
-
+    const [cookies] = useCookies(["token"])
+    const token = cookies.token;
     const [calendarBox, setCalendarBox] = useState({
         dayCalendar: false,
         monthCalender: false
@@ -111,26 +114,37 @@ export default function MenusStats() {
         }));
     };
 
-
     const fetchDay = async () => {
         try {
-            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${selectDate}`);
-            const data = response.data.data;
-            console.log(data);
+            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${selectDate}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const data = response.data?.data || [];
 
-            const menuNameFilter =  data.map((item :  any , index : number) => ({
-                name: item.menuName,
-                quantity : item.quantity,
-                price : item.sumTotalPrice,
-                fill: colors[index % colors.length],
-            }))
-            setData(menuNameFilter)
+            if (data.length > 0) {
 
+                const menuNameFilter = data.map((item: any, index: number) => ({
+                    name: item.menuName,
+                    quantity: item.quantity,
+                    price: item.sumTotalPrice,
+                    fill: colors[index % colors.length],
+                }));
 
+                setData(menuNameFilter);
+            } else {
+                console.warn("No data available for the selected date.");
+            }
         } catch (error) {
             console.error("Failed to fetch data:", error);
         }
     };
+
+    useEffect(() => {
+        fetchDay();
+    }, [selectDate]);
+
 
     const handleDateDayChange = (date: any) => {
         const dayFormatted = moment(date).format('YYYY-MM-DD');
@@ -177,7 +191,7 @@ export default function MenusStats() {
     }, []);
 
     useEffect(() => {
-        fetchDay(); // 상태가 변경된 이후 최신 값 사용
+        fetchDay();
     }, [selectDate]);
 
 
