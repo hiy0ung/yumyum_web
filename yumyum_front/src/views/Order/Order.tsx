@@ -6,6 +6,8 @@ import axios from "axios";
 import { OrderInfo, OrderDetailInfo } from "../../types/Order";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
+import moment from "moment";
+
 
 export default function Order() {
   const [currentTab, setCurrentTab] = useState("0");
@@ -15,9 +17,42 @@ export default function Order() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderDetail, setOrderDetail] = useState<OrderDetailInfo[]>([]);
 
+  const [completedCount, setCompletedCount] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const[currentDate,] = useState<string>(moment().format("YYYY-MM-DD"));
+  
+  interface CurrentStore {
+    storeDate: string,
+    storeCompletedCount: number,
+    storeTotalPrice: number
+  }
+
   useEffect(() => {
+
+    const storeCurrentInfo = localStorage.getItem("currentStore");
+
+    const parseStoreCurrentInfo: CurrentStore | null = storeCurrentInfo ? JSON.parse(storeCurrentInfo) : null;
+
+    const defaultStoreInfo: CurrentStore = {
+      storeDate: currentDate,
+      storeCompletedCount: 0,
+      storeTotalPrice: 0
+    }
+
+    if (parseStoreCurrentInfo?.storeDate === currentDate) {  
+      setCompletedCount(parseStoreCurrentInfo.storeCompletedCount || 0);
+      setTotalPrice(parseStoreCurrentInfo.storeTotalPrice || 0);
+    } else {
+      localStorage.setItem("currentStore", JSON.stringify(defaultStoreInfo));
+      setCompletedCount(0);
+      setTotalPrice(0);
+    }
     fetchOrder();
-  }, []);
+  }, [currentDate]);
+
+  // useEffect(() => {
+  //   fetchOrder();
+  // }, []);
 
   const fetchOrder = async () => {
     try {
@@ -29,9 +64,34 @@ export default function Order() {
       if (response.data) {
         const data = response.data.data;
         setOrders(data);
+        const completedOrders = data.filter((order:any) => order.orderState === "2" && moment(order.orderDate).format("YYYY-MM-DD") === currentDate);
+        setCompletedCount(completedOrders.length);
+        setTotalPrice(completedOrders.reduce((sum:any, order:any) => sum + order.sumTotalPrice, 0));
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const currentInfo = (orderId: number, updateOrderState: string) => {
+    const updateOrder = orders.find((order) => order.orderId === orderId && order.orderState !== "2" && updateOrderState === "2");
+    if (updateOrder) {
+      const isToday = moment(updateOrder.orderDate).format("YYYY-MM-DD") === currentDate;
+      if (isToday) {
+        const updateCompletedCount = completedCount + 1;
+        const updateTotalPrice = totalPrice + updateOrder.sumTotalPrice;
+  
+        const updateCurrentStore: CurrentStore = {
+          storeDate: currentDate,
+          storeCompletedCount: Number(updateCompletedCount),
+          storeTotalPrice: Number(updateTotalPrice),
+        };
+        
+        localStorage.setItem("currentStore", JSON.stringify(updateCurrentStore));
+  
+        setCompletedCount(updateCompletedCount);
+        setTotalPrice(updateTotalPrice);
+      }
     }
   };
 
@@ -76,6 +136,7 @@ export default function Order() {
       }, 
       );
       if(response.data) {
+        currentInfo(orderId, updateOrderState);
         console.log(token);
         fetchOrder();
         closeModal();
@@ -85,11 +146,15 @@ export default function Order() {
     }
   }
 
-  const orderTable = () => {
+  
+
+
+
+  const currentOrderInfo = () => {
     return (
       <>
-        <p>오늘의 주문 건수 건</p>
-        <p>오늘의 매출 원</p>
+        <p>오늘의 주문 건수는 {completedCount} 건 입니다!</p>
+        <p>오늘의 매출은 {totalPrice} 원 입니다!</p>
       </>
     );
   }
@@ -189,21 +254,21 @@ export default function Order() {
 
   return (
     <div css={css.container}>
-      <div style={{
-        padding: "30px"
-      }}>{orderTable()}</div>
-      <div>
-        <button onClick={() => setCurrentTab("0")} css={css.button}>
-          접수 대기
-        </button>
-        <button onClick={() => setCurrentTab("1")} css={css.button}>
-          처리 중
-        </button>
-        <button onClick={() => setCurrentTab("2")} css={css.button}>
-          완료
-        </button>
+      <div css={css.currentInfoContainer}>{currentOrderInfo()}</div>
+      <div css={css.orderTableContainer}>
+        <div>
+          <button onClick={() => setCurrentTab("0")} css={css.button}>
+            접수 대기
+          </button>
+          <button onClick={() => setCurrentTab("1")} css={css.button}>
+            처리 중
+          </button>
+          <button onClick={() => setCurrentTab("2")} css={css.button}>
+            완료
+          </button>
+        </div>
+        <div>{renderTable()}</div>
       </div>
-      <div>{renderTable()}</div>
     </div>
   );
 }

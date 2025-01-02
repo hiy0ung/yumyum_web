@@ -30,13 +30,13 @@ import PeriodStats from "./views/Stats/Period/PeriodStats";
 import TimeStats from "./views/Stats/Time/TimeStats";
 import Contact from "./views/Contact/Contact";
 import * as css from "./Styles/MainStyle";
-import Main from "./views/Main/Main";
+import Order from "./views/Order/Order";
 import SignUp from "./views/Authentication/SignUp/SignUp";
 import AuthUser from "./views/Authentication/Login/Login";
 import Mypage from "./views/MyPage/Mypage";
 import MypageUpdate from "./views/MyPage/MypageUpdate";
 import Review from "./views/Review/Review";
-import Home from "./views/Home/Home";
+import Main from "./views/Main/Main";
 import { useCookies } from "react-cookie";
 
 function App() {
@@ -47,7 +47,7 @@ function App() {
 
     useEffect(() => {
         if (!token) {
-            navigate(HOME_PATH);
+            navigate(MAIN_PATH);
         }
     }, [token]);
 
@@ -62,7 +62,7 @@ function App() {
                                 <Header />
                                 <main>
                                     <Routes>
-                                        <Route path={MAIN_PATH} element={<Main />} />
+                                        <Route path={HOME_PATH} element={<Order />} />
                                         <Route path={STORE_PATH} element={<Store />} />
                                         <Route path={CREATE_STORE_PATH} element={<CreateStore />} />
                                         <Route path={UPDATE_STORE_PATH} element={<UpdateStore />} />
@@ -81,7 +81,7 @@ function App() {
                     ) : (
                         <div>
                             <Routes>
-                                <Route path={HOME_PATH} element={<Home />} />
+                                <Route path={MAIN_PATH} element={<Main />} />
                                 <Route path={AUTH_PATH_SIGN_UP} element={<SignUp />} />
                                 <Route path={AUTH_PATH_LOGIN} element={<AuthUser />} />
                             </Routes>

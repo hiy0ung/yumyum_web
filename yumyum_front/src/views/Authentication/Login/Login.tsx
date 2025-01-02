@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SignInResponseDto, UserLogInInfo } from "../../../types/logIn";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, TextField, InputAdornment } from "@mui/material";
@@ -9,7 +9,7 @@ import * as css from "./Style";
 import axios from "axios";
 import {
   AUTH_PATH_SIGN_UP,
-  MAIN_PATH,
+  HOME_PATH,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../Stroes/auth.store";
@@ -68,7 +68,7 @@ export default function Login() {
         token: token,
       });
 
-      navigate(MAIN_PATH);
+      navigate(HOME_PATH);
       console.log(token);
     } else {
       alert(error);
