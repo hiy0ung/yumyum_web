@@ -89,6 +89,7 @@ export default function Login() {
             variant="outlined"
             value={userLogInInfo.userId}
             onChange={handleInputChange}
+            autoComplete="off"
             slotProps={{
               input: {
                 startAdornment: (
@@ -107,6 +108,7 @@ export default function Login() {
           variant="outlined"
           value={userLogInInfo.userPw}
           onChange={handleInputChange}
+          autoComplete="off"
           slotProps={{
             input: {
               startAdornment: (

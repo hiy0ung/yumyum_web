@@ -1,5 +1,5 @@
 import {css} from "@emotion/react";
-import img1 from "../../img/img1.jpg"
+import img1 from "../../img/img1.webp"
 import img2 from "../../img/chartImg.webp"
 import food1 from "../../img/food1.webp"
 import food2 from "../../img/food2.webp"
@@ -9,6 +9,7 @@ import food5 from "../../img/food5.webp"
 import food6 from "../../img/food6.webp"
 import food7 from "../../img/food7.webp"
 import food8 from "../../img/food8.webp"
+import {ex} from "@fullcalendar/core/internal-common";
 
 export const wrap = css`
     min-width: 1280px;
@@ -67,19 +68,21 @@ export const headerRightContainer = css`
     display: flex;
 `;
 export const logIn = css`
+    border: transparent;
+    background-color: transparent;
     height: 90px;
     line-height: 90px;
     padding: 0 20px;
     color: #FFFFFF;
+    font-size: 20px;
 `;
-export const scrollLogIn = css`
-    color : black;
-`;
+
 export const signUp = css`
     height: 90px;
     line-height: 90px;
     padding: 0 20px;
     color: #FFFFFF;
+    font-size: 20px;
 `;
 export const scrollSignUp = css`
     color : black;
@@ -260,9 +263,9 @@ export const listMenu2Title = css`
     margin-left: 50px;
 `;
 export const cardInfoContainer = css`
+    padding: 150px 0;
     background: url(${img2}) no-repeat center center;
     background-size: cover;
-    height: 100vh;
     
 `;
 export const cardInfoTopContainer = css`
@@ -271,7 +274,7 @@ export const cardInfoTopContainer = css`
     margin : 0 auto;
     padding: 50px 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 `;
 export const visibleZBox = css`
@@ -285,7 +288,7 @@ export const cardInfoTopList1Container = css`
     border-radius: 20px;
     opacity: 0;
     transform: translateZ(200px);
-    transition: all 1s;
+    transition: all 0.8s;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -306,7 +309,7 @@ export const cardInfoTopList2Container = css`
     border-radius: 20px;
     opacity: 0;
     transform: translateZ(200px);
-    transition: all 1s;
+    transition: all 1.4s;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -327,7 +330,7 @@ export const cardInfoTopList3Container = css`
     border-radius: 20px;
     opacity: 0;
     transform: translateZ(200px);
-    transition: all 1s;
+    transition: all 2s;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -348,7 +351,7 @@ export const cardInfoTopList4Container = css`
     border-radius: 20px;
     opacity: 0;
     transform: translateZ(200px);
-    transition: all 1s;
+    transition: all 2.6s;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -364,9 +367,167 @@ export const cardInfoTopList4Container = css`
     }
 `;
 export const cardInfoBottomContainer = css`
-    perspective: 1000px;
+    perspective: 800px;
+    width: 1280px;
+    margin : 0 auto;
+    padding: 50px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 `;
 
-export const logInContainer = css`
+export const cardInfoBottomList1Container = css`
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateZ(200px);
+    transition: all 0.8s;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding: 0 0 30px 0;
+    background: url(${food1}) no-repeat center center;
+    background-size: cover;
     
+    & > div {
+        font-size: 30px;
+        font-weight: 600;
+        color: white;
+    }
+`;
+export const cardInfoBottomList2Container = css`
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateZ(200px);
+    transition: all 1.4s;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding: 0 0 30px 0;
+    background: url(${food2}) no-repeat center center;
+    background-size: cover;
+
+    & > div {
+        font-size: 30px;
+        font-weight: 600;
+        color: white;
+    }
+`;
+export const cardInfoBottomList3Container = css`
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateZ(200px);
+    transition: all 2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding: 0 0 30px 0;
+    background: url(${food3}) no-repeat center center;
+    background-size: cover;
+
+    & > div {
+        font-size: 30px;
+        font-weight: 600;
+        color: white;
+    }
+`;
+export const cardInfoBottomList4Container = css`
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateZ(200px);
+    transition: all 2.6s;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding: 0 0 30px 0;
+    background: url(${food4}) no-repeat center center;
+    background-size: cover;
+
+    & > div {
+        font-size: 30px;
+        font-weight: 600;
+        color: white;
+    }
+`;
+export const logInContainer = css`
+    padding: 150px 0;
+    
+`;
+
+export const footerContainer = css`
+    padding: 80px 0;
+    background-color: #191919;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+`;
+
+export const footerLeftContainer = css`
+    color: #ffffff;
+    
+`;
+export const footerLeftLogo = css`
+    height: 90px;
+`;
+export const LeftAddressContainer = css`
+    line-height: 30px;
+    margin-left: 30px;
+    margin-top: 50px;
+    font-style: normal;
+    color: #828282;
+`;
+export const bar = css`
+    width: 1px;
+    height: 14px;
+    display: inline-block;
+    background-color: #828282;
+    margin: 0 10px;
+
+`;
+
+export const footerRightContainer = css`
+    color: #ffffff;
+`;
+
+export const rightAddressContainer = css`
+    margin-right: 50px;
+`;
+
+export const ownerTel = css`
+    font-size: 25px;
+    font-weight: 600;
+    font-style: normal;
+`;
+export const ownerTelNumber = css`
+    font-size: 40px;
+    font-style: normal;
+    color: #2c90f5;
+    font-weight: 600;
+    display: inline-block;
+    margin: 10px 0 ;
+`;
+
+export const businessTime = css`
+    display: inline-block;
+    font-style: normal;
+    color: #828282;
+`;
+export const copyright = css`
+    font-size: 12px;
+    color: #444444;
+    font-weight: 200;
+    font-style: normal;
+    margin-top: 80px;
 `;
