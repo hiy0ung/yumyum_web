@@ -1,9 +1,22 @@
 import { css } from "@emotion/react";
 
 export const container = css`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
+`;
+
+export const currentInfoContainer = css`
+  p {
+    padding-bottom: 50px;
+    font-size: 40px;
+    text-align: center;
+  }
+`;
+
+export const orderTableContainer = css`
+  width: 900px;
+  margin: auto;
 `;
 
 export const button = css`
