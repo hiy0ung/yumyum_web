@@ -2,7 +2,7 @@ import FullCalendar from "@fullcalendar/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import "./calendar.css";
+import "./PeriodCalendar.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useCookies } from "react-cookie";
@@ -119,12 +119,13 @@ export default function DailyStats() {
 
   return (
     <>
-      <div className="body">
+      <div className="body" style={{ padding: "0 20px" }}>
         <div style={{ display: "flex" }}>
           <div>
             <Calendar
               calendarType="gregory"
               view="year"
+              className="year-view-calendar"
               prev2Label={null}
               next2Label={null}
               maxDate={new Date()}
