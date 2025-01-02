@@ -144,16 +144,16 @@ export default function TimeStats() {
           </div>
         </div>
       </div>
-      <div css={stats.length > 0 ? css.chartContainer : css.chartLineNone}>
+      <div  css={stats.length > 0 ? css.chartContainer : css.chartLineNone}>
         <ResponsiveContainer 
-          width={"90%"} 
+          width={"85%"} 
           height={500} 
           style={{
             "border": "none"
         }}>
           <LineChart data={stats}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" padding={{ left: 30, right: 30 }} />
+            <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
@@ -162,7 +162,7 @@ export default function TimeStats() {
               dataKey="revenue"
               name="매출"
               stroke="#1681FF"
-              activeDot={{ r: 8 }}
+              activeDot={{ r: 6 }}
             />
           </LineChart>
         </ResponsiveContainer>
