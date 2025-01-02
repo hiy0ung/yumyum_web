@@ -218,7 +218,6 @@ export default function MenuModal({
 
   const menuAdd = async () => {
     try {
-      console.log(cookies.token);
       const token = cookies.token;
       console.log(token);
       console.log(addMenu);
