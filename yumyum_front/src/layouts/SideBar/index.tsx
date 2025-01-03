@@ -15,6 +15,7 @@ import {
     AUTH_PATH_LOGIN,
     CONTACT_PATH,
     CREATE_STORE_PATH,
+    HOME_PATH,
     MAIN_PATH,
     MENU_PATH, MY_PAGE,
     REVIEW_PATH,
@@ -24,10 +25,10 @@ import {
     STATS_TIME_PATH,
     STORE_PATH,
 } from "../../constants";
-import defaultProfileImg from "../../img/default_Profile_Img.png";
+import defaultProfileImg from "../../img/default_Profile_Img.webp";
 import {useCookies} from "react-cookie";
 import axios from "axios";
-import YumYumLogoImg from "../../img/yumyumLogo.png";
+import YumYumLogoImg from "../../img/yumyumLogo.webp";
 import useAuthStore from "../../Stroes/auth.store";
 
 export default function SideBar() {
@@ -42,13 +43,13 @@ export default function SideBar() {
         setCookies("token", "", { path: "/", expires: new Date(0) }); 
         logout();
         console.log("로그아웃 성공");
-        navigate(AUTH_PATH_LOGIN);
+        navigate(MAIN_PATH);
     }
 
     const pathHandle = (path: any) => {
         switch (true) {
-            case path === MAIN_PATH:
-                setPathValue(MAIN_PATH);
+            case path === HOME_PATH:
+                setPathValue(HOME_PATH);
                 break;
             case path === STORE_PATH:
                 setPathValue(STORE_PATH);
@@ -104,12 +105,12 @@ export default function SideBar() {
                     <img css={css.categoryLogoImg} src={YumYumLogoImg} alt="로고 사진"/>
                 </h1>
                 <ul>
-                    <li css={pathValue === MAIN_PATH && css.categoriesStyle}>
+                    <li css={pathValue === HOME_PATH && css.categoriesStyle}>
                         <Link
                             onClick={() => {
-                                pathHandle(MAIN_PATH);
+                                pathHandle(HOME_PATH);
                             }}
-                            to={MAIN_PATH}
+                            to={HOME_PATH}
                         >
                             <HomeIcon/>
                             <span>홈</span>

@@ -12,7 +12,9 @@ const useScrollElementsAnimation = (ref: React.RefObject<HTMLElement>, viewPoint
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleScroll);
+
         handleScroll();
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', handleScroll);

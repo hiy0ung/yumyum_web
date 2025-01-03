@@ -26,13 +26,11 @@ export default function TimeStats() {
   const convertDate = new Date().toISOString().slice(0, 10);
 
   const [calendarBox, setCalendarBox] = useState<Calender>({ calendar: false });
-
   const [orderDate, setOrderDate] = useState<string>(convertDate);
   const [stats, setStats] = useState<StatsTime[]>([]);
   const [cookies] = useCookies(["token"]);
 
   const token = cookies.token;
-
   const calendarRef = useRef<HTMLDivElement>(null);
 
   const fetch = async () => {
@@ -57,13 +55,14 @@ export default function TimeStats() {
     }
   };
 
+  //* 날짜 하루씩 변경 (이전/이후)
   const changeDate = (days: number) => {
     const currentDate = new Date(orderDate);
     currentDate.setDate(currentDate.getDate() + days);
     setOrderDate(currentDate.toISOString().slice(0, 10));
-    console.log(currentDate.toISOString().slice(0, 10));
   };
 
+  //* 캘린더 열기/닫기
   const handleCalendarOpen = () => {
     setCalendarBox((prevState) => ({
       ...prevState,
@@ -71,6 +70,7 @@ export default function TimeStats() {
     }));
   };
 
+  //* 캘린더 안 날짜 선택
   const handleDateChange = (date: any) => {
     const selectDate = new Date(date);
     const formattedDate = selectDate.toLocaleDateString("en-CA");
@@ -82,6 +82,7 @@ export default function TimeStats() {
     }));
   };
 
+  //* 캘린더 외부 영역 선택 시 캘린더 닫기
   const handleClickOutside = (e: MouseEvent) => {
     if (
       calendarRef.current && !calendarRef.current?.contains(e.target as Node)
@@ -134,20 +135,25 @@ export default function TimeStats() {
               calendarType="gregory"
               defaultView="month"
               onChange={handleDateChange}
+              tileClassName={({ date }) => {
+                const day = date.getDay();
+                if (day === 0) return 'sunday';
+                else if (day === 6) return 'saturday';
+              }}
             />
           </div>
         </div>
       </div>
-      <div css={stats.length > 0 ? css.chartContainer : css.chartLineNone}>
+      <div  css={stats.length > 0 ? css.chartContainer : css.chartLineNone}>
         <ResponsiveContainer 
-          width={"90%"} 
+          width={"85%"} 
           height={500} 
           style={{
             "border": "none"
         }}>
           <LineChart data={stats}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" padding={{ left: 30, right: 30 }} />
+            <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
@@ -156,7 +162,7 @@ export default function TimeStats() {
               dataKey="revenue"
               name="매출"
               stroke="#1681FF"
-              activeDot={{ r: 8 }}
+              activeDot={{ r: 6 }}
             />
           </LineChart>
         </ResponsiveContainer>

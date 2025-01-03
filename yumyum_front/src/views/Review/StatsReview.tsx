@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, {useMemo} from "react";
 import * as css from "./Style";
-import starImg from "../../img/star.png";
+import starImg from "../../img/star.webp";
 import {
     CartesianGrid,
     LabelList,
