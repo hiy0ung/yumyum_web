@@ -159,10 +159,6 @@ export default function Order() {
     }
   }
 
-  
-
-
-
   const currentOrderInfo = () => {
     return (
       <>
