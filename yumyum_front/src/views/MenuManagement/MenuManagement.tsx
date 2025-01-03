@@ -7,7 +7,7 @@ import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
 import { updateModalStore, useModalStore } from "../../Stroes/menuModal.store";
 import { useCookies } from "react-cookie";
-import { Menus, Category, AddCategory, UpdateMenu } from "../../types/Menu"
+import { Menus, Category, AddCategory, UpdateMenu, MenuOptions } from "../../types/Menu"
 
 export default function MenuManagement() {
   const [cookies] = useCookies(["token"]);
@@ -19,6 +19,8 @@ export default function MenuManagement() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryModalOepn, setIsCategoryModalOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [updateOptionChecked, setUpdateOptionChecked] = useState<boolean[]>([]);
+  const [selectedMenuId, setSelectedMenuId] = useState<number | null>(null);
   const [updateMenudata, setUpdateMenudata] = useState<UpdateMenu>({
     categoryId: categories.length > 0 ? categories[0].id : 0,
     menuName: "",
@@ -26,11 +28,10 @@ export default function MenuManagement() {
     menuDescription: "",
     menuPrice: 0,
     isAvailable: false,
-    menuCategory: "",
-    menuOption: [
+    menuOptions: [
       {
         optionName: "옵션 없음",
-        optionDetail: [
+        optionDetails: [
           {
             optionDetailName: "옵션 없음",
             additionalFee: 0,
@@ -117,7 +118,7 @@ export default function MenuManagement() {
             menuDescription: updateIsAvailable.menuDescription,
             menuPrice: updateIsAvailable.menuPrice,
             isAvailable: !updateIsAvailable.isAvailable,
-            menuOption: updateIsAvailable.menuOptions,
+            menuOptions: updateIsAvailable.menuOptions,
           },
           {
             headers: {
@@ -160,7 +161,6 @@ export default function MenuManagement() {
   const CategorySubmit = async () => {
     try {
       const token = cookies.token;
-      console.log("Token:", token);
       for (const category of categories) {
         if (category.menuCategory === AddCategory.menuCategory) {
           alert("이미 추가된 카테고리 명 입니다.");
@@ -177,7 +177,6 @@ export default function MenuManagement() {
           return;
         }
       }
-      console.log("Category to add:", AddCategory);
       await axios.post(
         `http://localhost:4041/api/v1/categories/post`,
         {
@@ -270,17 +269,34 @@ export default function MenuManagement() {
         menuDescription: selectedMenu.menuDescription,
         menuPrice: selectedMenu.menuPrice,
         isAvailable: selectedMenu.isAvailable,
-        menuCategory: selectedMenu.menuCategory,
-        menuOption: selectedMenu.menuOptions,
-      })
+        menuOptions: selectedMenu.menuOptions ? selectedMenu.menuOptions.map((option: any) => ({
+          ...option,
+          optionDetails: option.optionDetails || [],
+        })) : [],
+      });
+      setSelectedMenuId(menuId);
     }
     try {
       const data = await axios.get(`http://localhost:4041/api/v1/menus/${menuId}`);
       const result = data.data.data;
+      const updatedMenuData = {
+        ...result,
+        menuOptions: result.menuOptions ? result.menuOptions.map((option: MenuOptions) => ({
+          ...option,
+          optionDetails: option.optionDetails || [],
+        })) : [],
+        
+      };
       setUpdateMenudata(prev => ({
         ...prev,
-        ...result
+        ...updatedMenuData
       }));
+
+      const initialChecked = updatedMenuData.menuOptions.map(() => true);
+      setUpdateOptionChecked(initialChecked);
+
+      console.log("updated Menu Data:", updatedMenuData);
+
     } catch (e) {
       console.error(e);
     }
@@ -309,7 +325,6 @@ export default function MenuManagement() {
       return;
     }
   };
-
   // console.log(menus);
   // console.log(categories);
   return (
@@ -442,6 +457,10 @@ export default function MenuManagement() {
             categories={categories}
             fetchData={fetchData}
             updateMenudata={updateMenudata}
+            updateOptionChecked={updateOptionChecked}
+            setUpdateOptionChecked={setUpdateOptionChecked}
+            menus={menus}
+            selectedMenuId={selectedMenuId}
           />
         </div>
       </div>

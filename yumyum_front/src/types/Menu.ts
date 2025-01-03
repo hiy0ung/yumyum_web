@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface Category {
   id: number;
   menuCategory: String;
@@ -10,16 +12,20 @@ export interface MenuModalProps {
   categories: Category[];
   fetchData: () => void;
   updateMenudata: UpdateMenu;
+  updateOptionChecked: boolean[];
+  setUpdateOptionChecked: React.Dispatch<React.SetStateAction<boolean[]>>
+  menus: Menus[];
+  selectedMenuId: number | null;
 }
 
-export interface MenuOptionDetail {
+export interface MenuOptionDetails {
   optionDetailName: string;
   additionalFee: number;
 }
 
-export interface MenuOption {
+export interface MenuOptions {
   optionName: string;
-  optionDetail: MenuOptionDetail[];
+  optionDetails: MenuOptionDetails[];
 }
 export interface AddMenu {
   categoryId: number;
@@ -28,7 +34,7 @@ export interface AddMenu {
   menuDescription: string;
   menuPrice: number;
   isAvailable: boolean;
-  menuOption: MenuOption[];
+  menuOptions: MenuOptions[];
 }
 
 export interface UpdateMenu {
@@ -38,8 +44,7 @@ export interface UpdateMenu {
   menuDescription: string;
   menuPrice: number;
   isAvailable: boolean;
-  menuCategory: string;
-  menuOption: MenuOption[];
+  menuOptions: MenuOptions[];
 }
 
 export interface Menus {
@@ -50,7 +55,7 @@ export interface Menus {
   menuDescription: string;
   menuPrice: number;
   isAvailable: boolean;
-  menuOptions: MenuOption[];
+  menuOptions: MenuOptions[];
 }
 
 export interface AddCategory {
