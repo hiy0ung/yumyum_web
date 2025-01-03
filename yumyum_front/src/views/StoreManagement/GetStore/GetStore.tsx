@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Box, Button } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -7,12 +7,14 @@ import { useCookies } from "react-cookie";
 import { StoreInfo } from "../../../types/Store";
 import * as css from "./Style";
 import { useNavigate } from "react-router-dom";
+import useStoreTimes from "../../../Stroes/store.store";
 import { MAIN_PATH, UPDATE_STORE_PATH } from "../../../constants";
 
 export default function Store() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const token = cookies.token;
+  const { setStoreTimes } = useStoreTimes();
   const [imageData, setImgData] = useState<string>();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
@@ -25,10 +27,6 @@ export default function Store() {
     address: "",
     description: "",
   });
-
-  useEffect(() => {
-    fetchStore();
-  }, []);
 
   const fetchStore = async () => {
     try {
@@ -44,12 +42,34 @@ export default function Store() {
         const data = response.data.data;
         setStore(data);
         setImgData(data.logoUrl);
-        console.log(token);
+
+        setStoreTimes({
+          openingTime: data.openingTime,
+          closingTime: data.closingTime,
+          breakStartTime: data.breakStartTime,
+          breakEndTime: data.breakEndTime,
+        });
       }
     } catch (e) {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+      fetchStore();
+  }, []);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const handleDeleteClick = () => {
+    setIsOpen(true);
+  }
+  const handleClose = () => {
+    setIsOpen(false);
+  }
+  const handleConfirmDelete = () => {
+    deleteStore();
+    setIsOpen(false);
+  }
 
   const deleteStore = async () => {
     try {
@@ -117,7 +137,8 @@ export default function Store() {
             variant="outlined"
             startIcon={<DeleteIcon />}
             css={css.updateButton}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               navigate(UPDATE_STORE_PATH);
             }}
           >
@@ -127,12 +148,29 @@ export default function Store() {
             variant="outlined"
             startIcon={<DeleteIcon />}
             css={css.deleteButton}
-            onClick={deleteStore}
+            onClick={handleDeleteClick}
           >
             가게 삭제
           </Button>
         </Box>
       </Box>
+      <Dialog open={isOpen} onClose={handleClose} fullWidth={true} maxWidth="md" PaperProps={{
+        sx: {
+          width: '400px',
+          height: '160px'
+        }
+      }}>
+            <DialogTitle>가게삭제</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                정말 삭제하시겠습니까?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>취소</Button>
+              <Button onClick={handleConfirmDelete} color="error">삭제</Button>
+            </DialogActions>
+      </Dialog>
     </>
   );
 }

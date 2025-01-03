@@ -89,9 +89,9 @@ export default function SideBar() {
                 },
             });
             if (response.data) {
-                window.location.href = STORE_PATH;
+                navigate(STORE_PATH)
             } else {
-                window.location.href = CREATE_STORE_PATH;
+                navigate(CREATE_STORE_PATH);
             }
         } catch (e) {
             console.error(e);
