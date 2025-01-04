@@ -88,7 +88,7 @@ const Main = () => {
 
     return (
         <>
-            <div  id="home"  css={css.wrap}>
+            <div id="home"  css={css.wrap}>
                 <header css={css.headerContainer}>
                     <div css={css.header}>
                         <h1>
