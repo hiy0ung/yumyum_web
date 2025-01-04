@@ -147,7 +147,9 @@ export const reviewTabMenuTotal = css`
     color: white;
 `;
 export const reviewTabMenuTotalFocus= css`
-    box-shadow: 0 0 10px 1px #e9e9e9;
+    box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    -webkit-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    -moz-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
     color: #1681FF;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -163,7 +165,9 @@ export const reviewTabMenuNoAnswer = css`
 `;
 
 export const reviewTabMenuNoAnswerFocus = css`
-    box-shadow: 0 0 10px 1px #e9e9e9;
+    box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    -webkit-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    -moz-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
     color: #1681FF;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -179,7 +183,9 @@ export const reviewTabMenuEvent = css`
     color: white;
 `;
 export const reviewTabMenuEventFocus = css`
-    box-shadow: 0 0 10px 1px #e9e9e9;
+    box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    -webkit-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    -moz-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
     color: #1681FF;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -202,8 +208,16 @@ export const reviewTabMenuTotalContext = css`
     aspect-ratio: 1;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+    padding: 30px;
+`;
+
+export const totalReviewContainer = css`
+    width: 100%;
+    min-height: 150px;
+    border: 1px solid #a0a096;
     
 `;
+
 export const reviewTabMenuNoAnswerContext = css`
     background-color: #EFF6FF;
     border-top: none;
@@ -219,4 +233,22 @@ export const reviewTabMenuEventContext = css`
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     
+`;
+
+export const quillContainer = css`
+    aspect-ratio: 1;
+    padding: 30px;
+`;
+
+export const quill  = css`
+    & > div:nth-of-type(1) {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    & > div:nth-of-type(2) {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        aspect-ratio: 1;
+    }
+ 
 `;

@@ -3,8 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import * as css from "./Style";
 import {
   Calender,
-  ResponseStatsTime,
-  StatsTime,
+  QuantityStatsTime,
+  ResponseQuantityStatsTime,
+  ResponseRevenueStatsTime,
+  RevenueStatsTime,
 } from "../../../types/TimeStats";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import axios from "axios";
@@ -17,37 +19,66 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Label,
+  BarChart,
+  Bar,
+  Rectangle,
 } from "recharts";
 import { useCookies } from "react-cookie";
 import Calendar from "react-calendar";
 import "../../../assets/src/Calendar.css";
+import moment from "moment";
 
 export default function TimeStats() {
   const convertDate = new Date().toISOString().slice(0, 10);
 
   const [calendarBox, setCalendarBox] = useState<Calender>({ calendar: false });
   const [orderDate, setOrderDate] = useState<string>(convertDate);
-  const [stats, setStats] = useState<StatsTime[]>([]);
+  const [revenueStats, setRevenueStats] = useState<RevenueStatsTime[]>([]);
+  const [quantityStats, setQuantityStats] = useState<QuantityStatsTime[]>([]);
   const [cookies] = useCookies(["token"]);
 
   const token = cookies.token;
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  const fetch = async () => {
+  const fetchChart1 = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4041/api/v1/stats/time/${orderDate}T00:00:00`,
+        `http://localhost:4041/api/v1/stats/time/revenue/${orderDate}T00:00:00`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      const statsTimes: ResponseStatsTime[] = response.data.data;
-      setStats(
-        statsTimes.map((statsTime) => ({
-          name: statsTime.hour,
-          revenue: statsTime.revenue,
+      const revenueStatsTimes: ResponseRevenueStatsTime[] = response.data.data;
+      setRevenueStats(
+        revenueStatsTimes.map((revenueStatsTime) => ({
+          name: revenueStatsTime.hour,
+          revenue: revenueStatsTime.revenue,
+        }))
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const fetchChart2 = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4041/api/v1/stats/time/quantity/${orderDate}T00:00:00`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const quantityStatsTimes: ResponseQuantityStatsTime[] =
+        response.data.data;
+      setQuantityStats(
+        quantityStatsTimes.map((quantityStatsTime) => ({
+          name: quantityStatsTime.hour,
+          quantity: quantityStatsTime.quantity,
         }))
       );
     } catch (e) {
@@ -75,7 +106,7 @@ export default function TimeStats() {
     const selectDate = new Date(date);
     const formattedDate = selectDate.toLocaleDateString("en-CA");
     setOrderDate(formattedDate);
-  
+
     setCalendarBox((prevState) => ({
       ...prevState,
       calendar: false,
@@ -85,13 +116,14 @@ export default function TimeStats() {
   //* 캘린더 외부 영역 선택 시 캘린더 닫기
   const handleClickOutside = (e: MouseEvent) => {
     if (
-      calendarRef.current && !calendarRef.current?.contains(e.target as Node)
+      calendarRef.current &&
+      !calendarRef.current?.contains(e.target as Node)
     ) {
       setCalendarBox({ calendar: false });
     }
   };
-  
-  useEffect (() => {
+
+  useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -99,74 +131,153 @@ export default function TimeStats() {
   }, []);
 
   useEffect(() => {
-    fetch();
+    fetchChart1();
+    fetchChart2();
   }, [orderDate]);
+
+  
 
   return (
     <>
-      <div css={css.topContainer}>
-        <div css={css.dateContainerStyle}>
-          <button onClick={() => changeDate(-1)} css={css.buttonStyle}>
-            ◀
-          </button>
-          <input
-            type="text"
-            onChange={(e) => setOrderDate(e.target.value)}
-            value={orderDate}
-            readOnly
-            css={css.inputStyle}
-          />
-          <button onClick={() => changeDate(+1)} css={css.buttonStyle}>
-            ▶
-          </button>
-        </div>
-        <div css={css.calendarContainer}>
-          <div css={css.calendarIconStyle} onClick={handleCalendarOpen} >
-            <EventAvailableIcon sx={{ fontSize: 26 }}  />
+      <div css={css.container}>
+        <div css={css.topContainer}>
+          <div css={css.dateContainerStyle}>
+            <button onClick={() => changeDate(-1)} css={css.buttonStyle}>
+              ◀
+            </button>
+            <input
+              type="text"
+              onChange={(e) => setOrderDate(e.target.value)}
+              value={orderDate}
+              readOnly
+              css={css.inputStyle}
+            />
+            <button
+              onClick={() => changeDate(+1)}
+              css={[
+                css.buttonStyle,
+                moment().format("YYYY-MM-DD") === orderDate &&
+                  css.nextButtonBlock,
+              ]}
+            >
+              ▶
+            </button>
           </div>
+          <div css={css.calendarContainer}>
+            <div css={css.calendarIconStyle} onClick={handleCalendarOpen}>
+              <EventAvailableIcon sx={{ fontSize: 26 }} />
+            </div>
+            <div
+              ref={calendarRef}
+              onClick={(e) => e.stopPropagation()}
+              css={
+                calendarBox.calendar
+                  ? css.calendarContainerBlock
+                  : css.calendarContainerNone
+              }
+            >
+              <Calendar
+                value={new Date(orderDate)}
+                maxDate={new Date()}
+                calendarType="gregory"
+                defaultView="month"
+                onChange={handleDateChange}
+                tileClassName={({ date }) => {
+                  const day = date.getDay();
+                  if (day === 0) return "sunday";
+                  else if (day === 6) return "saturday";
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        {revenueStats.length && quantityStats.length > 0 ? (
           <div
-            ref={calendarRef}
-            onClick={(e) => e.stopPropagation()}
-            css={calendarBox.calendar ? css.calendarContainerBlock : css.calendarContainerNone}
+            css={
+              revenueStats.length || quantityStats.length > 0
+                ? css.chartContainer
+                : css.chartLineNone
+            }
           >
-            <Calendar
-              value={new Date(orderDate)}
-              maxDate={new Date()}
-              calendarType="gregory"
-              defaultView="month"
-              onChange={handleDateChange}
-              tileClassName={({ date }) => {
-                const day = date.getDay();
-                if (day === 0) return 'sunday';
-                else if (day === 6) return 'saturday';
+            {/* chart1 - 매출 */}
+            <ResponsiveContainer
+              width={"50%"}
+              height={500}
+              style={{
+                border: "none",
               }}
-            />
+            >
+              <LineChart data={revenueStats}>
+                <CartesianGrid stroke="#d2d5ca" strokeDasharray="5 5" />
+                <XAxis dataKey="name" stroke="#383b43" />
+                <YAxis stroke="#383b43" />
+                <Tooltip
+                  content={({ payload, label }) => {
+                    if (!payload || payload.length === 0) return null;
+                    const formattedLabel = `${label}시`;
+                    const formattedValue = `${Number(payload[0].value).toLocaleString()}원`;
+
+                    return (
+                      <div css={css.tooltipStyle}>
+                        <p css={css.labelTextStyle}>{formattedLabel}</p>
+                        <p css={css.valueTextStyle}>{formattedValue}</p>
+                      </div>
+                    );
+                  }}
+                />
+                <Legend verticalAlign="top" height={36} />
+                <Line
+                  type="monotone"
+                  dataKey="revenue"
+                  name="매출"
+                  stroke="#1683ffdf"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+            {/* 차트2 - 수량 */}
+            <ResponsiveContainer
+              width={"45%"}
+              height={500}
+              style={{
+                border: "none",
+              }}
+            >
+              <LineChart data={quantityStats}>
+                <CartesianGrid stroke="#d2d5ca" strokeDasharray="5 5"/>
+                <XAxis dataKey="name" stroke="#383b43" />
+                <YAxis stroke="#383b43" />
+                <Tooltip 
+                    content={({ payload, label }) => {
+                    if (!payload || payload.length === 0) return null;
+                    const formattedLabel = `${label}시`;
+                    const formattedValue = `${Number(payload[0].value).toLocaleString()}건`;
+                
+                    return (
+                      <div css={css.tooltipStyle}>
+                        <p css={css.labelTextStyle}>{formattedLabel}</p>
+                        <p css={css.valueTextStyle}>{formattedValue}</p>
+                      </div>
+                    );
+                  }}
+                />
+                <Legend verticalAlign="top" height={36} />
+                <Line
+                  type="monotone"
+                  dataKey="quantity"
+                  name="건수"
+                  stroke="#fdbe35"
+                  activeDot={{ r: 8 }}
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
-        </div>
-      </div>
-      <div  css={stats.length > 0 ? css.chartContainer : css.chartLineNone}>
-        <ResponsiveContainer 
-          width={"85%"} 
-          height={500} 
-          style={{
-            "border": "none"
-        }}>
-          <LineChart data={stats}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="revenue"
-              name="매출"
-              stroke="#1681FF"
-              activeDot={{ r: 6 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        ) : (
+          <div css={css.chartDataNone}>해당 날짜에 데이터가 없습니다!</div>
+        )}
       </div>
     </>
   );
-};
+}

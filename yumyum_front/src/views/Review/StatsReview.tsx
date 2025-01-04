@@ -39,7 +39,16 @@ const StatsReview : React.FC<ReviewStatsProps> = ({totalReviewStats, monthReview
             ? (totalWeightedRating / totalReviewCount).toFixed(1)
             : "0";
     }, [totalReviewStats, totalReviewCount]);
-
+    const chartData = useMemo(() => {
+        return monthReviewStats.map((item) => {
+            const [year, month] = item.reviewMonth.split('-'); // '2025-1' -> ['2025', '1']
+            const monthName = `${month}월`; // '1' -> '1월'
+            return {
+                name: monthName,
+                pv: item.avgRating,
+            };
+        });
+    }, [monthReviewStats]);
     return (
         <>
             <h2 css={css.reviewAverageContainer}>
@@ -106,7 +115,7 @@ const StatsReview : React.FC<ReviewStatsProps> = ({totalReviewStats, monthReview
                         alignItems: "center",
                     }}
                 >
-                    <LineChart data={data} margin={{top: 20, right: 40}}>
+                    <LineChart data={chartData} margin={{top: 20, right: 40}}>
                         <CartesianGrid strokeDasharray="1000 0" vertical={false}/>
                         <XAxis dataKey="name" padding={{left: 30, right: 30}}/>
                         <YAxis

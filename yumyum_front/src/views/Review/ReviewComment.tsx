@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import React, { useMemo, useRef, useState } from "react";
-import axios from "axios";
-import * as css from "./Style";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { aW } from "@fullcalendar/core/internal-common";
-import { useCookies } from "react-cookie";
+import React, {useState} from 'react';
+import axios from 'axios';
+import * as css from './Style';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import {quill} from "./Style";
+import { useCookies } from 'react-cookie';
 
 interface ReviewsPhotoArray {
 photo_url: string[];
@@ -79,77 +79,54 @@ setTabMenu(tab);
 //         matchVisual: false,
 //     },
 // }),[]);
-
-
-
-return (
-<>
-    <div css={css.reviewTabMenuContainer}>
-    <div
-        onClick={() => handleTabChange("total")}
-        css={
-        tabMenu === "total"
-            ? css.reviewTabMenuTotalFocus
-            : css.reviewTabMenuTotal
-        }
-    >
-        전체
-    </div>
-    <div
-        onClick={() => handleTabChange("noAnswer")}
-        css={
-        tabMenu === "noAnswer"
-            ? css.reviewTabMenuNoAnswerFocus
-            : css.reviewTabMenuNoAnswer
-        }
-    >
-        미답변
-    </div>
-    <div
-        onClick={() => handleTabChange("event")}
-        css={
-        tabMenu === "event"
-            ? css.reviewTabMenuEventFocus
-            : css.reviewTabMenuEvent
-        }
-    >
-        이벤트
-    </div>
-    </div>
-    <div css={css.reviewTabMenuContext}>
-    <div
-        css={
-        tabMenu === "total"
-            ? css.reviewTabMenuTotalContext
-            : css.displayNone
-        }
-    >
-        전체 리뷰 내용
-    </div>
-    <div
-        css={
-        tabMenu === "noAnswer"
-            ? css.reviewTabMenuNoAnswerContext
-            : css.displayNone
-        }
-    >
-        미답뷰 리뷰 내용
-    </div>
-    <div
-        css={
-        tabMenu === "event"
-            ? css.reviewTabMenuEventContext
-            : css.displayNone
-        }
-    >
-        <div>
-        {/* <ReactQuill ref={quillRef} theme="snow" value={value} onChange={setValue} modules={modules}/> */}
-        <ReactQuill theme="snow" value={value} onChange={setValue} />
-        </div>
-    </div>
-    </div>
-</>
-);
+    return (
+        <>
+            <div css={css.reviewTabMenuContainer}>
+                <div onClick={() => handleTabChange("total")}
+                     css={tabMenu === "total" ? css.reviewTabMenuTotalFocus : css.reviewTabMenuTotal}
+                >
+                    전체
+                </div>
+                <div onClick={() => handleTabChange("noAnswer")}
+                     css={tabMenu === "noAnswer" ? css.reviewTabMenuNoAnswerFocus : css.reviewTabMenuNoAnswer}
+                >
+                    미답변
+                </div>
+                <div onClick={() => handleTabChange("event")}
+                     css={tabMenu === "event" ? css.reviewTabMenuEventFocus : css.reviewTabMenuEvent}
+                >
+                    이벤트
+                </div>
+            </div>
+            <div css={css.reviewTabMenuContext}>
+                <div css={tabMenu === "total" ? css.reviewTabMenuTotalContext : css.displayNone}>
+                    <ul>
+                        <li css={css.totalReviewContainer}>1</li>
+                        <li css={css.totalReviewContainer}>2</li>
+                        <li css={css.totalReviewContainer}>3</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                    </ul>
+                </div>
+                <div
+                    css={tabMenu === "noAnswer" ? css.reviewTabMenuNoAnswerContext : css.displayNone}
+                >
+                    미답뷰 리뷰 내용
+                </div>
+                <div
+                    css={tabMenu === "event" ? css.reviewTabMenuEventContext : css.displayNone}
+                >
+                    <div css={css.quillContainer}>
+                        <ReactQuill css={css.quill} theme="snow" value={value} onChange={setValue} />
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
 
 export default ReviewComment;

@@ -4,8 +4,8 @@ export interface TotalReviewsStats {
 }
 
 export interface MonthReviewsStats {
+    reviewMonth: string;
     avgRating: number;
-    reviewMonth: number;
     reviewMonthCount: number;
 }
 

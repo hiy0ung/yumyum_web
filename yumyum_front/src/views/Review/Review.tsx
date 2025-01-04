@@ -14,9 +14,9 @@ function Review() {
     const [totalReviewStats, setTotalTotalReviewStats] = useState<TotalReviewsStats[]>([]);
     const [monthReviewStats, setMonthReviewStats] = useState<MonthReviewsStats[]>([
         {
-            avgRating: 3.5,
-            reviewMonth : 12,
-            reviewMonthCount : 442
+            reviewMonth: "",
+            avgRating: 0,
+            reviewMonthCount: 0
         }
     ]);
     const [cookies] = useCookies(["token"])
@@ -32,14 +32,14 @@ function Review() {
                     });
             if (response.data.data) {
                 setTotalTotalReviewStats(response.data.data)
+                console.log(response.data.data)
             }
         }catch(error) {
             console.log(error);
         }
     }
     const monthReviewStatsFetch = async () => {
-        const currentDate = "2024-01-23T00:00:00";
-        //     moment().format("YYYY-MM-DDTHH:mm:ss");
+        const currentDate = moment().format("YYYY-MM-DDTHH:mm:ss");
         console.log(currentDate);
         try {
 

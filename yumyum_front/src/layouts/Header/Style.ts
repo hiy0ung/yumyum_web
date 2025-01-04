@@ -19,12 +19,12 @@ export const headerFlexContainer = css`
 
 export const headerLeftContainer = css`
     flex: 1;
-    background-color: #1681FF;
+    background-color: #00509E;
 `;
 
 export const headerRightContainer = css`
     width: 250px;
-    background-color: #1681FF;
+    background-color: #00509E;
     display: flex;
     justify-content: center;
     align-items: center;

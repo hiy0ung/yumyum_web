@@ -9,6 +9,7 @@ import {Link} from "react-router-dom";
 import {AUTH_PATH_SIGN_UP} from "../../constants";
 import Login from "../Authentication/Login/Login";
 
+
 const Main = () => {
 
     const textIntro1 = useRef<HTMLDivElement>(null);
@@ -88,7 +89,7 @@ const Main = () => {
 
     return (
         <>
-            <div  id="home"  css={css.wrap}>
+            <div id="home"  css={css.wrap}>
                 <header css={css.headerContainer}>
                     <div css={css.header}>
                         <h1>
@@ -164,46 +165,59 @@ const Main = () => {
                     </div>
                 </div>
                 <div css={css.cardInfoContainer}>
-                    <ul css={css.cardInfoTopContainer}>
+                    <ul css={css.cardInfoTopBottomContainer}>
                         <li ref={cardInfoTopList1Container}
-                            css={[css.cardInfoTopList1Container, cardInfoTopList1ContainerIsVisible && css.visibleZBox]}>
+                            css={[css.cardInfoCommonLayout,
+                                css.cardInfoTopList1Container,
+                                cardInfoTopList1ContainerIsVisible && css.visibleZBox]}>
                             <div>배고프다</div>
                             <div>먹고싶다</div>
                         </li>
                         <li ref={cardInfoTopList2Container}
-                            css={[css.cardInfoTopList2Container, cardInfoTopList2ContainerIsVisible && css.visibleZBox]}>
+                            css={[css.cardInfoCommonLayout,
+                                css.cardInfoTopList2Container,
+                                cardInfoTopList2ContainerIsVisible && css.visibleZBox]}>
                             <div>쉬고싶다</div>
                             <div>놀고싶다</div>
                         </li>
                         <li ref={cardInfoTopList3Container}
-                            css={[css.cardInfoTopList3Container, cardInfoTopList3ContainerIsVisible && css.visibleZBox]}>
+                            css={[css.cardInfoCommonLayout,
+                                css.cardInfoTopList3Container,
+                                cardInfoTopList3ContainerIsVisible && css.visibleZBox]}>
                             <div>눕고싶다</div>
                             <div>자고싶다</div>
                         </li>
                         <li ref={cardInfoTopList4Container}
-                            css={[css.cardInfoTopList4Container, cardInfoTopList4ContainerIsVisible && css.visibleZBox]}>
+                            css={[css.cardInfoCommonLayout,
+                                css.cardInfoTopList4Container,
+                                cardInfoTopList4ContainerIsVisible && css.visibleZBox]}>
                             <div>하기싫다</div>
                             <div>코딩싫다</div>
                         </li>
                     </ul>
-                    <ul css={css.cardInfoBottomContainer}>
+                    <ul css={css.cardInfoTopBottomContainer}>
                         <li ref={cardInfoBottomList1Container}
-                            css={[css.cardInfoBottomList1Container, cardInfoBottomList1ContainerIsVisible && css.visibleZBox]}>
+                            css={[
+                                css.cardInfoCommonLayout,
+                                css.cardInfoBottomList1Container, cardInfoBottomList1ContainerIsVisible && css.visibleZBox]}>
                             <div>배고프다</div>
                             <div>먹고싶다</div>
                         </li>
                         <li ref={cardInfoBottomList2Container}
-                            css={[css.cardInfoBottomList2Container, cardInfoBottomList2ContainerIsVisible && css.visibleZBox]}>
+                            css={[css.cardInfoCommonLayout,
+                                css.cardInfoBottomList2Container, cardInfoBottomList2ContainerIsVisible && css.visibleZBox]}>
                             <div>쉬고싶다</div>
                             <div>놀고싶다</div>
                         </li>
                         <li ref={cardInfoBottomList3Container}
-                            css={[css.cardInfoBottomList3Container, cardInfoBottomList3ContainerIsVisible && css.visibleZBox]}>
+                            css={[css.cardInfoCommonLayout,
+                                css.cardInfoBottomList3Container, cardInfoBottomList3ContainerIsVisible && css.visibleZBox]}>
                             <div>눕고싶다</div>
                             <div>자고싶다</div>
                         </li>
                         <li ref={cardInfoBottomList4Container}
-                            css={[css.cardInfoBottomList4Container, cardInfoBottomList4ContainerIsVisible && css.visibleZBox]}>
+                            css={[css.cardInfoCommonLayout,
+                                css.cardInfoBottomList4Container, cardInfoBottomList4ContainerIsVisible && css.visibleZBox]}>
                             <div>하기싫다</div>
                             <div>코딩싫다</div>
                         </li>
