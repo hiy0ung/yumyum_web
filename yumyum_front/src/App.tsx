@@ -48,6 +48,8 @@ function App() {
     useEffect(() => {
         if (!token) {
             navigate(MAIN_PATH);
+        } else {
+            navigate(HOME_PATH);
         }
     }, [token]);
 
