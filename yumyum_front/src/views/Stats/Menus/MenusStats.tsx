@@ -8,6 +8,12 @@ import moment from "moment";
 import Calendar from "react-calendar";
 import axios from "axios";
 import {useCookies} from "react-cookie";
+import {
+    MenuStatsFetchDataGroupByName,
+    MenuStatsFetchDataColor,
+    MenuStatsFetchData,
+    MenuStatsFetchDataTotal
+} from "../../../types/Stats";
 
 const calendarStyles = {
     ".react-calendar__month-view__weekdays": {
@@ -66,7 +72,7 @@ const renderActiveShape = (props: any) => {
                 fontWeight={500}
                 fill="#ffffff"
             >
-                {`${payload.name}`}
+                {`${payload.groupName}`}
             </text>
             <text
                 x={cx + (innerRadius + (outerRadius - innerRadius) / 2) * Math.cos(-RADIAN * midAngle)}
@@ -82,22 +88,26 @@ const renderActiveShape = (props: any) => {
     );
 };
 
-interface Props {
-    menuName: string;
-    quantity : number;
-    sumTotalPrice : number;
-    fill : string;
-}
 export default function MenusStats() {
     const [cookies] = useCookies(["token"])
     const token = cookies.token;
+
     const [calendarBox, setCalendarBox] = useState({
         dayCalendar: false,
         monthCalender: false
     });
+
+    const [selectToday, setSelectToday] = useState<string>(moment().format("YYYY-MM-DD"));
+    const [selectDay, setSelectDay] = useState<string>(moment().format("YYYY-MM-DD"));
+    const [selectMonth, setSelectMonth] = useState<string>(moment().format("YYYY-MM-DD"));
     const [selectDate, setSelectDate] = useState<string>(moment().format("YYYY-MM-DD"));
 
-    const [data, setData] = useState<Props[]>([]);
+    const [data, setData] = useState<MenuStatsFetchDataGroupByName[]>([]);
+
+    const [totalData, setTotalData] = useState({
+        totalQuantitySold: 0,
+        totalPriceSold: 0
+    });
 
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const onPieEnter = useCallback((_: any, index: any) => {
@@ -114,86 +124,152 @@ export default function MenusStats() {
         }));
     };
 
-    const fetchDay = async () => {
+    const dataController = (response: any) => {
+        const responseData: MenuStatsFetchData[] = response.data?.data;
+
+        const dataColorFill: MenuStatsFetchDataColor[] = responseData.map((item: any, index: number) => ({
+            name: item.menuName,
+            quantity: item.quantity,
+            price: item.sumTotalPrice,
+            fill: colors[index % colors.length],
+        }));
+
+        const dataTotalSold: MenuStatsFetchDataTotal = responseData.reduce((acc, item) => {
+            acc.totalQuantitySold += item.quantity;
+            acc.totalPriceSold += item.sumTotalPrice;
+            return acc;
+        }, {totalQuantitySold: 0, totalPriceSold: 0});
+
+        const dataGroupByName: MenuStatsFetchDataGroupByName[] =
+            dataColorFill.reduce((acc: MenuStatsFetchDataGroupByName[], reduceItem: MenuStatsFetchDataColor, index: number) => {
+                const groupNameFind = acc.find((findItem: any) => findItem.groupName === reduceItem.name);
+                if (groupNameFind) {
+                    groupNameFind.sumQuantity += reduceItem.quantity;
+                    groupNameFind.sumPrice += reduceItem.price;
+                } else {
+                    acc.push({
+                        groupName: reduceItem.name,
+                        sumQuantity: reduceItem.quantity,
+                        sumPrice: reduceItem.price,
+                        fill: reduceItem.fill
+                    })
+                }
+                return acc;
+            }, [])
+        setData(dataGroupByName);
+        setTotalData(dataTotalSold);
+    }
+
+
+    const fetchToday = async () => {
         try {
-            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${selectDate}`, {
+            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/today`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            const data = response.data?.data || [];
+            console.log(response);
+            if (response.data.data.length > 0) {
+                dataController(response);
+                setSelectToday(moment().format("YYYY-MM-DD"));
+                setSelectDate(moment().format("YYYY-MM-DD"));
 
-            if (data.length > 0) {
-
-                const menuNameFilter = data.map((item: any, index: number) => ({
-                    name: item.menuName,
-                    quantity: item.quantity,
-                    price: item.sumTotalPrice,
-                    fill: colors[index % colors.length],
-                }));
-
-                setData(menuNameFilter);
             } else {
-                console.warn("No data available for the selected date.");
+                console.log("fetch error");
             }
         } catch (error) {
-            console.error("Failed to fetch data:", error);
+            console.error("data :", error);
         }
     };
-
+    const fetchDay = async () => {
+        try {
+            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${selectDay}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.data.data.length > 0) {
+                dataController(response);
+            } else {
+                console.log("fetch error");
+            }
+        } catch
+            (error) {
+            console.error("data :", error);
+        }
+    };
+    const fetchMonth = async () => {
+        try {
+            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/month/${selectMonth}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.data.data.length > 0) {
+                dataController(response);
+            } else {
+                console.log("fetch error");
+            }
+        } catch (error) {
+            console.error("fetch error:", error);
+        }
+    };
+    useEffect(() => {
+        fetchMonth();
+    }, [selectMonth]);
     useEffect(() => {
         fetchDay();
-    }, [selectDate]);
-
+    }, [selectDay]);
+    useEffect(() => {
+        fetchToday()
+    }, [selectToday]);
 
     const handleDateDayChange = (date: any) => {
-        const dayFormatted = moment(date).format('YYYY-MM-DD');
-        setSelectDate(dayFormatted);
-        console.log(dayFormatted);
+        setSelectDay(moment(date).format('YYYY-MM-DD'));
+        setSelectDate(moment(date).format('YYYY-MM-DD'));
+
         setCalendarBox(prevState => ({
             ...prevState,
             dayCalendar: false
         }));
+        fetchDay();
     };
     const handleDateMonthChange = (date: any) => {
-        const monthFormatted = moment(date).format('YYYY-MM');
-        setSelectDate(monthFormatted); // 날짜 업데이트
+        setSelectMonth(moment(date).format('YYYY-MM-DD'));
+        setSelectDate(moment(date).format('YYYY-MM-DD'));
+
         setCalendarBox(prevState => ({
             ...prevState,
             monthCalender: false
         }));
+        fetchMonth();
     };
-
     useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (
-                calendarRef1.current && !calendarRef1.current.contains(e.target as Node)
-            ) {
-                setCalendarBox(prevState => ({
-                    ...prevState,
-                    dayCalendar: false,
-                }));
-            }
-
-            if (
-                calendarRef2.current && !calendarRef2.current.contains(e.target as Node)
-            ) {
-                setCalendarBox(prevState => ({
-                    ...prevState,
-                    monthCalender: false,
-                }));
-            }
-        };
         document.addEventListener("mousedown", handleClickOutside);
+        console.log("마우스 이벤트");
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+    const handleClickOutside = (e: MouseEvent) => {
+        if (
+            calendarRef1.current && !calendarRef1.current.contains(e.target as Node)
+        ) {
+            setCalendarBox(prevState => ({
+                ...prevState,
+                dayCalendar: false,
+            }));
+        }
 
-    useEffect(() => {
-        fetchDay();
-    }, [selectDate]);
-
+        if (
+            calendarRef2.current && !calendarRef2.current.contains(e.target as Node)
+        ) {
+            setCalendarBox(prevState => ({
+                ...prevState,
+                monthCalender: false,
+            }));
+        }
+    };
 
     const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#a4de6c"];
 
@@ -203,11 +279,15 @@ export default function MenusStats() {
                 <div css={css.menuStatsLeft}>
                     <div css={css.menuStatsLeftTopContainer}>
                         <div css={css.menuStatsLeftTopLeft}>
-                            <div css={css.today}>오늘</div>
+                            <div onClick={() => {
+                                fetchToday()
+                            }}
+                                 css={css.today}>오늘
+                            </div>
                             <div css={css.day}
-                                onClick={() => {
-                                    calendarDisplayHandler("day")
-                                }}
+                                 onClick={() => {
+                                     calendarDisplayHandler("day")
+                                 }}
                             >
                                 <div>
                                     <div css={css.todayContainer}>
@@ -284,7 +364,7 @@ export default function MenusStats() {
                                     cy="50%"
                                     innerRadius={100}
                                     outerRadius={250}
-                                    dataKey="quantity"
+                                    dataKey="sumQuantity"
                                     onMouseEnter={onPieEnter}
                                     stroke="none"
                                     cornerRadius={5}
@@ -299,15 +379,15 @@ export default function MenusStats() {
                 <div css={css.menuStatsRightContainer}>
                     <div css={css.menuStatsRightTitle}>메뉴별 판매 현황</div>
                     <div css={css.menuStatsRightAllResult}>
-                        <div>판매 갯수 : 523 개</div>
-                        <div>결제 금액 : 232,000,000 원</div>
+                        <div>판매 개수 : {totalData.totalQuantitySold}</div>
+                        <div>결제 금액 : {totalData.totalPriceSold}원</div>
                     </div>
                     <div css={css.menuStatsRightTextContainer}>
                         <div css={css.orderProductName}>
                             <div>제품명</div>
                             {data.map((item: any, index: number) => (
                                 <div key={index}>
-                                    {item.name}
+                                    {item.groupName}
                                 </div>
                             ))}
                         </div>
@@ -316,7 +396,7 @@ export default function MenusStats() {
                             <div>판매 개수</div>
                             {data.map((item: any, index: number) => (
                                 <div key={index}>
-                                    {item.quantity}
+                                    {item.sumQuantity}
                                 </div>
                             ))}
                         </div>
@@ -325,7 +405,7 @@ export default function MenusStats() {
                             <div>총 판매 가격</div>
                             {data.map((item: any, index: number) => (
                                 <div key={index}>
-                                    {item.price}
+                                    {item.sumPrice}
                                 </div>
                             ))}
                         </div>
