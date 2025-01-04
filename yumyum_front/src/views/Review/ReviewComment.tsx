@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as css from './Style';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import {quill} from "./Style";
 
 interface ReviewsPhotoArray {
     photo_url: string[];
@@ -52,10 +53,18 @@ function ReviewComment() {
                 </div>
             </div>
             <div css={css.reviewTabMenuContext}>
-                <div
-                    css={tabMenu === "total" ? css.reviewTabMenuTotalContext : css.displayNone}
-                >
-                    전체 리뷰 내용
+                <div css={tabMenu === "total" ? css.reviewTabMenuTotalContext : css.displayNone}>
+                    <ul>
+                        <li css={css.totalReviewContainer}>1</li>
+                        <li css={css.totalReviewContainer}>2</li>
+                        <li css={css.totalReviewContainer}>3</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                        <li css={css.totalReviewContainer}>4</li>
+                    </ul>
                 </div>
                 <div
                     css={tabMenu === "noAnswer" ? css.reviewTabMenuNoAnswerContext : css.displayNone}
@@ -65,8 +74,8 @@ function ReviewComment() {
                 <div
                     css={tabMenu === "event" ? css.reviewTabMenuEventContext : css.displayNone}
                 >
-                    <div >
-                        <ReactQuill theme="snow" value={value} onChange={setValue} />
+                    <div css={css.quillContainer}>
+                        <ReactQuill css={css.quill} theme="snow" value={value} onChange={setValue} />
                     </div>
                 </div>
             </div>
