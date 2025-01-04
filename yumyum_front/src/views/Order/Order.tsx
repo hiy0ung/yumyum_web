@@ -50,9 +50,6 @@ export default function Order() {
     fetchOrder();
   }, [currentDate]);
 
-  // useEffect(() => {
-  //   fetchOrder();
-  // }, []);
 
   const fetchOrder = async () => {
     try {
@@ -66,7 +63,7 @@ export default function Order() {
         setOrders(data);
         const completedOrders = data.filter((order:any) => order.orderState === "2" && moment(order.orderDate).format("YYYY-MM-DD") === currentDate);
         setCompletedCount(completedOrders.length);
-        setTotalPrice(completedOrders.reduce((sum:any, order:any) => sum + order.sumTotalPrice, 0));
+        setTotalPrice(completedOrders.reduce((sum:any, order:any) => sum + (order.sumTotalPrice || 0) , 0));
       }
     } catch (e) {
       console.error(e);
@@ -95,7 +92,20 @@ export default function Order() {
     }
   };
 
-  const FilterOrder = orders.filter((order) => order.orderState === currentTab);
+  const FilterOrder = orders.filter((order) =>{
+    const isToday = moment(order.orderDate).format("YYYY-MM-DD") === currentDate;
+    const orderState = String(order.orderState);
+
+    if(currentTab === "2") {
+      return orderState === "2";
+    } else {
+      if(currentTab === "0") {
+        return orderState === "0" && isToday;
+      } else if (currentTab === "1") {
+        return orderState === "1" && isToday;
+      }
+    }
+  });
 
   const openModal = async (id: number) => {
     try {
@@ -146,15 +156,11 @@ export default function Order() {
     }
   }
 
-  
-
-
-
   const currentOrderInfo = () => {
     return (
       <>
-        <p>오늘의 주문 건수는 {completedCount} 건 입니다!</p>
-        <p>오늘의 매출은 {totalPrice} 원 입니다!</p>
+        <p className="completedCount">오늘의 주문 건수는 {completedCount} 건 입니다!</p>
+        <p className="totalPrice">오늘의 매출은 {totalPrice} 원 입니다!</p>
       </>
     );
   }
@@ -211,24 +217,30 @@ export default function Order() {
                 <div>
                   <div css={css.orderInfo}>
                     {orderDetail.map((order) => (
-                      <div style={{ margin: "10px" }}>
-                        <p>
-                          {order.menuName} {order.quantity}
-                        </p>
+                      <div style={{ margin: "10px", display: 'flex', gap: '10px'}}>
+                        <span> {order.menuName} </span>
+                        <span>{order.quantity}개</span>
+                        <span>{order.menuPrice}원</span>
                       </div>
                     ))}
                   </div>
-                  <p css={css.price}>
-                    총 가격:{" "}
-                    {orderDetail.reduce(
-                      (sum, item) =>
-                        sum +
-                        item.menuPrice * item.quantity +
-                        item.additionalFee,
-                      0
-                    )}{" "}
-                    원
-                  </p>
+                  {
+                    orderDetail.some(order => order.menuOptionDetailName) && (
+                      <div css={css.orderInfo}>
+                        {
+                          orderDetail.map((order) => (
+                            order.menuOptionDetailName ? (
+                            <div style={{ margin: "10px", display: 'flex', gap: '10px'}}>
+                              <span>{order.menuOptionName}</span>
+                              <span>{order.menuOptionDetailName}</span>
+                              <span>{order.additionalFee}원</span>
+                            </div>
+                            ) : null
+                          ))
+                        }
+                  </div>
+                    )
+                  }
                   <p css={css.address}>
                     주소: {orderDetail[0].deliveryAddress}
                   </p>
@@ -252,18 +264,31 @@ export default function Order() {
     );
   };
 
+  const handleStateTabClick = (stateTab: string) => {
+    setCurrentTab(stateTab);
+  };
+
   return (
     <div css={css.container}>
       <div css={css.currentInfoContainer}>{currentOrderInfo()}</div>
       <div css={css.orderTableContainer}>
-        <div>
-          <button onClick={() => setCurrentTab("0")} css={css.button}>
+        <div className="orderStateButton">
+          <button 
+            onClick={() => handleStateTabClick("0")} 
+            css={[css.button, currentTab === "0" && css.buttonActive]}
+          >
             접수 대기
           </button>
-          <button onClick={() => setCurrentTab("1")} css={css.button}>
+          <button 
+            onClick={() => handleStateTabClick("1")}
+            css={[css.button, currentTab === "1" && css.buttonActive]}
+          >
             처리 중
           </button>
-          <button onClick={() => setCurrentTab("2")} css={css.button}>
+          <button 
+          onClick={() => handleStateTabClick("2")}
+          css={[css.button, currentTab === "2" && css.buttonActive]}
+          >
             완료
           </button>
         </div>

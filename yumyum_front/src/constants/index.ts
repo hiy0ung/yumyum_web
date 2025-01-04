@@ -1,4 +1,4 @@
-export const MAIN_PATH = "/";
+export const MAIN_PATH = "/main";
 export const HOME_PATH = "/home";
 
 export const AUTH_PATH = '/auth';
