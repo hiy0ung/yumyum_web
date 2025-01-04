@@ -14,6 +14,9 @@ export default function Header() {
     }
 
     const parseTime = (timeString: string) => {
+        if(!timeString) {
+            return null;
+        }
         const now = new Date();
         const [ hours, minutes, seconds ] = timeString.split(":").map(Number);
         return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds || 0);
@@ -22,14 +25,19 @@ export default function Header() {
     const updateStatus = () => {
         const currentTime = new Date();
         const opening = parseTime(openingTime);
-        const breakStart = parseTime(breakStartTime);
-        const breakEnd = parseTime(breakEndTime);
+        const breakStart = breakStartTime ? parseTime(breakStartTime) : null;
+        const breakEnd = breakEndTime ? parseTime(breakEndTime) : null;
         const closing = parseTime(closingTime);
-        if(currentTime >= opening && currentTime < breakStart) {
+
+        if(!opening || !closing) {
+            setStatus("CLOSE");
+            return
+        }
+        if(currentTime >= opening && (!breakStart || currentTime < breakStart)) {
             setStatus("OPEN");
-        } else if(currentTime >= breakStart && currentTime < breakEnd) {
+        } else if(breakStart && currentTime >= breakStart && breakEnd && currentTime < breakEnd) {
             setStatus("BREAK");
-        } else if(currentTime >= breakEnd && currentTime < closing) {
+        } else if(breakEnd && currentTime >= breakEnd && currentTime < closing) {
             setStatus("OPEN");
         } else {
             setStatus("CLOSE");

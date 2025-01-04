@@ -44,10 +44,10 @@ export default function Store() {
         setImgData(data.logoUrl);
 
         setStoreTimes({
-          openingTime: data.openingTime,
-          closingTime: data.closingTime,
-          breakStartTime: data.breakStartTime,
-          breakEndTime: data.breakEndTime,
+          openingTime: data.openingTime || " ",
+          closingTime: data.closingTime || " ",
+          breakStartTime: data.breakStartTime || " ",
+          breakEndTime: data.breakEndTime || " ",
         });
       }
     } catch (e) {
