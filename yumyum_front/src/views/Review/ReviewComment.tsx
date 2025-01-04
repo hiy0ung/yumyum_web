@@ -59,11 +59,6 @@ function ReviewComment() {
                         <li css={css.totalReviewContainer}>2</li>
                         <li css={css.totalReviewContainer}>3</li>
                         <li css={css.totalReviewContainer}>4</li>
-                        <li css={css.totalReviewContainer}>4</li>
-                        <li css={css.totalReviewContainer}>4</li>
-                        <li css={css.totalReviewContainer}>4</li>
-                        <li css={css.totalReviewContainer}>4</li>
-                        <li css={css.totalReviewContainer}>4</li>
                     </ul>
                 </div>
                 <div

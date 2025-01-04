@@ -68,10 +68,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/locomotive-scroll": "^4.1.4",
-    "@types/react-scroll": "^1.8.10",
-    "@types/smooth-scrollbar": "^7.2.2"
   }
 }
