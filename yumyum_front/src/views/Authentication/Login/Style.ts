@@ -30,6 +30,13 @@ export const logInTitle = css`
     font-size: 32px;
 `;
 
+export const errorMessage = css`
+    color: red;
+    font-size: 14px;
+    padding: 5px;
+    margin-bottom: 10px;
+`;
+
 export const submitButton = css`
     height: 56px;
     width: 100%;

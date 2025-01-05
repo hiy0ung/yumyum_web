@@ -49,8 +49,7 @@ export default function Login() {
         console.log(response.data.data);
       } 
     } catch (e) {
-      setError("로그인 중 문제가 발생했습니다.");
-      alert("아이디 또는 비밀번호가 잘못되었습니다.");
+      setError("아이디 또는 비밀번호가 잘못되었습니다.");
     }
   };
 
@@ -120,6 +119,7 @@ export default function Login() {
             },
           }}
         />
+        {error && <p css={css.errorMessage}>{error}</p>}
         <Box>
           <Button
             css={css.submitButton}
