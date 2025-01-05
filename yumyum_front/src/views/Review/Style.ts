@@ -7,7 +7,7 @@ export const reviewContainer = css`
 
 `;
 export const reviewLeftContainer = css`
-    width: 40%;
+    width: 45%;
     min-width: 600px;
     aspect-ratio: 1;
     border-radius: 20px;
@@ -64,7 +64,7 @@ export const reviewRatingContainer = css`
         width: 25px;
         height: calc( 200px / 5);
         line-height: calc( 200px / 5);
-        font-size: 16px;
+        font-size: 15px;
     }
 `;
 export const reviewRatingBarContainer = css`
@@ -118,11 +118,16 @@ export const reviewCount = css`
 `;
 
 export const charStyle = css`
-    margin-top: 30px;
     padding: 0 10px;
 `
+
+export const chartX = css`
+    & > text:nth-of-type(0) {
+        margin-top: 2px;
+    }
+`;
 export const reviewRightContainer = css`
-    width: 40%;
+    width: 45%;
     min-width: 600px;
     aspect-ratio: 1;
     border-radius: 20px;
@@ -209,6 +214,7 @@ export const reviewTabMenuTotalContext = css`
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     padding: 30px;
+    overflow: auto;
 `;
 
 export const totalReviewContainer = css`

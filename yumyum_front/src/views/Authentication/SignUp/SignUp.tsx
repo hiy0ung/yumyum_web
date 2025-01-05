@@ -19,6 +19,7 @@ import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import * as css from "./Styles";
 import axios from "axios";
+import {MAIN_PATH} from "../../../constants";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -243,7 +244,7 @@ function SignUp() {
       );
       if (response.data.data) {
         alert("회원가입에 성공했습니다.")
-        navigate("/");
+        navigate(MAIN_PATH);
       } else {
         setErrorsMsg((prev) => ({ ...prev, form: "회원가입에 실패했습니다." }));
       }
