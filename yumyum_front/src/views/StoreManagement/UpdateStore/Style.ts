@@ -1,30 +1,31 @@
 import { css } from "@emotion/react";
 
 export const formStyle = css`
-    width: 700px !important;
+    width: 80%;
+    max-width: 800px;
     min-height: 100vh;
     padding: 16px;
     margin: 0 auto;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 50px;
+    background-color: #fafafa;
 `;
 
 export const storeTitle = css`
-    margin: 10px;
+    margin: 50px;
     text-align: center;
-    height: 100px;
-    line-height: 100px;
     font-weight: bold;
     font-size: 32px;
+    color: #333;
 `;
 
 export const basicProfile = css`
-    width: 500px;
     display: flex;
     height: 200px;
     margin: 40px;
@@ -35,11 +36,13 @@ export const storeNameAndCategory = css`
     display: flex;
     flex-direction: column;
     width: 200px;
-    margin: 10px;
+    margin-left: 20px;
+    margin: 30px;
     justify-content: space-between;
 `;
 
 export const logoImg = css`
+    border-radius: 8px;
     width: 200px;
     height: 200px;
     cursor: pointer;
@@ -64,6 +67,7 @@ export const address = css`
     & > textarea {
     width: 500px;
     height: 100px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     resize: none;
@@ -75,6 +79,7 @@ export const address = css`
 export const descriptionBox = css`
     width: 500px;
     height: 200px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     resize: none;
@@ -90,7 +95,7 @@ export const storeUpdateButton = css`
     display: block;
 
     :hover {
-        background-color: #1681FF;
+        background-color: #0db4fc;
         color: white;
     }
 `;

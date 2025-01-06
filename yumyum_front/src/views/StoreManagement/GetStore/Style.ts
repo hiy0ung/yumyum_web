@@ -91,11 +91,11 @@ export const buttons = css`
 export const updateButton = css`
   height: 40px;
   font-size: 14px;
-  color: #1976d2;
-  border-color: #1976d2;
+  color: #58cdff;
+  border-color: #58cdff;
   
   &:hover {
-    background-color: #1976d2;
+    background-color: #0db4fc;
     color: white;
   }
 `;
@@ -103,8 +103,8 @@ export const updateButton = css`
 export const deleteButton = css`
   height: 40px;
   font-size: 14px;
-  color: #d32f2f;
-  border-color: #d32f2f;
+  color: #f44336;
+  border-color:  #f44336;
   
   &:hover {
     background-color: #d32f2f;
