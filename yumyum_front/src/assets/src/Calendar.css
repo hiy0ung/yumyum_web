@@ -10,7 +10,7 @@
 .react-calendar {
   width: 350px;
   max-width: 100%;
-  background: #eff6ff;
+  background: #fefdfd;
   box-shadow: 0 0 10px 2px #e9e9e9;
   border: 1px solid #e9e9e9;
   border-radius: 10px;
@@ -27,18 +27,18 @@
 }
 
 .react-calendar__navigation__label {
-  background-color: rgb(37, 168, 255) !important;
+  background-color: #58cdff !important;
 }
 
 .react-calendar__navigation__arrow:disabled {
   cursor: not-allowed;
   border-radius: 0px;
-  background-color: rgb(89, 183, 247) !important;
+  background-color: #b8e5f8 !important;
 }
 
 .react-calendar__navigation button {
   min-width: 50px;
-  background-color: rgb(37, 168, 255);
+  background-color: #58cdff;
   border: none;
   padding: 1px;
   font-size: 17px;
@@ -46,19 +46,19 @@
 }
 
 .react-calendar__navigation button:enabled:hover {
-  background-color: rgb(87, 186, 252) !important;
+  background-color: #19c5ff !important;
   border-radius: 0px;
 }
 
 .react-calendar__navigation button:disabled:hover {
-  background: rgb(89, 183, 247) !important;
+  background: #b8e5f8 !important;
   border-radius: 0px;
 }
 
 .react-calendar__navigation button:focus, 
 .react-calendar__navigation button:active  {
   outline: none !important;
-  background-color: rgb(37, 168, 255) !important;
+  background-color: #58cdff !important;
 }
 
 .react-calendar__navigation__arrow, .react-calendar__navigation__prev-button, 
@@ -154,20 +154,24 @@ abbr {
 }
 
 .react-calendar__tile--active {
-  background: #2c91f5e0;
+  background: #58cdff;
   color: white;
   border-radius: 30px;
 }
 
 .react-calendar__tile--active:hover {
-  background: #81bffd !important;
+  background: #b8e5f8 !important;
 }
 
 /* 오늘 날짜 */
 .react-calendar .react-calendar__tile--now {
-  border: 3px solid #a0a0a0 !important;
+  border: 2px solid #a0a0a0 !important;
   border-radius: 30px;
-  /* background-color: white !important; */
+}
+
+.react-calendar .react-calendar__tile--now:hover {
+  background: #b8e5f8 !important;
+  border: none !important;
 }
 
 .react-calendar .react-calendar__tile--now.react-calendar__tile--active {
@@ -205,5 +209,5 @@ abbr {
 /* 공통 호버 스타일 */
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background-color: #e6e6e6;
+  background-color: #b8e5f8;
 }

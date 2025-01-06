@@ -106,7 +106,7 @@ export const chartContainer = css`
   padding: 20px;
   margin: 20px 15px;
   min-width: 1280px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 

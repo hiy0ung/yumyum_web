@@ -225,7 +225,14 @@ export default function TimeStats() {
                     );
                   }}
                 />
-                <Legend verticalAlign="top" height={36} />
+                <Legend 
+                  verticalAlign="top"
+                  height={36}
+                  wrapperStyle={{
+                    fontWeight: "bold",
+                    border: "2px solid red"
+                  }}
+                />
                 <Line
                   type="monotone"
                   dataKey="revenue"
@@ -262,7 +269,13 @@ export default function TimeStats() {
                     );
                   }}
                 />
-                <Legend verticalAlign="top" height={36} />
+                <Legend 
+                  verticalAlign="top" 
+                  height={36}
+                  wrapperStyle={{
+                    fontWeight: "bold",
+                  }}
+                />
                 <Line
                   type="monotone"
                   dataKey="quantity"
