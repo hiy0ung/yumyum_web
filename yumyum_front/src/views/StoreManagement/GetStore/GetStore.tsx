@@ -148,12 +148,13 @@ export default function Store() {
       <Dialog open={isOpen} onClose={handleClose} fullWidth={true} maxWidth="md" PaperProps={{
         sx: {
           width: '400px',
-          height: '160px'
+          height: '130px',
+          overflow: 'hidden'
         }
       }}>
-            <DialogTitle>가게삭제</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
+            <DialogTitle sx={{fontSize: '16px'}}>가게삭제</DialogTitle>
+            <DialogContent sx={{overflow: 'hidden'}}>
+              <DialogContentText sx={{fontSize: '14px'}}>
                 정말 삭제하시겠습니까?
               </DialogContentText>
             </DialogContent>
