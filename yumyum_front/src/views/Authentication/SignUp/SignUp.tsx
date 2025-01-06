@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   InputAdornment,
   Collapse,
+  Typography,
 } from "@mui/material";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
@@ -255,29 +256,99 @@ function SignUp() {
   };
   return (
       <>
-        <h2 css={css.signUpTitle}>회원가입</h2>
-        <Box css={css.formStyle} component="form">
-          <Box
-              css={css.duplicatedContainer}
-              sx={{
-                "&:nth-of-type(1)": {
-                  marginBottom:
-                      errorsMsg.userId || successMsg.userId ? "40px" : "20px",
-                },
-              }}
-          >
+        <div css={css.container}>
+          <h2 css={css.signUpTitle}>회원가입</h2>
+          <Box css={css.formStyle} component="form">
+            <Box
+                css={css.duplicatedContainer}
+                sx={{
+                  "&:nth-of-type(1)": {
+                    marginBottom:
+                        errorsMsg.userId || successMsg.userId ? "40px" : "20px",
+                  },
+                }}
+            >
+              <TextField
+                  placeholder="아이디"
+                  type="text"
+                  name="userId"
+                  variant="outlined"
+                  value={userSignUpInfo.userId}
+                  onChange={handleInputChange}
+                  error={!!errorsMsg?.userId}
+                  autoComplete="아이디를 입력해주세요"
+                  css={css.customInputStyle}
+                  helperText={
+                    successMsg.userId ? successMsg?.userId : errorsMsg?.userId
+                  }
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                          <InputAdornment position="start">
+                            <PermIdentityIcon />
+                          </InputAdornment>
+                      ),
+                    },
+                  }}
+              />
+              <Button onClick={userIdDuplicationCheck} variant="outlined">
+                중복 확인
+              </Button>
+            </Box>
             <TextField
-                label="아아디"
-                type="text"
-                name="userId"
+                placeholder="비밀번호"
+                type="password"
+                name="userPw"
                 variant="outlined"
-                value={userSignUpInfo.userId}
+                value={userSignUpInfo.userPw}
                 onChange={handleInputChange}
-                error={!!errorsMsg?.userId}
-                autoComplete="아이디를 입력해주세요"
+                error={!!errorsMsg?.userPw}
+                helperText={errorsMsg?.userPw}
+                css={css.customInputStyle}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                        <InputAdornment position="start">
+                          <VpnKeyOutlinedIcon />
+                        </InputAdornment>
+                    ),
+                  },
+                }}
+            />
+            <TextField
+                placeholder="비밀번호 확인"
+                type="password"
+                name="checkPw"
+                variant="outlined"
+                value={userSignUpInfo.checkPw}
+                onChange={handleInputChange}
+                error={!!errorsMsg?.checkPw}
+                css={css.customInputStyle}
                 helperText={
-                  successMsg.userId ? successMsg?.userId : errorsMsg?.userId
+                  userSignUpInfo.userPw === userSignUpInfo.checkPw
+                      ? successMsg.checkPw
+                      : errorsMsg?.checkPw
                 }
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                        <InputAdornment position="start">
+                          <VpnKeyOutlinedIcon />
+                        </InputAdornment>
+                    ),
+                  },
+                }}
+            />
+            <TextField
+                placeholder="이름"
+                type="text"
+                name="userName"
+                variant="outlined"
+                value={userSignUpInfo.userName}
+                onChange={handleInputChange}
+                error={!!errorsMsg?.userName}
+                helperText={errorsMsg?.userName}
+                css={css.customInputStyle}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -288,209 +359,155 @@ function SignUp() {
                   },
                 }}
             />
-            <Button onClick={userIdDuplicationCheck} variant="outlined">
-              중복 확인
-            </Button>
-          </Box>
-          <TextField
-              label="비밀번호"
-              type="password"
-              name="userPw"
-              variant="outlined"
-              value={userSignUpInfo.userPw}
-              onChange={handleInputChange}
-              error={!!errorsMsg?.userPw}
-              helperText={errorsMsg?.userPw}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                      <InputAdornment position="start">
-                        <VpnKeyOutlinedIcon />
-                      </InputAdornment>
-                  ),
-                },
-              }}
-          />
-          <TextField
-              label="비밀번호 확인"
-              type="password"
-              name="checkPw"
-              variant="outlined"
-              value={userSignUpInfo.checkPw}
-              onChange={handleInputChange}
-              error={!!errorsMsg?.checkPw}
-              helperText={
-                userSignUpInfo.userPw === userSignUpInfo.checkPw
-                    ? successMsg.checkPw
-                    : errorsMsg?.checkPw
-              }
-              slotProps={{
-                input: {
-                  startAdornment: (
-                      <InputAdornment position="start">
-                        <VpnKeyOutlinedIcon />
-                      </InputAdornment>
-                  ),
-                },
-              }}
-          />
-          <TextField
-              label="이름"
-              type="text"
-              name="userName"
-              variant="outlined"
-              value={userSignUpInfo.userName}
-              onChange={handleInputChange}
-              error={!!errorsMsg?.userName}
-              helperText={errorsMsg?.userName}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                      <InputAdornment position="start">
-                        <PermIdentityIcon />
-                      </InputAdornment>
-                  ),
-                },
-              }}
-          />
-          <TextField
-              label="이메일"
-              type="email"
-              name="userEmail"
-              variant="outlined"
-              value={userSignUpInfo.userEmail}
-              onChange={handleInputChange}
-              error={!!errorsMsg?.userEmail}
-              helperText={errorsMsg?.userEmail}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                      <InputAdornment position="start">
-                        <EmailOutlinedIcon />
-                      </InputAdornment>
-                  ),
-                },
-              }}
-          />
-          <TextField
-              label="핸드폰 번호( - 제외하고 입력)"
-              type="text"
-              name="userPhone"
-              variant="outlined"
-              value={userSignUpInfo.userPhone}
-              onChange={handleInputChange}
-              error={!!errorsMsg?.userPhone}
-              helperText={errorsMsg?.userPhone}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                      <InputAdornment position="start">
-                        <PhoneAndroidOutlinedIcon />
-                      </InputAdornment>
-                  ),
-                },
-              }}
-          />
-          <Box css={css.duplicatedContainer}>
             <TextField
-                label="사업자 번호( - 제외하고 입력)"
-                type="text"
-                name="userBusinessNumber"
+                placeholder="이메일"
+                type="email"
+                name="userEmail"
                 variant="outlined"
-                value={userSignUpInfo.userBusinessNumber}
+                value={userSignUpInfo.userEmail}
                 onChange={handleInputChange}
-                error={!!errorsMsg?.userBusinessNumber}
-                helperText={
-                  successMsg.userBusinessNumber
-                      ? successMsg.userBusinessNumber
-                      : errorsMsg?.userBusinessNumber
-                }
+                error={!!errorsMsg?.userEmail}
+                helperText={errorsMsg?.userEmail}
+                css={css.customInputStyle}
                 slotProps={{
                   input: {
                     startAdornment: (
                         <InputAdornment position="start">
-                          <StorefrontOutlinedIcon />
+                          <EmailOutlinedIcon />
                         </InputAdornment>
                     ),
                   },
                 }}
             />
-            <Button
-                onClick={userBusinessNumberDuplicationCheck}
+            <TextField
+                placeholder="핸드폰 번호( - 제외하고 입력)"
+                type="text"
+                name="userPhone"
                 variant="outlined"
+                value={userSignUpInfo.userPhone}
+                onChange={handleInputChange}
+                error={!!errorsMsg?.userPhone}
+                helperText={errorsMsg?.userPhone}
+                css={css.customInputStyle}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                        <InputAdornment position="start">
+                          <PhoneAndroidOutlinedIcon />
+                        </InputAdornment>
+                    ),
+                  },
+                }}
+            />
+            <Box css={css.duplicatedContainer}>
+              <TextField
+                  placeholder="사업자 번호( - 제외하고 입력)"
+                  type="text"
+                  name="userBusinessNumber"
+                  variant="outlined"
+                  value={userSignUpInfo.userBusinessNumber}
+                  onChange={handleInputChange}
+                  error={!!errorsMsg?.userBusinessNumber}
+                  css={css.customInputStyle}
+                  helperText={
+                    successMsg.userBusinessNumber
+                        ? successMsg.userBusinessNumber
+                        : errorsMsg?.userBusinessNumber
+                  }
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                          <InputAdornment position="start">
+                            <StorefrontOutlinedIcon />
+                          </InputAdornment>
+                      ),
+                    },
+                  }}
+              />
+              <Button
+                  onClick={userBusinessNumberDuplicationCheck}
+                  variant="outlined"
+              >
+                중복 확인
+              </Button>
+            </Box>
+            <Box
+                sx={{
+                  "&": {
+                    marginTop:
+                        errorsMsg.userBusinessNumber || successMsg.userBusinessNumber
+                            ? "18px"
+                            : "0px",
+                  },
+                }}
             >
-              중복 확인
-            </Button>
-          </Box>
-          <Box
-              sx={{
-                "&": {
-                  marginTop:
-                      errorsMsg.userBusinessNumber || successMsg.userBusinessNumber
-                          ? "18px"
-                          : "0px",
-                },
-              }}
-          >
-            <FormControlLabel
-                control={
-                  <Checkbox
-                      name="privacyPolicyAgreed"
-                      checked={userSignUpInfo.privacyPolicyAgreed}
-                      onChange={handleCheckboxChange}
-                  />
-                }
-                label="개인정보 동의"
-            />
-            <KeyboardArrowDownOutlinedIcon
-                onClick={() => handleSlideToggle("privacyPolicyAgreed")}
-            />
-          </Box>
-          <Collapse in={slideState.privacyPolicyAgreed}>
-            <Box css={css.agreed}>적어~</Box>
-          </Collapse>
-
-          <Box>
-            <FormControlLabel
-                control={
-                  <Checkbox
+              <FormControlLabel
+                  control={
+                    <Checkbox
+                        name="privacyPolicyAgreed"
+                        checked={userSignUpInfo.privacyPolicyAgreed}
+                        onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="개인정보 동의"
                       sx={{
-                        fontSize: 200,
+                        "& .MuiFormControlLabel-label": {
+                          fontSize: "15px",
+                          color: "#464545",
+                        },
                       }}
-                      name="marketingAgreed"
-                      checked={userSignUpInfo.marketingAgreed}
-                      onChange={handleCheckboxChange}
-                  />
-                }
-                label="마케팅 수신동의"
-            />
-            <KeyboardArrowDownOutlinedIcon
-                onClick={() => handleSlideToggle("marketingAgreed")}
-            />
-          </Box>
-          <Collapse in={slideState.marketingAgreed}>
-            <Box css={css.agreed}>된다~~</Box>
-          </Collapse>
+              />
+              <KeyboardArrowDownOutlinedIcon
+                  onClick={() => handleSlideToggle("privacyPolicyAgreed")}
+              />
+            </Box>
+            <Collapse in={slideState.privacyPolicyAgreed}>
+              <Box css={css.agreed}>적어~</Box>
+            </Collapse>
 
-          <Box>
-            <Button
-                css={css.submitButton}
-                type="submit"
-                onClick={handleSubmit}
-                variant="contained"
-                color="primary"
-            >
-              가입하기
-            </Button>
-            <Button
-                css={css.submitButton}
-                variant="outlined"
-                onClick={handleGoBack}
-            >
-              뒤로가기
-            </Button>
+            <Box>
+              <FormControlLabel
+                  control={
+                    <Checkbox
+                        name="marketingAgreed"
+                        checked={userSignUpInfo.marketingAgreed}
+                        onChange={handleCheckboxChange}
+                    />
+                  }
+                  label="마케팅 수신동의"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "15px",
+                      color: "#464545",
+                    },
+                  }}
+              />
+              <KeyboardArrowDownOutlinedIcon
+                  onClick={() => handleSlideToggle("marketingAgreed")}
+              />
+            </Box>
+            <Collapse in={slideState.marketingAgreed}>
+              <Box css={css.agreed}>된다~~</Box>
+            </Collapse>
+
+            <Box css={css.submitButton}>
+              <Button
+                  type="submit"
+                  onClick={handleSubmit}
+                  variant="contained"
+                  color="primary"
+              >
+                가입하기
+              </Button>
+              <Button
+                  variant="outlined"
+                  onClick={handleGoBack}
+              >
+                뒤로가기
+              </Button>
+            </Box>
           </Box>
-        </Box>
+        </div>
       </>
   );
 }

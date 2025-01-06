@@ -2,52 +2,87 @@
 import * as React from "react";
 import * as css from "./Style";
 import useStoreTimes from "../../Stroes/store.store";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useCallback} from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { TimeInfo } from "../../types/Store";
 
 export default function Header() {
-    const {openingTime, closingTime, breakStartTime, breakEndTime} = useStoreTimes();
     const [status, setStatus] = useState<"OPEN" | "BREAK" | "CLOSE">("OPEN");
+    const [cookies] = useCookies(["token"]);
+    const token = cookies.token;
+    const [storeTimes, setStoreTimes] = useState<TimeInfo>({
+        openingTime: "",
+        closingTime: "",
+        breakStartTime: "",
+        breakEndTime: "",
+    });
 
-    const getCurrentTime = () => {
-        const now = new Date();
-        return now.toTimeString().split(" ")[0];
-    }
+    const fetchStore = async () => {
+        try {
+            const response = await axios.get("http://localhost:4041/api/v1/stores/get", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+    
+            if (response.data) {
+                const data = response.data.data;
+                setStoreTimes({
+                    openingTime: data.openingTime || "",
+                    closingTime: data.closingTime || "",
+                    breakStartTime: data.breakStartTime || "",
+                    breakEndTime: data.breakEndTime || "",
+                });
+            }
+        } catch (e) {
+            console.error("Error fetching store data:", e);
+        }
+    };
+    
 
     const parseTime = (timeString: string) => {
         if(!timeString) {
             return null;
         }
         const now = new Date();
-        const [ hours, minutes, seconds ] = timeString.split(":").map(Number);
-        return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds || 0);
+        const [ hours, minutes, seconds = 0 ] = timeString.split(":").map(Number);
+        if(isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
+            console.error("Invalid time format: ", timeString);
+            return null;
+        }
+        const parsedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds);
+        return parsedDate
     }
 
-    const updateStatus = () => {
+    const updateStatus = useCallback(() => {
         const currentTime = new Date();
-        const opening = parseTime(openingTime);
-        const breakStart = breakStartTime ? parseTime(breakStartTime) : null;
-        const breakEnd = breakEndTime ? parseTime(breakEndTime) : null;
-        const closing = parseTime(closingTime);
+        const opening = parseTime(storeTimes.openingTime);
+        const breakStart = storeTimes.breakStartTime ? parseTime(storeTimes.breakStartTime) : null;
+        const breakEnd = storeTimes.breakEndTime ? parseTime(storeTimes.breakEndTime) : null;
+        const closing = parseTime(storeTimes.closingTime);
 
         if(!opening || !closing) {
             setStatus("CLOSE");
             return
         }
-        if(currentTime >= opening && (!breakStart || currentTime < breakStart)) {
-            setStatus("OPEN");
-        } else if(breakStart && currentTime >= breakStart && breakEnd && currentTime < breakEnd) {
-            setStatus("BREAK");
-        } else if(breakEnd && currentTime >= breakEnd && currentTime < closing) {
-            setStatus("OPEN");
+        if(currentTime >= opening && currentTime < closing) {
+            if(breakStart && currentTime >= breakStart && breakEnd && currentTime < breakEnd ) {
+                setStatus("BREAK");
+            } else {
+                setStatus("OPEN");
+            } 
         } else {
             setStatus("CLOSE");
         }
-    }
+    },[storeTimes]) 
+    
+    useEffect(() => {
+        fetchStore().then(updateStatus);
+    },[token]);
 
     useEffect(() => {
         const intervalId = setInterval(updateStatus, 1000);
         return () => clearInterval(intervalId);
-    }, [openingTime, closingTime, breakStartTime, breakEndTime]);
+    }, [storeTimes]);
 
     return (
         <header css={css.headerContainer}>

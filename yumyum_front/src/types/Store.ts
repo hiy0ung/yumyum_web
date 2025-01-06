@@ -13,8 +13,8 @@ export interface StoreInfo {
 }
 
 export interface TimeInfo {
-  opningTime: dayjs.Dayjs;
-  closingTime: dayjs.Dayjs;
-  breakStartTime: dayjs.Dayjs;
-  breakEndTime: dayjs.Dayjs;
+  openingTime: string;
+  closingTime: string;
+  breakStartTime: string;
+  breakEndTime: string;
 }

@@ -4,7 +4,7 @@ const colors = {
   background: "#F5F5F5",
   primary: "rgba(252, 183, 54)",
   text: "#333333",
-  button: "rgb(37, 168, 255)",
+  button: "#58CCFF",
   buttonHover: "rgb(85, 193, 255)",
   modalOverlay: "rgba(0, 0, 0, 0.5)",
 };

@@ -49,8 +49,7 @@ export default function Login() {
         console.log(response.data.data);
       } 
     } catch (e) {
-      setError("로그인 중 문제가 발생했습니다.");
-      alert("아이디 또는 비밀번호가 잘못되었습니다.");
+      setError("아이디 또는 비밀번호가 잘못되었습니다.");
     }
   };
 
@@ -80,66 +79,73 @@ export default function Login() {
 
   return (
     <>
-      <h2 css={css.logInTitle}>로그인</h2>
-      <Box css={css.formStyle} component="form">
-        <Box css={css.duplicatedContainer}>
-          <TextField
-            label="아아디"
-            type="text"
-            name="userId"
-            variant="outlined"
-            value={userLogInInfo.userId}
-            onChange={handleInputChange}
-            autoComplete="off"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PermIdentityIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-        </Box>
-        <TextField
-          label="비밀번호"
-          type="password"
-          name="userPw"
-          variant="outlined"
-          value={userLogInInfo.userPw}
-          onChange={handleInputChange}
-          autoComplete="off"
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <VpnKeyOutlinedIcon />
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
-        <Box>
-          <Button
-            css={css.submitButton}
-            type="submit"
-            onClick={handleSubmit}
-            variant="contained"
-            color="primary"
-          >로그인
-          </Button>
-        </Box>
-        <Box css={css.link}>
-          <Link css={css.linkText} to={AUTH_PATH_SIGN_UP}>
-            회원가입
-          </Link>
-          <p css={css.linkText}>/</p>
-          <Link css={css.linkText} to={"/"}>
-            아이디/비밀번호 찾기
-          </Link>
-        </Box>
-      </Box>
+      <div css={css.container}>
+        <div css={css.backgroundStyle}>
+          <h2 css={css.logInTitle}>로그인</h2>
+          <Box css={css.formStyle} component="form">
+            <Box css={css.duplicatedContainer}>
+              <TextField
+                placeholder="ID"
+                type="text"
+                name="userId"
+                variant="outlined"
+                value={userLogInInfo.userId}
+                onChange={handleInputChange}
+                autoComplete="off"
+                css={css.customInputStyle}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermIdentityIcon />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+            </Box>
+            <TextField
+              placeholder="PASSWORD"
+              type="password"
+              name="userPw"
+              variant="outlined"
+              value={userLogInInfo.userPw}
+              onChange={handleInputChange}
+              autoComplete="off"
+              css={css.customInputStyle}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <VpnKeyOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            {error && <p css={css.errorMessage}>{error}</p>}
+            <Box>
+              <Button
+                css={css.submitButton}
+                type="submit"
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+              >로그인
+              </Button>
+            </Box>
+            <Box css={css.link}>
+              <Link css={css.linkText} to={AUTH_PATH_SIGN_UP}>
+                회원가입
+              </Link>
+              <p css={css.linkText}>/</p>
+              <Link css={css.linkText} to={"/"}>
+                아이디/비밀번호 찾기
+              </Link>
+            </Box>
+          </Box>
+        </div>
+      </div>
     </>
   );
 }
