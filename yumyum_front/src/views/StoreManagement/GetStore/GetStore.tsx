@@ -7,14 +7,12 @@ import { useCookies } from "react-cookie";
 import { StoreInfo } from "../../../types/Store";
 import * as css from "./Style";
 import { useNavigate } from "react-router-dom";
-import useStoreTimes from "../../../Stroes/store.store";
 import { MAIN_PATH, UPDATE_STORE_PATH } from "../../../constants";
 
 export default function Store() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const token = cookies.token;
-  const { setStoreTimes } = useStoreTimes();
   const [imageData, setImgData] = useState<string>();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
@@ -42,13 +40,6 @@ export default function Store() {
         const data = response.data.data;
         setStore(data);
         setImgData(data.logoUrl);
-
-        setStoreTimes({
-          openingTime: data.openingTime || " ",
-          closingTime: data.closingTime || " ",
-          breakStartTime: data.breakStartTime || " ",
-          breakEndTime: data.breakEndTime || " ",
-        });
       }
     } catch (e) {
       console.error(e);
