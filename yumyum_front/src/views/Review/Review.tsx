@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React, {useEffect, useState} from 'react';
 import * as css from './Style';
-
 import StatsReview from "./StatsReview";
 import ReviewComment from "./ReviewComment";
 import axios from "axios";
 import {useCookies} from "react-cookie";
-import {MonthReviewsStats, TotalReviewsStats, } from "../../types/ReviewStats";
+import {MonthReviewsStats, TotalReviewsStats } from "../../types/ReviewStats";
 import moment from "moment";
 
 
@@ -32,7 +31,6 @@ function Review() {
                     });
             if (response.data.data) {
                 setTotalTotalReviewStats(response.data.data)
-                console.log(response.data.data)
             }
         }catch(error) {
             console.log(error);
@@ -40,7 +38,6 @@ function Review() {
     }
     const monthReviewStatsFetch = async () => {
         const currentDate = moment().format("YYYY-MM-DDTHH:mm:ss");
-        console.log(currentDate);
         try {
 
         const response = await axios.get('http://localhost:4041/api/v1/reviews/rating/month',
@@ -54,7 +51,6 @@ function Review() {
             });
         if (response.data.data) {
             setMonthReviewStats(response.data.data)
-            console.log(response.data.data)
         }
         }catch (error) {
             console.log(error);
