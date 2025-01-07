@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 export const container = css`
   display: flex;
   justify-content: center;
-  max-width: 1280px;
+  max-width: 100%;
 `;
 
 export const backgroundStyle = css`
