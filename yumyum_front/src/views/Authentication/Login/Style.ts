@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 export const container = css`
   display: flex;
   justify-content: center;
-  max-width: 1280px;
 `;
 
 export const backgroundStyle = css`
@@ -21,7 +20,7 @@ export const backgroundStyle = css`
 export const formStyle = css`
   width: 500px !important;
   padding: 24px;
-  margin: 100 auto;
+  margin: 0 auto;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -45,7 +44,6 @@ export const logInTitle = css`
   line-height: 100px;
   font-weight: bold;
   font-size: 28px;
-  font-weight: bold;
 `;
 
 export const errorMessage = css`
@@ -101,13 +99,7 @@ export const linkText = css`
 
 export const customInputStyle = css`
   width: 100%;
-  border-radius: 8px; /* 둥근 모서리 */
-  .MuiOutlinedInput-root {
-    &::placeholder {
-      color: #999;
-      font-size: 14px;
-    }
-
+  border-radius: 8px;
     & fieldset {
       border-color: #ddd;
     }
@@ -117,5 +109,4 @@ export const customInputStyle = css`
     &.Mui-focused fieldset {
       border-color: #9f9f9f;
     }
-  }
 `;

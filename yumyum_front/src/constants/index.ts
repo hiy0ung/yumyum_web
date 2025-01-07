@@ -1,7 +1,7 @@
 export const MAIN_PATH = "/main";
 export const HOME_PATH = "/home";
 
-export const AUTH_PATH = '/auth';
+
 export const AUTH_PATH_LOGIN = '/auth/logIn';
 export const AUTH_PATH_SIGN_UP = '/auth/signUp';
 
@@ -23,5 +23,5 @@ export const CONTACT_PATH = '/contact';
 export const MY_PAGE = '/mypage'
 export const MY_PAGE_UPDATE = '/update'
 
-export const SEARCH_PATH = '/search';
-export const SEARCH_PATH_LOGIN = '/search/login';
+export const FIND_ID_PATH = '/find/login';
+export const FIND_PW_PATH = '/find/password';

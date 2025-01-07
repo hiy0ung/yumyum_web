@@ -331,6 +331,9 @@ export const cardInfoBottomList4Container = css`
 export const logInContainer = css`
     padding: 150px 0;
     background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 export const footerContainer = css`
     padding: 80px 0;
