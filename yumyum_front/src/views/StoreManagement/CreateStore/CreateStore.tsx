@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { Box } from "@mui/system";
 import * as css from "./Style";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import DaumPostcode from "react-daum-postcode";
 import {
   Button,
   FormControl,
@@ -18,7 +19,7 @@ import dayjs from "dayjs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { MAIN_PATH } from "../../../constants";
+import { STORE_PATH } from "../../../constants";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -27,6 +28,11 @@ export default function Store() {
   const [imgPreview, setImgPreview] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [base64, setBase64] = useState<string | null>();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [address, setAddress] = useState("");
+  const [detailAddress, setDetailAddress] = useState("");
+  const [detail2Address, setDetail2Address] = useState("");
+  const [openPostcode, setOpenPostcode] = useState(false);
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: null,
@@ -36,19 +42,41 @@ export default function Store() {
     breakStartTime: "",
     breakEndTime: "",
     address: "",
+    detailAddress: "",
+    detail2Address: "",
     description: "",
   });
 
+  const clickButton = () => {
+    setOpenPostcode((current) => !current);
+  };
+
+  const selectAddress = (data: any) => {
+    console.log(`
+            주소: ${data.address},
+            우편번호: ${data.zonecode}
+        `);
+    setAddress(data.zonecode);
+    setDetailAddress(data.address);
+    setOpenPostcode(false);
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if(file) {
+    if (file) {
       setImg(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         setBase64(reader.result as string);
         setImgPreview(reader.result as string);
-      }
+      };
+    }
+  };
+
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
@@ -108,7 +136,9 @@ export default function Store() {
   formData.append("closingTime", store.closingTime);
   formData.append("breakStartTime", store.breakStartTime);
   formData.append("breakEndTime", store.breakEndTime);
-  formData.append("address", store.address);
+  formData.append("address", address);
+  formData.append("detailAddress", detailAddress);
+  formData.append("detail2Address", detail2Address);
   formData.append("description", store.description);
   if (base64) {
     formData.append("logoUrl", base64);
@@ -133,7 +163,7 @@ export default function Store() {
       );
       if (response.data) {
         alert("가게등록에 성공하였습니다.");
-        navigate(MAIN_PATH);
+        navigate(STORE_PATH);
       }
     } catch (e) {
       console.log(token);
@@ -147,10 +177,23 @@ export default function Store() {
       <Box css={css.formStyle} component="form">
         <Box css={css.basicProfile}>
           <Box>
-            {imgPreview && (
-              <img src={imgPreview} alt="logo" css={css.logoImg}></img>
+            {imgPreview ? (
+              <img
+                src={imgPreview}
+                alt="logo"
+                css={css.logoImg}
+                onClick={handleImageClick}
+              ></img>
+            ) : (
+              <input type="file" onClick={handleImageClick} name="img" />
             )}
-            <input type="file" onChange={handleFileChange} name="img" />
+            <input
+              ref={fileInputRef}
+              type="file"
+              onChange={handleFileChange}
+              name="img"
+              style={{ display: "none" }}
+            />
           </Box>
           <Box css={css.storeNameAndCategory}>
             <TextField
@@ -237,13 +280,63 @@ export default function Store() {
             />
           </LocalizationProvider>
         </Box>
-        <Box css={css.address}>
-          <p style={{ fontSize: "20px", margin: "10px" }}>주소 API</p>
-          <textarea
-            value={store.address}
-            name="address"
-            onChange={handleStoreChange}
-          ></textarea>
+        <Box>
+          <div>
+            <tr>
+              <td className="title">주소</td>
+              <input
+                id="address_kakao"
+                onClick={clickButton}
+                value={address}
+              ></input>
+              <div
+                style={{
+                  position: "relative", // 부모 컨테이너 위치를 기준으로 설정
+                  display: "inline-block",
+                }}
+              >
+                {openPostcode && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: "110%",
+                      zIndex: 1000,
+                      border: "1px solid #ccc",
+                      background: "#fff",
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                      width: "400px",
+                    }}
+                  >
+                    <DaumPostcode
+                      onComplete={selectAddress}
+                      autoClose={false}
+                      defaultQuery="판교역로 235"
+                      style={{ height: "400px" }} // 높이 설정
+                    />
+                  </div>
+                )}
+              </div>
+            </tr>
+            <Box
+              sx={{
+                marginTop: "16px", // 간격 조정 (16px은 예제, 원하는 값으로 설정 가능)
+              }}
+            >
+              <tr>
+                <td className="title">상세주소</td>
+                <td>
+                  <input value={detailAddress}></input>
+                </td>
+                <input
+                  value={detail2Address}
+                  onChange={(e) => {
+                    setDetail2Address(e.target.value);
+                  }}
+                ></input>
+              </tr>
+            </Box>
+          </div>
         </Box>
         <Box>
           <p style={{ fontSize: "20px", margin: "10px" }}>가게 설명</p>

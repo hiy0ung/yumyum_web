@@ -9,6 +9,8 @@ export interface StoreInfo {
   breakStartTime: string;
   breakEndTime: string;
   address: string;
+  detailAddress: string;
+  detail2Address: string;
   description: string;
 }
 
