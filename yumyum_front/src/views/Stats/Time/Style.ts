@@ -21,7 +21,7 @@ export const dateContainerStyle = css`
   box-shadow: 0 0 10px 1px #e9e9e9;
   border: 1px solid #e9e9e9;
   border-radius: 10px;
-  background-color: #eff6ff;
+  background-color: #D4EBF8;
   text-align: center;
   justify-content: center;
 `;
@@ -30,7 +30,7 @@ export const inputStyle = css`
   text-align: center;
   justify-content: center;
   font-size: 20px;
-  background-color: aliceblue;
+  background-color: #D4EBF8;
   color: #000000;
   border: none;
   pointer-events: none;
@@ -40,13 +40,13 @@ export const buttonStyle = css`
   text-align: center;
   justify-content: center;
   font-size: 20px;
-  background-color: aliceblue;
+  background-color: #D4EBF8;
   border: none;
   cursor: pointer;
   color: #757575;
 
   &:hover {
-    color: #d4ebf8;
+    color:#90b2c5;
   }
 `;
 
@@ -69,7 +69,7 @@ export const calendarIconStyle = css`
   box-shadow: 0 0 10px 1px #e9e9e9;
   border: 1px solid #e9e9e9;
   border-radius: 10px;
-  background-color: #eff6ff;
+  background-color: #D4EBF8;
   width: 60px;
   height: 60px;
   margin-left: 30px;
@@ -153,10 +153,15 @@ export const valueTextStyle = css`
 
 //* 차트 데이터 없을 때
 export const chartDataNone = css`
+  position: relative;
   height: 100vh;
   line-height: 50vh;
-  text-align: center;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
   color: #333333;
-  font-size: 50px;
+  font-size: 35px;
   font-family: "SB-어그로-M";
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0.4;
 `;

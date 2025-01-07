@@ -287,7 +287,9 @@ export default function TimeStats() {
             </ResponsiveContainer>
           </div>
         ) : (
-          <div css={css.chartDataNone}>해당 날짜에 데이터가 없습니다!</div>
+          <div css={css.chartDataNone}>
+            해당 날짜에 데이터가 없습니다!
+          </div>
         )}
       </div>
     </>
