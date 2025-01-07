@@ -7,20 +7,21 @@ import {
   Button,
   TextField,
   Checkbox,
-  FormControlLabel,
   InputAdornment,
-  Collapse,
   Typography,
+  Modal,
 } from "@mui/material";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PhoneAndroidOutlinedIcon from "@mui/icons-material/PhoneAndroidOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
-import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 import * as css from "./Style";
 import axios from "axios";
 import { MAIN_PATH } from "../../../constants";
+import { PasswordStrength } from "../../../types/SignUp";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -57,12 +58,15 @@ function SignUp() {
     userEmail: "",
   });
 
-  const [slideState, setSlideState] = useState({
-    privacyPolicyAgreed: false,
-    marketingAgreed: false,
+  const [passwordStrength, setPasswordStrength] = useState<PasswordStrength>({
+    strength: "",
+    color: "",
+    emoji: "",
   });
 
-  const [passwordStrength, setPasswordStrength] = useState<string>("");
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState<boolean>(false);
+
+  const [isMarketingModalOpen, setIsMarketingModalOpen] = useState<boolean>(false);
 
   const getPasswordStrength = (password: string) => {
     const length = password.length;
@@ -70,16 +74,29 @@ function SignUp() {
     const hasUppercase = /[A-Z]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasSpecialChar = /[!@#$%^&*]/.test(password);
-    const specialCharCount = (password.match(/[!@#$%^&*]/g) || []).length;
+
+    let strength = "";
+    let color = "#9e9e9e";
+    let emoji = "";
 
     if (length >= 10 && hasLowercase && hasNumber && hasSpecialChar) {
-      if (length >= 10 && length < 12) return "Weak";
-      if (length >= 13) return "Medium";
-      if (length >= 15 && specialCharCount >= 2 && hasUppercase)
-        return "Strong";
+      if (length >= 10 && length < 12) {
+        strength = "약함";
+        color = "#f44336"
+        emoji = "😥";
+      } else if (length >= 13 && !hasUppercase) {
+        strength = "보통";
+        color = "#ff9800";
+        emoji = "😐";
+      } else if (length >= 15 && hasUppercase) {
+        strength = "강함";
+        color = "#4caf50";
+        emoji = "💪";
+      }
     }
-    return "";
+    return { strength, color, emoji };
   };
+
 
   const userIdDuplicationCheck = async () => {
     const userIdRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{4,20}$/;
@@ -114,15 +131,11 @@ function SignUp() {
   const userEmailDuplicationCheck = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    setSuccessMsg((prev) => ({ 
+    setSuccessMsg((prev) => ({
       ...prev,
-      userEmail: "" 
-    })); 
-    setErrorsMsg((prev) => 
-      ({ ...prev, 
-        userEmail: "",
-        form: "",
+      userEmail: "",
     }));
+    setErrorsMsg((prev) => ({ ...prev, userEmail: "", form: "" }));
 
     if (!emailRegex.test(userSignUpInfo.userEmail)) {
       setErrorsMsg((prev) => ({
@@ -184,6 +197,83 @@ function SignUp() {
       }));
     }
   };
+
+  const PrivacyPolicyAgreedModal = ({
+    open,
+    onClose,
+  }: {
+    open: boolean;
+    onClose: () => void;
+  }) => {
+    return (
+      <Modal open={open} onClose={onClose} aria-labelledby="modal-title">
+        <Box
+          css={css.modalBoxStyle}>
+          <Typography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            css={css.modalTitle}
+          >
+            개인정보 동의 내용
+          </Typography>
+          <Typography 
+            variant="body2" 
+            css={css.modalText}
+          >
+            여기에 개인정보 동의에 대한 자세한 내용을 입력하세요. Lorem ipsum
+            dolor sit amet, consectetur adipiscing elit. Proin ac metus nec
+            purus volutpat commodo.
+          </Typography>
+          <Button
+            onClick={onClose}
+            variant="contained"
+            css={css.modalCloseBtn}
+          >
+            닫기
+          </Button>
+        </Box>
+      </Modal>
+    );
+  };
+
+  const MarketingAgreedModal = ({
+    open,
+    onClose,
+  }: {
+    open: boolean;
+    onClose: () => void;
+  }) => {
+    return (
+      <Modal open={open} onClose={onClose} aria-labelledby="modal-title">
+        <Box
+          css={css.modalBoxStyle}>
+          <Typography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            css={css.modalTitle}
+          >
+            마케팅 수신 동의
+          </Typography>
+          <Typography 
+            variant="body2" 
+            css={css.modalText}
+          >
+            마케팅 수신 동의 항목에 대해서 어쩌고 추가
+          </Typography>
+          <Button
+            onClick={onClose}
+            variant="contained"
+            css={css.modalCloseBtn}
+          >
+            닫기
+          </Button>
+        </Box>
+      </Modal>
+    );
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -201,8 +291,8 @@ function SignUp() {
     }));
 
     if (name === "userPw") {
-      const strength = getPasswordStrength(value);
-      setPasswordStrength(strength);
+      const { strength, color, emoji } = getPasswordStrength(value);
+    setPasswordStrength({ strength, color, emoji });
     }
 
     if (name === "userEmail") {
@@ -291,20 +381,27 @@ function SignUp() {
     }));
   };
 
+  const handlePrivacyModalOpen = () => {
+    setIsPrivacyModalOpen(true);
+  };
+
+  const handlePrivacyModalClose = () => {
+    setIsPrivacyModalOpen(false);
+  };
+
+  const handleMarketingModalOpen = () => {
+    setIsMarketingModalOpen(true);
+  };
+
+  const handleMarketingModalClose = () => {
+    setIsMarketingModalOpen(false);
+  };
+
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setUserSignUpInfo((prev) => ({
       ...prev,
       [name]: checked,
-    }));
-  };
-
-  const handleSlideToggle = (
-    item: "privacyPolicyAgreed" | "marketingAgreed"
-  ) => {
-    setSlideState((prev) => ({
-      ...prev,
-      [item]: !prev[item],
     }));
   };
 
@@ -343,7 +440,10 @@ function SignUp() {
           <Box component="form" css={css.formBox}>
             {/* 아이디 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>아이디</div>
+              <div css={css.gridLabel}>
+                <span>아이디</span>
+                <span style={{ color: "#f44336" }}> *</span> 
+              </div>
               <Box css={css.inputBox}>
                 <TextField
                   placeholder="아이디"
@@ -360,7 +460,7 @@ function SignUp() {
                         css={[
                           css.gridHelper,
                           errorsMsg.userId
-                            ? { color: "#f44336" } 
+                            ? { color: "#f44336" }
                             : { color: "#43b9fd" },
                         ]}
                       >
@@ -368,7 +468,6 @@ function SignUp() {
                       </div>
                     ) : null
                   }
-                  autoComplete="아이디를 입력해주세요"
                   css={css.customInputStyle}
                   slotProps={{
                     input: {
@@ -392,7 +491,10 @@ function SignUp() {
 
             {/* 비밀번호 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>비밀번호</div>
+              <div css={css.gridLabel}>
+                <span>비밀번호</span>
+                <span style={{ color: "#f44336" }}> *</span> 
+                </div>
               <TextField
                 placeholder="비밀번호"
                 type="password"
@@ -403,10 +505,9 @@ function SignUp() {
                 error={!!errorsMsg?.userPw}
                 helperText={
                   userSignUpInfo.userPw && errorsMsg?.userPw ? (
-                    <div css={[
-                      css.gridHelper,
-                      { color: "#f44336"}
-                    ]}>{errorsMsg?.userPw}</div>
+                    <div css={[css.gridHelper, { color: "#f44336" }]}>
+                      {errorsMsg?.userPw}
+                    </div>
                   ) : null
                 }
                 css={css.customInputStyle}
@@ -420,12 +521,23 @@ function SignUp() {
                   },
                 }}
               />
-              {userSignUpInfo.userPw && <div>{passwordStrength}</div>}
+              <div css={css.passwordStrength}>
+                <span>{passwordStrength.emoji}</span>
+                <span 
+                  style={{
+                    color: passwordStrength.color,
+                    marginLeft: "10px",
+                }}>
+                  {passwordStrength.strength}</span>
+              </div>
             </Box>
 
             {/* 비밀번호 확인 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>비밀번호 확인</div>
+              <div css={css.gridLabel}>
+                <span>비밀번호 확인</span>
+                <span style={{ color: "#f44336" }}> *</span> 
+              </div>
               <TextField
                 placeholder="비밀번호 확인"
                 type="password"
@@ -439,14 +551,14 @@ function SignUp() {
                   (userSignUpInfo.userPw === userSignUpInfo.checkPw
                     ? successMsg.checkPw
                     : errorsMsg?.checkPw) ? (
-                      <div
-                        css={[
-                          css.gridHelper,
-                          errorsMsg.checkPw
-                            ? { color: "#f44336" } 
-                            : { color: "#43b9fd" },
-                        ]}
-                      >
+                    <div
+                      css={[
+                        css.gridHelper,
+                        errorsMsg.checkPw
+                          ? { color: "#f44336" }
+                          : { color: "#43b9fd" },
+                      ]}
+                    >
                       {" "}
                       {userSignUpInfo.userPw === userSignUpInfo.checkPw
                         ? successMsg.checkPw
@@ -469,7 +581,10 @@ function SignUp() {
 
             {/* 이름 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>이름</div>
+              <div css={css.gridLabel}>
+                <span>이름</span>
+                <span style={{ color: "#f44336" }}> *</span> 
+              </div>
               <TextField
                 placeholder="이름"
                 type="text"
@@ -480,10 +595,9 @@ function SignUp() {
                 error={!!errorsMsg?.userName}
                 helperText={
                   userSignUpInfo.userName && errorsMsg?.userName ? (
-                    <div css={[
-                      css.gridHelper,
-                      { color: "#f44336"}
-                    ]}>{errorsMsg?.userName}</div>
+                    <div css={[css.gridHelper, { color: "#f44336" }]}>
+                      {errorsMsg?.userName}
+                    </div>
                   ) : null
                 }
                 css={css.customInputStyle}
@@ -501,8 +615,11 @@ function SignUp() {
 
             {/* 이메일 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>이메일</div>
-              <Box css={css.inputBox} >
+              <div css={css.gridLabel}>
+                <span>이메일</span>
+                <span style={{ color: "#f44336" }}> *</span> 
+              </div>
+              <Box css={css.inputBox}>
                 <TextField
                   placeholder="이메일"
                   type="email"
@@ -512,7 +629,8 @@ function SignUp() {
                   onChange={handleInputChange}
                   error={!!errorsMsg?.userEmail}
                   helperText={
-                    userSignUpInfo.userEmail && (errorsMsg.userEmail || successMsg.userEmail) ? (
+                    userSignUpInfo.userEmail &&
+                    (errorsMsg.userEmail || successMsg.userEmail) ? (
                       <div
                         css={[
                           css.gridHelper,
@@ -548,7 +666,10 @@ function SignUp() {
 
             {/* 핸드폰 번호 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>핸드폰 번호</div>
+              <div css={css.gridLabel}>
+                <span>핸드폰 번호</span>
+                <span style={{ color: "#f44336" }}> *</span> 
+              </div>
               <TextField
                 placeholder="핸드폰 번호( - 제외하고 입력)"
                 type="text"
@@ -559,10 +680,10 @@ function SignUp() {
                 error={!!errorsMsg?.userPhone}
                 helperText={
                   userSignUpInfo.userPhone && errorsMsg?.userPhone ? (
-                    <div css={[
-                      css.gridHelper,
-                      { color: "#f44336"}
-                    ]}> {errorsMsg?.userPhone} </div>
+                    <div css={[css.gridHelper, { color: "#f44336" }]}>
+                      {" "}
+                      {errorsMsg?.userPhone}{" "}
+                    </div>
                   ) : null
                 }
                 css={css.customInputStyle}
@@ -580,7 +701,10 @@ function SignUp() {
 
             {/* 사업자등록번호 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>사업자등록번호</div>
+              <div css={css.gridLabel}>
+                <span>사업자 번호</span>
+                <span style={{ color: "#f44336" }}> *</span> 
+              </div>
               <Box css={css.inputBox}>
                 <TextField
                   placeholder="사업자 번호( - 제외하고 입력)"
@@ -594,11 +718,11 @@ function SignUp() {
                     userSignUpInfo.userBusinessNumber &&
                     (successMsg.userBusinessNumber ||
                       errorsMsg?.userBusinessNumber) ? (
-                        <div
+                      <div
                         css={[
                           css.gridHelper,
                           errorsMsg.userBusinessNumber
-                            ? { color: "#f44336" } 
+                            ? { color: "#f44336" }
                             : { color: "#43b9fd" },
                         ]}
                       >
@@ -630,58 +754,115 @@ function SignUp() {
 
             {/* 개인정보 동의 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>개인정보 동의</div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="privacyPolicyAgreed"
-                    checked={userSignUpInfo.privacyPolicyAgreed}
-                    onChange={handleCheckboxChange}
-                  />
+              <div css={css.gridLabel}>
+                <span>개인정보 이용 동의</span>
+                <span style={{ color: "#f44336" }}> *</span> 
+              </div>
+              <TextField
+                value={
+                  userSignUpInfo.privacyPolicyAgreed
+                    ? "동의함"
+                    : "동의하지 않음"
                 }
-                label="개인정보 동의"
-                sx={{
-                  "& .MuiFormControlLabel-label": {
-                    fontSize: "15px",
-                    color: "#464545",
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Checkbox
+                        name="privacyPolicyAgreed"
+                        checked={userSignUpInfo.privacyPolicyAgreed}
+                        onChange={handleCheckboxChange}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+                slotProps={{
+                  input: {
+                    startAdornment: userSignUpInfo.privacyPolicyAgreed ? (
+                      <InputAdornment position="start">
+                        <CheckCircleOutlineIcon />
+                      </InputAdornment>
+                    ) : (
+                      <InputAdornment position="start">
+                        <PanoramaFishEyeIcon />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Checkbox
+                          name="privacyPolicyAgreed"
+                          checked={userSignUpInfo.privacyPolicyAgreed}
+                          onChange={handleCheckboxChange}
+                        />
+                      </InputAdornment>
+                    ),
                   },
                 }}
+                variant="outlined"
+                css={css.customInputStyle}
               />
-              <KeyboardArrowDownOutlinedIcon
-                onClick={() => handleSlideToggle("privacyPolicyAgreed")}
-              />
-              <Collapse in={slideState.privacyPolicyAgreed}>
-                <Box css={css.agreed}>
-                  넣기
-                </Box>
-              </Collapse>
+              <Button
+                variant="text"
+                onClick={handlePrivacyModalOpen}
+                css={css.modalOpenBtn}
+              >
+                자세히 보기
+              </Button>
+              <PrivacyPolicyAgreedModal open={isPrivacyModalOpen} onClose={handlePrivacyModalClose} />
             </Box>
 
             {/* 마케팅 동의 */}
             <Box css={css.gridRow}>
-              <div css={css.gridLabel}>마케팅 동의</div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="marketingAgreed"
-                    checked={userSignUpInfo.marketingAgreed}
-                    onChange={handleCheckboxChange}
-                  />
+              <div css={css.gridLabel}>
+                <span>마케팅 수신 동의</span>
+              </div>
+              <TextField
+                value={
+                  userSignUpInfo.marketingAgreed ? "동의함" : "동의하지 않음"
                 }
-                label="마케팅 수신동의"
-                sx={{
-                  "& .MuiFormControlLabel-label": {
-                    fontSize: "15px",
-                    color: "#464545",
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Checkbox
+                        name="marketingAgreed"
+                        checked={userSignUpInfo.marketingAgreed}
+                        onChange={handleCheckboxChange}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+                slotProps={{
+                  input: {
+                    startAdornment: userSignUpInfo.marketingAgreed ? (
+                      <InputAdornment position="start">
+                        <CheckCircleOutlineIcon />
+                      </InputAdornment>
+                    ) : (
+                      <InputAdornment position="start">
+                        <PanoramaFishEyeIcon />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Checkbox
+                          name="marketingAgreed"
+                          checked={userSignUpInfo.marketingAgreed}
+                          onChange={handleCheckboxChange}
+                        />
+                      </InputAdornment>
+                    ),
                   },
                 }}
+                variant="outlined"
+                css={css.customInputStyle}
               />
-              <KeyboardArrowDownOutlinedIcon
-                onClick={() => handleSlideToggle("marketingAgreed")}
-              />
-              <Collapse in={slideState.marketingAgreed}>
-                <Box css={css.agreed}>된다~~</Box>
-              </Collapse>
+              <Button
+                variant="text"
+                onClick={handleMarketingModalOpen}
+                css={css.modalOpenBtn}
+              >
+                자세히 보기
+              </Button>
+              <MarketingAgreedModal open={isMarketingModalOpen} onClose={handleMarketingModalClose} />
             </Box>
 
             {/* 버튼 */}

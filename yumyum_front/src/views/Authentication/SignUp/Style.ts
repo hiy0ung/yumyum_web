@@ -96,15 +96,26 @@ export const duplicatedBtn = css`
   grid-area: button;
   height: 56px;
   width: 120px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
   background-color: #58cdff;
   border: none;
   color: white;
+  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background-color: #0db4fc;
   }
+`;
+
+export const passwordStrength = css`
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+  width: 120px;
+  font-size: 19px;
 `;
 
 export const gridHelper = css`
@@ -122,13 +133,52 @@ export const heplerTextStyle = css`
   }
 `;
 
-export const agreed = css`
-  box-sizing: border-box;
-  padding: 15px;
+export const modalBoxStyle = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #ffffff;
-  border: 1px solid #dcdcdc;
-  border-radius: 5px;
-  overflow-y: scroll;
+  border-radius: 15px;
+  box-shadow: 
+    0px 3px 1px -2px rgba(0, 0, 0, 0.2), 
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  padding: 32px;
+  width: 400px;
+`;
+
+export const modalTitle = css`
+  margin-bottom: 16px;
+  font-family: "SB-어그로-M";
+`;
+
+export const modalText = css`
+  margin-bottom: 16px;
+  font-family: "SB-어그로-L";
+`;
+
+export const modalOpenBtn = css`
+  grid-area: button;
+  height: 56px;
+  width: 120px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #ffffff;
+  color: #58cdff;
+`;
+
+export const modalCloseBtn = css`
+  display: block;
+  margin: 20px auto 0;
+  width: 40%;
+  text-align: center;
+  font-family: "SB-어그로-L";
+  background-color: #58cdff;
+
+  &:hover {
+    background-color: #0db4fc;
+  }
 `;
 
 export const submitButton = css`
