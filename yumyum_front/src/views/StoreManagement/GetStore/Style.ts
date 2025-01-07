@@ -1,105 +1,113 @@
+// Style.ts
 import { css } from "@emotion/react";
 
 export const storeTitle = css`
-    text-align: center;
-    height: 100px;
-    line-height: 100px;
-    font-weight: bold;
-    font-size: 32px;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 50px;
+  text-align: center;
 `;
 
 export const StoreInfo = css`
-    width: 700px !important;
-    min-height: 500px;
-    padding: 16px;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
 `;
 
 export const BasicInfo = css`
-  width: 600px;
   display: flex;
-  justify-content: space-around;
-  margin: 0 auto;
-  margin-top: 50px;
-
-  & > div > p {
-    margin-top: 10px;
-  }
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 export const logoUrl = css`
-  margin: 0;
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
 `;
 
 export const BasicInfoContent = css`
-  font-size: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+text-align: center;
+  p {
+    margin: 8px 0;
+    font-size: 1.1rem;
+  }
 `;
 
 export const description = css`
-  white-space: pre-wrap;
-
-  & > p {
-    margin-top: 10px;
-  }
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  width: 100%;
 `;
 
 export const StoreTimeAndBreakTime = css`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 300px;
+  margin-bottom: 20px;
 `;
 
 export const Time = css`
-  width: 500px;
-  font-size: 16px;
   display: flex;
-  justify-content: space-around;
-  margin-top: 50px;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 10px;
+  
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    font-size: 1rem;
+    color: #555;
 
-  & > div > p {
-    margin-bottom: 10px;
+    p {
+      margin: 0;
+      font-weight: bold;
+      font-size: 1.1rem;
+      line-height: 2;
+    }
   }
 `;
 
 export const buttons = css`
-  margin-top: 100px;
   display: flex;
-  width: 100%;
+  gap: 20px;
   justify-content: flex-end;
-
-  & > button {
-    margin: 10px;
-  }
 `;
 
 export const updateButton = css`
-  width: 110px;
-  font-size: 12px;
-
-  :hover {
-    background-color: #1976d2;
+  height: 40px;
+  font-size: 14px;
+  color: #58cdff;
+  border-color: #58cdff;
+  
+  &:hover {
+    background-color: #0db4fc;
     color: white;
   }
 `;
 
 export const deleteButton = css`
-  width: 110px;
-  color: red;
-  border: 1px solid red;
-  font-size: 12px;
-
-  :hover {
-    background-color: red;
+  height: 40px;
+  font-size: 14px;
+  color: #f44336;
+  border-color:  #f44336;
+  
+  &:hover {
+    background-color: #d32f2f;
     color: white;
   }
 `;

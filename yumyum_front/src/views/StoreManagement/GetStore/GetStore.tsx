@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 import { StoreInfo } from "../../../types/Store";
 import * as css from "./Style";
 import { useNavigate } from "react-router-dom";
-import { MAIN_PATH, UPDATE_STORE_PATH } from "../../../constants";
+import { HOME_PATH, UPDATE_STORE_PATH } from "../../../constants";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -23,6 +23,8 @@ export default function Store() {
     breakStartTime: "",
     breakEndTime: "",
     address: "",
+    detailAddress: "",
+    detail2Address: "",
     description: "",
   });
 
@@ -40,6 +42,7 @@ export default function Store() {
         const data = response.data.data;
         setStore(data);
         setImgData(data.logoUrl);
+        console.log(data);
       }
     } catch (e) {
       console.error(e);
@@ -75,7 +78,7 @@ export default function Store() {
       if (response.data) {
         const data = response.data.data;
         alert(data);
-        navigate(MAIN_PATH);
+        navigate(HOME_PATH);
       }
     } catch (e) {
       console.error(e);
@@ -94,7 +97,7 @@ export default function Store() {
             />
           )}
           <Box css={css.BasicInfoContent}>
-            {store.address && <p>가게주소: {store.address}</p>}
+            {store.address && <p>가게주소: {store.detailAddress} {store.detail2Address}</p>}
             <p>카테고리: {store.category}</p>
             {store.description && <div css={css.description}><p>가게설명: {store.description}</p></div>}
           </Box>
@@ -148,12 +151,13 @@ export default function Store() {
       <Dialog open={isOpen} onClose={handleClose} fullWidth={true} maxWidth="md" PaperProps={{
         sx: {
           width: '400px',
-          height: '160px'
+          height: '130px',
+          overflow: 'hidden'
         }
       }}>
-            <DialogTitle>가게삭제</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
+            <DialogTitle sx={{fontSize: '16px'}}>가게삭제</DialogTitle>
+            <DialogContent sx={{overflow: 'hidden'}}>
+              <DialogContentText sx={{fontSize: '14px'}}>
                 정말 삭제하시겠습니까?
               </DialogContentText>
             </DialogContent>
