@@ -143,7 +143,7 @@ export const labelTextStyle = css`
   font-size: 13px; */
   font-weight: bold;
   margin-bottom: 5px;
-  color: #1683ff;
+  color: #58cdff;
 `;
 
 export const valueTextStyle = css`
@@ -157,6 +157,6 @@ export const chartDataNone = css`
   line-height: 50vh;
   text-align: center;
   color: #333333;
-  font-size: 60px;
+  font-size: 50px;
   font-family: "SB-어그로-M";
 `;

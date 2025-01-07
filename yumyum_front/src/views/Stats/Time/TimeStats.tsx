@@ -230,7 +230,6 @@ export default function TimeStats() {
                   height={36}
                   wrapperStyle={{
                     fontWeight: "bold",
-                    border: "2px solid red"
                   }}
                 />
                 <Line
