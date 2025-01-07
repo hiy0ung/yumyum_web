@@ -8,7 +8,7 @@ import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import * as css from "./Style";
 import axios from "axios";
 import {
-  AUTH_PATH_SIGN_UP,
+  AUTH_PATH_SIGN_UP, FIND_ID_PATH, FIND_PW_PATH,
   HOME_PATH,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
@@ -139,8 +139,12 @@ export default function Login() {
                 회원가입
               </Link>
               <p css={css.linkText}>/</p>
-              <Link css={css.linkText} to={"/"}>
-                아이디/비밀번호 찾기
+              <Link css={css.linkText} to={FIND_ID_PATH}>
+                아이디 찾기
+              </Link>
+              <p css={css.linkText}>/</p>
+              <Link css={css.linkText} to={FIND_PW_PATH}>
+                비밀번호 찾기
               </Link>
             </Box>
           </Box>

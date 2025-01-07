@@ -17,7 +17,9 @@ import {
     MY_PAGE_UPDATE,
     MAIN_PATH,
     UPDATE_STORE_PATH,
-    HOME_PATH
+    HOME_PATH,
+    FIND_ID_PATH,
+    FIND_PW_PATH
 } from "./constants";
 import Header from "./layouts/Header/index";
 import SideBar from "./layouts/SideBar";
@@ -38,6 +40,9 @@ import MypageUpdate from "./views/MyPage/MypageUpdate";
 import Review from "./views/Review/Review";
 import Main from "./views/Main/Main";
 import { useCookies } from "react-cookie";
+import FindId from "./views/Authentication/FIndID/FindID";
+import FindPW from "./views/Authentication/FindPW/FindPW";
+import ChangePassword from "./views/Authentication/PasswordReset/ChangePassword";
 
 function App() {
     const [cookies] = useCookies(["token"]);
@@ -46,10 +51,8 @@ function App() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!token) {
+        if (!token && !window.location.pathname.includes('/findPassword')) {
             navigate(MAIN_PATH);
-        } else {
-            navigate(HOME_PATH);
         }
     }, [token]);
 
@@ -85,7 +88,10 @@ function App() {
                             <Routes>
                                 <Route path={MAIN_PATH} element={<Main />} />
                                 <Route path={AUTH_PATH_SIGN_UP} element={<SignUp />} />
+                                <Route path={FIND_ID_PATH} element={<FindId />} />
+                                <Route path={FIND_PW_PATH} element={<FindPW />} />
                                 <Route path={AUTH_PATH_LOGIN} element={<AuthUser />} />
+                                <Route path="/findPassword" element={<ChangePassword />} />
                             </Routes>
                         </div>
                     )
