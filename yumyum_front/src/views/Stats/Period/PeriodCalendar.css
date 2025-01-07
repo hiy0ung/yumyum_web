@@ -155,25 +155,25 @@
 }
 
 .selected {
-  background-color: #2c91f5e0 !important;
+  background-color: #58cdff !important;
   color: white;
   border-radius: 30px;
   border: none !important;
 }
 
 .selected:hover {
-  background: #81bffd !important;
+  background: #b8e5f8 !important;
 }
 
 .react-calendar .react-calendar__tile--now.selected {
   border: none !important;
-  background-color: #2c91f5e0 !important;
+  background-color: #58cdff !important;
   color: white;
   border-radius: 30px;
 }
 
 .react-calendar__tile--now.selected:hover {
-  background: #81bffd !important;
+  background: #b8e5f8 !important;
 }
 
 .react-calendar__tile {
@@ -190,6 +190,3 @@
   background-color: #e6e6e6 !important; 
   cursor: pointer;
 }
-
-
-
