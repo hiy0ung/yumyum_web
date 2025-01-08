@@ -137,8 +137,10 @@ export const profile = css`
     transition: transform 0.2s ease;
 
     & > img {
+        width: 50px;
         height: 50px;
         border-radius: 50%;
+        object-fit: cover;
         text-align: center;
         border: 1px solid gray;
         margin-right: 10px;

@@ -8,9 +8,9 @@ export interface StoreInfo {
   closingTime: string;
   breakStartTime: string;
   breakEndTime: string;
+  zoneCode: string;
   address: string;
   detailAddress: string;
-  detail2Address: string;
   description: string;
 }
 

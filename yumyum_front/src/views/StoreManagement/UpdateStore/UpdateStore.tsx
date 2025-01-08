@@ -28,9 +28,9 @@ export default function Store() {
   const [category, setCategory] = useState<string>("");
   const [imageData, setImgData] = useState<string>();
   const [base64, setBase64] = useState<string | null>();
+  const [zoneCode, setZoneCode] = useState("");
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
-  const [detail2Address, setDetail2Address] = useState("");
   const [openPostcode, setOpenPostcode] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -42,9 +42,9 @@ export default function Store() {
     closingTime: "",
     breakStartTime: "",
     breakEndTime: "",
+    zoneCode: "",
     address: "",
     detailAddress: "",
-    detail2Address: "",
     description: "",
   });
 
@@ -56,23 +56,14 @@ export default function Store() {
     closingTime: "",
     breakStartTime: "",
     breakEndTime: "",
+    zoneCode: "",
     address: "",
     detailAddress: "",
-    detail2Address: "",
     description: "",
   });
 
   const clickButton = () => {
     setOpenPostcode((current) => !current);
-  };
-
-  const selectAddress = (data: any) => {
-      setUpdateStore((prev) => ({
-        ...prev,
-        address: data.address,
-        detailAddress: data.detailAddress || "",
-        detail2Address: data.detail2Address || "",
-      }))
   };
 
   const fetchStore = async () => {
@@ -89,9 +80,9 @@ export default function Store() {
         const data = response.data.data;
         setStore(data);
         setUpdateStore(data);
+        setZoneCode(data.zoneCode);
         setAddress(data.address);
         setDetailAddress(data.detailAddress);
-        setDetail2Address(data.detail2Address);
         setImgData(data.logoUrl);
         setCategory(data.category);
       }
@@ -104,9 +95,27 @@ export default function Store() {
     fetchStore();
   }, []);
 
+  const selectAddress = (data: any) => {
+    setUpdateStore((prev) => ({
+      ...prev,
+      zoneCode: data.zonecode,
+      address: data.address,
+    }));
+    setZoneCode(data.zonecode);
+    setAddress(data.address);
+    setOpenPostcode(false);
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    const IMAGE_MAX_SIZE = 10 * 1024 * 1024;
+
     if (file) {
+      if (file.size > IMAGE_MAX_SIZE) {
+        alert("업로드 가능한 최대 용량은 10MB입니다.");
+        return;
+      }
+
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -147,10 +156,10 @@ export default function Store() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     e.preventDefault();
-    setUpdateStore({
-      ...updateStore,
+    setUpdateStore((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const checkStoreInput = () => {
@@ -179,7 +188,9 @@ export default function Store() {
       "closingTime",
       "breakStartTime",
       "breakEndTime",
+      "zoneCode",
       "address",
+      "detailAddress",
       "description",
     ];
 
@@ -190,14 +201,12 @@ export default function Store() {
       formData.append(field, valueToAppend);
     });
 
-    if(base64) {
-      formData.append("logoUrl", base64);
-    }else if(imageData){
-      formData.append("logoUrl", imageData);
-    } else {
-      alert("이미지는 jpg 또는 jpeg로 선택해주세요");
+    const logoUrl = base64 || imageData;
+    if (!logoUrl) {
+      alert("이미지를 선택해주세요");
       return;
     }
+    formData.append("logoUrl", logoUrl);
 
     if (!token) {
       alert("로그인 해주세요.");
@@ -229,11 +238,22 @@ export default function Store() {
       <Box css={css.formStyle} component="form">
         <Box css={css.basicProfile}>
           <Box>
-            {
-              base64 ? (
-                <img src={base64} alt="profile" css={css.logoImg} onClick={handleImageClick}></img>
-              ) : (<img src={imageData} alt="profile" style={{maxHeight: "200px"}} onClick={handleImageClick} css={css.logoImg}></img>)
-            }
+            {base64 ? (
+              <img
+                src={base64}
+                alt="profile"
+                css={css.logoImg}
+                onClick={handleImageClick}
+              ></img>
+            ) : (
+              <img
+                src={imageData}
+                alt="profile"
+                style={{ maxHeight: "200px" }}
+                onClick={handleImageClick}
+                css={css.logoImg}
+              ></img>
+            )}
             <input
               ref={fileInputRef}
               type="file"
@@ -249,7 +269,6 @@ export default function Store() {
               label="가게명"
               name="storeName"
               value={updateStore.storeName}
-              defaultValue={store.storeName}
               onChange={handleStoreChange}
             />
             <FormControl css={css.category}>
@@ -344,12 +363,13 @@ export default function Store() {
               <input
                 id="address_kakao"
                 onClick={clickButton}
-                value={address}
+                name="zoneCode"
+                value={zoneCode}
                 onChange={handleStoreChange}
               ></input>
               <div
                 style={{
-                  position: "relative", 
+                  position: "relative",
                   display: "inline-block",
                 }}
               >
@@ -378,16 +398,21 @@ export default function Store() {
             </tr>
             <Box
               sx={{
-                marginTop: "16px", 
+                marginTop: "16px",
               }}
             >
               <tr>
                 <td className="title">상세주소</td>
                 <td>
-                  <input value={detailAddress} onChange={handleStoreChange}></input>
+                  <input
+                    name="address"
+                    value={address}
+                    onChange={handleStoreChange}
+                  ></input>
                 </td>
                 <input
-                  value={detail2Address}
+                  name="detailAddress"
+                  value={detailAddress || ""}
                   onChange={handleStoreChange}
                 ></input>
               </tr>
