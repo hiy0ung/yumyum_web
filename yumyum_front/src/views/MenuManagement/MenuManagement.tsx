@@ -7,7 +7,7 @@ import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
 import { updateModalStore, useModalStore } from "../../Stroes/menuModal.store";
 import { useCookies } from "react-cookie";
-import { Menus, Category, AddCategory, UpdateMenu, MenuOptions } from "../../types/Menu"
+import { Menus, Category, AddCategory, UpdateMenu, MenuOptions, MenuData } from "../../types/Menu"
 
 export default function MenuManagement() {
   const [cookies] = useCookies(["token"]);
@@ -20,7 +20,8 @@ export default function MenuManagement() {
   const [categoryModalOepn, setIsCategoryModalOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const [updateOptionChecked, setUpdateOptionChecked] = useState<boolean[]>([]);
-  const [selectedMenuId, setSelectedMenuId] = useState<number | null>(null);
+  const [selectedMenuId, setSelectedMenuId] = useState<number>(0);
+  const [updateMenuData, setUpdateMenuData] = useState({});
   const [updateMenudata, setUpdateMenudata] = useState<UpdateMenu>({
     categoryId: categories.length > 0 ? categories[0].id : 0,
     menuName: "",
@@ -269,11 +270,13 @@ export default function MenuManagement() {
         menuDescription: selectedMenu.menuDescription,
         menuPrice: selectedMenu.menuPrice,
         isAvailable: selectedMenu.isAvailable,
-        menuOptions: selectedMenu.menuOptions ? selectedMenu.menuOptions.map((option: any) => ({
+        menuOptions: selectedMenu.menuOptions ? 
+        selectedMenu.menuOptions.map((option: any) => ({
           ...option,
           optionDetails: option.optionDetails || [],
         })) : [],
       });
+      
       setSelectedMenuId(menuId);
     }
     try {
@@ -325,7 +328,10 @@ export default function MenuManagement() {
       return;
     }
   };
+
+
   // console.log(menus);
+  // console.log(menus.length);
   // console.log(categories);
   return (
     <>
@@ -338,8 +344,8 @@ export default function MenuManagement() {
             <div css={s.selectMenuCategory}>
               <select name="categorySelect" id="categories">
                 <option>전체</option>
-                {categories.map((category) => (
-                  <option>{category.menuCategory}</option>
+                {categories.map((category, key) => (
+                  <option key={category.id}>{category.menuCategory}</option>
                 ))}
               </select>
             </div>
