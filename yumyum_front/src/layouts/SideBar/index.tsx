@@ -29,12 +29,14 @@ import {useCookies} from "react-cookie";
 import axios from "axios";
 import YumYumLogoImg from "../../img/yumyumLogo2.webp";
 import useAuthStore from "../../Stroes/auth.store";
+import useStoreImage from "../../Stroes/storeImg.store";
 
 export default function SideBar() {
     const [pathValue, setPathValue] = useState("");
     const [cookies, setCookies] = useCookies(["token"]);
     const token = cookies.token;
     const location = useLocation();
+    const {storeImage, setStoreImg} = useStoreImage();
     const { logout } = useAuthStore();
     const navigate = useNavigate();
 
@@ -75,6 +77,7 @@ export default function SideBar() {
                 setPathValue("");
         }
     };
+
     useEffect(() => {
         pathHandle(location.pathname);
     }, [location.pathname]);
@@ -212,7 +215,7 @@ export default function SideBar() {
             </nav>
             <div>
                 <Link css={css.profile} to={MY_PAGE}>
-                    <img src={defaultProfileImg} alt="프로필 사진입니다"/>
+                    {storeImage ? <img src={storeImage} alt="Store" /> :<img src={defaultProfileImg} alt="프로필 사진입니다"/>}
                     <span>마이페이지</span>
                 </Link>
 
