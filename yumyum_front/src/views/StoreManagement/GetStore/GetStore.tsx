@@ -16,12 +16,14 @@ import { StoreInfo } from "../../../types/Store";
 import * as css from "./Style";
 import { useNavigate } from "react-router-dom";
 import { HOME_PATH, UPDATE_STORE_PATH } from "../../../constants";
+import useStoreImage from "../../../Stroes/storeImg.store";
 
 export default function Store() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const token = cookies.token;
   const [imageData, setImgData] = useState<string>();
+  const {setStoreImg} = useStoreImage();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: "",
@@ -78,6 +80,7 @@ export default function Store() {
         "http://localhost:4041/api/v1/stores/delete",
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -85,6 +88,8 @@ export default function Store() {
       if (response.data) {
         const data = response.data.data;
         alert(data);
+        setStoreImg("");
+        localStorage.removeItem("storeImage");
         navigate(HOME_PATH);
       }
     } catch (e) {

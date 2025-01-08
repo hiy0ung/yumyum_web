@@ -20,6 +20,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
+import useStoreImage from "../../../Stroes/storeImg.store";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function Store() {
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   const [openPostcode, setOpenPostcode] = useState(false);
+  const {setStoreImg} = useStoreImage();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: null,
@@ -166,6 +168,8 @@ export default function Store() {
       );
       if (response.data) {
         alert("가게등록에 성공하였습니다.");
+        const data = response.data.data;
+        setStoreImg(data.logoUrl);
         navigate(STORE_PATH);
       }
     } catch (e) {
@@ -286,7 +290,7 @@ export default function Store() {
         <Box>
           <div>
             <tr>
-              <td className="title">주소</td>
+              <td className="title" style={{paddingRight: '10px'}}>주소</td>
               <input
                 id="address_kakao"
                 onClick={clickButton}
@@ -323,13 +327,13 @@ export default function Store() {
             </tr>
             <Box
               sx={{
-                marginTop: "16px",
+                margin: "20px 0px",
               }}
             >
               <tr>
                 <td className="title">상세주소</td>
                 <td>
-                  <input value={address}></input>
+                  <input value={address} style={{marginRight: '10px'}}></input>
                 </td>
                 <input
                   value={detailAddress}

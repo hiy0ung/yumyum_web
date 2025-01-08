@@ -57,7 +57,6 @@ export const storeTime = css`
     display: flex;
     width: 500px;
     justify-content: space-around;
-    margin: 20px;
     height: 100px;
 `;
 
