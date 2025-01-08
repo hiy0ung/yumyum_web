@@ -1,12 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
 import * as css from "./Style";
-import useStoreTimes from "../../Stroes/storeImg.store";
 import {useState, useEffect, useCallback} from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { TimeInfo } from "../../types/Store";
-import { useStore } from "zustand";
 import useStoreImage from "../../Stroes/storeImg.store";
 
 export default function Header() {
@@ -19,7 +17,7 @@ export default function Header() {
         breakStartTime: "",
         breakEndTime: "",
     });
-    const {storeImage, setStoreImg} = useStoreImage();
+    const {setStoreImg} = useStoreImage();
 
     const fetchStore = async () => {
         try {
@@ -37,7 +35,6 @@ export default function Header() {
                 });
 
                 const base64Image = data.logoUrl;
-                console.log(base64Image);
                 if(base64Image.startsWith('data:image/png;base64,') || base64Image.startsWith('data:image/jpg;base64') || base64Image.startsWith('data:image/jpeg;base64')) {
                     setStoreImg(base64Image);
                 } else {
@@ -87,11 +84,15 @@ export default function Header() {
     },[storeTimes]) 
     
     useEffect(() => {
-        fetchStore().then(updateStatus);
+        const fetchAndUpdate = async () => {
+            await fetchStore();
+            updateStatus();
+        };
+        fetchAndUpdate();
     },[token]);
 
     useEffect(() => {
-        const intervalId = setInterval(updateStatus, 500);
+        const intervalId = setInterval(updateStatus, 1000);
         return () => clearInterval(intervalId);
     }, [storeTimes]);
 
