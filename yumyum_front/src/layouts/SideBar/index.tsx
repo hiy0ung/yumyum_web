@@ -12,7 +12,6 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import HomeIcon from "@mui/icons-material/Home";
 import * as css from "./Style";
 import {
-    AUTH_PATH_LOGIN,
     CONTACT_PATH,
     CREATE_STORE_PATH,
     HOME_PATH,
@@ -28,7 +27,7 @@ import {
 import defaultProfileImg from "../../img/default_Profile_Img.webp";
 import {useCookies} from "react-cookie";
 import axios from "axios";
-import YumYumLogoImg from "../../img/yumyumLogo.webp";
+import YumYumLogoImg from "../../img/yumyumLogo2.webp";
 import useAuthStore from "../../Stroes/auth.store";
 
 export default function SideBar() {
@@ -89,9 +88,9 @@ export default function SideBar() {
                 },
             });
             if (response.data) {
-                window.location.href = STORE_PATH;
+                navigate(STORE_PATH)
             } else {
-                window.location.href = CREATE_STORE_PATH;
+                navigate(CREATE_STORE_PATH);
             }
         } catch (e) {
             console.error(e);

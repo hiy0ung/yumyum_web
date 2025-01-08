@@ -9,7 +9,6 @@ import food5 from "../../img/food5.webp"
 import food6 from "../../img/food6.webp"
 import food7 from "../../img/food7.webp"
 import food8 from "../../img/food8.webp"
-import {ex} from "@fullcalendar/core/internal-common";
 
 export const wrap = css`
     min-width: 1280px;
@@ -121,7 +120,7 @@ export const imgIntroLeftIntoContainer  = css`
     overflow: hidden;
     width: 600px;
     height: 600px;
-    background: url(${img1}) no-repeat center;
+    background: url(${img1}) no-repeat center center;
     background-size: cover;
     border-radius: 50%;
     transition: all 0.6s;
@@ -243,7 +242,6 @@ export const listMen1Img = css`
 export const listMenu1Title = css`
     margin-left: 50px;
 `;
-
 export const listMenu2 = css`
     display: flex;
     align-items: center;
@@ -252,13 +250,11 @@ export const listMenu2 = css`
     transform: translateX(-100%);
     transition: all 0.8s ease-out;
 `;
-
 export const listMen2Img = css`
     width: 150px;
     height: 150px;
     border-radius: 50%;
 `;
-
 export const listMenu2Title = css`
     margin-left: 50px;
 `;
@@ -266,9 +262,32 @@ export const cardInfoContainer = css`
     padding: 150px 0;
     background: url(${img2}) no-repeat center center;
     background-size: cover;
+`;
+export const visibleZBox = css`
+    opacity: 1;
+    transform: translatey(0);
     
 `;
-export const cardInfoTopContainer = css`
+export const cardInfoCommonLayout = css`
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateZ(200px);
+    transition: all 0.8s;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding: 0 0 30px 0;
+ 
+    & > div {
+        font-size: 30px;
+        font-weight: 600;
+        color: white;
+    }
+`;
+export const cardInfoTopBottomContainer = css`
     perspective: 800px; 
     width: 1280px;
     margin : 0 auto;
@@ -277,206 +296,55 @@ export const cardInfoTopContainer = css`
     justify-content: space-between;
     align-items: center;
 `;
-export const visibleZBox = css`
-    opacity: 1;
-    transform: translatey(0);
-    
-`;
 export const cardInfoTopList1Container = css`
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    opacity: 0;
-    transform: translateZ(200px);
-    transition: all 0.8s;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding: 0 0 30px 0;
     background: url(${food1}) no-repeat center center;
     background-size: cover;
-    
-    & > div {
-        font-size: 30px;
-        font-weight: 600;
-        color: white;
-    }
 `;
 export const cardInfoTopList2Container = css`
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    opacity: 0;
-    transform: translateZ(200px);
-    transition: all 1.4s;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding: 0 0 30px 0;
     background: url(${food2}) no-repeat center center;
     background-size: cover;
-
-    & > div {
-        font-size: 30px;
-        font-weight: 600;
-        color: white;
-    }
 `;
 export const cardInfoTopList3Container = css`
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    opacity: 0;
-    transform: translateZ(200px);
-    transition: all 2s;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding: 0 0 30px 0;
     background: url(${food3}) no-repeat center center;
     background-size: cover;
-
-    & > div {
-        font-size: 30px;
-        font-weight: 600;
-        color: white;
-    }
 `;
 export const cardInfoTopList4Container = css`
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    opacity: 0;
-    transform: translateZ(200px);
-    transition: all 2.6s;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding: 0 0 30px 0;
     background: url(${food4}) no-repeat center center;
     background-size: cover;
-
-    & > div {
-        font-size: 30px;
-        font-weight: 600;
-        color: white;
-    }
 `;
-export const cardInfoBottomContainer = css`
-    perspective: 800px;
-    width: 1280px;
-    margin : 0 auto;
-    padding: 50px 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-`;
-
 export const cardInfoBottomList1Container = css`
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    opacity: 0;
-    transform: translateZ(200px);
-    transition: all 0.8s;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding: 0 0 30px 0;
-    background: url(${food1}) no-repeat center center;
+    background: url(${food5}) no-repeat center center;
     background-size: cover;
-    
-    & > div {
-        font-size: 30px;
-        font-weight: 600;
-        color: white;
-    }
 `;
 export const cardInfoBottomList2Container = css`
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    opacity: 0;
-    transform: translateZ(200px);
-    transition: all 1.4s;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding: 0 0 30px 0;
-    background: url(${food2}) no-repeat center center;
+    background: url(${food6}) no-repeat center center;
     background-size: cover;
-
-    & > div {
-        font-size: 30px;
-        font-weight: 600;
-        color: white;
-    }
 `;
 export const cardInfoBottomList3Container = css`
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    opacity: 0;
-    transform: translateZ(200px);
-    transition: all 2s;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding: 0 0 30px 0;
-    background: url(${food3}) no-repeat center center;
+    background: url(${food7}) no-repeat center center;
     background-size: cover;
-
-    & > div {
-        font-size: 30px;
-        font-weight: 600;
-        color: white;
-    }
 `;
 export const cardInfoBottomList4Container = css`
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    opacity: 0;
-    transform: translateZ(200px);
-    transition: all 2.6s;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding: 0 0 30px 0;
-    background: url(${food4}) no-repeat center center;
+    background: url(${food8}) no-repeat center center;
     background-size: cover;
-
-    & > div {
-        font-size: 30px;
-        font-weight: 600;
-        color: white;
-    }
 `;
 export const logInContainer = css`
     padding: 150px 0;
-    
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
-
 export const footerContainer = css`
     padding: 80px 0;
     background-color: #191919;
     display: flex;
     justify-content: space-around;
     align-items: center;
-
 `;
 
 export const footerLeftContainer = css`
     color: #ffffff;
-    
 `;
 export const footerLeftLogo = css`
     height: 90px;
@@ -494,7 +362,6 @@ export const bar = css`
     display: inline-block;
     background-color: #828282;
     margin: 0 10px;
-
 `;
 
 export const footerRightContainer = css`

@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React, {useEffect, useState} from 'react';
 import * as css from './Style';
-
 import StatsReview from "./StatsReview";
 import ReviewComment from "./ReviewComment";
 import axios from "axios";
 import {useCookies} from "react-cookie";
-import {MonthReviewsStats, TotalReviewsStats, } from "../../types/ReviewStats";
+import {MonthReviewsStats, TotalReviewsStats } from "../../types/ReviewStats";
 import moment from "moment";
 
 
@@ -14,9 +13,9 @@ function Review() {
     const [totalReviewStats, setTotalTotalReviewStats] = useState<TotalReviewsStats[]>([]);
     const [monthReviewStats, setMonthReviewStats] = useState<MonthReviewsStats[]>([
         {
-            avgRating: 3.5,
-            reviewMonth : 12,
-            reviewMonthCount : 442
+            reviewMonth: "",
+            avgRating: 0,
+            reviewMonthCount: 0
         }
     ]);
     const [cookies] = useCookies(["token"])
@@ -38,9 +37,7 @@ function Review() {
         }
     }
     const monthReviewStatsFetch = async () => {
-        const currentDate = "2024-01-23T00:00:00";
-        //     moment().format("YYYY-MM-DDTHH:mm:ss");
-        console.log(currentDate);
+        const currentDate = moment().format("YYYY-MM-DDTHH:mm:ss");
         try {
 
         const response = await axios.get('http://localhost:4041/api/v1/reviews/rating/month',
@@ -54,7 +51,6 @@ function Review() {
             });
         if (response.data.data) {
             setMonthReviewStats(response.data.data)
-            console.log(response.data.data)
         }
         }catch (error) {
             console.log(error);

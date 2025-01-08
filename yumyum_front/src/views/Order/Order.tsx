@@ -50,9 +50,6 @@ export default function Order() {
     fetchOrder();
   }, [currentDate]);
 
-  // useEffect(() => {
-  //   fetchOrder();
-  // }, []);
 
   const fetchOrder = async () => {
     try {
@@ -159,15 +156,11 @@ export default function Order() {
     }
   }
 
-  
-
-
-
   const currentOrderInfo = () => {
     return (
       <>
-        <p>오늘의 주문 건수는 {completedCount} 건 입니다!</p>
-        <p>오늘의 매출은 {totalPrice} 원 입니다!</p>
+        <p className="completedCount">오늘의 주문 건수는 {completedCount} 건 입니다!</p>
+        <p className="totalPrice">오늘의 매출은 {totalPrice} 원 입니다!</p>
       </>
     );
   }
@@ -271,18 +264,31 @@ export default function Order() {
     );
   };
 
+  const handleStateTabClick = (stateTab: string) => {
+    setCurrentTab(stateTab);
+  };
+
   return (
     <div css={css.container}>
       <div css={css.currentInfoContainer}>{currentOrderInfo()}</div>
       <div css={css.orderTableContainer}>
-        <div>
-          <button onClick={() => setCurrentTab("0")} css={css.button}>
+        <div className="orderStateButton">
+          <button 
+            onClick={() => handleStateTabClick("0")} 
+            css={[css.button, currentTab === "0" && css.buttonActive]}
+          >
             접수 대기
           </button>
-          <button onClick={() => setCurrentTab("1")} css={css.button}>
+          <button 
+            onClick={() => handleStateTabClick("1")}
+            css={[css.button, currentTab === "1" && css.buttonActive]}
+          >
             처리 중
           </button>
-          <button onClick={() => setCurrentTab("2")} css={css.button}>
+          <button 
+          onClick={() => handleStateTabClick("2")}
+          css={[css.button, currentTab === "2" && css.buttonActive]}
+          >
             완료
           </button>
         </div>

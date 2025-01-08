@@ -1,19 +1,88 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
 import * as css from "./Style";
-import YumYumLogoImg from "../../img/yumyumLogo.png"
-import {useState} from "react";
+import useStoreTimes from "../../Stroes/store.store";
+import {useState, useEffect, useCallback} from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { TimeInfo } from "../../types/Store";
 
 export default function Header() {
+    const [status, setStatus] = useState<"OPEN" | "BREAK" | "CLOSE">("OPEN");
+    const [cookies] = useCookies(["token"]);
+    const token = cookies.token;
+    const [storeTimes, setStoreTimes] = useState<TimeInfo>({
+        openingTime: "",
+        closingTime: "",
+        breakStartTime: "",
+        breakEndTime: "",
+    });
 
-    interface Status {
-        status: "OPEN" | "BREAK" | "CLOSE";
+    const fetchStore = async () => {
+        try {
+            const response = await axios.get("http://localhost:4041/api/v1/stores/get", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+    
+            if (response.data) {
+                const data = response.data.data;
+                setStoreTimes({
+                    openingTime: data.openingTime || "",
+                    closingTime: data.closingTime || "",
+                    breakStartTime: data.breakStartTime || "",
+                    breakEndTime: data.breakEndTime || "",
+                });
+            }
+        } catch (e) {
+            console.error("Error fetching store data:", e);
+        }
+    };
+    
+
+    const parseTime = (timeString: string) => {
+        if(!timeString) {
+            return null;
+        }
+        const now = new Date();
+        const [ hours, minutes, seconds = 0 ] = timeString.split(":").map(Number);
+        if(isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
+            console.error("Invalid time format: ", timeString);
+            return null;
+        }
+        const parsedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds);
+        return parsedDate
     }
 
-    const [status, setStatus] = useState<Status>({status: "OPEN"});
-    const statusHandler = (value: Status["status"]) => {
-        setStatus({status: value});
-    }
+    const updateStatus = useCallback(() => {
+        const currentTime = new Date();
+        const opening = parseTime(storeTimes.openingTime);
+        const breakStart = storeTimes.breakStartTime ? parseTime(storeTimes.breakStartTime) : null;
+        const breakEnd = storeTimes.breakEndTime ? parseTime(storeTimes.breakEndTime) : null;
+        const closing = parseTime(storeTimes.closingTime);
+
+        if(!opening || !closing) {
+            setStatus("CLOSE");
+            return
+        }
+        if(currentTime >= opening && currentTime < closing) {
+            if(breakStart && currentTime >= breakStart && breakEnd && currentTime < breakEnd ) {
+                setStatus("BREAK");
+            } else {
+                setStatus("OPEN");
+            } 
+        } else {
+            setStatus("CLOSE");
+        }
+    },[storeTimes]) 
+    
+    useEffect(() => {
+        fetchStore().then(updateStatus);
+    },[token]);
+
+    useEffect(() => {
+        const intervalId = setInterval(updateStatus, 1000);
+        return () => clearInterval(intervalId);
+    }, [storeTimes]);
 
     return (
         <header css={css.headerContainer}>
@@ -22,28 +91,13 @@ export default function Header() {
                 </div>
                 <div css={css.headerRightContainer}>
                     <div css={css.statusToggleButtonGroup}>
-                        <button
-                            css={[css.statusToggleButtonStyles, css.openStyle, status.status === "OPEN" ? css.activeStyle : css.passive]}
-                            onClick={() => {
-                                statusHandler("OPEN")
-                            }}
-                        >
+                        <button css={[css.statusToggleButtonStyles, css.openStyle, status === "OPEN" ? css.activeStyle : css.passive]}>
                             오픈
                         </button>
-                        <button
-                            css={[css.statusToggleButtonStyles, css.breakStyle, status.status === "BREAK" ? css.activeStyle : css.passive]}
-                            onClick={() => {
-                                statusHandler("BREAK")
-                            }}
-                        >
+                        <button css={[css.statusToggleButtonStyles, css.breakStyle, status === "BREAK" ? css.activeStyle : css.passive]}>
                             휴식
                         </button>
-                        <button
-                            css={[css.statusToggleButtonStyles, css.closeStyle, status.status === "CLOSE" ? css.activeStyle : css.passive]}
-                            onClick={() => {
-                                statusHandler("CLOSE")
-                            }}
-                        >
+                        <button css={[css.statusToggleButtonStyles, css.closeStyle, status === "CLOSE" ? css.activeStyle : css.passive]}>
                             마감
                         </button>
                     </div>

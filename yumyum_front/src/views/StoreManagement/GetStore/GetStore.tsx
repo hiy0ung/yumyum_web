@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Box, Button } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 import { StoreInfo } from "../../../types/Store";
 import * as css from "./Style";
 import { useNavigate } from "react-router-dom";
-import { MAIN_PATH, UPDATE_STORE_PATH } from "../../../constants";
+import { HOME_PATH, UPDATE_STORE_PATH } from "../../../constants";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -23,12 +23,10 @@ export default function Store() {
     breakStartTime: "",
     breakEndTime: "",
     address: "",
+    detailAddress: "",
+    detail2Address: "",
     description: "",
   });
-
-  useEffect(() => {
-    fetchStore();
-  }, []);
 
   const fetchStore = async () => {
     try {
@@ -44,12 +42,28 @@ export default function Store() {
         const data = response.data.data;
         setStore(data);
         setImgData(data.logoUrl);
-        console.log(token);
+        console.log(data);
       }
     } catch (e) {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+      fetchStore();
+  }, []);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const handleDeleteClick = () => {
+    setIsOpen(true);
+  }
+  const handleClose = () => {
+    setIsOpen(false);
+  }
+  const handleConfirmDelete = () => {
+    deleteStore();
+    setIsOpen(false);
+  }
 
   const deleteStore = async () => {
     try {
@@ -64,7 +78,7 @@ export default function Store() {
       if (response.data) {
         const data = response.data.data;
         alert(data);
-        navigate(MAIN_PATH);
+        navigate(HOME_PATH);
       }
     } catch (e) {
       console.error(e);
@@ -83,7 +97,7 @@ export default function Store() {
             />
           )}
           <Box css={css.BasicInfoContent}>
-            {store.address && <p>가게주소: {store.address}</p>}
+            {store.address && <p>가게주소: {store.detailAddress} {store.detail2Address}</p>}
             <p>카테고리: {store.category}</p>
             {store.description && <div css={css.description}><p>가게설명: {store.description}</p></div>}
           </Box>
@@ -117,7 +131,8 @@ export default function Store() {
             variant="outlined"
             startIcon={<DeleteIcon />}
             css={css.updateButton}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               navigate(UPDATE_STORE_PATH);
             }}
           >
@@ -127,12 +142,30 @@ export default function Store() {
             variant="outlined"
             startIcon={<DeleteIcon />}
             css={css.deleteButton}
-            onClick={deleteStore}
+            onClick={handleDeleteClick}
           >
             가게 삭제
           </Button>
         </Box>
       </Box>
+      <Dialog open={isOpen} onClose={handleClose} fullWidth={true} maxWidth="md" PaperProps={{
+        sx: {
+          width: '400px',
+          height: '130px',
+          overflow: 'hidden'
+        }
+      }}>
+            <DialogTitle sx={{fontSize: '16px'}}>가게삭제</DialogTitle>
+            <DialogContent sx={{overflow: 'hidden'}}>
+              <DialogContentText sx={{fontSize: '14px'}}>
+                정말 삭제하시겠습니까?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>취소</Button>
+              <Button onClick={handleConfirmDelete} color="error">삭제</Button>
+            </DialogActions>
+      </Dialog>
     </>
   );
 }

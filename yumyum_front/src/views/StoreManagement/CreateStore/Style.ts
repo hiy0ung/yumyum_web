@@ -1,16 +1,20 @@
 import { css } from "@emotion/react";
 
 export const formStyle = css`
-    width: 900px !important;
+    width: 80%;
+    max-width: 800px;
+    min-height: 100vh;
     padding: 16px;
     margin: 0 auto;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    margin-bottom: 50px;
+    background-color: #fafafa;
 `;
 
 export const storeTitle = css`
@@ -56,24 +60,22 @@ export const storeTime = css`
     height: 100px;
 `;
 
-export const address = css`
-    margin: auto;
-
-    & > textarea {
-    width: 500px;
-    height: 100px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    resize: none;
-    font-size: 14px;
-    margin-bottom: 20px;
-    }
-`;
+// export const addressModal = css`
+//     position: "absolute";
+//     top: 0;
+//     left: "110%";
+//     z-index: 1000;
+//     border: "1px solid #ccc";
+//     background: "#fff";
+//     box-shadow: "0 4px 8px rgba(0,0,0,0.2)";
+//     width: "400px";
+// `;
 
 export const descriptionBox = css`
     width: 500px;
     height: 200px;
     border: 1px solid #ccc;
+    padding: 10px;
     border-radius: 8px;
     resize: none;
     font-size: 14px;
@@ -83,7 +85,11 @@ export const storeSubmitButton = css`
     border: 1px solid #ccc;
     color: black;
     margin-left: auto;
-    margin-right: 180px;
-    margin-top: 10px;
+    margin-top: 20px;
     display: block;
+
+    :hover {
+        background-color: #0db4fc;
+        color: white;
+    }
 `;
