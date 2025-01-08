@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
 import * as css from "./Style";
-import useStoreTimes from "../../Stroes/store.store";
+import useStoreTimes from "../../Stroes/storeImg.store";
 import {useState, useEffect, useCallback} from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { TimeInfo } from "../../types/Store";
+import { useStore } from "zustand";
+import useStoreImage from "../../Stroes/storeImg.store";
 
 export default function Header() {
     const [status, setStatus] = useState<"OPEN" | "BREAK" | "CLOSE">("OPEN");
@@ -17,6 +19,7 @@ export default function Header() {
         breakStartTime: "",
         breakEndTime: "",
     });
+    const {storeImage, setStoreImg} = useStoreImage();
 
     const fetchStore = async () => {
         try {
@@ -32,6 +35,14 @@ export default function Header() {
                     breakStartTime: data.breakStartTime || "",
                     breakEndTime: data.breakEndTime || "",
                 });
+
+                const base64Image = data.logoUrl;
+                console.log(base64Image);
+                if(base64Image.startsWith('data:image/png;base64,') || base64Image.startsWith('data:image/jpg;base64') || base64Image.startsWith('data:image/jpeg;base64')) {
+                    setStoreImg(base64Image);
+                } else {
+                    console.error("지원되지 않는 이미지 형식입니다.");
+                }
             }
         } catch (e) {
             console.error("Error fetching store data:", e);
@@ -80,7 +91,7 @@ export default function Header() {
     },[token]);
 
     useEffect(() => {
-        const intervalId = setInterval(updateStatus, 1000);
+        const intervalId = setInterval(updateStatus, 500);
         return () => clearInterval(intervalId);
     }, [storeTimes]);
 
