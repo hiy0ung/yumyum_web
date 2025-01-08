@@ -1,5 +1,6 @@
 import {css} from "@emotion/react";
-
+import ex1 from "../../img/food1.webp"
+import defaultImg from "../../img/default_Profile_Img2.webp"
 export const reviewContainer = css`
     padding: 70px 30px 0 30px;
     display: flex;
@@ -153,9 +154,7 @@ export const reviewTabMenuTotal = css`
     color: white;
 `;
 export const reviewTabMenuTotalFocus= css`
-    box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
-    -webkit-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
-    -moz-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    box-shadow: 0 -18px 16px -7px rgba(0, 0, 0, 0.27);
     color: #1681FF;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -171,9 +170,7 @@ export const reviewTabMenuNoAnswer = css`
 `;
 
 export const reviewTabMenuNoAnswerFocus = css`
-    box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
-    -webkit-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
-    -moz-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    box-shadow: 0 -18px 16px -7px rgba(0, 0, 0, 0.27);
     color: #1681FF;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -189,9 +186,7 @@ export const reviewTabMenuEvent = css`
     color: white;
 `;
 export const reviewTabMenuEventFocus = css`
-    box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
-    -webkit-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
-    -moz-box-shadow: 0px -18px 16px -7px rgba(0,0,0,0.27);
+    box-shadow: 0 -18px 16px -7px rgba(0, 0, 0, 0.27);
     color: #1681FF;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -224,32 +219,278 @@ export const reviewTabMenuTotalContext = css`
 
 export const totalReviewContainer = css`
     width: 100%;
-    min-height: 150px;
-    border: 1px solid #a0a096;
-    padding: 10px;
+    padding: 20px;
     border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border: 1px solid #e9e9e9;
+    background-color: ghostwhite;
+    position: relative;
+    height: auto;
 `;
 
 export const totalReviewInContainer = css`
-    background-color: #fb8494;
+`;
+
+export const reviewDate = css`
+    font-size: 10px;
+    margin-bottom: 5px;
+    color: #a0a096;
 `;
 
 export const reviewTopContainer = css`
-    background-color: #a0a0a0;
     display: flex;
     align-items: center;
+    margin-bottom: 8px;
 `;
 export const guestInfoContainer = css`
-    background-color: #19c5ff;
     margin-left: 10px;
 `;
+export const guestNickname = css`
+    font-size: 13px;
+    margin-bottom: 5px;
+`;
+
+export const filledStar = css`
+    color: gold;
+    margin-right: 2px;
+`;
+export const emptyStar = css`
+    color: lightgray;
+    margin-right: 2px;
+`;
 export const reviewProfileImg = css`
-    background-color: #19c5ff;
     width: 50px;
     height: 50px;
     border-radius: 50%;
 `;
 
+export const reviewText = css`
+    font-size: 13px;
+    margin-bottom: 3px;
+`;
+
+export const reviewPhotosContainer = css`
+    display: flex;
+    align-items: center;
+`;
+
+export const reviewPhoto = css`
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    margin-right: 5px;
+    
+`;
+
+export const menuNamesContainer = css`
+    display: flex;
+    align-items: center;
+`;
+export const menuNames = css`
+    background-color: white;
+    font-size:10px;
+    color: gray;
+    border-radius: 8px;
+    padding: 1px 3px;
+    height: 15px;
+    line-height: 13px;
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border: 1px solid #e9e9e9;
+    margin-top: 3px;
+`;
+
+export const reviewCommentContainer = css`
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border: 1px solid #e6e6e6;
+    position: absolute;
+    right: 20px;
+    bottom : 20px;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 10px;
+    background-color: white;
+    
+    &:hover {
+        cursor: pointer;
+    }
+`;
+export const commentInValidTextArea = css`
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 10px 0 0 20px;
+`;
+
+export const commentInValidTextAreaTail = css`
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #ccc;
+    top: 25px;
+    left: 10px;
+    z-index: 2;
+    
+`;
+
+export const commentInValidTextAreaTailUpper = css`
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid white;
+    top: -10px;
+    left: -7px;
+    z-index: 3;
+`;
+export const reviewAddCommentContainer = css`
+    
+`;
+
+export const reviewAddCommentInfoContainer = css`
+    display: flex;
+    position: relative;
+`;
+
+export const reviewProfileImg2 = css`
+    background: url(${defaultImg}) center center no-repeat;
+    background-size: cover;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 10px;
+    
+`;
+export const textArea = css`
+    width: 86%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 10px 0 0 20px;
+    z-index: 2;
+    position: relative;
+    background-color: white;
+    overflow-y: auto;
+`;
+
+
+export const textAreaTail = css`
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #ccc;
+    top: 20px;
+    left: 70px;
+    z-index: 2;
+`;
+
+export const textAreaTailUpper = css`
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid white;
+    top: -10px;
+    left: -7px;
+    z-index: 3;
+`;
+
+export const reviewAddCommentInValidContainer = css`
+`;
+export const reviewAddCommentTopContainer = css`
+    display: flex;
+`;
+export const reviewAddCommentInValidRight = css`
+    flex: 1;
+    position: relative;
+`;
+export const reviewAddCommentButtonContainer = css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    
+    & > button {
+        box-shadow: 0 0 10px 1px #e9e9e9;
+        border: 1px solid #e6e6e6;
+        width: 50px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 10px;
+        background-color: white;
+        margin-top: 5px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    & > button:nth-of-type(1) {
+        margin-right: 5px;
+    }
+`;
+
+export const modalOverlay = css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+`;
+
+export const modalContent = css`
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+export const modalImage = css`
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+`;
+
+export const closeButton = css`
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+`;
 export const reviewTabMenuNoAnswerContext = css`
     background-color: #EFF6FF;
     border-top: none;
