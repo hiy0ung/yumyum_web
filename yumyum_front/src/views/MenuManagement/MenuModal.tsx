@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { AUTH_PATH_LOGIN } from "../../constants";
 import { updateModalStore } from "../../Stroes/menuModal.store";
 import { MenuModalProps, AddMenu, UpdateMenu, Menus } from "../../types/Menu";
-import { menusStatsContainer } from "../Stats/Menus/Styles";
 
 export default function MenuModal({
   modalStatus,
@@ -19,7 +18,7 @@ export default function MenuModal({
   updateOptionChecked,
   setUpdateOptionChecked,
   menus,
-  selectedMenuId,
+  selectedMenuId
 }: MenuModalProps) {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
@@ -45,6 +44,7 @@ export default function MenuModal({
   });
 
   const [checked, setChecked] = useState(false);
+  const [options, setOptions] = useState<number>(0);
   const [updateChecked, setUpdateChecked] = useState(true);
   const [menuChecked, setMenuChecked] = useState([true]);
   const [updateMenu, setUpdateMenu] = useState<UpdateMenu>(updateMenudata);
@@ -218,7 +218,7 @@ export default function MenuModal({
     }));
     setMenuChecked([...menuChecked, false]);
   };
-  const addNewUpdateOption = () => {
+  const addNewUpdateOption = (selectMenuId: number) => {
     setUpdateMenu((prev) => ({
       ...prev,
       menuOptions: [
@@ -236,8 +236,8 @@ export default function MenuModal({
     }));
   };
 
-  const addNewOptionDetail = (optionIndex: number) => {
-    setAddMenu((prev) => ({
+  const addDetailOption = async (optionIndex: number) => {
+    setUpdateMenu((prev) => ({
       ...prev,
       menuOptions: prev.menuOptions.map((option, index) =>
         index === optionIndex
@@ -251,9 +251,11 @@ export default function MenuModal({
           : option
       ),
     }));
-  };
-  const addNewUpdateOptionDetail = (optionIndex: number) => {
-    setUpdateMenu((prev) => ({
+    
+}
+
+  const addNewOptionDetail = (optionIndex: number) => {
+    setAddMenu((prev) => ({
       ...prev,
       menuOptions: prev.menuOptions.map((option, index) =>
         index === optionIndex
@@ -281,6 +283,7 @@ export default function MenuModal({
       menuOptions: prev.menuOptions.filter((_, index) => index !== optionIndex),
     }));
   };
+ 
 
   const removeOptionDetail = (optionIndex: number, detailIndex: number) => {
     setAddMenu((prev) => ({
@@ -378,14 +381,40 @@ export default function MenuModal({
     const menuUpdate = async (menuId: number) => {
       try {
         const token = cookies.token;
-        const response = await axios.put(
-          `http://localhost:4041/api/v1/menus/update/${menuId}`, updateMenu,
+        console.log(menuId);
+        const response = await axios.get(`http://localhost:4041/api/v1/menus/${menuId}`, 
           {
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+              Authorization: `Bearer ${token}`
+            }
           }
-        );
+        )
+        const result = response.data.data;
+
+        if(updateMenu.menuOptions.length > result.menuOptions.length) {
+          for(let i = 0; i < updateMenu.menuOptions.length - result.menuOptions.length; i++){
+          await axios.post(`http://localhost:4041/api/v1/menus/options/add`, {
+            menuId: menuId,
+            optionName: "",
+            optionDetails: []
+          })
+        }
+        }
+
+        for(let i = 0; i < updateMenu.menuOptions.length; i++) {
+          
+        }
+
+
+
+        // await axios.put(
+        //   `http://localhost:4041/api/v1/menus/update/${menuId}`, updateMenu,
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
         console.log(updateMenu);
         // console.log("Server Response:",response.data);
       } catch (e) {
@@ -393,6 +422,8 @@ export default function MenuModal({
       }
   
   };
+  // console.log(updateMenudata);
+  // console.log(updatedMenuData);
 
   useEffect(() => {}, [addMenu]);
   return (
@@ -774,8 +805,7 @@ export default function MenuModal({
                                         )
                                       )}
                                     <button
-                                      onClick={() =>
-                                        addNewUpdateOptionDetail(optionIndex)
+                                      onClick={() => addDetailOption(optionIndex)
                                       }
                                     >
                                       추가 옵션 추가
@@ -789,7 +819,8 @@ export default function MenuModal({
                           </div>
                         ))}
                       <div>
-                        <button onClick={addNewUpdateOption}>옵션 추가</button>
+                        <button onClick={() => addNewUpdateOption(selectedMenuId)}>옵션 추가</button>
+                        {/* 수정부분분 */}
                       </div>
                       <div css={s.optionConfirm}>
                         <div css={s.optionCheck}>

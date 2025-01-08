@@ -15,7 +15,7 @@ export interface MenuModalProps {
   updateOptionChecked: boolean[];
   setUpdateOptionChecked: React.Dispatch<React.SetStateAction<boolean[]>>
   menus: Menus[];
-  selectedMenuId: number | null;
+  selectedMenuId: number;
 }
 
 export interface MenuOptionDetails {
@@ -61,4 +61,25 @@ export interface Menus {
 export interface AddCategory {
   menuCategory: string;
   menuCategorySequence: number;
+}
+
+export interface MenuOptionDetailData {
+  detailId: number;
+  optionDetailName: string;
+  additionalFee: number;
+}
+
+export interface MenuOptionData {
+  menuOptionId: number;
+  optionName: string;
+  optionDetails: MenuOptionDetailData[]
+}
+export interface MenuData {
+  menuId: number;
+  menuName: string;
+  menuCategory: string;
+  imageUrl: string;
+  menuDescription: string;
+  menuPrice: number;
+  menuOptions: MenuOptionData[]
 }
