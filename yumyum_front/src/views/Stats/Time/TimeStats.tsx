@@ -230,7 +230,6 @@ export default function TimeStats() {
                   height={36}
                   wrapperStyle={{
                     fontWeight: "bold",
-                    border: "2px solid red"
                   }}
                 />
                 <Line
@@ -288,7 +287,9 @@ export default function TimeStats() {
             </ResponsiveContainer>
           </div>
         ) : (
-          <div css={css.chartDataNone}>해당 날짜에 데이터가 없습니다!</div>
+          <div css={css.chartDataNone}>
+            해당 날짜에 데이터가 없습니다!
+          </div>
         )}
       </div>
     </>

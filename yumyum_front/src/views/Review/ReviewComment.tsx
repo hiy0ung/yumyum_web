@@ -7,6 +7,7 @@ import ReactQuill, {Quill} from 'react-quill-new';
 import 'quill/dist/quill.snow.css';
 import QuillResizeImage from 'quill-resize-image';
 import moment from 'moment';
+import defaultImg from "../../img/default_Profile_Img.webp"
 Quill.register('modules/resize', QuillResizeImage);
 
 interface ReviewsList {
@@ -159,16 +160,20 @@ function ReviewComment() {
                     <ul>
                         {data.map((item) => (
                             <li css={css.totalReviewContainer} key={item.id}>
-                                <div>
-                                    {item.profileImage && (
-                                        <img src={item.profileImage} alt="프로필 이미지" />
-                                    )}
-                                    <div>
-                                        <div>{item.guestNickname}</div>
-                                        <div>{item.rating}</div>
+                                <div css={css.totalReviewInContainer}>
+                                    <div css={css.reviewTopContainer}>
+                                        {item.profileImage && (
+                                            <img css={css.reviewProfileImg} src={defaultImg} alt="프로필 이미지" />
+                                        )}
+                                        <div css={css.guestInfoContainer}>
+                                            <div>{item.guestNickname}</div>
+                                            <div>{item.rating}</div>
+                                        </div>
                                     </div>
-                                    <div>{item.reviewDate}</div>
-                                    <div>{item.reviewText}</div>
+                                    <div>
+                                        <div>{item.reviewDate}</div>
+                                        <div>{item.reviewText}</div>
+                                    </div>
                                     {item.reviewPhotos &&
                                         item.reviewPhotos.map((photo, index) => (
                                             <div key={index}>
