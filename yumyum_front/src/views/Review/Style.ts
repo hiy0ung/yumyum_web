@@ -230,6 +230,26 @@ export const totalReviewContainer = css`
     border-radius: 10px;
 `;
 
+export const totalReviewInContainer = css`
+    background-color: #fb8494;
+`;
+
+export const reviewTopContainer = css`
+    background-color: #a0a0a0;
+    display: flex;
+    align-items: center;
+`;
+export const guestInfoContainer = css`
+    background-color: #19c5ff;
+    margin-left: 10px;
+`;
+export const reviewProfileImg = css`
+    background-color: #19c5ff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+`;
+
 export const reviewTabMenuNoAnswerContext = css`
     background-color: #EFF6FF;
     border-top: none;
