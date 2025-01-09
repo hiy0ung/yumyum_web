@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { AUTH_PATH_LOGIN } from "../../constants";
 import { updateModalStore } from "../../Stroes/menuModal.store";
-import { MenuModalProps, AddMenu, UpdateMenu, Menus } from "../../types/Menu";
+import { MenuModalProps, AddMenu, UpdateMenu, Menus, MenuOptions, MenuOptionDetails } from "../../types/Menu";
 
 export default function MenuModal({
   modalStatus,
@@ -32,6 +32,7 @@ export default function MenuModal({
     isAvailable: false,
     menuOptions: [
       {
+        menuOptionId: 0,
         optionName: "옵션 없음",
         optionDetails: [
           {
@@ -131,7 +132,7 @@ export default function MenuModal({
       ...prev,
       [name]: name !== "menuPrice" || "additionalFee" ? value : Number(value),
     }));
-    console.log(updateMenu);
+    // console.log(updateMenu);
   };
 
   const changeOptionHandler = (
@@ -206,6 +207,7 @@ export default function MenuModal({
       menuOptions: [
         ...prev.menuOptions,
         {
+          menuOptionId: 0,
           optionName: "",
           optionDetails: [
             {
@@ -224,6 +226,7 @@ export default function MenuModal({
       menuOptions: [
         ...prev.menuOptions,
         {
+          menuOptionId: 35,
           optionName: "",
           optionDetails: [
             {
@@ -283,7 +286,7 @@ export default function MenuModal({
       menuOptions: prev.menuOptions.filter((_, index) => index !== optionIndex),
     }));
   };
- 
+
 
   const removeOptionDetail = (optionIndex: number, detailIndex: number) => {
     setAddMenu((prev) => ({
@@ -355,6 +358,7 @@ export default function MenuModal({
           isAvailable: false,
           menuOptions: [
             {
+              menuOptionId: 0,
               optionName: "옵션 없음",
               optionDetails: [
                 {
@@ -381,7 +385,7 @@ export default function MenuModal({
     const menuUpdate = async (menuId: number) => {
       try {
         const token = cookies.token;
-        console.log(menuId);
+        // console.log(menuId);
         const response = await axios.get(`http://localhost:4041/api/v1/menus/${menuId}`, 
           {
             headers: {
@@ -390,38 +394,79 @@ export default function MenuModal({
           }
         )
         const result = response.data.data;
-
+        
         if(updateMenu.menuOptions.length > result.menuOptions.length) {
-          for(let i = 0; i < updateMenu.menuOptions.length - result.menuOptions.length; i++){
-          await axios.post(`http://localhost:4041/api/v1/menus/options/add`, {
+          console.log("옵션 추가 로직 실행");
+          for(let i = result.menuOptions.length; i < updateMenu.menuOptions.length; i++){
+            const result2 = await axios.post(`http://localhost:4041/api/v1/menus/options/add`, {
             menuId: menuId,
             optionName: "",
             optionDetails: []
+          }, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          console.log(result2.data.data.menuOptionId);
+          await axios.post(`http://localhost:4041/api/v1/menus/options/details/add`, {
+            menuOptionId: result2.data.data.menuOptionId,
+            optionDetailName: "",
+            additionalFee: 0
+          }, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
           })
         }
         }
-
+        const response1 = await axios.get(`http://localhost:4041/api/v1/menus/${menuId}`, 
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        const result1 = response1.data.data;
+        console.log(updateMenu.menuOptions.length);
+        console.log(updateMenu.menuOptions.map((menu) => menu.optionDetails.length));
+        console.log(result.menuOptions.map((menu: MenuOptions) => menu.optionDetails.length));
+        console.log("여긴가"+result1.menuOptions[1].menuOptionId);
+        console.log(updateMenu.menuOptions.length);
         for(let i = 0; i < updateMenu.menuOptions.length; i++) {
-          
+          console.log("반복은 도나?" + i);
+          if(updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] > result.menuOptions.map((menu :MenuOptions) => menu.optionDetails.length)[i]) {
+            console.log("옵션 디테일 추가 로직 실행");
+            for(let j = 0; j < updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] - result.menuOptions.map((menu: MenuOptions) => menu.optionDetails.length)[i]; i++) {
+              console.log("416번째 줄"+i);
+              await axios.post(`http://localhost:4041/api/v1/menus/options/details/add`, {
+                menuOptionId: result.menuOptions[i].menuOptionId,
+                optionDetailName: "",
+                additionalFee: 0
+            }, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+          }
         }
-
-
-
-        // await axios.put(
-        //   `http://localhost:4041/api/v1/menus/update/${menuId}`, updateMenu,
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
+      }
+        await axios.put(
+          `http://localhost:4041/api/v1/menus/update/${menuId}`, updateMenu,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         console.log(updateMenu);
-        // console.log("Server Response:",response.data);
+        console.log("Server Response:",response.data);
       } catch (e) {
         console.error(e);
       }
   
   };
+  console.log("updateMenu 출력");
+  console.log(updateMenu);
   // console.log(updateMenudata);
   // console.log(updatedMenuData);
 

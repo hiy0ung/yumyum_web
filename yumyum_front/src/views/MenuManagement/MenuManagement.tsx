@@ -31,6 +31,7 @@ export default function MenuManagement() {
     isAvailable: false,
     menuOptions: [
       {
+        menuOptionId: 0,
         optionName: "옵션 없음",
         optionDetails: [
           {
@@ -70,6 +71,7 @@ export default function MenuManagement() {
         }
       );
       setCategories(data.data.data);
+      console.log(data.data.data);
     } catch (e) {
       console.log("object");
     }

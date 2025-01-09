@@ -24,6 +24,7 @@ export interface MenuOptionDetails {
 }
 
 export interface MenuOptions {
+  menuOptionId: number;
   optionName: string;
   optionDetails: MenuOptionDetails[];
 }
