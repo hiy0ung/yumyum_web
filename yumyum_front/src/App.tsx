@@ -44,6 +44,7 @@ import FindId from "./views/Authentication/FIndID/FindID";
 import FindPW from "./views/Authentication/FindPW/FindPW";
 import ChangePassword from "./views/Authentication/PasswordReset/ChangePassword";
 import HaveFound from "./views/Authentication/HaveFound/HaveFound";
+import ReviewNotice from "./views/Review/ReviewNotice";
 
 function App() {
     const [cookies] = useCookies(["token"]);
@@ -96,6 +97,8 @@ function App() {
                                 <Route path={AUTH_PATH_LOGIN} element={<AuthUser />} />
                                 <Route path="/findPassword" element={<ChangePassword />} />
                                 <Route path="/findId" element={<HaveFound />} />
+                                <Route path="/11" element={<ReviewNotice />} />
+
                             </Routes>
                         </div>
                     )
