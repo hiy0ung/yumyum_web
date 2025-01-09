@@ -331,8 +331,22 @@ export default function MenuManagement() {
     }
   };
 
-  
+  useEffect(() => {
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      setMenuImg(e.target?.result);
+    };
+    menus.map((menu) => {
+      if (!!menu.imageUrl) {
+        // fileReader.readAsDataURL(menu.imageUrl);
+      }
+    })
+  }, [menus])
 
+  
+  console.log(menus.map((menu) => {
+    return 'http://localhost:4041/image/' + menu.imageUrl
+  }));
 
   // console.log(menus);
   // console.log(menus.length);
@@ -422,9 +436,8 @@ export default function MenuManagement() {
                         <li key={menu.menuId}>
                           <div css={s.menu}>
                             <div css={s.menuImage}>
-                              {
-                                menu.imageUrl
-                              }
+
+                              <img src={'http://localhost:4041/image' + menu.imageUrl} alt="파일 처리 안됨됨" />
                               
                             </div>
                             <div css={s.menuBody}>
