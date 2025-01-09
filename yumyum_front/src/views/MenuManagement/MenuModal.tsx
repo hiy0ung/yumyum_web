@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { AUTH_PATH_LOGIN } from "../../constants";
 import { updateModalStore } from "../../Stroes/menuModal.store";
 import { MenuModalProps, AddMenu, UpdateMenu, Menus, MenuOptions, MenuOptionDetails } from "../../types/Menu";
+import { serialize } from "v8";
+import { Details } from "@mui/icons-material";
 
 export default function MenuModal({
   modalStatus,
@@ -45,7 +47,7 @@ export default function MenuModal({
   });
 
   const [checked, setChecked] = useState(false);
-  const [options, setOptions] = useState<number>(0);
+  const [file, setFile] = useState<null | File>(null);
   const [updateChecked, setUpdateChecked] = useState(true);
   const [menuChecked, setMenuChecked] = useState([true]);
   const [updateMenu, setUpdateMenu] = useState<UpdateMenu>(updateMenudata);
@@ -331,52 +333,99 @@ export default function MenuModal({
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddMenu({ ...addMenu, [e.target.name]: e.target.value})
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+      console.log("File selected:", e.target.files[0]);
+    }
   };
 
   const menuAdd = async () => {
     try {
       const token = cookies.token;
-      const formData = new FormData();
-      formData.append('menu', JSON.stringify(addMenu));
-      if (addMenu.menuName === "") {
-        alert("메뉴명을 입력해주세요");
-      } else if (addMenu.menuDescription === "") {
-        alert("메뉴 설명을 입력해주세요");
-      } else if (addMenu.menuPrice === 0) {
-        alert("메뉴 가격을 입력해주세요");
-      } else if (addMenu.categoryId === 0) {
-        alert("메뉴 카테고리를 선택해주세요");
-      } else {
-        await axios.post(`http://localhost:4041/api/v1/menus/add`, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      console.log("Auth Token", token);
+      try {
+        const formData = new FormData();
+        formData.append('categoryId', addMenu.categoryId.toString());
+        formData.append('menuName', addMenu.menuName);
+        formData.append('menuDescription', addMenu.menuDescription);
+        formData.append('menuPrice', addMenu.menuPrice.toString());
+        formData.append('isAvailable', addMenu.isAvailable.toString());
+
+        addMenu.menuOptions.forEach((option, index) => {
+          formData.append(`menuOptions[${index}].optionName`, option.optionName);
+
+          option.optionDetails.forEach((detail, detailIndex) => {
+            formData.append(`menuOptions[${index}].optionDetails[${detailIndex}].optionDetailName`, detail.optionDetailName);
+            formData.append(`menuOptions[${index}].optionDetails[${detailIndex}].additionalFee`, detail.additionalFee.toString());
+          });
         });
-        setAddMenu({
-          categoryId: 0,
-          menuName: "",
-          imageUrl: "",
-          menuDescription: "",
-          menuPrice: 0,
-          isAvailable: false,
-          menuOptions: [
-            {
-              menuOptionId: 0,
-              optionName: "옵션 없음",
-              optionDetails: [
-                {
-                  optionDetailName: "옵션 없음",
-                  additionalFee: 0,
-                },
-              ],
+        
+        if (file) {
+          formData.append('imageUrl', file);
+        } else {
+          console.warn("no file");
+        }
+        formData.forEach((value, key) => {
+          console.log(`${key}: ${value}`);
+        } )
+        
+    
+        if (addMenu.menuName === "") {
+          alert("메뉴명을 입력해주세요");
+        } else if (addMenu.menuDescription === "") {
+          alert("메뉴 설명을 입력해주세요");
+        } else if (addMenu.menuPrice === 0) {
+          alert("메뉴 가격을 입력해주세요");
+        } else if (addMenu.categoryId === 0) {
+          alert("메뉴 카테고리를 선택해주세요");
+        } else {
+          const response = await axios.post(`http://localhost:4041/api/v1/menus/add`, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data'
             },
-          ],
-        });
-        setChecked(false);
-        setMenuChecked([false]);
-        closeModal();
-        fetchData();
+          });
+          console.log("Server Response:", response.data);
+          setAddMenu({
+            categoryId: 0,
+            menuName: "",
+            imageUrl: "",
+            menuDescription: "",
+            menuPrice: 0,
+            isAvailable: false,
+            menuOptions: [
+              {
+                menuOptionId: 0,
+                optionName: "옵션 없음",
+                optionDetails: [
+                  {
+                    optionDetailName: "옵션 없음",
+                    additionalFee: 0,
+                  },
+                ],
+              },
+            ],
+          });
+          setChecked(false);
+          setMenuChecked([false]);
+          closeModal();
+          fetchData();
+      }
+
+      } catch (e) {
+        if(axios.isAxiosError(e)) {
+          console.error("사진 추가 안됨", e);
+          console.error("에러 응답:", e.response);
+          console.error("에러 코드:", e.code);
+          console.error("요청:", e.request);
+          console.error("메시지:", e.message);
+
+        } else {
+          console.error("사진 추가 안됨", e);
+          console.log("안되는 이유가 뭐냐고");
+          console.log(e);
+        }
+        
       }
     } catch (e) {
       console.error("토큰 없음");
@@ -469,8 +518,8 @@ export default function MenuModal({
       }
   
   };
-  console.log("updateMenu 출력");
-  console.log(updateMenu);
+  // console.log("updateMenu 출력");
+  // console.log(updateMenu);
   // console.log(updateMenudata);
   // console.log(updatedMenuData);
 
