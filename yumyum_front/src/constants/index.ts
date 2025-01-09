@@ -23,5 +23,5 @@ export const CONTACT_PATH = '/contact';
 export const MY_PAGE = '/mypage'
 export const MY_PAGE_UPDATE = '/update'
 
-export const FIND_ID_PATH = '/find/login';
+export const FIND_ID_PATH = '/find/id';
 export const FIND_PW_PATH = '/find/password';
