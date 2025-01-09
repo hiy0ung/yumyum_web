@@ -1,5 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -8,12 +16,14 @@ import { StoreInfo } from "../../../types/Store";
 import * as css from "./Style";
 import { useNavigate } from "react-router-dom";
 import { HOME_PATH, UPDATE_STORE_PATH } from "../../../constants";
+import useStoreImage from "../../../Stroes/storeImg.store";
 
 export default function Store() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const token = cookies.token;
   const [imageData, setImgData] = useState<string>();
+  const {setStoreImg} = useStoreImage();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: "",
@@ -22,9 +32,9 @@ export default function Store() {
     closingTime: "",
     breakStartTime: "",
     breakEndTime: "",
+    zoneCode: "",
     address: "",
     detailAddress: "",
-    detail2Address: "",
     description: "",
   });
 
@@ -42,7 +52,6 @@ export default function Store() {
         const data = response.data.data;
         setStore(data);
         setImgData(data.logoUrl);
-        console.log(data);
       }
     } catch (e) {
       console.error(e);
@@ -50,20 +59,20 @@ export default function Store() {
   };
 
   useEffect(() => {
-      fetchStore();
+    fetchStore();
   }, []);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleDeleteClick = () => {
     setIsOpen(true);
-  }
+  };
   const handleClose = () => {
     setIsOpen(false);
-  }
+  };
   const handleConfirmDelete = () => {
     deleteStore();
     setIsOpen(false);
-  }
+  };
 
   const deleteStore = async () => {
     try {
@@ -71,6 +80,7 @@ export default function Store() {
         "http://localhost:4041/api/v1/stores/delete",
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -78,6 +88,8 @@ export default function Store() {
       if (response.data) {
         const data = response.data.data;
         alert(data);
+        setStoreImg("");
+        localStorage.removeItem("storeImage");
         navigate(HOME_PATH);
       }
     } catch (e) {
@@ -87,44 +99,47 @@ export default function Store() {
 
   return (
     <>
-    <h2 css={css.storeTitle}>{store.storeName}</h2>
+      <h2 css={css.storeTitle}>{store.storeName}</h2>
       <Box css={css.StoreInfo}>
         <Box css={css.BasicInfo}>
-          {store.logoUrl && (
-            <img
-              src={imageData}
-              css={css.logoUrl}
-            />
-          )}
+          {store.logoUrl && <img src={imageData} css={css.logoUrl} />}
           <Box css={css.BasicInfoContent}>
-            {store.address && <p>가게주소: {store.detailAddress} {store.detail2Address}</p>}
+            {store.address && (
+              <p>
+                가게주소: {store.address} {store.detailAddress}
+              </p>
+            )}
             <p>카테고리: {store.category}</p>
-            {store.description && <div css={css.description}><p>가게설명: {store.description}</p></div>}
+            {store.description && (
+              <div css={css.description}>
+                <p>가게설명: {store.description}</p>
+              </div>
+            )}
           </Box>
         </Box>
         <Box css={css.StoreTimeAndBreakTime}>
-        <Box css={css.Time}>
-          <div>
-            <p>오픈시간</p>
-            <div>{store.openingTime}</div>
-          </div>
-          <div>
-            <p>마감시간</p>
-            <div>{store.closingTime}</div>
-          </div>
-        </Box>
-        {(store.breakStartTime || store.breakEndTime) && (
           <Box css={css.Time}>
             <div>
-              <p>브레이크 시작</p>
-              <div>{store.breakStartTime}</div>
+              <p>오픈시간</p>
+              <div>{store.openingTime}</div>
             </div>
             <div>
-              <p>브레이크 마감</p>
-              <div>{store.breakEndTime}</div>
+              <p>마감시간</p>
+              <div>{store.closingTime}</div>
             </div>
           </Box>
-        )}
+          {(store.breakStartTime || store.breakEndTime) && (
+            <Box css={css.Time}>
+              <div>
+                <p>브레이크 시작</p>
+                <div>{store.breakStartTime}</div>
+              </div>
+              <div>
+                <p>브레이크 마감</p>
+                <div>{store.breakEndTime}</div>
+              </div>
+            </Box>
+          )}
         </Box>
         <Box css={css.buttons}>
           <Button
@@ -148,23 +163,31 @@ export default function Store() {
           </Button>
         </Box>
       </Box>
-      <Dialog open={isOpen} onClose={handleClose} fullWidth={true} maxWidth="md" PaperProps={{
-        sx: {
-          width: '400px',
-          height: '130px',
-          overflow: 'hidden'
-        }
-      }}>
-            <DialogTitle sx={{fontSize: '16px'}}>가게삭제</DialogTitle>
-            <DialogContent sx={{overflow: 'hidden'}}>
-              <DialogContentText sx={{fontSize: '14px'}}>
-                정말 삭제하시겠습니까?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>취소</Button>
-              <Button onClick={handleConfirmDelete} color="error">삭제</Button>
-            </DialogActions>
+      <Dialog
+        open={isOpen}
+        onClose={handleClose}
+        fullWidth={true}
+        maxWidth="md"
+        PaperProps={{
+          sx: {
+            width: "400px",
+            height: "130px",
+            overflow: "hidden",
+          },
+        }}
+      >
+        <DialogTitle sx={{ fontSize: "16px" }}>가게삭제</DialogTitle>
+        <DialogContent sx={{ overflow: "hidden" }}>
+          <DialogContentText sx={{ fontSize: "14px" }}>
+            정말 삭제하시겠습니까?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>취소</Button>
+          <Button onClick={handleConfirmDelete} color="error">
+            삭제
+          </Button>
+        </DialogActions>
       </Dialog>
     </>
   );

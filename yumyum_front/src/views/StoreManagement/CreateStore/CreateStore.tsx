@@ -20,6 +20,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
+import useStoreImage from "../../../Stroes/storeImg.store";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -29,10 +30,11 @@ export default function Store() {
   const [category, setCategory] = useState<string>("");
   const [base64, setBase64] = useState<string | null>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [zoneCode, setZoneCode] = useState("");
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
-  const [detail2Address, setDetail2Address] = useState("");
   const [openPostcode, setOpenPostcode] = useState(false);
+  const {setStoreImg} = useStoreImage();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: null,
@@ -41,9 +43,9 @@ export default function Store() {
     closingTime: "",
     breakStartTime: "",
     breakEndTime: "",
+    zoneCode: "",
     address: "",
     detailAddress: "",
-    detail2Address: "",
     description: "",
   });
 
@@ -52,18 +54,21 @@ export default function Store() {
   };
 
   const selectAddress = (data: any) => {
-    console.log(`
-            주소: ${data.address},
-            우편번호: ${data.zonecode}
-        `);
-    setAddress(data.zonecode);
-    setDetailAddress(data.address);
+    setZoneCode(data.zonecode);
+    setAddress(data.address);
     setOpenPostcode(false);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    const IMAGE_MAX_SIZE = 10 * 1024 * 1024;
+
     if (file) {
+      if (file.size > IMAGE_MAX_SIZE) {
+        alert("업로드 가능한 최대 용량은 10MB입니다.");
+        return;
+      }
+      
       setImg(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -136,9 +141,9 @@ export default function Store() {
   formData.append("closingTime", store.closingTime);
   formData.append("breakStartTime", store.breakStartTime);
   formData.append("breakEndTime", store.breakEndTime);
+  formData.append("zoneCode", zoneCode);
   formData.append("address", address);
   formData.append("detailAddress", detailAddress);
-  formData.append("detail2Address", detail2Address);
   formData.append("description", store.description);
   if (base64) {
     formData.append("logoUrl", base64);
@@ -163,6 +168,8 @@ export default function Store() {
       );
       if (response.data) {
         alert("가게등록에 성공하였습니다.");
+        const data = response.data.data;
+        setStoreImg(data.logoUrl);
         navigate(STORE_PATH);
       }
     } catch (e) {
@@ -283,15 +290,15 @@ export default function Store() {
         <Box>
           <div>
             <tr>
-              <td className="title">주소</td>
+              <td className="title" style={{paddingRight: '10px'}}>주소</td>
               <input
                 id="address_kakao"
                 onClick={clickButton}
-                value={address}
+                value={zoneCode}
               ></input>
               <div
                 style={{
-                  position: "relative", // 부모 컨테이너 위치를 기준으로 설정
+                  position: "relative",
                   display: "inline-block",
                 }}
               >
@@ -312,7 +319,7 @@ export default function Store() {
                       onComplete={selectAddress}
                       autoClose={false}
                       defaultQuery="판교역로 235"
-                      style={{ height: "400px" }} // 높이 설정
+                      style={{ height: "400px" }}
                     />
                   </div>
                 )}
@@ -320,18 +327,18 @@ export default function Store() {
             </tr>
             <Box
               sx={{
-                marginTop: "16px", // 간격 조정 (16px은 예제, 원하는 값으로 설정 가능)
+                margin: "20px 0px",
               }}
             >
               <tr>
                 <td className="title">상세주소</td>
                 <td>
-                  <input value={detailAddress}></input>
+                  <input value={address} style={{marginRight: '10px'}}></input>
                 </td>
                 <input
-                  value={detail2Address}
+                  value={detailAddress}
                   onChange={(e) => {
-                    setDetail2Address(e.target.value);
+                    setDetailAddress(e.target.value);
                   }}
                 ></input>
               </tr>
