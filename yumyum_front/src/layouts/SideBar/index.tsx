@@ -215,7 +215,7 @@ export default function SideBar() {
             </nav>
             <div>
                 <Link css={css.profile} to={MY_PAGE}>
-                    {storeImage ? <img src={storeImage} alt="Store" /> :<img src={defaultProfileImg} alt="프로필 사진입니다"/>}
+                    {storeImage ? <img src={storeImage} alt="Store" /> : <img src={defaultProfileImg} alt="프로필 사진입니다"/>}
                     <span>마이페이지</span>
                 </Link>
 

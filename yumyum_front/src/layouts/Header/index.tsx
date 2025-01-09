@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
+import {useCallback, useEffect, useState} from "react";
 import * as css from "./Style";
-import {useState, useEffect, useCallback} from "react";
-import { useCookies } from "react-cookie";
+import {useCookies} from "react-cookie";
 import axios from "axios";
-import { TimeInfo } from "../../types/Store";
+import {TimeInfo} from "../../types/Store";
 import useStoreImage from "../../Stroes/storeImg.store";
 
 export default function Header() {
@@ -57,8 +57,7 @@ export default function Header() {
             console.error("Invalid time format: ", timeString);
             return null;
         }
-        const parsedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds);
-        return parsedDate
+        return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds)
     }
 
     const updateStatus = useCallback(() => {
