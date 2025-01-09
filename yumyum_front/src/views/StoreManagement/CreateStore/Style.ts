@@ -60,17 +60,6 @@ export const storeTime = css`
     height: 100px;
 `;
 
-// export const addressModal = css`
-//     position: "absolute";
-//     top: 0;
-//     left: "110%";
-//     z-index: 1000;
-//     border: "1px solid #ccc";
-//     background: "#fff";
-//     box-shadow: "0 4px 8px rgba(0,0,0,0.2)";
-//     width: "400px";
-// `;
-
 export const descriptionBox = css`
     width: 500px;
     height: 200px;
@@ -79,6 +68,7 @@ export const descriptionBox = css`
     border-radius: 8px;
     resize: none;
     font-size: 14px;
+    white-space: pre-line;
 `;
 
 export const storeSubmitButton = css`

@@ -290,7 +290,7 @@ export default function Store() {
         <Box>
           <div>
             <tr>
-              <td className="title" style={{paddingRight: '10px'}}>주소</td>
+              <td className="title" style={{paddingRight: '5px'}}>주소</td>
               <input
                 id="address_kakao"
                 onClick={clickButton}
@@ -331,9 +331,9 @@ export default function Store() {
               }}
             >
               <tr>
-                <td className="title">상세주소</td>
+                <td className="title" style={{paddingRight: '5px'}}>상세주소</td>
                 <td>
-                  <input value={address} style={{marginRight: '10px'}}></input>
+                  <input value={address} style={{marginRight: '5px'}}></input>
                 </td>
                 <input
                   value={detailAddress}

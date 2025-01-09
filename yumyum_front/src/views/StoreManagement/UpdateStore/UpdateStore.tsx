@@ -34,20 +34,6 @@ export default function Store() {
   const [openPostcode, setOpenPostcode] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [store, setStore] = useState<StoreInfo>({
-    storeName: "",
-    logoUrl: "",
-    category: "",
-    openingTime: "",
-    closingTime: "",
-    breakStartTime: "",
-    breakEndTime: "",
-    zoneCode: "",
-    address: "",
-    detailAddress: "",
-    description: "",
-  });
-
   const [updateStore, setUpdateStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: "",
@@ -78,7 +64,7 @@ export default function Store() {
       );
       if (response.data) {
         const data = response.data.data;
-        setStore(data);
+        setUpdateStore(data);
         setUpdateStore(data);
         setZoneCode(data.zoneCode);
         setAddress(data.address);
@@ -133,7 +119,7 @@ export default function Store() {
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setCategory(event.target.value);
     setUpdateStore({
-      ...store,
+      ...updateStore,
       category: event.target.value,
     });
   };
@@ -165,11 +151,11 @@ export default function Store() {
   const checkStoreInput = () => {
     const emptyFields: string[] = [];
 
-    if (!store.storeName) emptyFields.push("가게명");
-    if (!store.logoUrl) emptyFields.push("가게 로고");
-    if (!store.category) emptyFields.push("카테고리");
-    if (!store.openingTime) emptyFields.push("오픈시간");
-    if (!store.closingTime) emptyFields.push("마감시간");
+    if (!updateStore.storeName) emptyFields.push("가게명");
+    if (!updateStore.logoUrl) emptyFields.push("가게 로고");
+    if (!updateStore.category) emptyFields.push("카테고리");
+    if (!updateStore.openingTime) emptyFields.push("오픈시간");
+    if (!updateStore.closingTime) emptyFields.push("마감시간");
 
     if (emptyFields.length > 0) {
       alert(`${emptyFields.join(",")}(이)가 비어있습니다. 모두 입력해 주세요.`);
@@ -196,7 +182,7 @@ export default function Store() {
 
     fields.forEach((field) => {
       const newValue = updateStore[field as keyof StoreInfo];
-      const oldValue = store[field as keyof StoreInfo];
+      const oldValue = updateStore[field as keyof StoreInfo];
       const valueToAppend = newValue || oldValue || "";
       formData.append(field, valueToAppend);
     });
@@ -277,7 +263,7 @@ export default function Store() {
                 labelId="category-select-label"
                 id="category-select"
                 value={category}
-                defaultValue={store.category}
+                defaultValue={updateStore.category}
                 label="카테고리*"
                 onChange={handleCategoryChange}
               >
@@ -310,7 +296,7 @@ export default function Store() {
                   ? dayjs(updateStore.openingTime, "HH:mm")
                   : null
               }
-              defaultValue={dayjs(store.openingTime)}
+              defaultValue={dayjs(updateStore.openingTime)}
               onChange={(newTime) => handleTimeChange("openingTime", newTime)}
             />
           </LocalizationProvider>
@@ -319,11 +305,11 @@ export default function Store() {
               label="마감 시간 *"
               name="closingTime"
               value={
-                store.closingTime
+                updateStore.closingTime
                   ? dayjs(updateStore.closingTime, "HH:mm")
                   : null
               }
-              defaultValue={dayjs(store.closingTime)}
+              defaultValue={dayjs(updateStore.closingTime)}
               onChange={(newTime) => handleTimeChange("closingTime", newTime)}
             />
           </LocalizationProvider>
@@ -359,7 +345,7 @@ export default function Store() {
         <Box>
           <div>
             <tr>
-              <td className="title" style={{paddingRight: '10px'}}>주소</td>
+              <td className="title" style={{paddingRight: '5px'}}>주소</td>
               <input
                 id="address_kakao"
                 onClick={clickButton}
@@ -402,13 +388,13 @@ export default function Store() {
               }}
             >
               <tr>
-                <td className="title" style={{paddingRight: '10px'}}>상세주소</td>
+                <td className="title" style={{paddingRight: '5px'}}>상세주소</td>
                 <td>
                   <input
                     name="address"
                     value={address}
                     onChange={handleStoreChange}
-                    style={{marginRight: '10px'}}
+                    style={{marginRight: '5px'}}
                   ></input>
                 </td>
                 <input
@@ -425,7 +411,7 @@ export default function Store() {
           <textarea
             css={css.descriptionBox}
             value={updateStore.description}
-            defaultValue={store.description}
+            defaultValue={updateStore.description}
             name="description"
             onChange={handleStoreChange}
           ></textarea>

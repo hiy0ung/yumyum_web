@@ -102,7 +102,7 @@ export default function Store() {
       <h2 css={css.storeTitle}>{store.storeName}</h2>
       <Box css={css.StoreInfo}>
         <Box css={css.BasicInfo}>
-          {store.logoUrl && <img src={imageData} css={css.logoUrl} />}
+          {store.logoUrl && <img src={imageData} css={css.logoUrl} alt="로고 이미지"/>}
           <Box css={css.BasicInfoContent}>
             {store.address && (
               <p>
@@ -112,7 +112,12 @@ export default function Store() {
             <p>카테고리: {store.category}</p>
             {store.description && (
               <div css={css.description}>
-                <p>가게설명: {store.description}</p>
+              <div style={{marginRight: '5px'}}>
+                <p>가게설명: </p>
+              </div>
+              <div style={{display: 'flex', flexDirection: 'column'}}>
+                <p style={{ whiteSpace: 'pre-line'}}>{store.description}</p>
+              </div>
               </div>
             )}
           </Box>
