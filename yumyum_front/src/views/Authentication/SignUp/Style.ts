@@ -108,6 +108,14 @@ export const duplicatedBtn = css`
   }
 `;
 
+export const passwordVisibilityBtn = css`
+  color:#888888;
+
+  &:hover {
+    background-color: transparent;
+  }
+`;
+
 export const passwordStrength = css`
   display: flex;
   /* flex-direction: column; */
