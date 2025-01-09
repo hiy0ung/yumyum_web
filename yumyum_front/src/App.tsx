@@ -43,6 +43,8 @@ import { useCookies } from "react-cookie";
 import FindId from "./views/Authentication/FIndID/FindID";
 import FindPW from "./views/Authentication/FindPW/FindPW";
 import ChangePassword from "./views/Authentication/PasswordReset/ChangePassword";
+import HaveFound from "./views/Authentication/HaveFound/HaveFound";
+import ReviewNotice from "./views/Review/ReviewNotice";
 
 function App() {
     const [cookies] = useCookies(["token"]);
@@ -51,7 +53,9 @@ function App() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!token && !window.location.pathname.includes('/findPassword')) {
+        if (!token && !window.location.pathname.includes('/findPassword') &&
+            !window.location.pathname.includes('/findId')
+        ) {
             navigate(MAIN_PATH);
         }
     }, [token]);
@@ -92,6 +96,9 @@ function App() {
                                 <Route path={FIND_PW_PATH} element={<FindPW />} />
                                 <Route path={AUTH_PATH_LOGIN} element={<AuthUser />} />
                                 <Route path="/findPassword" element={<ChangePassword />} />
+                                <Route path="/findId" element={<HaveFound />} />
+                                <Route path="/11" element={<ReviewNotice />} />
+
                             </Routes>
                         </div>
                     )
