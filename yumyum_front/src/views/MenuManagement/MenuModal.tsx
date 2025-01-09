@@ -330,11 +330,15 @@ export default function MenuModal({
     setAddMenu({ ...addMenu, categoryId: Number(e.target.value) });
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddMenu({ ...addMenu, [e.target.name]: e.target.value})
+  };
 
   const menuAdd = async () => {
     try {
       const token = cookies.token;
+      const formData = new FormData();
+      formData.append('menu', JSON.stringify(addMenu));
       if (addMenu.menuName === "") {
         alert("메뉴명을 입력해주세요");
       } else if (addMenu.menuDescription === "") {
@@ -344,7 +348,7 @@ export default function MenuModal({
       } else if (addMenu.categoryId === 0) {
         alert("메뉴 카테고리를 선택해주세요");
       } else {
-        await axios.post(`http://localhost:4041/api/v1/menus/add`, addMenu, {
+        await axios.post(`http://localhost:4041/api/v1/menus/add`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -488,7 +492,7 @@ export default function MenuModal({
           </div>
           <div>
             <div>이미지</div>
-            <input type="file" onChange={handleFileChange} required />
+            <input type="file" id="imageUrl" onChange={handleFileChange} required />
           </div>
           <div>
             <div>메뉴 설명</div>
