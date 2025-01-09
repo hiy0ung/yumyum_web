@@ -44,6 +44,8 @@ export default function SideBar() {
         setCookies("token", "", { path: "/", expires: new Date(0) }); 
         logout();
         console.log("로그아웃 성공");
+        setStoreImg("");
+        localStorage.removeItem("storeImage");
         navigate(MAIN_PATH);
     }
 

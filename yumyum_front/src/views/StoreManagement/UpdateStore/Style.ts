@@ -84,6 +84,7 @@ export const descriptionBox = css`
     resize: none;
     font-size: 14px;
     margin-bottom: 20px;
+    white-space: pre-line;
 `;
 
 export const storeUpdateButton = css`

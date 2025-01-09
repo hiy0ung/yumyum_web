@@ -51,6 +51,7 @@ export const description = css`
   font-size: 1rem;
   text-align: center;
   width: 100%;
+  display: flex;
 `;
 
 export const StoreTimeAndBreakTime = css`
