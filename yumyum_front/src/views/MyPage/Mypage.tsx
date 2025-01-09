@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import * as s from "./MypageCss";
 import { Link, useNavigate } from "react-router-dom";
 import { HOME_PATH, MY_PAGE_UPDATE } from "../../constants";
+import { Cookies, useCookies } from "react-cookie";
 
 interface User {
   userId: string;
@@ -16,6 +17,7 @@ interface User {
 }
 
 export default function Mypage() {
+  const [cookies] = useCookies(['token'])
 
   const [user, setUser] = useState<User>({
     userId: "",
@@ -26,7 +28,6 @@ export default function Mypage() {
     userBusinessNumber: "",
     marketingAgreed: false,
   });
-  const [id, setId] = useState<Number>(1);
 
   const handleCheckBox = () => {
     user.marketingAgreed = !user.marketingAgreed;
@@ -34,9 +35,14 @@ export default function Mypage() {
 
   const navigate = useNavigate();
   const handleDeleteUser = async () => {
+    const token = cookies.token;
     if (window.confirm("정말 삭제하시겠습니까?")) {
       try {
-        await axios.delete(`http://localhost:4041/api/v1/mypage/delete/${id}`);
+        await axios.delete(`http://localhost:4041/api/v1/mypage/delete`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
       } catch (e) {
         console.log("해당 아이디가 없습니다.");
@@ -50,11 +56,15 @@ export default function Mypage() {
 
   const fetchData = async () => {
     try {
+      const token = cookies.token;
       const userData = await axios.get(
-          `http://localhost:4041/api/v1/mypage/${id}`
+          `http://localhost:4041/api/v1/mypage/`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
       );
       setUser(userData.data.data);
-      setId(userData.data.data.id)
     } catch (e) {
       console.error("데이터를 불러오지 못했습니다.", e);
     }
