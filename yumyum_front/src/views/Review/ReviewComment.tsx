@@ -149,6 +149,7 @@ function ReviewComment() {
 
         <div css={css.reviewTabMenuContext}>
             <div css={tabMenu === 'total' ? css.reviewTabMenuTotalContext : css.displayNone}>
+
                 <ul>
                     {data.map((item) => (
                         <li css={css.totalReviewContainer} key={item.id} data-id={item.id}>
@@ -256,6 +257,8 @@ function ReviewComment() {
                         </li>))
                     }
                 </ul>
+
+
             </div>
             {modalOpen && (
                 <div css={css.modalOverlay} onClick={closeModal}>

@@ -37,3 +37,18 @@ export const findIdButton  = css`
     padding: 10px 20px;
     width: 400px;
 `;
+
+export const backButton  = css`
+    border: none;
+    background: white;
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border-radius: 10px;
+    padding: 14px 20px;
+    width: 400px;
+    display: inline-block;
+`;
+
+export const errorText  = css`
+    color : red;
+    margin-bottom: 10px;
+`;
