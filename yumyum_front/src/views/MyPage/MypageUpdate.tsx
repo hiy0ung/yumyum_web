@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import * as s from "./MypageCss";
 import { Link, useNavigate } from "react-router-dom";
 import { HOME_PATH, MAIN_PATH, MY_PAGE, MY_PAGE_UPDATE } from "../../constants";
+import { useCookies } from "react-cookie";
 
 interface User {
     userId: string;
@@ -17,6 +18,7 @@ interface User {
 }
 
 export default function Mypage() {
+    const [cookies] = useCookies(['token'])
     const [user, setUser] = useState<User>({
         userId: "",
         userPw: "",
@@ -28,7 +30,6 @@ export default function Mypage() {
         marketingAgreed: false,
     });
 
-    const [id, SetId] = useState<Number>(1);
     const [errorMsg, setErrorMsg] = useState<{ [key: string]: string }>({});
     const [successMsg, setSuccessMsg] = useState<{ [key: string]: string }>({});
 
@@ -88,8 +89,13 @@ export default function Mypage() {
 
     const fetchData = async () => {
         try {
+            const token = cookies.token;
             const userData = await axios.get(
-                `http://localhost:4041/api/v1/mypage/${id}`
+                `http://localhost:4041/api/v1/mypage/`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
             );
             setUser(userData.data.data);
         } catch (e) {
@@ -108,7 +114,12 @@ export default function Mypage() {
             return
         }
         try{
-            await axios.put(`http://localhost:4041/api/v1/mypage/update/${id}`, user);
+            const token = cookies.token;
+            await axios.put(`http://localhost:4041/api/v1/mypage/update`, user, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             console.log(user);
             alert("수정이 완료되었습니다.")
             navigate(MAIN_PATH)
