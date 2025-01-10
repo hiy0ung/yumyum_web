@@ -399,7 +399,7 @@ export default function Store() {
                 </td>
                 <input
                   name="detailAddress"
-                  value={detailAddress || ""}
+                  value={updateStore.detailAddress}
                   onChange={handleStoreChange}
                 ></input>
               </tr>
