@@ -58,9 +58,72 @@ export const submitButton = css`
   width: 100%;
   text-align: center;
   background-color:#58cdff;
+  margin-bottom: 20px;
 
   &:hover {
     background-color: #0db4fc;
+  }
+`;
+
+export const oauthButtons = css`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const kakaoButton = css`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  align-items: center;
+  background-color: #FEE500;
+  cursor: pointer;
+
+  :hover {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  & > img {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    border-radius: 25%;
+  }
+
+  & > span {
+    margin-right: 40px;
+    font-size: 14px;
+  }
+`;
+
+export const naverButton = css`
+  display: flex;
+  justify-content: center;
+  gap:10px;
+  width: 100%;
+  height: 56px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  align-items: center;
+  background-color: rgb(3,199,90);
+  cursor: pointer;
+
+  :hover {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  & > img {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    border-radius: 25%;
+  }
+
+  & > span {
+    margin-right: 40px;
+    font-size: 14px;
   }
 `;
 
