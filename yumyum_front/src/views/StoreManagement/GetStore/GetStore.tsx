@@ -112,7 +112,7 @@ export default function Store() {
             <p>카테고리: {store.category}</p>
             {store.description && (
               <div css={css.description}>
-              <div style={{marginRight: '10px'}}>
+              <div style={{marginRight: '5px'}}>
                 <p>가게설명: </p>
               </div>
               <div style={{display: 'flex', flexDirection: 'column'}}>

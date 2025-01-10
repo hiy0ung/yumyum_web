@@ -72,6 +72,7 @@ export const StoreTimeAndBreakTime = css`
 export const Time = css`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 40px;
   margin-bottom: 10px;
 
