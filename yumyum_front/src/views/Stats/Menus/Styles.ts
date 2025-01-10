@@ -2,9 +2,9 @@ import { css } from "@emotion/react";
 
 export const menusStatsContainer = css`
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     font-size: 20px;
-    padding: 70px 30px 0 30px;
+    padding: 60px 0 ;
 `;
 
 export const menuStatsLeft = css`
@@ -15,7 +15,7 @@ export const menuStatsLeft = css`
     padding: 30px;
     box-shadow: 0 0 10px 1px #e9e9e9;
     border: 1px solid #e9e9e9;
-    margin-right: 30px;
+    margin-right: 60px;
     position: relative;
 `;
 
@@ -132,9 +132,8 @@ export const chartResultLeftContainer = css`
 `;
 
 export const menuStatsRightContainer = css`
-    width: 40%;
+    width: 45%;
     min-width: 600px;
-    aspect-ratio: 1;
 `;
 
 export const menuStatsRightTitle = css`
@@ -169,8 +168,9 @@ export const menuStatsRightAllResult = css`
 
 export const menuStatsRightTextContainer = css`
     background-color: #eff6ff;
-    aspect-ratio: 1;
     display: flex;
+    width: 100%;
+    aspect-ratio: 1.4;
     padding: 30px;
     justify-content: space-around;
     text-align: center;
