@@ -112,7 +112,7 @@ export default function Store() {
             <p>카테고리: {store.category}</p>
             {store.description && (
               <div css={css.description}>
-              <div style={{marginRight: '5px'}}>
+              <div style={{marginRight: '10px'}}>
                 <p>가게설명: </p>
               </div>
               <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -183,7 +183,7 @@ export default function Store() {
       >
         <DialogTitle sx={{ fontSize: "16px" }}>가게삭제</DialogTitle>
         <DialogContent sx={{ overflow: "hidden" }}>
-          <DialogContentText sx={{ fontSize: "14px" }}>
+          <DialogContentText sx={{ fontSize: "15px" }}>
             정말 삭제하시겠습니까?
           </DialogContentText>
         </DialogContent>

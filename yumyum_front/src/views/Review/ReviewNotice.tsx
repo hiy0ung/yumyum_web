@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import * as css from "./Style";
 import ReactQuill from "react-quill-new";
 import moment from "moment/moment";
@@ -13,6 +13,7 @@ Quill.register('modules/resize', QuillResizeImage);
 const ReviewNotice = () => {
     const [cookies] = useCookies(['token']);
     const token = cookies.token;
+    const [imgUrl, setImgUrl] = useState("");
 
     const quillRef = useRef<ReactQuill | null>(null);
 
@@ -54,6 +55,8 @@ const ReviewNotice = () => {
             console.log('서버 응답:', response.data);
 
             alert('공지사항 등록 완료');
+            NoticeImage(response.data.data.noticePhotoUrl);
+
         } catch (error) {
             console.error(error);
             alert('업로드 중 문제가 발생했습니다.');
@@ -81,6 +84,12 @@ const ReviewNotice = () => {
         return new File([u8arr], filename, {type: mime});
     };
 
+    const NoticeImage = ({ noticePhotoUrl } : any) => {
+        const baseUrl = "http://localhost:4041/image/";
+        const imageUrl = `${baseUrl}${noticePhotoUrl}`;
+        console.log("이미지 URL:", imageUrl); // 디버깅용
+        setImgUrl(imageUrl);
+    };
 
     useEffect(() => {
 
@@ -97,6 +106,7 @@ const ReviewNotice = () => {
                     placeholder="리뷰 공지사항을 작성해주세요"
                 />
             </div>
+            <img src={imgUrl} alt="공지 이미지" style={{maxWidth: "100%", height : "auto", display: "block"}}/>
             <div css={css.reviewNoticeUploadButtonContainer}>
                 <button css={css.reviewNoticeUploadButton} onClick={handleSubmit}>저장</button>
             </div>
