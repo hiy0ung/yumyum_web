@@ -137,11 +137,11 @@ export default function Store() {
             <Box css={css.Time}>
               <div>
                 <p>브레이크 시작</p>
-                <div>{store.breakStartTime}</div>
+                <div style={{marginRight: '40px'}}>{store.breakStartTime}</div>
               </div>
               <div>
                 <p>브레이크 마감</p>
-                <div>{store.breakEndTime}</div>
+                <div style={{marginLeft: '40px'}}>{store.breakEndTime}</div>
               </div>
             </Box>
           )}

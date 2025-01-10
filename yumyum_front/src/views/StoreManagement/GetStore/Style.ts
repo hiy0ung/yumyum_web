@@ -83,6 +83,11 @@ export const Time = css`
     font-size: 1rem;
     color: #555;
 
+    & > div {
+      display: flex;
+      justify-content: space-between;
+    }
+
     p {
       margin: 0;
       font-weight: bold;
