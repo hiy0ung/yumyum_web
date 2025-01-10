@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import axios from 'axios';
 import * as css from './Style';
 import {useCookies} from 'react-cookie';
@@ -48,7 +48,11 @@ function ReviewComment() {
                 },
             });
             if (response.data.data) {
-                setData(response.data.data);
+                // reviewDate 기준으로 내림차순 정렬
+                const sortedData = response.data.data.sort((a: ReviewsList, b: ReviewsList) => {
+                    return new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime();
+                });
+                setData(sortedData);
             }
             console.log(response.data.data);
         } catch (error) {
@@ -98,9 +102,9 @@ function ReviewComment() {
 
     };
 
-    const deleteComment = async (reviewId : any) => {
+    const deleteComment = async (reviewId: any) => {
         try {
-            const response = await axios.delete(`http://localhost:4041/api/v1/reviews/comment/delete/${reviewId}`,{
+            const response = await axios.delete(`http://localhost:4041/api/v1/reviews/comment/delete/${reviewId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -125,6 +129,11 @@ function ReviewComment() {
     const closeModal = () => {
         setModalOpen(false);
     };
+
+    const noAnswerReviews = useMemo(() => {
+        return data.filter(review => review.reviewComment === null);
+    }, [data]);
+
     return (<>
         <div css={css.reviewTabMenuContainer}>
             <div
@@ -178,7 +187,7 @@ function ReviewComment() {
                                                     css={css.reviewPhoto}
                                                     src={defaultImg3}
                                                     alt="리뷰 사진"
-                                                    onClick={() => openModal(photo)}
+                                                    onClick={(e) => openModal(e.currentTarget.src)}
                                                 />
                                             ))}
                                         </div>
@@ -263,13 +272,124 @@ function ReviewComment() {
             {modalOpen && (
                 <div css={css.modalOverlay} onClick={closeModal}>
                     <div css={css.modalContent}>
-                        <img src={modalImage} alt="확대 이미지" css={css.modalImage} />
+                        <img src={modalImage} alt="확대 이미지" css={css.modalImage}/>
                         <button css={css.closeButton} onClick={closeModal}>닫기</button>
                     </div>
                 </div>
             )}
+
             <div css={tabMenu === 'noAnswer' ? css.reviewTabMenuNoAnswerContext : css.displayNone}>
-                미답변 리뷰 내용
+                {noAnswerReviews.length > 0 ? (
+                    <ul>
+                        {noAnswerReviews.map((item) => (
+                            <li css={css.totalReviewContainer} key={item.id} data-id={item.id}>
+                                <div css={css.totalReviewInContainer}>
+                                    <div css={css.reviewDate}>{moment(item.reviewDate).format("YYYY-MM-DD")}</div>
+                                    <div css={css.reviewTopContainer}>
+                                        {
+                                            item.profileImage ? (
+                                                <img css={css.reviewProfileImg}
+                                                     // src={item.profileImage}
+                                                     src={defaultImg}
+                                                     alt="프로필 이미지"/>
+                                            ) : (
+                                                <img css={css.reviewProfileImg} src={defaultImg} alt="기본 프로필 이미지"/>
+                                            )
+                                        }
+                                        <div css={css.guestInfoContainer}>
+                                            <div css={css.guestNickname}>{item.guestNickname}</div>
+                                            {Array.from({length: item.rating}, (_, idx) => (
+                                                <span css={css.filledStar} key={`filled-${idx}`}>★</span>
+                                            ))}
+                                            {Array.from({length: 5 - item.rating}, (_, idx) => (
+                                                <span css={css.emptyStar} key={`empty-${idx}`}>☆</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div css={css.reviewText}>{item.reviewText}</div>
+                                    {
+                                        item.reviewPhotos.length > 0 && (
+                                            <div css={css.reviewPhotosContainer}>
+                                                {item.reviewPhotos.map((photo, index) => (
+                                                    <img
+                                                        key={index}
+                                                        css={css.reviewPhoto}
+                                                        src={defaultImg3}
+                                                        alt="리뷰 사진"
+                                                        onClick={() => openModal(photo)}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )
+                                    }
+
+                                    {
+                                        item.menuNames.length > 0 ? (
+                                                <ul css={css.menuNamesContainer}>
+                                                    {
+                                                        item.menuNames.map((menu, index) => (
+                                                            <li css={css.menuNames} key={index}>{menu}</li>))
+                                                    }
+                                                </ul>)
+                                            : (
+                                                <div>메뉴 정보 없음</div>
+                                            )
+                                    }
+                                    {
+                                        commentTab[item.id] ? (
+                                            <div css={css.reviewAddCommentContainer}>
+                                                <div css={css.reviewAddCommentInfoContainer}>
+                                                    <div css={css.reviewProfileImg2}></div>
+                                                    <textarea
+                                                        css={css.textArea}
+                                                        value={commentText[item.id] || ''}
+                                                        onChange={(e) =>
+                                                            handleCommentChange(item.id, e.target.value)}
+                                                    />
+                                                    <div css={css.textAreaTail}>
+                                                        <div css={css.textAreaTailUpper}></div>
+                                                    </div>
+                                                </div>
+                                                <div css={css.reviewAddCommentButtonContainer}>
+                                                    <button onClick={() => addComment(item.id)}>저장</button>
+                                                    <button onClick={() => toggleCommentTab(item.id)}>취소</button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            !item.reviewComment ? (
+                                                <div css={css.reviewCommentContainer}
+                                                     onClick={() => toggleCommentTab(item.id)}>
+                                                    댓글 추가
+                                                </div>
+                                            ) : (
+                                                <div css={css.reviewAddCommentInValidContainer}>
+                                                    <div css={css.reviewAddCommentTopContainer}>
+                                                        <div css={css.reviewProfileImg2}></div>
+                                                        <div css={css.reviewAddCommentInValidRight}>
+                                                                <textarea
+                                                                    css={css.commentInValidTextArea}
+                                                                    readOnly
+                                                                    value={item.reviewComment}
+                                                                />
+                                                            <div css={css.commentInValidTextAreaTail}>
+                                                                <div css={css.commentInValidTextAreaTailUpper}></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div css={css.reviewAddCommentButtonContainer}>
+                                                        <button onClick={() => deleteComment(item.id)}>삭제</button>
+                                                    </div>
+                                                </div>
+                                            )
+                                        )
+                                    }
+                                </div>
+                            </li>))
+                        }
+                    </ul>
+                ) : (
+                    <div css={css.noReviewsMessage}>답변되지 않은 리뷰가 없습니다.</div>
+                )}
             </div>
 
             <div css={tabMenu === 'event' ? css.reviewTabMenuEventContext : css.displayNone}>

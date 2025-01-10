@@ -65,7 +65,6 @@ export default function Store() {
       if (response.data) {
         const data = response.data.data;
         setUpdateStore(data);
-        setUpdateStore(data);
         setZoneCode(data.zoneCode);
         setAddress(data.address);
         setDetailAddress(data.detailAddress);
