@@ -83,6 +83,12 @@ const ReviewNotice = () => {
         return new File([u8arr], filename, { type: mime });
     };
 
+    const NoticeImage = ({ noticePhotoUrl } : any) => {
+        const baseUrl = "http://localhost:4041/image/";
+        const imageUrl = `${baseUrl}${noticePhotoUrl}`;
+        console.log("이미지 URL:", imageUrl); // 디버깅용
+        setImgUrl(imageUrl);
+    };
 
 
 
@@ -120,13 +126,6 @@ const ReviewNotice = () => {
                     placeholder="리뷰 공지사항을 작성해주세요"
                 />
             </div>
-            {imgUrl && (
-                <img
-                    src={`http://localhost:4041/notice/upload/${imgUrl}`}
-                    alt="공지 이미지"
-                    style={{ maxWidth: "100%", height: "auto", display: "block" }}
-                />
-            )}
             <div css={css.reviewNoticeUploadButtonContainer}>
                 <button css={css.reviewNoticeUploadButton} onClick={handleSubmit}>저장</button>
             </div>
