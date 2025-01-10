@@ -137,11 +137,11 @@ export default function Store() {
             <Box css={css.Time}>
               <div>
                 <p>브레이크 시작</p>
-                <div>{store.breakStartTime}</div>
+                <div style={{marginRight: '40px'}}>{store.breakStartTime}</div>
               </div>
               <div>
                 <p>브레이크 마감</p>
-                <div>{store.breakEndTime}</div>
+                <div style={{marginLeft: '40px'}}>{store.breakEndTime}</div>
               </div>
             </Box>
           )}
@@ -183,7 +183,7 @@ export default function Store() {
       >
         <DialogTitle sx={{ fontSize: "16px" }}>가게삭제</DialogTitle>
         <DialogContent sx={{ overflow: "hidden" }}>
-          <DialogContentText sx={{ fontSize: "14px" }}>
+          <DialogContentText sx={{ fontSize: "15px" }}>
             정말 삭제하시겠습니까?
           </DialogContentText>
         </DialogContent>

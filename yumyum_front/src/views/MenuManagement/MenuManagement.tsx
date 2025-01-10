@@ -343,10 +343,6 @@ export default function MenuManagement() {
     })
   }, [menus])
 
-  
-  console.log(menus.map((menu) => {
-    return 'http://localhost:4041/image/' + menu.imageUrl
-  }));
 
   // console.log(menus);
   // console.log(menus.length);

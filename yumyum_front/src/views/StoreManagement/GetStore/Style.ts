@@ -2,23 +2,23 @@
 import { css } from "@emotion/react";
 
 export const storeTitle = css`
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-align: center;
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 20px;
-  margin-top: 50px;
-  text-align: center;
 `;
 
 export const StoreInfo = css`
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 800px;
   padding: 30px;
-  background-color: #f9f9f9;
   border-radius: 12px;
+  background-color: #f9f9f9;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
 `;
 
 export const BasicInfo = css`
@@ -36,7 +36,12 @@ export const logoUrl = css`
 `;
 
 export const BasicInfoContent = css`
-text-align: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+
   p {
     margin: 8px 0;
     font-size: 1.1rem;
@@ -44,14 +49,17 @@ text-align: center;
 `;
 
 export const description = css`
-  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: 1.3;
+  width: 100%;
   padding: 15px;
+  margin-top: 15px;
   background-color: #f0f0f0;
   border-radius: 8px;
   font-size: 1rem;
-  text-align: center;
-  width: 100%;
-  display: flex;
+  text-align: left;
 `;
 
 export const StoreTimeAndBreakTime = css`
@@ -64,15 +72,21 @@ export const StoreTimeAndBreakTime = css`
 export const Time = css`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 40px;
   margin-bottom: 10px;
-  
+
   div {
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     font-size: 1rem;
     color: #555;
+
+    & > div {
+      display: flex;
+      justify-content: space-between;
+    }
 
     p {
       margin: 0;
@@ -85,8 +99,8 @@ export const Time = css`
 
 export const buttons = css`
   display: flex;
-  gap: 20px;
   justify-content: flex-end;
+  gap: 20px;
 `;
 
 export const updateButton = css`
@@ -94,7 +108,7 @@ export const updateButton = css`
   font-size: 14px;
   color: #58cdff;
   border-color: #58cdff;
-  
+
   &:hover {
     background-color: #0db4fc;
     color: white;
@@ -105,8 +119,8 @@ export const deleteButton = css`
   height: 40px;
   font-size: 14px;
   color: #f44336;
-  border-color:  #f44336;
-  
+  border-color: #f44336;
+
   &:hover {
     background-color: #d32f2f;
     color: white;
