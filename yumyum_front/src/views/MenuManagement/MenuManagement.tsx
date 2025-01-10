@@ -16,12 +16,12 @@ export default function MenuManagement() {
     menuCategorySequence: 0,
   });
   const [menus, setMenus] = useState<Menus[]>([]);
+  const [menuImg, setMenuImg] = useState<any>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryModalOepn, setIsCategoryModalOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const [updateOptionChecked, setUpdateOptionChecked] = useState<boolean[]>([]);
   const [selectedMenuId, setSelectedMenuId] = useState<number>(0);
-  const [updateMenuData, setUpdateMenuData] = useState({});
   const [updateMenudata, setUpdateMenudata] = useState<UpdateMenu>({
     categoryId: categories.length > 0 ? categories[0].id : 0,
     menuName: "",
@@ -71,7 +71,7 @@ export default function MenuManagement() {
         }
       );
       setCategories(data.data.data);
-      console.log(data.data.data);
+      // console.log(data.data.data);
     } catch (e) {
       console.log("object");
     }
@@ -331,6 +331,22 @@ export default function MenuManagement() {
     }
   };
 
+  useEffect(() => {
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      setMenuImg(e.target?.result);
+    };
+    menus.map((menu) => {
+      if (!!menu.imageUrl) {
+        // fileReader.readAsDataURL(menu.imageUrl);
+      }
+    })
+  }, [menus])
+
+  
+  console.log(menus.map((menu) => {
+    return 'http://localhost:4041/image/' + menu.imageUrl
+  }));
 
   // console.log(menus);
   // console.log(menus.length);
@@ -419,7 +435,11 @@ export default function MenuManagement() {
                       .map((menu: Menus) => (
                         <li key={menu.menuId}>
                           <div css={s.menu}>
-                            <div css={s.menuImage}>{menu.imageUrl}</div>
+                            <div css={s.menuImage}>
+
+                              <img src={'http://localhost:4041/image' + menu.imageUrl} alt="파일 처리 안됨됨" />
+                              
+                            </div>
                             <div css={s.menuBody}>
                               <div css={s.menuName}>{menu.menuName}</div>
                               <div css={s.menuDescription}>
