@@ -7,7 +7,14 @@ import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
 import { updateModalStore, useModalStore } from "../../Stroes/menuModal.store";
 import { useCookies } from "react-cookie";
-import { Menus, Category, AddCategory, UpdateMenu, MenuOptions, MenuData } from "../../types/Menu"
+import {
+  Menus,
+  Category,
+  AddCategory,
+  UpdateMenu,
+  MenuOptions,
+  MenuData,
+} from "../../types/Menu";
 
 export default function MenuManagement() {
   const [cookies] = useCookies(["token"]);
@@ -31,12 +38,17 @@ export default function MenuManagement() {
     isAvailable: false,
     menuOptions: [
       {
-        menuOptionId: 0,
+        menuId: 0,
         optionName: "옵션 없음",
         optionDetails: [
           {
-            optionDetailName: "옵션 없음",
-            additionalFee: 0,
+            menuOptionId: 0,
+            detailName: [
+              {
+                optionDetailName: "",
+                additionalFee: 0,
+              },
+            ],
           },
         ],
       },
@@ -44,15 +56,16 @@ export default function MenuManagement() {
   });
 
   useEffect(() => {
-    if(categories.length > 0) {
-      setUpdateMenudata(prevState => ({
+    if (categories.length > 0) {
+      setUpdateMenudata((prevState) => ({
         ...prevState,
-        categoryId: categories[0].id
+        categoryId: categories[0].id,
       }));
     }
-  }, [categories])
+  }, [categories]);
 
-  const { updateModalState, updateModalOpen, updateModalClose} = updateModalStore();
+  const { updateModalState, updateModalOpen, updateModalClose } =
+    updateModalStore();
   const { isModalOpen, openModal, closeModal } = useModalStore();
 
   const categoryOpenModal = () => setIsCategoryModalOpen(true);
@@ -202,16 +215,16 @@ export default function MenuManagement() {
 
   const deleteCategory = async (categoryId: number) => {
     try {
-      await axios.delete(`http://localhost:4041/api/v1/categories/delete/${categoryId}`);
-
+      await axios.delete(
+        `http://localhost:4041/api/v1/categories/delete/${categoryId}`
+      );
     } catch (e) {
       console.error(e);
       return;
     }
     alert("성공적으로 삭제되었습니다.");
     fetchCategoryData();
-
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -259,53 +272,65 @@ export default function MenuManagement() {
     }));
   };
   const getCategoryId = (categoryName: string) => {
-    const category = categories.find(cate => cate.menuCategory === categoryName);
+    const category = categories.find(
+      (cate) => cate.menuCategory === categoryName
+    );
     return category ? category.id : 0;
-  }
+  };
   const updateButton = async (menuId: number) => {
-    const selectedMenu = menus.find(menu => menu.menuId === menuId);
+    const selectedMenu = menus.find((menu) => menu.menuId === menuId);
+
     if (selectedMenu) {
-      setUpdateMenudata({
+      const updatedMenu = {
         categoryId: getCategoryId(selectedMenu.menuCategory),
         menuName: selectedMenu.menuName,
         imageUrl: selectedMenu.imageUrl,
         menuDescription: selectedMenu.menuDescription,
         menuPrice: selectedMenu.menuPrice,
         isAvailable: selectedMenu.isAvailable,
-        menuOptions: selectedMenu.menuOptions ? 
-        selectedMenu.menuOptions.map((option: any) => ({
-          ...option,
-          optionDetails: option.optionDetails || [],
-        })) : [],
-      });
-      
+        menuOptions: selectedMenu.menuOptions
+          ? selectedMenu.menuOptions.map((option: any) => ({
+              ...option,
+              optionDetails: option.optionDetails ? option.optionDetails.map((optionDetail: any) => ({
+                detailId: optionDetail.detailId,
+                detailName: [{
+                  optionDetailName: optionDetail.optionDetailName,
+                  additionalFee: optionDetail.additionalFee
+                }]
+                })) : []
+              })) : []
+      };
+
+      // console.log("updated Menu Data Before Setting State:", updatedMenu);
+      setUpdateMenudata(updatedMenu);
       setSelectedMenuId(menuId);
     }
     try {
-      const data = await axios.get(`http://localhost:4041/api/v1/menus/${menuId}`);
+      const data = await axios.get(
+        `http://localhost:4041/api/v1/menus/${menuId}`
+      );
       const result = data.data.data;
       const updatedMenuData = {
         ...result,
-        menuOptions: result.menuOptions ? result.menuOptions.map((option: MenuOptions) => ({
-          ...option,
-          optionDetails: option.optionDetails || [],
-        })) : [],
-        
+        menuOptions: result.menuOptions
+          ? result.menuOptions.map((option: MenuOptions) => ({
+              ...option,
+              optionDetails: option.optionDetails || [],
+            }))
+          : [],
       };
-      setUpdateMenudata(prev => ({
-        ...prev,
-        ...updatedMenuData
-      }));
-
+      
       const initialChecked = updatedMenuData.menuOptions.map(() => true);
       setUpdateOptionChecked(initialChecked);
-
-      console.log("updated Menu Data:", updatedMenuData);
 
     } catch (e) {
       console.error(e);
     }
     updateModalOpen();
+  };
+
+  const handleUpdateClick = (menuId: number) => {
+    updateButton(menuId);
   }
 
   const deleteMenu = async (menuId: number) => {
@@ -332,6 +357,10 @@ export default function MenuManagement() {
   };
 
   useEffect(() => {
+    // console.log("updated updateMenudata after state change: ", updateMenudata);
+  }, [updateMenudata])
+
+  useEffect(() => {
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
       setMenuImg(e.target?.result);
@@ -340,13 +369,14 @@ export default function MenuManagement() {
       if (!!menu.imageUrl) {
         // fileReader.readAsDataURL(menu.imageUrl);
       }
-    })
-  }, [menus])
-
+    });
+  }, [menus]);
 
   // console.log(menus);
   // console.log(menus.length);
   // console.log(categories);
+  // console.log("management", updateMenudata);
+  
   return (
     <>
       <div css={s.menuAll}>
@@ -425,46 +455,61 @@ export default function MenuManagement() {
                   <button onClick={() => downChange(index)}>내리기</button>
                   <ul>
                     {menus && menus.length > 0 ? (
-                      menus.filter(
-                        (menu: Menus) => menu.menuCategory === category.menuCategory
-                      )
-                      .map((menu: Menus) => (
-                        <li key={menu.menuId}>
-                          <div css={s.menu}>
-                            <div css={s.menuImage}>
-
-                              <img src={'http://localhost:4041/image' + menu.imageUrl} alt="파일 처리 안됨됨" />
-                              
-                            </div>
-                            <div css={s.menuBody}>
-                              <div css={s.menuName}>{menu.menuName}</div>
-                              <div css={s.menuDescription}>
-                                {menu.menuDescription}
-                              </div>
-                            </div>
-                            <div css={s.menuFoot}>
-                              <div css={s.menuButtonContainer}>
-                                <button onClick={() => updateButton(menu.menuId)}>수정</button>
-                                <button onClick={() => deleteMenu(menu.menuId)}>
-                                  삭제
-                                </button>
-                              </div>
-                              <div css={s.menuIsAvailable}>
-                                메뉴 판매 가능 여부
-                                <Switch
-                                  checked={menu.isAvailable}
-                                  onClick={() => stateIsAvailable(menu.menuId)}
+                      menus
+                        .filter(
+                          (menu: Menus) =>
+                            menu.menuCategory === category.menuCategory
+                        )
+                        .map((menu: Menus) => (
+                          <li key={menu.menuId}>
+                            <div css={s.menu}>
+                              <div css={s.menuImage}>
+                                <img
+                                  src={
+                                    "http://localhost:4041/image" +
+                                    menu.imageUrl
+                                  }
+                                  alt="파일 처리 안됨됨"
                                 />
                               </div>
-                              <div css={s.menuPrice}>
-                                가격: {menu.menuPrice}원
+                              <div css={s.menuBody}>
+                                <div css={s.menuName}>{menu.menuName}</div>
+                                <div css={s.menuDescription}>
+                                  {menu.menuDescription}
+                                </div>
+                              </div>
+                              <div css={s.menuFoot}>
+                                <div css={s.menuButtonContainer}>
+                                  <button
+                                    onClick={() => handleUpdateClick(menu.menuId)}
+                                  >
+                                    수정
+                                  </button>
+                                  <button
+                                    onClick={() => deleteMenu(menu.menuId)}
+                                  >
+                                    삭제
+                                  </button>
+                                </div>
+                                <div css={s.menuIsAvailable}>
+                                  메뉴 판매 가능 여부
+                                  <Switch
+                                    checked={menu.isAvailable}
+                                    onClick={() =>
+                                      stateIsAvailable(menu.menuId)
+                                    }
+                                  />
+                                </div>
+                                <div css={s.menuPrice}>
+                                  가격: {menu.menuPrice}원
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </li>
-                      ))) : (
-                        <li>메뉴 없음</li>
-                      )}
+                          </li>
+                        ))
+                    ) : (
+                      <li>메뉴 없음</li>
+                    )}
                   </ul>
                 </li>
               ))

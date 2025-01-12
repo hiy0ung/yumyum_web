@@ -7,7 +7,14 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { AUTH_PATH_LOGIN } from "../../constants";
 import { updateModalStore } from "../../Stroes/menuModal.store";
-import { MenuModalProps, AddMenu, UpdateMenu, Menus, MenuOptions, MenuOptionDetails } from "../../types/Menu";
+import {
+  MenuModalProps,
+  AddMenu,
+  UpdateMenu,
+  Menus,
+  MenuOptions,
+  MenuOptionDetails,
+} from "../../types/Menu";
 import { serialize } from "v8";
 import { Details } from "@mui/icons-material";
 
@@ -20,7 +27,7 @@ export default function MenuModal({
   updateOptionChecked,
   setUpdateOptionChecked,
   menus,
-  selectedMenuId
+  selectedMenuId,
 }: MenuModalProps) {
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
@@ -45,12 +52,36 @@ export default function MenuModal({
       },
     ],
   });
-
   const [checked, setChecked] = useState(false);
   const [file, setFile] = useState<null | File>(null);
   const [updateChecked, setUpdateChecked] = useState(true);
   const [menuChecked, setMenuChecked] = useState([true]);
-  const [updateMenu, setUpdateMenu] = useState<UpdateMenu>(updateMenudata);
+  const [updateMenu, setUpdateMenu] = useState<UpdateMenu>({
+    categoryId: updateMenudata.categoryId,
+    imageUrl: updateMenudata.imageUrl,
+    isAvailable: updateMenudata.isAvailable,
+    menuDescription: updateMenudata.menuDescription,
+    menuName: updateMenudata.menuName,
+    menuPrice: updateMenudata.menuPrice,
+    menuOptions: updateMenudata.menuOptions
+      ? updateMenudata.menuOptions.map((option) => ({
+          menuId: option.menuId || 0,
+          optionName: option.optionName || "",
+          optionDetails: option.optionDetails
+            ? option.optionDetails.map((optionDetail) => ({
+                menuOptionId: optionDetail.menuOptionId || 0,
+                detailName: optionDetail.detailName
+                  ? optionDetail.detailName.map((menuName) => ({
+                      optionDetailName: menuName.optionDetailName || "",
+                      additionalFee: menuName.additionalFee || 0,
+                    }))
+                  : [],
+              }))
+            : [],
+        }))
+      : [],
+  });
+
   const { updateModalState, updateModalOpen, updateModalClose } =
     updateModalStore();
 
@@ -185,7 +216,8 @@ export default function MenuModal({
   const changeUpdateDetailHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     optionIndex = 0,
-    detailIndex = 0
+    detailIndex = 0,
+    detailNameIndex = 0
   ) => {
     const { name, value } = event.target;
     setUpdateMenu((prev) => ({
@@ -195,12 +227,21 @@ export default function MenuModal({
           ? {
               ...option,
               optionDetails: option.optionDetails.map((detail, dIndex) =>
-                dIndex === detailIndex ? { ...detail, [name]: name !== "additionalFee" ? value : Number(value) } : detail
+                dIndex === detailIndex
+                  ? {
+                      ...detail,
+                      detailName: detail.detailName.map((detailName, dnIndex) => dnIndex === detailNameIndex ? {
+                        ...detailName,
+                        [name]: name !== "additionalFee" ? value : Number(value),
+                      } : detailName 
+                    ),
+                  }
+                  : detail
               ),
             }
           : option
       ),
-    }))
+    }));
   };
 
   const addNewOption = () => {
@@ -228,12 +269,17 @@ export default function MenuModal({
       menuOptions: [
         ...prev.menuOptions,
         {
-          menuOptionId: 35,
+          menuId: 0,
           optionName: "",
           optionDetails: [
             {
-              optionDetailName: "",
-              additionalFee: 0,
+              menuOptionId: 0,
+              detailName: [
+                {
+                  optionDetailName: "",
+                  additionalFee: 0,
+                },
+              ],
             },
           ],
         },
@@ -250,14 +296,21 @@ export default function MenuModal({
               ...option,
               optionDetails: [
                 ...option.optionDetails,
-                { optionDetailName: "", additionalFee: 0 },
+                {
+                  menuOptionId: 0,
+                  detailName: [
+                    {
+                      optionDetailName: "",
+                      additionalFee: 0,
+                    },
+                  ],
+                },
               ],
             }
           : option
       ),
     }));
-    
-}
+  };
 
   const addNewOptionDetail = (optionIndex: number) => {
     setAddMenu((prev) => ({
@@ -288,7 +341,6 @@ export default function MenuModal({
       menuOptions: prev.menuOptions.filter((_, index) => index !== optionIndex),
     }));
   };
-
 
   const removeOptionDetail = (optionIndex: number, detailIndex: number) => {
     setAddMenu((prev) => ({
@@ -345,31 +397,39 @@ export default function MenuModal({
       console.log("Auth Token", token);
       try {
         const formData = new FormData();
-        formData.append('categoryId', addMenu.categoryId.toString());
-        formData.append('menuName', addMenu.menuName);
-        formData.append('menuDescription', addMenu.menuDescription);
-        formData.append('menuPrice', addMenu.menuPrice.toString());
-        formData.append('isAvailable', addMenu.isAvailable.toString());
+        formData.append("categoryId", addMenu.categoryId.toString());
+        formData.append("menuName", addMenu.menuName);
+        formData.append("menuDescription", addMenu.menuDescription);
+        formData.append("menuPrice", addMenu.menuPrice.toString());
+        formData.append("isAvailable", addMenu.isAvailable.toString());
 
         addMenu.menuOptions.forEach((option, index) => {
-          formData.append(`menuOptions[${index}].optionName`, option.optionName);
+          formData.append(
+            `menuOptions[${index}].optionName`,
+            option.optionName
+          );
 
           option.optionDetails.forEach((detail, detailIndex) => {
-            formData.append(`menuOptions[${index}].optionDetails[${detailIndex}].optionDetailName`, detail.optionDetailName);
-            formData.append(`menuOptions[${index}].optionDetails[${detailIndex}].additionalFee`, detail.additionalFee.toString());
+            formData.append(
+              `menuOptions[${index}].optionDetails[${detailIndex}].optionDetailName`,
+              detail.optionDetailName
+            );
+            formData.append(
+              `menuOptions[${index}].optionDetails[${detailIndex}].additionalFee`,
+              detail.additionalFee.toString()
+            );
           });
         });
-        
+
         if (file) {
-          formData.append('imageUrl', file);
+          formData.append("imageUrl", file);
         } else {
           console.warn("no file");
         }
         formData.forEach((value, key) => {
           console.log(`${key}: ${value}`);
-        } )
-        
-    
+        });
+
         if (addMenu.menuName === "") {
           alert("메뉴명을 입력해주세요");
         } else if (addMenu.menuDescription === "") {
@@ -379,12 +439,16 @@ export default function MenuModal({
         } else if (addMenu.categoryId === 0) {
           alert("메뉴 카테고리를 선택해주세요");
         } else {
-          const response = await axios.post(`http://localhost:4041/api/v1/menus/add`, formData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'multipart/form-data'
-            },
-          });
+          const response = await axios.post(
+            `http://localhost:4041/api/v1/menus/add`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
           console.log("Server Response:", response.data);
           setAddMenu({
             categoryId: 0,
@@ -410,22 +474,13 @@ export default function MenuModal({
           setMenuChecked([false]);
           closeModal();
           fetchData();
-      }
-
+        }
       } catch (e) {
-        if(axios.isAxiosError(e)) {
+        if (axios.isAxiosError(e)) {
           console.error("사진 추가 안됨", e);
-          console.error("에러 응답:", e.response);
-          console.error("에러 코드:", e.code);
-          console.error("요청:", e.request);
-          console.error("메시지:", e.message);
-
         } else {
           console.error("사진 추가 안됨", e);
-          console.log("안되는 이유가 뭐냐고");
-          console.log(e);
         }
-        
       }
     } catch (e) {
       console.error("토큰 없음");
@@ -434,95 +489,167 @@ export default function MenuModal({
       navigate(AUTH_PATH_LOGIN);
     }
   };
-  
-    const menuUpdate = async (menuId: number) => {
-      try {
-        const token = cookies.token;
-        // console.log(menuId);
-        const response = await axios.get(`http://localhost:4041/api/v1/menus/${menuId}`, 
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
+
+  const menuUpdate = async (menuId: number) => {
+    try {
+      const token = cookies.token;
+      // console.log(menuId);
+      const response = await axios.get(
+        `http://localhost:4041/api/v1/menus/${menuId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const result = response.data.data;
+
+      if (updateMenu.menuOptions.length > result.menuOptions.length) {
+        console.log("옵션 추가 로직 실행");
+        for (
+          let i = result.menuOptions.length;
+          i < updateMenu.menuOptions.length;
+          i++
+        ) {
+          const result2 = await axios.post(
+            `http://localhost:4041/api/v1/menus/options/add`,
+            {
+              menuId: menuId,
+              optionName: "",
+              optionDetails: [],
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             }
-          }
-        )
-        const result = response.data.data;
-        
-        if(updateMenu.menuOptions.length > result.menuOptions.length) {
-          console.log("옵션 추가 로직 실행");
-          for(let i = result.menuOptions.length; i < updateMenu.menuOptions.length; i++){
-            const result2 = await axios.post(`http://localhost:4041/api/v1/menus/options/add`, {
-            menuId: menuId,
-            optionName: "",
-            optionDetails: []
-          }, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
+          );
           console.log(result2.data.data.menuOptionId);
-          await axios.post(`http://localhost:4041/api/v1/menus/options/details/add`, {
-            menuOptionId: result2.data.data.menuOptionId,
-            optionDetailName: "",
-            additionalFee: 0
-          }, {
-            headers: {
-              Authorization: `Bearer ${token}`
+          await axios.post(
+            `http://localhost:4041/api/v1/menus/options/details/add`,
+            {
+              menuOptionId: result2.data.data.menuOptionId,
+              optionDetailName: "",
+              additionalFee: 0,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             }
-          })
+          );
         }
+      }
+      const response1 = await axios.get(
+        `http://localhost:4041/api/v1/menus/${menuId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-        const response1 = await axios.get(`http://localhost:4041/api/v1/menus/${menuId}`, 
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        )
-        const result1 = response1.data.data;
-        console.log(updateMenu.menuOptions.length);
-        console.log(updateMenu.menuOptions.map((menu) => menu.optionDetails.length));
-        console.log(result.menuOptions.map((menu: MenuOptions) => menu.optionDetails.length));
-        console.log("여긴가"+result1.menuOptions[1].menuOptionId);
-        console.log(updateMenu.menuOptions.length);
-        for(let i = 0; i < updateMenu.menuOptions.length; i++) {
-          console.log("반복은 도나?" + i);
-          if(updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] > result.menuOptions.map((menu :MenuOptions) => menu.optionDetails.length)[i]) {
-            console.log("옵션 디테일 추가 로직 실행");
-            for(let j = 0; j < updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] - result.menuOptions.map((menu: MenuOptions) => menu.optionDetails.length)[i]; i++) {
-              console.log("416번째 줄"+i);
-              await axios.post(`http://localhost:4041/api/v1/menus/options/details/add`, {
+      );
+      for (let i = 0; i < updateMenu.menuOptions.length; i++) {
+        if (
+          updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] >
+          result.menuOptions.map(
+            (menu: MenuOptions) => menu.optionDetails.length
+          )[i]
+        ) {
+          for (
+            let j = 0;
+            j <
+            updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] -
+              result.menuOptions.map(
+                (menu: MenuOptions) => menu.optionDetails.length
+              )[i];
+            i++
+          ) {
+            await axios.post(
+              `http://localhost:4041/api/v1/menus/options/details/add`,
+              {
                 menuOptionId: result.menuOptions[i].menuOptionId,
                 optionDetailName: "",
-                additionalFee: 0
-            }, {
-              headers: {
-                Authorization: `Bearer ${token}`
+                additionalFee: 0,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
               }
-            })
+            );
           }
         }
       }
-        await axios.put(
-          `http://localhost:4041/api/v1/menus/update/${menuId}`, updateMenu,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(updateMenu);
-        console.log("Server Response:",response.data);
-      } catch (e) {
-        console.error(e);
-      }
-  
-  };
-  // console.log("updateMenu 출력");
-  // console.log(updateMenu);
-  // console.log(updateMenudata);
-  // console.log(updatedMenuData);
+      console.log(updateMenu);
+      const formData = new FormData();
+      formData.append("categoryId", updateMenu.categoryId.toString());
+      formData.append("menuName", updateMenu.menuName);
+      formData.append("menuDescription", updateMenu.menuDescription);
+      formData.append("menuPrice", updateMenu.menuPrice.toString());
+      formData.append("isAvailable", updateMenu.isAvailable.toString());
 
+      updateMenu.menuOptions.forEach((option, index) => {
+        formData.append(`menuOptions[${index}].menuId`, selectedMenuId.toString());
+        formData.append(`menuOptions[${index}].optionName`, option.optionName);
+        option.optionDetails.forEach((detail, detailIndex) => {
+          formData.append(`menuOptions[${index}].optionDetails[${detailIndex}].menuOptionId`, (index + 1).toString());
+          detail.detailName.forEach((detailName, detailNameIndex) => {
+            formData.append(
+              `menuOptions[${index}].optionDetails[${detailIndex}].detailName[${detailNameIndex}].optionDetailName`,
+              detailName.optionDetailName
+            );
+            formData.append(
+              `menuOptions[${index}].optionDetails[${detailIndex}].detailName[${detailNameIndex}].additionalFee`,
+              detailName.additionalFee.toString()
+            );
+          });
+        });
+      });
+      if (file) {
+        formData.append("imageUrl", file);
+      } else {
+        console.warn("no file");
+      }
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+      if(updateMenu.menuName === "") {
+        alert("메뉴명을 입력해주세요");
+        return;
+      }
+      if(!updateMenu.imageUrl) {
+        alert("이미지를 선택해주세요");
+        return;
+      }
+      if(updateMenu.menuPrice === 0) {
+        alert("메뉴 가격을 입력해주세요");
+        return;
+      }
+      if(updateMenu.categoryId === 0) {
+        alert("카테고리를 선택해주세요");
+        return
+      }
+      await axios.post(
+        `http://localhost:4041/api/v1/menus/update/${menuId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      alert("성공적으로 변경되었습니다.")
+      updateModalClose();
+      fetchData();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  
   useEffect(() => {}, [addMenu]);
   return (
     <>
@@ -541,7 +668,12 @@ export default function MenuModal({
           </div>
           <div>
             <div>이미지</div>
-            <input type="file" id="imageUrl" onChange={handleFileChange} required />
+            <input
+              type="file"
+              id="imageUrl"
+              onChange={handleFileChange}
+              required
+            />
           </div>
           <div>
             <div>메뉴 설명</div>
@@ -750,12 +882,7 @@ export default function MenuModal({
           </div>
           <div>
             <div>이미지</div>
-            <input
-              type="file"
-              onChange={handleFileChange}
-              required
-              value={updateMenu.imageUrl}
-            />
+            <input type="file" onChange={handleFileChange} required />
           </div>
           <div>
             <div>메뉴 설명</div>
@@ -853,57 +980,67 @@ export default function MenuModal({
                                       option.optionDetails.length > 0 &&
                                       option.optionDetails.map(
                                         (detail, detailIndex) => (
-                                          <div
-                                            key={detailIndex}
-                                            css={s.optionAdd}
-                                          >
-                                            <div>추가 옵션명</div>
+                                          detail.detailName && detail.detailName.length > 0 && detail.detailName.map((detailName, detailNameIndex) => (
+                                              <div
+                                                key={detailIndex}
+                                                css={s.optionAdd}
+                                              >
+                                                <div>추가 옵션명</div>
+                                                
 
-                                            <input
-                                              type="text"
-                                              css={s.submitMenu}
-                                              name="optionDetailName"
-                                              value={detail.optionDetailName}
-                                              onChange={(event) =>
-                                                changeUpdateDetailHandler(
-                                                  event,
-                                                  optionIndex,
-                                                  detailIndex
-                                                )
-                                              }
-                                            />
-                                            <div css={s.optionAdd}>
-                                              추가 옵션 가격
-                                            </div>
-                                            <input
-                                              type="number"
-                                              css={s.submitMenu}
-                                              name="additionalFee"
-                                              value={detail.additionalFee}
-                                              onChange={(event) =>
-                                                changeUpdateDetailHandler(
-                                                  event,
-                                                  optionIndex,
-                                                  detailIndex
-                                                )
-                                              }
-                                            />
-                                            <button
-                                              css={s.cancel}
-                                              onClick={() =>
-                                                removeUpdateOptionDetail(
-                                                  optionIndex,
-                                                  detailIndex
-                                                )
-                                              }
-                                            >
-                                              추가 옵션 삭제
-                                            </button>
-                                          </div>
-                                        )
+                                                <input
+                                                  type="text"
+                                                  css={s.submitMenu}
+                                                  name="optionDetailName"
+                                                  value={
+                                                    detailName.optionDetailName
+                                                  }
+                                                  onChange={(event) =>
+                                                    changeUpdateDetailHandler(
+                                                      event,
+                                                      optionIndex,
+                                                      detailIndex,
+                                                      detailNameIndex
+                                                    )
+                                                  }
+                                                />
+                                                <div css={s.optionAdd}>
+                                                  추가 옵션 가격
+                                                </div>
+                                                <input
+                                                  type="number"
+                                                  css={s.submitMenu}
+                                                  name="additionalFee"
+                                                  value={
+                                                    detailName.additionalFee
+                                                  }
+                                                  onChange={(event) =>
+                                                    changeUpdateDetailHandler(
+                                                      event,
+                                                      optionIndex,
+                                                      detailIndex,
+                                                      detailNameIndex
+                                                    )
+                                                  }
+                                                />
+                                                <button
+                                                  css={s.cancel}
+                                                  onClick={() =>
+                                                    removeUpdateOptionDetail(
+                                                      optionIndex,
+                                                      detailIndex
+                                                    )
+                                                  }
+                                                >
+                                                  추가 옵션 삭제
+                                                </button>
+                                              </div>
+                                            )
+                                          ))
                                       )}
                                     <button
-                                      onClick={() => addDetailOption(optionIndex)
+                                      onClick={() =>
+                                        addDetailOption(optionIndex)
                                       }
                                     >
                                       추가 옵션 추가
@@ -917,8 +1054,11 @@ export default function MenuModal({
                           </div>
                         ))}
                       <div>
-                        <button onClick={() => addNewUpdateOption(selectedMenuId)}>옵션 추가</button>
-                        {/* 수정부분분 */}
+                        <button
+                          onClick={() => addNewUpdateOption(selectedMenuId)}
+                        >
+                          옵션 추가
+                        </button>
                       </div>
                       <div css={s.optionConfirm}>
                         <div css={s.optionCheck}>
