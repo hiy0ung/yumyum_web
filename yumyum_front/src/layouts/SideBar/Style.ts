@@ -38,7 +38,7 @@ export const categoryContainer = css`
     }
 
     & > nav > ul > li > a:hover {
-        background-color: #d4ebf8;
+        background-color: #eff6ff;
     }
 
     & > nav > ul > li > a > svg {
@@ -98,7 +98,7 @@ export const categoryLogoImgContainer = css`
 `;
 
 export const categoriesStyle = css`
-    background-color: #d4ebf8;
+    background-color: #eff6ff;
     border-radius: 20px;
     width: 90%;
     margin: 0 auto;
@@ -147,7 +147,7 @@ export const profile = css`
     }
     
     &:hover {
-        background-color: #d4ebf8;
+        background-color: #eff6ff;
         transform: scale(1.05);
     }
 `;

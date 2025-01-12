@@ -6,7 +6,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { AUTH_PATH_LOGIN } from "../../constants";
-import { updateModalStore } from "../../Stroes/menuModal.store";
+import { updateModalStore } from "../../Store/menuModal.store";
 import { MenuModalProps, AddMenu, UpdateMenu, Menus, MenuOptions, MenuOptionDetails } from "../../types/Menu";
 import { serialize } from "v8";
 import { Details } from "@mui/icons-material";
