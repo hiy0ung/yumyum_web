@@ -16,7 +16,7 @@ import { StoreInfo } from "../../../types/Store";
 import * as css from "./Style";
 import { useNavigate } from "react-router-dom";
 import { HOME_PATH, UPDATE_STORE_PATH } from "../../../constants";
-import useStoreImage from "../../../Stroes/storeImg.store";
+import useStoreImage from "../../../Store/storeImg.store";
 
 export default function Store() {
   const navigate = useNavigate();

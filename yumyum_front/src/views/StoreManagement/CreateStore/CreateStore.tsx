@@ -20,7 +20,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
-import useStoreImage from "../../../Stroes/storeImg.store";
+import useStoreImage from "../../../Store/storeImg.store";
 
 export default function Store() {
   const navigate = useNavigate();

@@ -5,7 +5,7 @@ import * as s from "./Style";
 import Modal from "@mui/material/Modal";
 import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
-import { updateModalStore, useModalStore } from "../../Stroes/menuModal.store";
+import { updateModalStore, useModalStore } from "../../Store/menuModal.store";
 import { useCookies } from "react-cookie";
 import { Menus, Category, AddCategory, UpdateMenu, MenuOptions, MenuData } from "../../types/Menu"
 
