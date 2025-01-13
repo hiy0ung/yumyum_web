@@ -111,7 +111,7 @@ const FindId = () => {
                     name="userEmail"
                     css={css.inputEmailContainer}
                     type="email"
-                    placeholder="인증받을 이메일을 입력해 주세요"
+                    placeholder="가입시 사용한 이메일을 입력해 주세요"
                     value={userEmail}
                     onChange={emailInputHandler}
                 />

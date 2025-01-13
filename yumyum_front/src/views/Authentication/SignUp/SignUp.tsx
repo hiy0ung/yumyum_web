@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
-import { Errors, UserSignUpInfo } from "../../../types/SignUp";
+import { Errors, UserSignUpInfo } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -24,7 +24,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import * as css from "./Style";
 import axios from "axios";
 import { MAIN_PATH } from "../../../constants";
-import { PasswordStrength } from "../../../types/SignUp";
+import { DuplicationStatus, PasswordStrength, Success } from "../../../types/SignUp";
 
 function SignUp() {
 
@@ -51,7 +51,7 @@ function SignUp() {
     form: "",
   });
 
-  const [successMsg, setSuccessMsg] = useState({
+  const [successMsg, setSuccessMsg] = useState<Success>({
     userId: "",
     checkPw: "",
     userBusinessNumber: "",
@@ -64,9 +64,12 @@ function SignUp() {
     emoji: "",
   });
 
-  const [isUserIdChecked, setIsUserIdChecked] = useState<boolean>(false);
-  const [isUserEmailChecked, setIsUserEmailChecked] = useState<boolean>(false);
-  const [isUserBusinessNumberChecked, setIsUserBusinessNumberChecked] = useState<boolean>(false);
+  const [duplicationStatus, setDuplicationStatus] = useState<DuplicationStatus>({
+    userId: false,
+    userEmail: false,
+    userBusinessNumber: false
+  });
+
   const [showPassword1, setShowPassword1] = useState<boolean>(false);
   const [showPassword2, setShowPassword2] = useState<boolean>(false);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState<boolean>(false);
@@ -108,23 +111,29 @@ function SignUp() {
     const userIdRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{4,20}$/;
     if (!userIdRegex.test(userSignUpInfo.userId)) {
       return;
-    } else {
-      try {
-        const response = await axios.post(
-          `http://localhost:4041/api/v1/auth/signUp/search/userId`,
-          { userId: userSignUpInfo.userId }
-        );
-        if (response.data.data.duplicatedStatus) {
-          setErrorsMsg((prev) => ({ ...prev, userId: "" }))
-          setSuccessMsg((prev) => ({ ...prev, userId: "사용 가능한 아이디 입니다." }));
-        } else {
-          setErrorsMsg((prev) => ({ ...prev, userId: "이미 사용 중인 아이디입니다." }));
-          setSuccessMsg((prev) => ({ ...prev, userId: ""}))
-        }
-        setIsUserIdChecked(true);
-      } catch (error) {
-        setErrorsMsg((prev) => ({ ...prev, form: `${error}` }));
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:4041/api/v1/auth/signUp/search/userId`,
+        { userId: userSignUpInfo.userId }
+      );
+      if (response.data.data.duplicatedStatus) {
+        setErrorsMsg((prev) => ({ ...prev, userId: "" }));
+        setSuccessMsg((prev) => ({
+          ...prev,
+          userId: "사용 가능한 아이디 입니다.",
+        }));
+      } else {
+        setErrorsMsg((prev) => ({
+          ...prev,
+          userId: "이미 사용 중인 아이디입니다.",
+        }));
+        setSuccessMsg((prev) => ({ ...prev, userId: "" }));
       }
+      setDuplicationStatus((prev) => ({ ...prev, userId: true }));
+    } catch (error) {
+      setErrorsMsg((prev) => ({ ...prev, form: `${error}` }));
     }
   };
 
@@ -151,10 +160,10 @@ function SignUp() {
         setErrorsMsg((prev) => ({ ...prev, userEmail: "이미 사용 중인 이메일입니다." }));
         setSuccessMsg((prev) => ({ ...prev, userEmail: "" }));
       }
+      setDuplicationStatus((prev) => ({ ...prev, userEmail: true }));
     } catch (error) {
       setErrorsMsg((prev) => ({ ...prev, form: `${error}` }));
     }
-    setIsUserEmailChecked(true);
   };
 
   const userBusinessNumberDuplicationCheck = async () => {
@@ -174,10 +183,10 @@ function SignUp() {
         setErrorsMsg((prev) => ({ ...prev, userBusinessNumber: "이미 사용 중인 사업자 번호입니다." }));
         setSuccessMsg((prev) => ({ ...prev, userBusinessNumber: "" }));
       }
+      setDuplicationStatus((prev) => ({ ...prev, userBusinessNumber: true }));
     } catch (error) {
       setErrorsMsg((prev) => ({ ...prev, form: `${error}` }));
     }
-    setIsUserBusinessNumberChecked(true);
   };
 
   //# 입력한 페스워드 보이기 / 숨기기
@@ -197,6 +206,10 @@ function SignUp() {
     setUserSignUpInfo((prev) => ({ ...prev, [name]: value }));
 
     let errorMsg = "";
+
+    if (value === "") {
+      setDuplicationStatus((prev) => ({ ...prev, [name]: false }));
+    }
 
     setSuccessMsg((prev) => ({ ...prev, userId: "", userEmail: "", userBusinessNumber: "" }));
 
@@ -303,9 +316,9 @@ function SignUp() {
     });
 
     const duplicationFields:{ field: keyof UserSignUpInfo; isChecked: boolean; message: string }[] = [
-      { field: "userId", isChecked: isUserIdChecked, message: "아이디 중복 확인을 해주세요."},
-      { field: "userEmail", isChecked: isUserEmailChecked, message: "이메일 중복 확인을 해주세요."},
-      { field: "userBusinessNumber", isChecked: isUserBusinessNumberChecked, message: "사업자 번호 중복 확인을 해주세요."},
+      { field: "userId", isChecked: duplicationStatus.userId, message: "아이디 중복 확인을 해주세요."},
+      { field: "userEmail", isChecked: duplicationStatus.userEmail, message: "이메일 중복 확인을 해주세요."},
+      { field: "userBusinessNumber", isChecked: duplicationStatus.userBusinessNumber, message: "사업자 번호 중복 확인을 해주세요."},
     ];
 
     duplicationFields.forEach(({ field, isChecked, message }) => {
@@ -527,6 +540,7 @@ function SignUp() {
                     endAdornment: (
                       <InputAdornment position="end">
                         <Button 
+                          disableRipple
                           onClick={passwordVisibility1}
                           css={css.passwordVisibilityBtn}>
                           {showPassword1 ? <VisibilityOffIcon /> : <VisibilityIcon />
