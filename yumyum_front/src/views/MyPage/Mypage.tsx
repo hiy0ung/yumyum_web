@@ -3,9 +3,10 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import * as s from "./MypageCss";
 import {Link, useNavigate} from "react-router-dom";
-import {HOME_PATH, MY_PAGE_UPDATE, UPDATE_STORE_PATH} from "../../constants";
+import {HOME_PATH, MAIN_PATH, MY_PAGE_UPDATE, UPDATE_STORE_PATH} from "../../constants";
 import {Cookies, useCookies} from "react-cookie";
 import {Button} from "@mui/material";
+import useAuthStore from "../../Store/auth.store";
 
 interface User {
     userId: string;
@@ -18,7 +19,8 @@ interface User {
 }
 
 export default function Mypage() {
-    const [cookies] = useCookies(['token'])
+    const [cookies, setCookies] = useCookies(['token']);
+    const { logout } = useAuthStore();
 
     const [user, setUser] = useState<User>({
         userId: "",
@@ -49,7 +51,9 @@ export default function Mypage() {
                 console.log("해당 아이디가 없습니다.");
             }
             alert("성공적으로 삭제되었습니다.");
-            navigate(HOME_PATH)
+            navigate(MAIN_PATH);
+            setCookies("token", "", { path: "/", expires: new Date(0) }); 
+            logout();
         } else {
             return;
         }
