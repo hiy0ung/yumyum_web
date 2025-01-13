@@ -40,12 +40,13 @@ export const inputUserEmailContainer = css`
 `;
 export const findPWButton  = css`
     border: none;
-    background: white;
     box-shadow: 0 0 10px 1px #e9e9e9;
     border-radius: 10px;
     padding: 14px 20px;
     width: 400px;
     margin-bottom: 10px;
+    background-color: #58CDFF;
+    color: white;
 `;
 export const backButton  = css`
     border: none;

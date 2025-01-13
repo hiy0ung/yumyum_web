@@ -8,9 +8,11 @@ import img2 from "../../img/2024-10-28.webp";
 import {Link} from "react-router-dom";
 import {AUTH_PATH_SIGN_UP} from "../../constants";
 import Login from "../Authentication/Login/Login";
+import useScrollY from "../../hooks/ScrollAnimation/useScrollY"
 
 
 const Main = () => {
+    const scrollY = useScrollY();
 
     const textIntro1 = useRef<HTMLDivElement>(null);
     const textIntro2 = useRef<HTMLDivElement>(null);
@@ -65,35 +67,35 @@ const Main = () => {
     const cardInfoBottomList4ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList4Container, 0.8);
 
 
-
     const memoVideo = useMemo(() => (
         <video css={css.mainVideoContainer} autoPlay loop muted playsInline preload="metadata">
             <source src="/videoplayback.mp4" type="video/mp4"/>
         </video>
     ), []);
 
-    const sectionHandler = (name : string) => {
+    const sectionHandler = (name: string) => {
         if (name === "logIn") {
             const loginSection = document.getElementById('logIn');
             if (loginSection) {
-                loginSection.scrollIntoView({ behavior: 'smooth' });
+                loginSection.scrollIntoView({behavior: 'smooth'});
             }
         }
-        if( name === "home") {
+        if (name === "home") {
             const HomeSection = document.getElementById('home');
             if (HomeSection) {
-                HomeSection.scrollIntoView({ behavior: 'smooth' });
+                HomeSection.scrollIntoView({behavior: 'smooth'});
             }
         }
     };
 
     return (
         <>
-            <div id="home"  css={css.wrap}>
-                <header css={css.headerContainer}>
+            <div id="home" css={css.wrap}>
+                <header css={[css.headerContainer, scrollY > 100 && css.headerScroll]}>
                     <div css={css.header}>
                         <h1>
-                            <img  onClick={() => sectionHandler("home")} css={css.logoImg} src={yumyumLogo2} alt="로고 이미지"/>
+                            <img onClick={() => sectionHandler("home")} css={css.logoImg} src={yumyumLogo2}
+                                 alt="로고 이미지"/>
                         </h1>
                         <div css={css.headerRightContainer}>
                             <button onClick={() => sectionHandler("logIn")} css={css.logIn}>LOGIN</button>
@@ -122,7 +124,7 @@ const Main = () => {
                 <div css={css.imgIntroContainer}>
                     <div css={css.imgIntroLeftContainer}>
                         <div ref={imgIntro}
-                            css={[css.imgIntroLeftIntoContainer, imgIntro1IsVisible && css.visibleCircleBox]}></div>
+                             css={[css.imgIntroLeftIntoContainer, imgIntro1IsVisible && css.visibleCircleBox]}></div>
                     </div>
                     <div css={css.imgIntroRightContainer}>
                         <div css={css.imgIntroRightLittleTitleHidden}>
@@ -232,22 +234,21 @@ const Main = () => {
                             <img src={yumyumLogo2} alt="로고 이미지"/>
                         </div>
                         <address css={css.LeftAddressContainer}>
-                            (주)오웰스틸 <span css={css.bar}></span> 대표 : 여남재 <span css={css.bar}></span> 사업자등록번호 :
-                            443-88-00563
+                            (주)YUMYUM <span css={css.bar}></span> 대표 : 아무개 <span css={css.bar}></span> 사업자등록번호 :
+                            111-22-33333
                             <br/>
-                            본사 : 대구광역시 동구 동촌로 247, 5층 (호정빌딩)
+                            본사 : 부산 부산진구 중앙대로 668 4층
                             <br/>
-                            공장 : 인천광역시 동구 방축로23번길 55
-                            <br/>
-                            TEL : 1522-5582 <span css={css.bar}></span> FAX : 053-767-3999 <span css={css.bar}></span> E-mail
-                            : owellsteel@naver.com
+                            TEL : 1111-2222 <span css={css.bar}></span> FAX : 111-222-3333 <span
+                            css={css.bar}></span> E-mail
+                            : yumyumgroupmaster@gmail.com
                         </address>
 
                     </div>
                     <div css={css.footerRightContainer}>
                         <address css={css.rightAddressContainer}>
                             <div css={css.ownerTel}>대표전화</div>
-                            <span css={css.ownerTelNumber}>1522-5582</span>
+                            <span css={css.ownerTelNumber}>1111-2222</span>
                             <br/>
                             <span css={css.businessTime}>평일 09:00~18:00 (토·일요일, 공휴일 휴무)</span>
                             <div css={css.copyright}>Copyright (C) 2024 Owellsteel Corp All Rights Reserved.</div>

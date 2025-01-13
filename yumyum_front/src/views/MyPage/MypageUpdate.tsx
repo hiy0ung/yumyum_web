@@ -5,6 +5,7 @@ import * as s from "./MypageCss";
 import { useNavigate } from "react-router-dom";
 import { MY_PAGE } from "../../constants";
 import { useCookies } from "react-cookie";
+import {Button} from "@mui/material";
 
 interface User {
     userId: string;
@@ -133,10 +134,9 @@ export default function Mypage() {
             <div css={s.header}>
                 <h1>마이페이지</h1>
             </div>
-            <hr style={{ border: "2px solid #000", marginTop: "0px", marginBottom: "10px" }} />
-            <div css={s.updateBody}>
+            <div css={s.body}>
                 <div css={s.sort}>
-                    <div css={s.myProfile}>아이디</div>
+                    <div>아이디</div>
                     <div css={s.user}>
                         <input
                             type="text"
@@ -147,7 +147,7 @@ export default function Mypage() {
                     </div>
                 </div>
                 <div css={s.sort}>
-                    <div css={s.myProfile}>비밀번호</div>
+                    <div>비밀번호</div>
                     <div css={s.user}>
                         <input
                             type="password"
@@ -160,7 +160,7 @@ export default function Mypage() {
                     {errorMsg.userPw && <div css={s.errorMsg}>{errorMsg.userPw}</div>}
                 </div>
                 <div css={s.sort}>
-                    <div css={s.myProfile}>비밀번호 확인</div>
+                    <div>비밀번호 확인</div>
                     <div css={s.user}>
                         <input
                             type="password"
@@ -178,7 +178,7 @@ export default function Mypage() {
                 </div>
 
                 <div css={s.sort}>
-                    <div css={s.myProfile}>이름</div>
+                    <div>이름</div>
                     <div css={s.user}>
                         <input
                             type="text"
@@ -189,7 +189,7 @@ export default function Mypage() {
                     </div>
                 </div>
                 <div css={s.sort}>
-                    <div css={s.myProfile}>이메일</div>
+                    <div>이메일</div>
                     <div css={s.user}>
                         <input
                             type="text"
@@ -200,7 +200,7 @@ export default function Mypage() {
                     </div>
                 </div>
                 <div css={s.sort}>
-                    <div css={s.myProfile}>핸드폰 번호</div>
+                    <div>핸드폰 번호</div>
                     <div css={s.user}>
                         <input
                             type="text"
@@ -215,7 +215,7 @@ export default function Mypage() {
                     )}
                 </div>
                 <div css={s.sort}>
-                    <div css={s.myProfile}>사업자번호</div>
+                    <div>사업자번호</div>
                     <div css={s.user}>
                         <input
                             type="text"
@@ -226,7 +226,7 @@ export default function Mypage() {
                     </div>
                 </div>
                 <div css={s.sort}>
-                    <div css={s.myProfile_market}>마케팅 수신동의</div>
+                    <div>마케팅 수신동의</div>
                     {user.marketingAgreed === true ? (
                         <input
                             css={s.checkBoxInput}
@@ -247,11 +247,20 @@ export default function Mypage() {
                 </div>
 
                 <div css={s.buttonContainer}>
-                    <button type="submit" css={s.updateConfirm} onClick={handlePutUser}>저장하기</button>
-                    <button css={s.updateConfirm} onClick={() => { navigate(-1); }}>
+                    <Button
+                        css={s.save}
+                        onClick={handlePutUser}
+                        variant="contained"
+                    >
+                        저장하기
+                    </Button>
+                    <Button
+                        css={s.deleteUser}
+                        onClick={() => { navigate(-1)}}
+                        variant="contained"
+                    >
                         취소하기
-
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

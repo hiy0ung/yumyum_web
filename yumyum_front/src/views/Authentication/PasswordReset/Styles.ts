@@ -30,10 +30,11 @@ export const confirmPasswordContainer = css`
 `;
 export const changePasswordButton  = css`
     border: none;
-    background: white;
     box-shadow: 0 0 10px 1px #e9e9e9;
     border-radius: 10px;
     margin: 10px 0 10px 0;
     padding: 14px 20px;
     width: 350px;
+    background-color: #58CDFF;
+    color: white;
 `;

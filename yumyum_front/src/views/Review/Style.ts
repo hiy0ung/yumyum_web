@@ -223,7 +223,7 @@ export const totalReviewContainer = css`
     border-radius: 10px;
     margin-bottom: 10px;
     box-shadow: 0 0 10px 1px #e9e9e9;
-    border: 1px solid #e9e9e9;
+    border: 1px solid #FAFAFA;
     background-color: ghostwhite;
     position: relative;
     height: auto;
@@ -541,7 +541,8 @@ export const reviewNoticeUploadButtonContainer = css`
 `;
 export const reviewNoticeUploadButton = css`
     font-size: 20px;
-    background-color: white;
+    background-color: #ff6767;
+    color: white;
     box-shadow: 0 0 10px 1px #e9e9e9;
     border-radius: 5px;
     border: none;
@@ -549,4 +550,7 @@ export const reviewNoticeUploadButton = css`
     padding: 10px 20px;
     line-height: 30px;
     height: 45px;
+`;
+export const reviewNoticeDeleteButtonContainer = css`
+    text-align: right;
 `;
