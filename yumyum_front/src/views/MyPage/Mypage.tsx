@@ -46,16 +46,6 @@ export default function Mypage() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-      } catch (e) {
-        console.log("해당 아이디가 없습니다.");
-      }
-      alert("성공적으로 삭제되었습니다.");
-      navigate(MAIN_PATH)
-    } else {
-      return;
-    }
-  };
-
             } catch (e) {
                 console.log("해당 아이디가 없습니다.");
             }
