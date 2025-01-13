@@ -43,6 +43,11 @@ export const headerContainer = css`
     width: 100%;
     z-index: 9999;
     min-width: 1280px;
+    transition: background-color 0.3s ease;
+`;
+
+export const headerScroll = css`
+    background-color: rgba(0, 0, 0, 0.5);
 `;
 export const header = css`
     display: flex;
@@ -50,10 +55,6 @@ export const header = css`
     height: 90px;
     width: 95%;
     margin: 0 auto;
-`;
-export const scrolledHeader = css`
-    background-color: white;
-    color: black;
 `;
 export const mainVideoContainer = css`
     width: 100%;

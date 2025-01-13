@@ -136,6 +136,9 @@ export default function Login() {
               >로그인
               </Button>
             </Box>
+            <div css={css.snsContainer}>
+              <span>SNS</span>
+            </div>
             <Box css={css.oauthButtons}>
               <div css={css.kakaoButton}>
                 <img src={kakao} alt="카카오 심볼"/>

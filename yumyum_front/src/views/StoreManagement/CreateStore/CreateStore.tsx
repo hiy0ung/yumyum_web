@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
 import useStoreImage from "../../../Store/storeImg.store";
+import defaultImage from "../../../img/default_Profile_Img.webp";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -59,6 +60,8 @@ export default function Store() {
     setOpenPostcode(false);
   };
 
+  const defaultImg = defaultImage;
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const IMAGE_MAX_SIZE = 10 * 1024 * 1024;
@@ -76,6 +79,8 @@ export default function Store() {
         setBase64(reader.result as string);
         setImgPreview(reader.result as string);
       };
+    } else {
+      setImgPreview(defaultImg as string);
     }
   };
 
@@ -121,7 +126,6 @@ export default function Store() {
     const emptyFields: string[] = [];
 
     if (!store.storeName) emptyFields.push("가게명");
-    if (!img) emptyFields.push("가게 로고");
     if (!store.category) emptyFields.push("카테고리");
     if (!store.openingTime) emptyFields.push("오픈시간");
     if (!store.closingTime) emptyFields.push("마감시간");
@@ -145,7 +149,9 @@ export default function Store() {
   formData.append("address", address);
   formData.append("detailAddress", detailAddress);
   formData.append("description", store.description);
-  if (base64) {
+  if (!base64) {
+    formData.append("logoUrl", defaultImg);
+  }else {
     formData.append("logoUrl", base64);
   }
 
@@ -173,7 +179,6 @@ export default function Store() {
         navigate(STORE_PATH);
       }
     } catch (e) {
-      console.log(token);
       console.error(e);
     }
   };
@@ -186,7 +191,7 @@ export default function Store() {
           <Box>
             {imgPreview ? (
               <img
-                src={imgPreview}
+                src={imgPreview || defaultImg}
                 alt="logo"
                 css={css.logoImg}
                 onClick={handleImageClick}

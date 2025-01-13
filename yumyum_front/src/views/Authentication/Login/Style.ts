@@ -58,11 +58,26 @@ export const submitButton = css`
   width: 100%;
   text-align: center;
   background-color:#58cdff;
-  margin-bottom: 20px;
 
   &:hover {
     background-color: #0db4fc;
   }
+`;
+
+export const snsContainer = css`
+    border: 1px solid #ccc;
+    position: relative;
+    height: 1px;
+    
+    & > span {
+        position: absolute;
+        font-size: 12px;
+        color: #ababab;
+        background-color: white;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 `;
 
 export const oauthButtons = css`
