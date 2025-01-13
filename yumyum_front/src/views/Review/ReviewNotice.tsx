@@ -61,7 +61,7 @@ const ReviewNotice = () => {
             alert('공지사항 등록 완료');
             console.log('서버 응답:', response.data);
             setImgUrl(response.data.data.noticePhotoUrl);
-            setEditorContent(response.data.data.noticeText || ""); // 에디터 데이터 설정
+            setEditorContent(response.data.data.noticeText || "");
             setButton("change");
 
         } catch (error) {
@@ -93,7 +93,7 @@ const ReviewNotice = () => {
 
             if (response.data.data) {
                 setImgUrl(response.data.data.noticePhotoUrl);
-                setEditorContent(response.data.data.noticeText || ""); // 에디터 데이터 설정
+                setEditorContent(response.data.data.noticeText || "");
                 setButton("change");
                 setNoticeId(response.data.data.id)
             }
@@ -199,10 +199,8 @@ const ReviewNotice = () => {
             <div
                 style={{
                     width: "100%",
-                    overflow: "auto",
                 }}
             >
-                {/* editorContent의 HTML을 렌더링 */}
                 <div
                     dangerouslySetInnerHTML={{
                         __html: editorContent
@@ -232,13 +230,7 @@ const ReviewNotice = () => {
                     }}
                 />
             </div>
-            <div>
-                {/*<button*/}
-                {/*    css={css.reviewNoticeUploadButton}*/}
-                {/*    onClick={() => setButton("changeUpdate")}*/}
-                {/*>*/}
-                {/*    수정*/}
-                {/*</button>*/}
+            <div css={css.reviewNoticeDeleteButtonContainer}>
                 <button
                     css={css.reviewNoticeUploadButton}
                     onClick={() => noticeDeleteFetch()}
