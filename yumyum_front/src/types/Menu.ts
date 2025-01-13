@@ -45,7 +45,23 @@ export interface UpdateMenu {
   menuDescription: string;
   menuPrice: number;
   isAvailable: boolean;
-  menuOptions: MenuOptions[];
+  menuOptions: UpdateOptions[];
+}
+
+export interface UpdateOptions {
+  menuId: number;
+  optionName: string;
+  optionDetails: UpdateOptionDetails[]
+}
+
+export interface UpdateOptionDetails {
+  menuOptionId: number;
+  detailName: UpdateDetailName[]
+}
+
+export interface UpdateDetailName {
+  optionDetailName: string;
+  additionalFee: number;
 }
 
 export interface Menus {
