@@ -12,7 +12,7 @@ import {
   HOME_PATH,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
-import useAuthStore from "../../../Stroes/auth.store";
+import useAuthStore from "../../../Store/auth.store";
 import kakao from "../../../img/kakao.png";
 import naver from "../../../img/naver.png";
 

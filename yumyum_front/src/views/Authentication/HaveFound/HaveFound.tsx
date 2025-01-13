@@ -1,5 +1,7 @@
+/** @jsxImportSource @emotion/react */
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from "react-router-dom";
+import * as css from "./Style";
 
 
 const HaveFound = () => {
@@ -8,15 +10,15 @@ const HaveFound = () => {
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
-        const userId  = searchParams.get("userId");
+        const userId = searchParams.get("userId");
         if (userId) {
             setUserId(userId);
         }
     }, []);
     return (
-        <div>
-            당신의 아이디는 {userId} 입니다
-        </div>
+        <>
+            <div css={css.found}>당신의 아이디는 {userId} 입니다</div>
+        </>
     );
 };
 

@@ -19,12 +19,12 @@ export const headerFlexContainer = css`
 
 export const headerLeftContainer = css`
     flex: 1;
-    background-color: #d4ebf8;
+    background-color: #eff6ff;
 `;
 
 export const headerRightContainer = css`
     width: 250px;
-    background-color: #d4ebf8;
+    background-color: #eff6ff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,7 +36,7 @@ export const statusToggleButtonGroup = css`
     justify-content: space-between;
     align-items: center;
     border-radius: 30px;
-    background-color:#e9f7ff;
+    background-color: #eaeef1;
     width: 200px;
     padding: 15px;
     height: 60px;

@@ -97,8 +97,6 @@ function App() {
                                 <Route path={AUTH_PATH_LOGIN} element={<AuthUser />} />
                                 <Route path="/findPassword" element={<ChangePassword />} />
                                 <Route path="/findId" element={<HaveFound />} />
-                                <Route path="/11" element={<ReviewNotice />} />
-
                             </Routes>
                         </div>
                     )

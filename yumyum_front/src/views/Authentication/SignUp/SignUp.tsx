@@ -528,7 +528,6 @@ function SignUp() {
                     endAdornment: (
                       <InputAdornment position="end">
                         <Button 
-                          
                           onClick={passwordVisibility1}
                           css={css.passwordVisibilityBtn}>
                           {showPassword1 ? <VisibilityOffIcon /> : <VisibilityIcon />

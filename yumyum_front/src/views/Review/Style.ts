@@ -263,6 +263,7 @@ export const reviewProfileImg = css`
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    border: 1px solid #e6e6e6;
 `;
 
 export const reviewText = css`
@@ -280,6 +281,7 @@ export const reviewPhoto = css`
     height: 60px;
     border-radius: 10px;
     margin-right: 5px;
+    object-fit: cover;
     
 `;
 
@@ -450,7 +452,9 @@ export const reviewAddCommentButtonContainer = css`
         margin-right: 5px;
     }
 `;
-
+export const noReviewsMessage = css`
+    
+`;
 export const modalOverlay = css`
     position: fixed;
     top: 0;

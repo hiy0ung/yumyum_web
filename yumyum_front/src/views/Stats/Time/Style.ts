@@ -21,7 +21,7 @@ export const dateContainerStyle = css`
   box-shadow: 0 0 10px 1px #e9e9e9;
   border: 1px solid #e9e9e9;
   border-radius: 10px;
-  background-color: #D4EBF8;
+  background-color: #eff6ff;
   text-align: center;
   justify-content: center;
 `;
@@ -30,7 +30,7 @@ export const inputStyle = css`
   text-align: center;
   justify-content: center;
   font-size: 20px;
-  background-color: #D4EBF8;
+  background-color: #eff6ff;
   color: #000000;
   border: none;
   pointer-events: none;
@@ -40,7 +40,7 @@ export const buttonStyle = css`
   text-align: center;
   justify-content: center;
   font-size: 20px;
-  background-color: #D4EBF8;
+  background-color: #eff6ff;
   border: none;
   cursor: pointer;
   color: #757575;
@@ -69,7 +69,7 @@ export const calendarIconStyle = css`
   box-shadow: 0 0 10px 1px #e9e9e9;
   border: 1px solid #e9e9e9;
   border-radius: 10px;
-  background-color: #D4EBF8;
+  background-color: #eff6ff;
   width: 60px;
   height: 60px;
   margin-left: 30px;
