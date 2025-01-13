@@ -158,7 +158,6 @@ export default function MenuModal({
       ...prev,
       [name]: name !== "menuPrice" || "additionalFee" ? value : Number(value),
     }));
-    // console.log(updateMenu);
   };
 
   const changeOptionHandler = (
@@ -328,7 +327,24 @@ export default function MenuModal({
       menuOptions: prev.menuOptions.filter((_, index) => index !== optionIndex),
     }));
   };
-  const removeUpdateOption = (optionIndex: number) => {
+  const removeUpdateOption = async (optionIndex: number) => {
+    const token = cookies.token;
+    try {
+      const response = await axios.get(`http://localhost:4041/api/v1/menus/${selectedMenuId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      const data = response.data.data;
+      const deleteOptionId = data.menuOptions[optionIndex].menuOptionId;
+      await axios.delete(`http://localhost:4041/api/v1/menus/options/delete/${deleteOptionId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+    } catch (e) {
+      console.error(e);
+    }
     setUpdateMenu((prev) => ({
       ...prev,
       menuOptions: prev.menuOptions.filter((_, index) => index !== optionIndex),
@@ -350,10 +366,11 @@ export default function MenuModal({
       ),
     }));
   };
-  const removeUpdateOptionDetail = (
+  const removeUpdateOptionDetail = async (
     optionIndex: number,
     detailIndex: number
   ) => {
+    const token = cookies.token;
     setUpdateMenu((prev) => ({
       ...prev,
       menuOptions: prev.menuOptions.map((option, index) =>
@@ -367,6 +384,23 @@ export default function MenuModal({
           : option
       ),
     }));
+    try {
+      const response = await axios.get(`http://localhost:4041/api/v1/menus/${selectedMenuId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+      )
+      const data = response.data.data;
+      const deleteDetailId = data.menuOptions[optionIndex].optionDetails[detailIndex].detailId;
+      await axios.delete(`http://localhost:4041/api/v1/menus/options/details/delete/${deleteDetailId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -387,7 +421,6 @@ export default function MenuModal({
   const menuAdd = async () => {
     try {
       const token = cookies.token;
-      console.log("Auth Token", token);
       try {
         const formData = new FormData();
         formData.append("categoryId", addMenu.categoryId.toString());
@@ -417,20 +450,23 @@ export default function MenuModal({
         if (file) {
           formData.append("imageUrl", file);
         } else {
+          alert("이미지를 선택해주세요");
           console.warn("no file");
+          return;
         }
-        formData.forEach((value, key) => {
-          console.log(`${key}: ${value}`);
-        });
 
         if (addMenu.menuName === "") {
           alert("메뉴명을 입력해주세요");
+          return;
         } else if (addMenu.menuDescription === "") {
           alert("메뉴 설명을 입력해주세요");
+          return;
         } else if (addMenu.menuPrice === 0) {
           alert("메뉴 가격을 입력해주세요");
+          return;
         } else if (addMenu.categoryId === 0) {
           alert("메뉴 카테고리를 선택해주세요");
+          return;
         } else {
           const response = await axios.post(
             `http://localhost:4041/api/v1/menus/add`,
@@ -442,7 +478,6 @@ export default function MenuModal({
               },
             }
           );
-          console.log("Server Response:", response.data);
           setAddMenu({
             categoryId: 0,
             menuName: "",
@@ -486,7 +521,6 @@ export default function MenuModal({
   const menuUpdate = async (menuId: number) => {
     try {
       const token = cookies.token;
-      // console.log(menuId);
       const response = await axios.get(
         `http://localhost:4041/api/v1/menus/${menuId}`,
         {
@@ -498,7 +532,6 @@ export default function MenuModal({
       const result = response.data.data;
 
       if (updateMenu.menuOptions.length > result.menuOptions.length) {
-        console.log("옵션 추가 로직 실행");
         for (
           let i = result.menuOptions.length;
           i < updateMenu.menuOptions.length;
@@ -517,7 +550,6 @@ export default function MenuModal({
               },
             }
           );
-          console.log(result2.data.data.menuOptionId);
           await axios.post(
             `http://localhost:4041/api/v1/menus/options/details/add`,
             {
@@ -573,7 +605,6 @@ export default function MenuModal({
           }
         }
       }
-      console.log(updateMenu);
       const formData = new FormData();
       formData.append("categoryId", updateMenu.categoryId.toString());
       formData.append("menuName", updateMenu.menuName);
@@ -601,13 +632,9 @@ export default function MenuModal({
       if (file) {
         formData.append("imageUrl", file);
       } else {
+        alert("이미지를 선택해주세요");
         console.warn("no file");
-      }
-      formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
-      for (let pair of formData.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
+        return;
       }
       if(updateMenu.menuName === "") {
         alert("메뉴명을 입력해주세요");
@@ -1022,6 +1049,7 @@ export default function MenuModal({
                                                     removeUpdateOptionDetail(
                                                       optionIndex,
                                                       detailIndex
+                                                      
                                                     )
                                                   }
                                                 >

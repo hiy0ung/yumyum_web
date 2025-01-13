@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import * as css from "./Style";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {IErrors} from "../../../types/FindId";
 
 const FindId = () => {
-    const [userName, setUserName] = useState("");
-    const [userEmail, setUserEmail] = useState("");
-    const [errors, setErrors] = useState({
+    const [userName, setUserName] = useState<string>("");
+    const [userEmail, setUserEmail] = useState<string>("");
+    const [errors, setErrors] = useState<IErrors>({
         userName: "",
         userEmail: "",
     });
@@ -21,6 +22,7 @@ const FindId = () => {
 
         validateField(name, value);
     };
+
 
     const validateField = (name: string, value: string) => {
         let error = "";
@@ -62,6 +64,7 @@ const FindId = () => {
         return valid;
     };
 
+    // 모든 필드가 유효한지
     const validateAllFields = () => {
         const isUserNameValid = validateField("userName", userName);
         const isUserEmailValid = validateField("userEmail", userEmail);
@@ -70,7 +73,8 @@ const FindId = () => {
     };
 
 
-    const findFetchId = async () => {
+    // 아이디 찾기 요청
+    const findFetchId  = async () : Promise<void> => {
         if (!validateAllFields()) {
             alert("입력값을 확인해주세요.");
             return;
@@ -107,7 +111,7 @@ const FindId = () => {
                     name="userEmail"
                     css={css.inputEmailContainer}
                     type="email"
-                    placeholder="인증받을 이메일을 입력해 주세요"
+                    placeholder="가입시 사용한 이메일을 입력해 주세요"
                     value={userEmail}
                     onChange={emailInputHandler}
                 />
