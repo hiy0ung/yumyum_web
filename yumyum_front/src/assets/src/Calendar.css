@@ -131,7 +131,6 @@ abbr[aria-label="일요일"] {
 abbr {
   font-size: 15px !important;
   text-decoration-line: none !important;
-  text-decoration-style: none !important;
 }
 
 .react-calendar button:hover {

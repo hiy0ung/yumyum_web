@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
-import { Errors, UserSignUpInfo } from "../../../types";
+import { Errors, UserSignUpInfo } from "../../../types/SignUp";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -10,7 +10,6 @@ import {
   InputAdornment,
   Typography,
   Modal,
-  dividerClasses,
 } from "@mui/material";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";

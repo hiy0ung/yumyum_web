@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 export interface StoreInfo {
   storeName: string;
   logoUrl: string | File | null;

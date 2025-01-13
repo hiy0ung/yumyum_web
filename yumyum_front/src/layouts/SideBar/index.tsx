@@ -10,7 +10,6 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import InsightsIcon from "@mui/icons-material/Insights";
 import HomeIcon from "@mui/icons-material/Home";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import * as css from "./Style";
 import {
     CONTACT_PATH,
