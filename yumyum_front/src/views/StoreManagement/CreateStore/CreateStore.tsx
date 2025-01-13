@@ -22,6 +22,8 @@ import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
 import useStoreImage from "../../../Store/storeImg.store";
 import defaultImage from "../../../img/default_Profile_Img.webp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from '@fortawesome/free-regular-svg-icons'; 
 
 export default function Store() {
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ export default function Store() {
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   const [openPostcode, setOpenPostcode] = useState(false);
-  const {setStoreImg} = useStoreImage();
+  const { setStoreImg } = useStoreImage();
   const [store, setStore] = useState<StoreInfo>({
     storeName: "",
     logoUrl: null,
@@ -71,7 +73,7 @@ export default function Store() {
         alert("업로드 가능한 최대 용량은 10MB입니다.");
         return;
       }
-      
+
       setImg(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -151,7 +153,7 @@ export default function Store() {
   formData.append("description", store.description);
   if (!base64) {
     formData.append("logoUrl", defaultImg);
-  }else {
+  } else {
     formData.append("logoUrl", base64);
   }
 
@@ -197,7 +199,10 @@ export default function Store() {
                 onClick={handleImageClick}
               ></img>
             ) : (
-              <input type="file" onClick={handleImageClick} name="img" />
+              <>
+              <FontAwesomeIcon icon={faImage} onClick={handleImageClick}  style={{ width: '80px', height: '80px'}}/>
+              <input type="file" onChange={handleFileChange} name="img" style={{display: 'none'}}/>
+              </>
             )}
             <input
               ref={fileInputRef}
@@ -211,7 +216,7 @@ export default function Store() {
             <TextField
               required
               id="outlined-required"
-              label="가게명"
+              label="가게이름"
               name="storeName"
               value={store.storeName}
               onChange={handleStoreChange}
@@ -244,7 +249,63 @@ export default function Store() {
             </FormControl>
           </Box>
         </Box>
-        <Box css={css.storeTime}>
+        <Box>
+          <div>
+            <tr style={{display: 'inline'}}>
+              <input
+                id="address_kakao"
+                onClick={clickButton}
+                value={zoneCode}
+                placeholder="주소를 입력해주세요 (예: 판교역로 235)"
+                css={css.address}
+              />
+              <div style={{ position: "relative", display: "inline-block" }}>
+                {openPostcode && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: "110%",
+                      zIndex: 1000,
+                      border: "1px solid #ccc",
+                      background: "#fff",
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                      width: "400px",
+                    }}
+                  >
+                    <DaumPostcode
+                      onComplete={selectAddress}
+                      autoClose={false}
+                      defaultQuery="판교역로 235"
+                      style={{ height: "400px" }}
+                    />
+                  </div>
+                )}
+              </div>
+            </tr>
+            <Box sx={{ margin: "10px 0px"}}>
+              <tr style={{width: '100%'}}>
+                <td>
+                  <input
+                    value={address}
+                    css={css.detailAddress}
+                    onChange={(e) => {
+                      setDetailAddress(e.target.value);
+                    }}
+                  />
+                </td>
+                <input
+                  value={detailAddress}
+                  css={css.detailAddress}
+                  onChange={(e) => {
+                    setDetailAddress(e.target.value);
+                  }}
+                />
+              </tr>
+            </Box>
+          </div>
+        </Box>
+        <Box css={css.openAndCloseTime}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TimePicker
               label="오픈 시간 *"
@@ -266,7 +327,7 @@ export default function Store() {
             />
           </LocalizationProvider>
         </Box>
-        <Box css={css.storeTime}>
+        <Box css={css.breakTime}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TimePicker
               label="브레이크 시간"
@@ -293,65 +354,7 @@ export default function Store() {
           </LocalizationProvider>
         </Box>
         <Box>
-          <div>
-            <tr>
-              <td className="title" style={{paddingRight: '5px'}}>주소</td>
-              <input
-                id="address_kakao"
-                onClick={clickButton}
-                value={zoneCode}
-              ></input>
-              <div
-                style={{
-                  position: "relative",
-                  display: "inline-block",
-                }}
-              >
-                {openPostcode && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: "110%",
-                      zIndex: 1000,
-                      border: "1px solid #ccc",
-                      background: "#fff",
-                      boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-                      width: "400px",
-                    }}
-                  >
-                    <DaumPostcode
-                      onComplete={selectAddress}
-                      autoClose={false}
-                      defaultQuery="판교역로 235"
-                      style={{ height: "400px" }}
-                    />
-                  </div>
-                )}
-              </div>
-            </tr>
-            <Box
-              sx={{
-                margin: "20px 0px",
-              }}
-            >
-              <tr>
-                <td className="title" style={{paddingRight: '5px'}}>상세주소</td>
-                <td>
-                  <input value={address} style={{marginRight: '5px'}}></input>
-                </td>
-                <input
-                  value={detailAddress}
-                  onChange={(e) => {
-                    setDetailAddress(e.target.value);
-                  }}
-                ></input>
-              </tr>
-            </Box>
-          </div>
-        </Box>
-        <Box>
-          <p style={{ fontSize: "20px", margin: "10px" }}>가게 설명</p>
+          <p style={{ fontSize: "20px", marginBottom: "10px" }}>가게 설명</p>
           <textarea
             css={css.descriptionBox}
             value={store.description}

@@ -1,85 +1,171 @@
 import { css } from "@emotion/react";
 
-export const formStyle = css`
-    width: 80%;
-    max-width: 800px;
-    min-height: 100vh;
-    padding: 16px;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 50px;
-    background-color: #fafafa;
+export const storeTitle = css`
+    margin: 50px 0;
+    font-size: 40px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
 `;
 
-export const storeTitle = css`
-    margin: 10px;
-    text-align: center;
-    height: 100px;
-    line-height: 100px;
-    font-weight: bold;
-    font-size: 32px;
+export const formStyle = css`
+    background-color: #f9fafc;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    max-width: 600px;
+    margin: 30px auto;
 `;
 
 export const basicProfile = css`
     display: flex;
-    height: 200px;
-    margin: 40px;
-    margin-bottom: 40px;
-    justify-content: space-around;
-`;
+    flex-direction: column; 
+    align-items: center;
+    margin-bottom: 30px;
 
-export const storeNameAndCategory = css`
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    margin: 10px;
-    justify-content: space-between;
+    & > div {
+        width: 100%; 
+        text-align: center;
+    }
 `;
 
 export const logoImg = css`
-    width: 200px;
-    height: 200px;
+    width: 100px; 
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const storeNameAndCategory = css`
+    margin-top: 30px;
+    flex: 2;
+    display: flex;
+    flex-direction: column; 
+    gap: 15px;
+    justify-content: flex-start;
+    align-items: flex-end; 
+
+    & > div {
+        width: 100%;
+    }
 `;
 
 export const category = css`
-    margin-top: 30px;
-    width: 200px;
+    width: 100%;
 `;
 
-export const storeTime = css`
+export const addressSection = css`
+    margin-bottom: 25px; 
+
+    & > div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        & > input {
+        flex: 1;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        }
+    }
+`;
+
+export const address = css`
+    display: inline-block;
+    width: 100%;
+    height: 56px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+`;
+
+export const detailAddress = css`
+    margin-right: 13px;
+    width: 263px;
+    height: 56px;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+`;
+
+export const openAndCloseTime = css`
+    margin-top: 30px;
     display: flex;
-    width: 500px;
-    justify-content: space-around;
-    margin: 20px;
-    height: 100px;
+    gap: 15px;
+
+    & > div {
+        flex: 1;
+    }
+`;
+
+export const breakTime = css`
+    margin-top: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 15px;
+
+    & > div {
+        flex: 1;
+    }
+
 `;
 
 export const descriptionBox = css`
-    width: 500px;
-    height: 200px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 8px;
-    resize: none;
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 12px;
     font-size: 14px;
-    white-space: pre-line;
+    margin-bottom: 30px;
+    resize: none;
+    background-color: #fff;
 `;
 
 export const storeSubmitButton = css`
-    border: 1px solid #ccc;
-    color: black;
-    margin-left: auto;
-    margin-top: 20px;
     display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s;
 
-    :hover {
-        background-color: #0db4fc;
-        color: white;
+    &:hover {
+        background-color: #0056b3;
+    }
+`;
+
+export const logoUploadButton = css`
+    margin-top: 10px;
+    text-align: center;
+
+    & > input {
+        display: none;
+    }
+
+    & > button {
+        padding: 8px 14px;
+        font-size: 13px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+        background-color: #e0e0e0;
+        }
     }
 `;
