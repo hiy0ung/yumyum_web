@@ -3,7 +3,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import * as s from "./MypageCss";
 import {Link, useNavigate} from "react-router-dom";
-import {HOME_PATH, MY_PAGE_UPDATE, UPDATE_STORE_PATH} from "../../constants";
+import {HOME_PATH, MAIN_PATH, MY_PAGE_UPDATE, UPDATE_STORE_PATH} from "../../constants";
 import {Cookies, useCookies} from "react-cookie";
 import {Button} from "@mui/material";
 
@@ -44,16 +44,16 @@ export default function Mypage() {
                         Authorization: `Bearer ${token}`
                     }
                 });
+      } catch (e) {
+        console.log("해당 아이디가 없습니다.");
+      }
+      alert("성공적으로 삭제되었습니다.");
+      navigate(MAIN_PATH)
+    } else {
+      return;
+    }
+  };
 
-            } catch (e) {
-                console.log("해당 아이디가 없습니다.");
-            }
-            alert("성공적으로 삭제되었습니다.");
-            navigate(HOME_PATH)
-        } else {
-            return;
-        }
-    };
 
     const fetchData = async () => {
         try {
