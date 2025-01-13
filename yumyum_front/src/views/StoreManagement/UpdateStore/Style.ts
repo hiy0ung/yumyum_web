@@ -1,29 +1,26 @@
 import { css } from "@emotion/react";
 
-export const formStyle = css`
-    width: 80%;
-    max-width: 800px;
-    min-height: 100vh;
-    padding: 16px;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 50px;
-    background-color: #fafafa;
+export const storeTitle = css`
+    margin: 50px 0;
+    font-size: 40px;
+    height: 50px;
+    line-height: 57px;
+    text-align: center;
 `;
 
-export const storeTitle = css`
-    margin: 50px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 32px;
-    color: #333;
+export const formStyle = css`
+    background-color: #EFF6FF;
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border-radius: 20px;
+    border: 1px solid #e4e4e4;
+    width: 45%;
+    min-width: 500px;
+    margin: 0 auto 100px auto;
+    padding: 30px 20px 60px 20px;
+    max-width: 800px;
 `;
+
+
 
 export const basicProfile = css`
     display: flex;
