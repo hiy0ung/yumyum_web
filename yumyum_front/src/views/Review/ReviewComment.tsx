@@ -316,7 +316,7 @@ function ReviewComment() {
                                                         css={css.reviewPhoto}
                                                         src={defaultImg3}
                                                         alt="리뷰 사진"
-                                                        onClick={() => openModal(photo)}
+                                                        onClick={(e) => openModal(e.currentTarget.src)}
                                                     />
                                                 ))}
                                             </div>
