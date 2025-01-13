@@ -2,8 +2,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as s from "./MypageCss";
-import { Link, useNavigate } from "react-router-dom";
-import { HOME_PATH, MAIN_PATH, MY_PAGE, MY_PAGE_UPDATE } from "../../constants";
+import { useNavigate } from "react-router-dom";
+import { MY_PAGE } from "../../constants";
 import { useCookies } from "react-cookie";
 
 interface User {
@@ -122,7 +122,7 @@ export default function Mypage() {
             });
             console.log(user);
             alert("수정이 완료되었습니다.")
-            navigate(MAIN_PATH)
+            navigate(MY_PAGE)
         } catch(e) {
             console.error("데이터를 불러오지 못했습니다.", e);
         }

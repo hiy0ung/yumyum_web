@@ -10,6 +10,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import InsightsIcon from "@mui/icons-material/Insights";
 import HomeIcon from "@mui/icons-material/Home";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import * as css from "./Style";
 import {
     CONTACT_PATH,
@@ -28,8 +29,8 @@ import defaultProfileImg from "../../img/default_Profile_Img.webp";
 import {useCookies} from "react-cookie";
 import axios from "axios";
 import YumYumLogoImg from "../../img/yumyumLogo2.webp";
-import useAuthStore from "../../Stroes/auth.store";
-import useStoreImage from "../../Stroes/storeImg.store";
+import useAuthStore from "../../Store/auth.store";
+import useStoreImage from "../../Store/storeImg.store";
 
 export default function SideBar() {
     const [pathValue, setPathValue] = useState("");
@@ -217,7 +218,7 @@ export default function SideBar() {
             </nav>
             <div>
                 <Link css={css.profile} to={MY_PAGE}>
-                    {storeImage ? <img src={storeImage} alt="Store" /> : <img src={defaultProfileImg} alt="프로필 사진입니다"/>}
+                    {storeImage ? <img src={storeImage} alt="Store" /> : <img src={defaultProfileImg} alt="프로필 사진입니다" />}
                     <span>마이페이지</span>
                 </Link>
 

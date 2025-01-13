@@ -1,122 +1,108 @@
 // Style.ts
-import { css } from "@emotion/react";
+import {css} from "@emotion/react";
 
-export const storeTitle = css`
-  margin-top: 50px;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: bold;
+export const storeTitle= css`
+    margin: 50px 0;
+    font-size: 40px;
+    height: 50px;
+    line-height: 57px;
+    text-align: center;
 `;
-
 export const StoreInfo = css`
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 800px;
-  padding: 30px;
-  border-radius: 12px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #EFF6FF;
+    box-shadow: 0 0 10px 1px #e9e9e9;
+    border-radius: 20px;
+    border: 1px solid #e4e4e4;
+    width: 45%;
+    min-width: 500px;
+    margin: 0 auto 100px auto;
+    padding: 30px 20px 60px 20px;
+    max-width: 800px;
 `;
 
-export const BasicInfo = css`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+export const logoUrlContainer = css`
+    width: 120px;
+    height: 120px;
+    margin: 30px auto 0;
 `;
-
 export const logoUrl = css`
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  object-fit: cover;
-  margin-right: 20px;
+    object-fit: cover;
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
 `;
-
-export const BasicInfoContent = css`
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-
-  p {
-    margin: 8px 0;
-    font-size: 1.1rem;
-  }
-`;
-
-export const description = css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  line-height: 1.3;
-  width: 100%;
-  padding: 15px;
-  margin-top: 15px;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  font-size: 1rem;
-  text-align: left;
-`;
-
-export const StoreTimeAndBreakTime = css`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  margin-bottom: 20px;
-`;
-
-export const Time = css`
-  display: flex;
-  justify-content: space-between;
-  gap: 40px;
-  margin-bottom: 10px;
-
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 1rem;
-    color: #555;
-
-    p {
-      margin: 0;
-      font-weight: bold;
-      font-size: 1.1rem;
-      line-height: 2;
+export const BasicInfo = css`
+    margin: 50px 0 30px 0;
+    font-size: 20px;
+    & > div > div {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: white;
+        border-radius: 15px;
     }
-  }
+`;
+export const infoContainer = css`
+    margin: 0 auto;
+    width: 85%;
+    min-width: 450px;
+    
+    & > div {
+        display: flex;
+        justify-content: center;
+    }
+    
+    & > div > span {
+        display: inline-block;
+        width: 20%;
+        
+    }
+    & > div > span:nth-of-type(1) {
+        text-align: center;
+        flex: 1;
+    }
+    & > div > span:nth-of-type(2) {
+        flex: 2;
+    }
+`;
+
+export const storeName = css`
+    & > span > span{
+        letter-spacing: 30px;
+    }
+`;
+
+export const storeAddress = css`
+    & > span:nth-of-type(2) {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+`;
+
+export const storeCategory  = css`
+    letter-spacing: 1px;
 `;
 
 export const buttons = css`
-  display: flex;
-  justify-content: flex-end;
-  gap: 20px;
-`;
-
-export const updateButton = css`
-  height: 40px;
-  font-size: 14px;
-  color: #58cdff;
-  border-color: #58cdff;
-
-  &:hover {
-    background-color: #0db4fc;
-    color: white;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    margin: 0 auto;
+    
+    & > button {
+        flex: 1;
+        padding: 15px 0;
+        display: inline-block;
+        border-radius: 10px;
+    }
+    & > button:nth-of-type(1) {
+        margin-right: 50px;
+    }
 `;
 
 export const deleteButton = css`
-  height: 40px;
-  font-size: 14px;
-  color: #f44336;
-  border-color: #f44336;
+    background-color: #ff6767;
 
-  &:hover {
-    background-color: #d32f2f;
-    color: white;
-  }
 `;

@@ -12,7 +12,9 @@ import {
   HOME_PATH,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
-import useAuthStore from "../../../Stroes/auth.store";
+import useAuthStore from "../../../Store/auth.store";
+import kakao from "../../../img/kakao.png";
+import naver from "../../../img/naver.png";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -133,6 +135,16 @@ export default function Login() {
                 color="primary"
               >로그인
               </Button>
+            </Box>
+            <Box css={css.oauthButtons}>
+              <div css={css.kakaoButton}>
+                <img src={kakao} alt="카카오 심볼"/>
+                <span>카카오톡 로그인</span>
+              </div>
+              <div css={css.naverButton}>
+                <img src={naver} alt="네이버 심볼"></img>
+                <span>네이버 로그인</span>
+              </div>
             </Box>
             <Box css={css.link}>
               <Link css={css.linkText} to={AUTH_PATH_SIGN_UP}>
