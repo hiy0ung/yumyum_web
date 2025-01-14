@@ -8,6 +8,7 @@ import {useCookies} from "react-cookie";
 import 'react-quill/dist/quill.snow.css';
 import QuillResizeImage from "quill-resize-image";
 import Quill from "quill";
+import useScrollTop from "../../hooks/useScrollTop";
 
 Quill.register('modules/resize', QuillResizeImage);
 
@@ -20,6 +21,11 @@ const ReviewNotice = () => {
     const [editorContent, setEditorContent] = useState(""); // 에디터 데이터
     const quillRef = useRef<ReactQuill | null>(null);
 
+    const scrollToTop = useScrollTop();
+
+    useEffect(() => {
+        scrollToTop();
+    }, []);
     const noticeCreateFetch = async () => {
         console.log("저장 버튼 클릭됨");
         if (!quillRef.current) {

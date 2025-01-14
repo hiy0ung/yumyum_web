@@ -20,18 +20,18 @@ export const formStyle = css`
 
 export const basicProfile = css`
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
     margin-bottom: 30px;
 
     & > div {
-        width: 100%; 
+        width: 100%;
         text-align: center;
     }
 `;
 
 export const logoImg = css`
-    width: 100px; 
+    width: 100px;
     height: 100px;
     border-radius: 8px;
     object-fit: cover;
@@ -43,10 +43,10 @@ export const storeNameAndCategory = css`
     margin-top: 30px;
     flex: 2;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     gap: 15px;
     justify-content: flex-start;
-    align-items: flex-end; 
+    align-items: flex-end;
 
     & > div {
         width: 100%;
@@ -58,7 +58,7 @@ export const category = css`
 `;
 
 export const addressSection = css`
-    margin-bottom: 25px; 
+    margin-bottom: 25px;
 
     & > div {
         display: flex;
@@ -66,10 +66,10 @@ export const addressSection = css`
         margin-bottom: 10px;
 
         & > input {
-        flex: 1;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 14px;
+            flex: 1;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
         }
     }
 `;
@@ -165,7 +165,7 @@ export const logoUploadButton = css`
         transition: background-color 0.3s;
 
         &:hover {
-        background-color: #e0e0e0;
+            background-color: #e0e0e0;
         }
     }
 `;

@@ -6,7 +6,6 @@ import {Link, useNavigate} from "react-router-dom";
 import {HOME_PATH, MAIN_PATH, MY_PAGE_UPDATE, UPDATE_STORE_PATH} from "../../constants";
 import {Cookies, useCookies} from "react-cookie";
 import {Button} from "@mui/material";
-import useAuthStore from "../../Store/auth.store";
 
 interface User {
     userId: string;
@@ -19,8 +18,7 @@ interface User {
 }
 
 export default function Mypage() {
-    const [cookies, setCookies] = useCookies(['token']);
-    const { logout } = useAuthStore();
+    const [cookies] = useCookies(['token'])
 
     const [user, setUser] = useState<User>({
         userId: "",
@@ -46,17 +44,16 @@ export default function Mypage() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-            } catch (e) {
-                console.log("해당 아이디가 없습니다.");
-            }
-            alert("성공적으로 삭제되었습니다.");
-            navigate(MAIN_PATH);
-            setCookies("token", "", { path: "/", expires: new Date(0) }); 
-            logout();
-        } else {
-            return;
-        }
-    };
+      } catch (e) {
+        console.log("해당 아이디가 없습니다.");
+      }
+      alert("성공적으로 삭제되었습니다.");
+      navigate(MAIN_PATH)
+    } else {
+      return;
+    }
+  };
+
 
     const fetchData = async () => {
         try {
