@@ -44,7 +44,7 @@ import FindId from "./views/Authentication/FIndID/FindID";
 import FindPW from "./views/Authentication/FindPW/FindPW";
 import ChangePassword from "./views/Authentication/PasswordReset/ChangePassword";
 import HaveFound from "./views/Authentication/HaveFound/HaveFound";
-import ReviewNotice from "./views/Review/ReviewNotice";
+import ScrollPathTop from "./hooks/ScrollPathTop";
 
 function App() {
     const [cookies] = useCookies(["token"]);
@@ -52,10 +52,12 @@ function App() {
 
     const navigate = useNavigate();
 
+    const EXCLUDED_PATHS = [FIND_PW_PATH, FIND_ID_PATH, AUTH_PATH_SIGN_UP];
+
     useEffect(() => {
-        if (!token && !window.location.pathname.includes('/findPassword') &&
-            !window.location.pathname.includes('/findId')
-        ) {
+        const currentPath = window.location.pathname;
+        const isExcludedPath = EXCLUDED_PATHS.some(path => currentPath.includes(path));
+        if (!token && !isExcludedPath) {
             navigate(MAIN_PATH);
         }
     }, [token]);

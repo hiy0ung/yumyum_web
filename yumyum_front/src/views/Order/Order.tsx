@@ -7,6 +7,7 @@ import { OrderInfo, OrderDetailInfo } from "../../types/Order";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import moment from "moment";
+import useScrollTop from "../../hooks/useScrollTop";
 
 export default function Order() {
   const [currentTab, setCurrentTab] = useState("0");
@@ -26,6 +27,11 @@ export default function Order() {
     storeTotalPrice: number;
   }
 
+  const scrollToTop = useScrollTop();
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
   useEffect(() => {
     const storeCurrentInfo = localStorage.getItem("currentStore");
 

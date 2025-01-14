@@ -15,6 +15,7 @@ import {
   MenuOptions,
   MenuData,
 } from "../../types/Menu";
+import useScrollTop from "../../hooks/useScrollTop";
 
 export default function MenuManagement() {
   const [cookies] = useCookies(["token"]);
@@ -22,6 +23,11 @@ export default function MenuManagement() {
     menuCategory: "",
     menuCategorySequence: 0,
   });
+  const scrollToTop = useScrollTop();
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
   const [menus, setMenus] = useState<Menus[]>([]);
   const [menuImg, setMenuImg] = useState<any>(null);
   const [categories, setCategories] = useState<Category[]>([]);

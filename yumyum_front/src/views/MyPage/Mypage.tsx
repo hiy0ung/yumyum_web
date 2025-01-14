@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {HOME_PATH, MAIN_PATH, MY_PAGE_UPDATE, UPDATE_STORE_PATH} from "../../constants";
 import {Cookies, useCookies} from "react-cookie";
 import {Button} from "@mui/material";
+import useScrollTop from "../../hooks/useScrollTop";
 
 interface User {
     userId: string;
@@ -70,6 +71,11 @@ export default function Mypage() {
             console.error("데이터를 불러오지 못했습니다.", e);
         }
     };
+    const scrollToTop = useScrollTop();
+
+    useEffect(() => {
+        scrollToTop();
+    }, []);
     useEffect(() => {
         fetchData();
     }, []);

@@ -7,6 +7,7 @@ import axios from "axios";
 import {useCookies} from "react-cookie";
 import {MonthReviewsStats, TotalReviewsStats } from "../../types/ReviewStats";
 import moment from "moment";
+import useScrollTop from "../../hooks/useScrollTop";
 
 
 function Review() {
@@ -20,7 +21,6 @@ function Review() {
     ]);
     const [cookies] = useCookies(["token"])
     const token = cookies.token;
-
     const totalReviewStatsFetch = async () => {
         try {
             const response = await axios.get(`http://localhost:4041/api/v1/reviews/rating`,

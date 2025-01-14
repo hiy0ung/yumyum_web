@@ -14,6 +14,7 @@ import {
     MenuStatsFetchData,
     MenuStatsFetchDataTotal
 } from "../../../types/Stats";
+import useScrollTop from "../../../hooks/useScrollTop";
 
 const calendarStyles = {
     ".react-calendar__month-view__weekdays": {
@@ -108,7 +109,11 @@ export default function MenusStats() {
         totalQuantitySold: 0,
         totalPriceSold: 0
     });
+    const scrollToTop = useScrollTop();
 
+    useEffect(() => {
+        scrollToTop();
+    }, []);
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const onPieEnter = useCallback((_: any, index: any) => {
         setActiveIndex(index);

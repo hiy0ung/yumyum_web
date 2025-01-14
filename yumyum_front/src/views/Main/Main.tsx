@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, {useMemo, useRef} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import * as css from "./Style";
 import useScrollElementsAnimation from "../../hooks/ScrollAnimation/useScrollElementsAnimation";
 import yumyumLogo2 from "../../img/yumyumLogo2.webp";
@@ -10,10 +10,12 @@ import {AUTH_PATH_SIGN_UP} from "../../constants";
 import Login from "../Authentication/Login/Login";
 import useScrollY from "../../hooks/ScrollAnimation/useScrollY"
 import Footer from "../../layouts/Footer";
+import useScrollTop from "../../hooks/useScrollTop";
 
 
 const Main = () => {
     const scrollY = useScrollY();
+    const scrollToTop = useScrollTop();
 
     const textIntro1 = useRef<HTMLDivElement>(null);
     const textIntro2 = useRef<HTMLDivElement>(null);
@@ -89,6 +91,9 @@ const Main = () => {
         }
     };
 
+    useEffect(() => {
+        scrollToTop();
+    }, []);
     return (
         <>
             <div id="home" css={css.wrap}>

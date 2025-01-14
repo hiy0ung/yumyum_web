@@ -28,6 +28,7 @@ import { useCookies } from "react-cookie";
 import Calendar from "react-calendar";
 import "../../../assets/src/Calendar.css";
 import moment from "moment";
+import useScrollTop from "../../../hooks/useScrollTop";
 
 export default function TimeStats() {
   const convertDate = new Date().toISOString().slice(0, 10);
@@ -40,6 +41,8 @@ export default function TimeStats() {
 
   const token = cookies.token;
   const calendarRef = useRef<HTMLDivElement>(null);
+  const scrollToTop = useScrollTop();
+
 
   const fetchChart1 = async () => {
     try {
@@ -133,9 +136,12 @@ export default function TimeStats() {
   useEffect(() => {
     fetchChart1();
     fetchChart2();
+    scrollToTop();
   }, [orderDate]);
 
-  
+  useEffect(() => {
+
+  }, []);
 
   return (
     <>

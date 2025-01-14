@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Box } from "@mui/system";
 import * as css from "./Style";
-import React, { useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import DaumPostcode from "react-daum-postcode";
 import {
   Button,
@@ -22,6 +22,7 @@ import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
 import useStoreImage from "../../../Store/storeImg.store";
 import defaultImage from "../../../img/default_Profile_Img.webp";
+import useScrollTop from "../../../hooks/useScrollTop";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -49,7 +50,11 @@ export default function Store() {
     detailAddress: "",
     description: "",
   });
+  const scrollToTop = useScrollTop();
 
+  useEffect(() => {
+    scrollToTop();
+  }, []);
   const clickButton = () => {
     setOpenPostcode((current) => !current);
   };

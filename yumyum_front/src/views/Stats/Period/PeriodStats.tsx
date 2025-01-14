@@ -6,6 +6,7 @@ import "./PeriodCalendar.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useCookies } from "react-cookie";
+import useScrollTop from "../../../hooks/useScrollTop";
 
 interface DailyStat {
   orderDay: string;
@@ -33,6 +34,8 @@ export default function DailyStats() {
     return date.toISOString().slice(0, 19);
   };
   const [cookies] = useCookies(["token"]);
+  const scrollToTop = useScrollTop();
+
 
   const fullCalendarRef = useRef<FullCalendar>(null);
 
@@ -107,6 +110,9 @@ export default function DailyStats() {
   useEffect(() => {
     fetchDay();
   }, [orderDate]);
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
   const formatNumber = (number: number) => {
     return new Intl.NumberFormat("ko-KR").format(number);
