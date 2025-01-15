@@ -1,14 +1,14 @@
 import {css} from "@emotion/react";
-import img1 from "../../img/foodImg11.webp"
-import img2 from "../../img/chartImg.webp"
-import food1 from "../../img/food1.webp"
-import food2 from "../../img/food2.webp"
-import food3 from "../../img/food3.webp"
-import food4 from "../../img/food4.webp"
-import food5 from "../../img/food5.webp"
-import food6 from "../../img/food6.webp"
-import food7 from "../../img/food7.webp"
-import food8 from "../../img/food8.webp"
+import img1 from "../../images/foodImg11.webp"
+import img2 from "../../images/chartImg.webp"
+import food1 from "../../images/food1.webp"
+import food2 from "../../images/food2.webp"
+import food3 from "../../images/food3.webp"
+import food4 from "../../images/food4.webp"
+import food5 from "../../images/food5.webp"
+import food6 from "../../images/food6.webp"
+import food7 from "../../images/food7.webp"
+import food8 from "../../images/food8.webp"
 
 export const wrap = css`
     min-width: 1280px;

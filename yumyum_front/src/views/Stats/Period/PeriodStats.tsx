@@ -6,7 +6,7 @@ import "./PeriodCalendar.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useCookies } from "react-cookie";
-import useScrollTop from "../../../hooks/useScrollTop";
+import useScrollTop from "../../../hooks/scroll/useScrollToTop";
 
 interface DailyStat {
   orderDay: string;

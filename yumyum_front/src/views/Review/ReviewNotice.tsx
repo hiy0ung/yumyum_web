@@ -8,7 +8,7 @@ import {useCookies} from "react-cookie";
 import 'react-quill/dist/quill.snow.css';
 import QuillResizeImage from "quill-resize-image";
 import Quill from "quill";
-import useScrollTop from "../../hooks/useScrollTop";
+import useScrollTop from "../../hooks/scroll/useScrollToTop";
 
 Quill.register('modules/resize', QuillResizeImage);
 
@@ -139,7 +139,7 @@ const ReviewNotice = () => {
     //     const editor = quillRef.current.getEditor();
     //     const editorContentHTML = editor.root.innerHTML;
     //
-    //     const base64ImageRegex = /<img[^>]+src="data:image\/[^">]+"[^>]*>/g;
+    //     const base64ImageRegex = /<images[^>]+src="data:image\/[^">]+"[^>]*>/g;
     //     const srcExtractRegex = /src="([^"]+)"/;
     //
     //     let newHTML = editorContentHTML;

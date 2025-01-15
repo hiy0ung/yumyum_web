@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react'
 import * as css from "./Style";
-import yumyumLogo2 from "../../img/yumyumLogo2.webp";
+import yumyumLogo2 from "../../images/yumyumLogo2.webp";
 
 export default function Footer() {
     return (

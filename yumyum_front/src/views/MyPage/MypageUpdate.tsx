@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { MY_PAGE } from "../../constants";
 import { useCookies } from "react-cookie";
 import {Button} from "@mui/material";
-import useScrollTop from "../../hooks/useScrollTop";
+import useScrollTop from "../../hooks/scroll/useScrollToTop";
 
 interface User {
     userId: string;

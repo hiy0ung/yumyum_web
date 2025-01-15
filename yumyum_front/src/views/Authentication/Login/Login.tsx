@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
-import { SignInResponseDto, UserLogInInfo } from "../../../types/logIn";
+import { SignInResponseDto, UserLogInInfo } from "../../../types/LogIn";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, TextField, InputAdornment } from "@mui/material";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
@@ -12,9 +12,9 @@ import {
   HOME_PATH,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
-import useAuthStore from "../../../Store/auth.store";
-import kakao from "../../../img/kakao.png";
-import naver from "../../../img/naver.png";
+import useAuthStore from "../../../store/auth.store";
+import kakao from "../../../images/kakao.png";
+import naver from "../../../images/naver.png";
 
 export default function Login() {
   const navigate = useNavigate();

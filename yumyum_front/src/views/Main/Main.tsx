@@ -1,20 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import React, {useEffect, useMemo, useRef} from 'react';
 import * as css from "./Style";
-import useScrollElementsAnimation from "../../hooks/ScrollAnimation/useScrollElementsAnimation";
-import yumyumLogo2 from "../../img/yumyumLogo2.webp";
-import img1 from "../../img/foodImg9.webp";
-import img2 from "../../img/foodImg10.webp";
+import useScrollElementsAnimation from "../../hooks/scroll/useScrollElementsAnimation";
+import yumyumLogo2 from "../../images/yumyumLogo2.webp";
+import img1 from "../../images/foodImg9.webp";
+import img2 from "../../images/foodImg10.webp";
 import {Link} from "react-router-dom";
 import {AUTH_PATH_SIGN_UP} from "../../constants";
 import Login from "../Authentication/Login/Login";
-import useScrollY from "../../hooks/ScrollAnimation/useScrollY"
-import Footer from "../../layouts/Footer";
-import useScrollTop from "../../hooks/useScrollTop";
+import useScrollYCheck from "../../hooks/scroll/useScrollYCheck"
+import Footer from "../../layouts/Footer/Footer";
+import useScrollTop from "../../hooks/scroll/useScrollToTop";
 
 
 const Main = () => {
-    const scrollY = useScrollY();
+    const scrollY = useScrollYCheck();
     const scrollToTop = useScrollTop();
 
     const textIntro1 = useRef<HTMLDivElement>(null);

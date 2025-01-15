@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
+
 import React, { useEffect, useState } from "react";
-import * as css from "./Style";
-import { useCookies } from "react-cookie";
+
 import axios from "axios";
-import { OrderInfo, OrderDetailInfo } from "../../types/Order";
+import moment from "moment";
+import { useCookies } from "react-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
-import moment from "moment";
-import useScrollTop from "../../hooks/useScrollTop";
+
+import { CurrentStore, OrderInfo, OrderDetailInfo } from "../../types/Order";
+import * as css from "./Style";
 
 export default function Order() {
   const [currentTab, setCurrentTab] = useState("0");
@@ -21,17 +23,7 @@ export default function Order() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [currentDate] = useState<string>(moment().format("YYYY-MM-DD"));
 
-  interface CurrentStore {
-    storeDate: string;
-    storeCompletedCount: number;
-    storeTotalPrice: number;
-  }
 
-  const scrollToTop = useScrollTop();
-
-  useEffect(() => {
-    scrollToTop();
-  }, []);
   useEffect(() => {
     const storeCurrentInfo = localStorage.getItem("currentStore");
 
