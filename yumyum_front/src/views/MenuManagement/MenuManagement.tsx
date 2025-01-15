@@ -2,6 +2,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as s from "./Style";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
 import Modal from "@mui/material/Modal";
 import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
@@ -26,7 +30,7 @@ export default function MenuManagement() {
   const [menuImg, setMenuImg] = useState<any>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryModalOepn, setIsCategoryModalOpen] = useState(false);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   const [updateOptionChecked, setUpdateOptionChecked] = useState<boolean[]>([]);
   const [selectedMenuId, setSelectedMenuId] = useState<number>(0);
   const [updateMenudata, setUpdateMenudata] = useState<UpdateMenu>({
@@ -84,7 +88,6 @@ export default function MenuManagement() {
         }
       );
       setCategories(data.data.data);
-      // console.log(data.data.data);
     } catch (e) {
       console.log("object");
     }
@@ -177,9 +180,10 @@ export default function MenuManagement() {
   const CategorySubmit = async () => {
     try {
       const token = cookies.token;
+      console.log(AddCategory.menuCategory);
       for (const category of categories) {
         if (category.menuCategory === AddCategory.menuCategory) {
-          alert("이미 추가된 카테고리 명 입니다.");
+          alert("이미 추가된 카테고리명 입니다.");
           return;
         }
         if (
@@ -188,10 +192,10 @@ export default function MenuManagement() {
           alert("이미 추가되있는 카테고리 순번입니다.");
           return;
         }
-        if (AddCategory.menuCategory === "") {
-          alert("빈 값은 추가할 수 없습니다.");
-          return;
-        }
+      }
+      if (AddCategory.menuCategory === "") {
+        alert("빈 값은 추가할 수 없습니다.");
+        return;
       }
       await axios.post(
         `http://localhost:4041/api/v1/categories/post`,
@@ -232,9 +236,15 @@ export default function MenuManagement() {
   }, []);
 
   useEffect(() => {
+    const maxSequence =
+      categories.length > 0
+        ? Math.max(
+            ...categories.map((category) => category.menuCategorySequence)
+          )
+        : 0;
     setAddCategory({
       menuCategory: "",
-      menuCategorySequence: categories.length + 1,
+      menuCategorySequence: maxSequence + 1,
     });
   }, [categories]);
 
@@ -263,7 +273,6 @@ export default function MenuManagement() {
 
     updateCategorySequence(updatedCategories);
   };
-
   const categoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setAddCategory((prev) => ({
@@ -291,17 +300,21 @@ export default function MenuManagement() {
         menuOptions: selectedMenu.menuOptions
           ? selectedMenu.menuOptions.map((option: any) => ({
               ...option,
-              optionDetails: option.optionDetails ? option.optionDetails.map((optionDetail: any) => ({
-                detailId: optionDetail.detailId,
-                detailName: [{
-                  optionDetailName: optionDetail.optionDetailName,
-                  additionalFee: optionDetail.additionalFee
-                }]
-                })) : []
-              })) : []
+              optionDetails: option.optionDetails
+                ? option.optionDetails.map((optionDetail: any) => ({
+                    detailId: optionDetail.detailId,
+                    detailName: [
+                      {
+                        optionDetailName: optionDetail.optionDetailName,
+                        additionalFee: optionDetail.additionalFee,
+                      },
+                    ],
+                  }))
+                : [],
+            }))
+          : [],
       };
 
-      // console.log("updated Menu Data Before Setting State:", updatedMenu);
       setUpdateMenudata(updatedMenu);
       setSelectedMenuId(menuId);
     }
@@ -319,10 +332,9 @@ export default function MenuManagement() {
             }))
           : [],
       };
-      
+
       const initialChecked = updatedMenuData.menuOptions.map(() => true);
       setUpdateOptionChecked(initialChecked);
-
     } catch (e) {
       console.error(e);
     }
@@ -331,7 +343,7 @@ export default function MenuManagement() {
 
   const handleUpdateClick = (menuId: number) => {
     updateButton(menuId);
-  }
+  };
 
   const deleteMenu = async (menuId: number) => {
     const token = cookies.token;
@@ -356,9 +368,7 @@ export default function MenuManagement() {
     }
   };
 
-  useEffect(() => {
-    // console.log("updated updateMenudata after state change: ", updateMenudata);
-  }, [updateMenudata])
+  useEffect(() => {}, [updateMenudata]);
 
   useEffect(() => {
     const fileReader = new FileReader();
@@ -367,81 +377,77 @@ export default function MenuManagement() {
     };
     menus.map((menu) => {
       if (!!menu.imageUrl) {
-        // fileReader.readAsDataURL(menu.imageUrl);
       }
     });
   }, [menus]);
 
-  // console.log(menus);
-  // console.log(menus.length);
-  // console.log(categories);
-  // console.log("management", updateMenudata);
-  
   return (
     <>
       <div css={s.menuAll}>
         <div css={s.topMenu}>
-          <div css={s.selectMenu}>
-            <div css={s.selectMenuName}>
-              <input type="text" placeholder="메뉴명을 입력하세요" />
-            </div>
-            <div css={s.selectMenuCategory}>
-              <select name="categorySelect" id="categories">
-                <option>전체</option>
-                {categories.map((category, key) => (
-                  <option key={category.id}>{category.menuCategory}</option>
-                ))}
-              </select>
-            </div>
+          <div css={s.selectMenu}></div>
+          <div css={s.addMenu}>
+            <div>카테고리 추가</div>
+            <button onClick={categoryOpenModal}>
+              <AddIcon />
+            </button>
           </div>
-          <div css={s.addMenu}></div>
-          <button onClick={categoryOpenModal}>카테고리 추가</button>
           <Modal open={categoryModalOepn} onClose={categoryCloseModal}>
             <div css={s.inputMenu}>
-              {categories.map((category, index) => (
-                <li key={category.id} css={s.addCategory}>
-                  {index + 1}. {category.menuCategory}
-                  <button onClick={() => deleteCategory(category.id)}>X</button>
-                </li>
-              ))}
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={checked}
-                    onChange={handleChange}
-                    css={s.modalCategory}
-                  />
-                }
-                label="카테고리 추가"
-              />
-              <Box sx={{ display: "flex" }}>
-                <Fade in={checked}>
-                  <div>
-                    <div>
-                      <div>카테고리명</div>
-                      <input
-                        type="text"
-                        name="menuCategory"
-                        value={AddCategory.menuCategory}
-                        onChange={categoryChangeHandler}
-                      />
-                      <div>카테고리 순번</div>
-                      <input
-                        type="number"
-                        name="menuCategorySequence"
-                        value={AddCategory.menuCategorySequence}
-                        onChange={categoryChangeHandler}
-                      />
+              <div css={s.categoryHeader}></div>
+              <div css={s.categoryBody}>
+                {categories.map((category, index) => (
+                  <li key={category.id} css={s.addCategory}>
+                    <div css={s.categoryValue}>
+                    {index + 1}. {category.menuCategory}
                     </div>
-                    <button css={s.categorySubmit} onClick={CategorySubmit}>
-                      저장
+                    <button onClick={() => deleteCategory(category.id)}>
+                      <ClearIcon />
+                    </button>
+                  </li>
+                ))}
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={checked}
+                      onChange={handleChange}
+                      css={s.modalCategory}
+                    />
+                  }
+                  label="카테고리 추가"
+                />
+                <Box sx={{ display: "flex" }}>
+                  <Fade in={checked}>
+                    <div>
+                      <div css={s.category}>
+                        <div>카테고리명</div>
+                        <input
+                          type="text"
+                          name="menuCategory"
+                          value={AddCategory.menuCategory}
+                          onChange={categoryChangeHandler}
+                        />
+                        <input
+                          type="number"
+                          name="menuCategorySequence"
+                          value={AddCategory.menuCategorySequence}
+                          onChange={categoryChangeHandler}
+                          hidden
+                        />
+                      </div>
+                      <button css={s.categorySubmit} onClick={CategorySubmit}>
+                        저장
+                      </button>
+                    </div>
+                  </Fade>
+
+                  <div css={s.categoryCancle}>
+                    <button onClick={categoryCloseModal}>
+                      <ClearIcon />
                     </button>
                   </div>
-                </Fade>
-                <div css={s.categoryCancle}>
-                  <button onClick={categoryCloseModal}>취소</button>
-                </div>
-              </Box>
+                </Box>
+              </div>
             </div>
           </Modal>
         </div>
@@ -450,10 +456,17 @@ export default function MenuManagement() {
             {categories && categories.length > 0 ? (
               categories.map((category, index) => (
                 <li key={category.id}>
-                  <h2 className="h2">{category.menuCategory}</h2>
-                  <button onClick={() => upChange(index)}>올리기</button>
-                  <button onClick={() => downChange(index)}>내리기</button>
+                  <div css={s.topCategory}>
+                    <h2 css={s.categoryName}>{category.menuCategory}</h2>
+                    <button onClick={() => upChange(index)} css={s.button}>
+                      <ArrowDropUpIcon css={s.icon} />
+                    </button>
+                    <button onClick={() => downChange(index)} css={s.button}>
+                      <ArrowDropDownIcon css={s.icon} />
+                    </button>
+                  </div>
                   <ul>
+                          <div>
                     {menus && menus.length > 0 ? (
                       menus
                         .filter(
@@ -461,6 +474,7 @@ export default function MenuManagement() {
                             menu.menuCategory === category.menuCategory
                         )
                         .map((menu: Menus) => (
+
                           <li key={menu.menuId}>
                             <div css={s.menu}>
                               <div css={s.menuImage}>
@@ -469,7 +483,8 @@ export default function MenuManagement() {
                                     "http://localhost:4041/image" +
                                     menu.imageUrl
                                   }
-                                  alt="파일 처리 안됨됨"
+                                  alt="파일 처리 안됨"
+                                  css={s.imageUpload}
                                 />
                               </div>
                               <div css={s.menuBody}>
@@ -481,12 +496,16 @@ export default function MenuManagement() {
                               <div css={s.menuFoot}>
                                 <div css={s.menuButtonContainer}>
                                   <button
-                                    onClick={() => handleUpdateClick(menu.menuId)}
+                                    onClick={() =>
+                                      handleUpdateClick(menu.menuId)
+                                    }
+                                    css={s.updateButton}
                                   >
                                     수정
                                   </button>
                                   <button
                                     onClick={() => deleteMenu(menu.menuId)}
+                                    css={s.deleteButton}
                                   >
                                     삭제
                                   </button>
@@ -507,9 +526,11 @@ export default function MenuManagement() {
                             </div>
                           </li>
                         ))
-                    ) : (
-                      <li>메뉴 없음</li>
-                    )}
+                      ) : (
+                        <li>메뉴 없음</li>
+                      )}
+                    </div>
+                    <button onClick={openModal} css={s.addMenuButton}><AddIcon /></button>
                   </ul>
                 </li>
               ))
@@ -519,7 +540,7 @@ export default function MenuManagement() {
               </>
             )}
           </ul>
-          <button onClick={openModal}>메뉴추가</button>
+          
           <MenuModal
             modalStatus={isModalOpen}
             closeModal={closeModal}
