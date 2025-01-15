@@ -2,6 +2,10 @@ import {css} from "@emotion/react";
 
 export const menuAll = css`
   /* width: 1280px; */
+  width: 60%;
+  min-width: 800px;
+  margin: 0 auto;
+  position: relative;
 `
 
 export const menu = css`
@@ -21,12 +25,29 @@ export const topMenu = css`
 
 export const addMenu = css`
   display: flex;
-  position: relative;
   height: 30px;
   width: 100%;
   justify-content: end;
+  align-items: center;
   margin-top: 10px;
   margin-right: 5px;
+
+  & > div {
+    margin-right: 5px;
+  }
+
+  & > button {
+    background-color: #1976D2;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1;
+    cursor: pointer;
+  }
+
 `
 
 export const selectMenu = css`
@@ -58,16 +79,11 @@ export const inputMenu = css`
   background-color: #fff;
   border: 2px solid #000;
   border-radius: 5px;
-  right: 20px;
-  top: 180px;
-  padding: 10px;
+  right: 380px;
+  top: 150px;
+  padding: 0px 50px 30px 50px;
   
-
-
-  & > div {
-    margin-top: 5px;
-    margin-left: 10px;
-  }
+  
 
   & > div > input {
     margin: 5px 0px 5px 0px;
@@ -79,12 +95,16 @@ export const inputMenu = css`
 `
 
 export const modalSubmitButton = css`
-  position: relative;
-  margin-left: 130px;
-  width: 50px;
-  height: 30px;
   margin-bottom: 10px;
   margin-top: 10px;
+  width: 100%;
+  border: none;
+  background-color: #1976D2;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 0;
+  cursor: pointer;
+  
   
 `
 
@@ -105,14 +125,63 @@ export const modalCancleButton = css`
 export const submitMenu = css`
   border: 1px solid #000;
   border-radius: 5px;
+  padding: 5px 10px;
+  margin-bottom: 5px;
 `
+
+export const submitOptionMenu = css`
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 5px 10px;
+`
+
+export const addMenuBody = css`
+  margin-top: 10px;
+  
+`
+
+export const isAvailable = css`
+  margin-top: 7px;
+  transform: scale(1.3);
+`
+
 
 export const addCategory = css`
   list-style: none;
   font-size: 18px;
   margin-top: 5px;
-  margin-bottom: 5px;
   margin-left: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+
+
+
+  & > button {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    aspect-ratio: 1;
+    width: 25px;
+    background-color: #f44;
+    color: #fff;
+    cursor: pointer;
+  }
+`
+export const deleteOptionDetail = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+`
+export const categoryValue = css`
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 export const addCategoryButton = css`
@@ -126,12 +195,62 @@ export const modalCategory = css`
 export const categorySubmit = css`
   margin-bottom: 10px;
   margin-top: 10px;
+  width: 100%;
+  border: none;
+  background-color: #1976D2;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 0;
+  cursor: pointer;
+`
+
+export const addOptionDetail = css`
+  width: 100%;
+  border: none;
+  background-color: #1976D2;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
 `
 
 export const categoryCancle = css`
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: -17px;
+  top: 2px;
+  display: inline-block;
+  padding: 0 20px;
+  box-sizing: content-box;
+  & > button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  background-color: #EFF6FF;
+
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    aspect-ratio: 1;
+}
+  & > button:hover{
+    cursor: pointer;
+    background-color: #ff4444;
+    color: #fff;
+  }
+`
+
+export const categoryHeader = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 40px;
+  background-color: #EFF6FF;
+  
+`
+
+export const categoryBody = css`
+  margin-top: 70px;
 `
 
 export const option = css`
@@ -154,10 +273,7 @@ export const cancelOption = css`
   margin-left: 5px;
 `
 
-export const cancel = css`
-  margin-left: 5px;
-  margin-bottom: 5px;
-`
+
 
 export const optionModal = css`
   font-size: 16px;
@@ -166,7 +282,8 @@ export const optionModal = css`
   border: 2px solid #000;
   border-radius: 5px;
   right: 40px;
-  top: 200px;
+  top: 160px;
+  padding: 0px 50px 30px 50px;
   max-height: 600px;
   overflow: hidden;
   overflow-y: scroll;
@@ -179,18 +296,7 @@ export const optionDetail = css`
 `
 
 export const optionAdd = css`
-  margin-bottom: 5px;
-`
-
-export const optionConfirm = css`
-  position: relative;
-  display: flex;
-  padding: 10px;
-  right: -110px;
-`
-
-export const optionCheck = css`
-  margin-right: 10px;
+  margin: 5px 0 5px 0;
 `
 
 export const menuImage = css`
@@ -198,6 +304,8 @@ export const menuImage = css`
   width: 125px;
   border: 1px solid #000;
   margin: 5px;
+  overflow: hidden;
+  position: relative;
 `
 
 export const menuName = css`
@@ -245,11 +353,160 @@ export const menuButtonContainer = css`
   & > button {
     border: none;
     background-color: white;
-    color: #6666ff;
     font-size: 14px;
     
   }
   & > button:hover {
     cursor: pointer;
   };
+
+`
+
+export const button = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+`
+
+export const icon = css`
+  text-align: left;
+  
+`
+
+export const imageUpload = css`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+
+export const categoryName = css`
+  font-size: 24px;
+`
+
+export const topCategory = css`
+  margin-top: 20px;
+  display: flex;
+`
+
+export const updateButton = css`
+  color: #2222ff;
+`
+
+export const deleteButton = css`
+  color: #ff2222;
+`
+
+
+export const category = css`
+
+  & > div {
+  }
+
+  & > input {
+    padding: 5px 24px;
+    border-radius: 3px;
+    margin-top: 10px;
+
+  }
+
+  & > input:focus {
+    outline: none;
+    border: 1px solid #22f;
+    box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
+
+  }
+`
+
+export const addMenuButton = css`
+  width: 100%;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #1976D2;
+  color: #fff;
+  opacity: 0.8;
+  
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0966a2;
+  }
+`
+
+export const image = css`
+  background-color: #1976D2;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1;
+    margin-left: 5px;
+    cursor: pointer;
+`
+
+export const imageLabel = css`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+`
+
+export const imgPreview = css`
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+`
+
+export const optionDetailAdd = css`
+  display: flex;
+  height: 30px;
+  width: 100%;
+  justify-content: end;
+  align-items: center;
+  margin-top: 10px;
+  margin-right: 5px;
+
+  & > div {
+    margin-right: 5px;
+  }
+
+  & > button {
+    width: 30px;
+    background-color: #1976D2;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1;
+    cursor: pointer;
+  }
+`
+
+export const confirmButton = css`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 15px;
+
+  & > div {
+    margin: 0 0 0 10px;
+  }
+
+  & > div > button {
+    border: none;
+    background-color: #1976D2;
+    border-radius: 3px;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
 `
