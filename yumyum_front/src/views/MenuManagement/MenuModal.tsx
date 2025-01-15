@@ -93,10 +93,10 @@ export default function MenuModal({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleImageClick = () => {
     console.log(fileInputRef.current);
-    if(fileInputRef.current) {
+    if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  }
+  };
 
   const { updateModalState, updateModalOpen, updateModalClose } =
     updateModalStore();
@@ -786,28 +786,30 @@ export default function MenuModal({
               <div>
                 <div css={s.addMenuBody}>이미지</div>
                 {imgPreview ? (
-                  <img src={imgPreview} alt="이미지 예시" onClick={handleImageClick} css={s.imgPreview}/>
+                  <img
+                    src={imgPreview}
+                    alt="이미지 예시"
+                    onClick={handleImageClick}
+                    css={s.imgPreview}
+                  />
                 ) : (
-                    <label css={s.imageLabel} htmlFor="imageUrl">
-                      <span>파일 추가</span>
-                      <button css={s.image} onClick={onClickUpload}>
-                        <AddIcon />
-                      </button>
-                    </label>
-                )
-                
-              
-                }
+                  <label css={s.imageLabel} htmlFor="imageUrl">
+                    <span>사진 추가</span>
+                    <button css={s.image} onClick={onClickUpload}>
+                      <AddIcon />
+                    </button>
+                  </label>
+                )}
                 <input
-                      ref={fileInputRef}
-                      type="file"
-                      id="imageUrl"
-                      onChange={handleFileChange}
-                      required
-                      style={{
-                        display: "none",
-                      }}
-                    />
+                  ref={fileInputRef}
+                  type="file"
+                  id="imageUrl"
+                  onChange={handleFileChange}
+                  required
+                  style={{
+                    display: "none",
+                  }}
+                />
               </div>
               <div>
                 <div css={s.addMenuBody}>메뉴 설명</div>
@@ -858,7 +860,7 @@ export default function MenuModal({
               </div>
               <FormControlLabel
                 control={<Switch checked={checked} onChange={handleChange} />}
-                label="옵션 추가"
+                label="옵션 그룹 보기"
               />
               <Modal open={checked} onClose={closeOptionModal}>
                 <>
@@ -880,19 +882,16 @@ export default function MenuModal({
                                   <div key={optionIndex} css={s.option}>
                                     <div>
                                       <div css={s.imageLabel}>
-                                      <div>
-                                        옵션 카테고리
-                                      </div>
+                                        <div>옵션 그룹명</div>
                                         <div css={s.addCategory}>
-                                        <button
-                                          onClick={() =>
-                                            removeOption(optionIndex)
-                                          }
-                                        >
-                                          <ClearIcon />
-                                        </button>
+                                          <button
+                                            onClick={() =>
+                                              removeOption(optionIndex)
+                                            }
+                                          >
+                                            <ClearIcon />
+                                          </button>
                                         </div>
-
                                       </div>
                                       <input
                                         type="text"
@@ -916,7 +915,7 @@ export default function MenuModal({
                                           }
                                         />
                                       }
-                                      label="옵션 정보 추가"
+                                      label="옵션 보기"
                                     />
                                     <Box sx={{ display: "flex" }}>
                                       <Fade in={menuChecked[optionIndex]}>
@@ -929,7 +928,7 @@ export default function MenuModal({
                                                   css={s.optionAdd}
                                                 >
                                                   <div css={s.optionAdd}>
-                                                    추가 옵션명
+                                                    옵션
                                                   </div>
 
                                                   <input
@@ -949,7 +948,7 @@ export default function MenuModal({
                                                   />
 
                                                   <div css={s.optionAdd}>
-                                                    추가 옵션 가격
+                                                    옵션 가격
                                                   </div>
                                                   <div
                                                     css={s.deleteOptionDetail}
@@ -987,18 +986,19 @@ export default function MenuModal({
                                               )
                                             )}
                                             <div css={s.optionDetailAdd}>
-
-                                            <div>옵션 디테일 추가</div>
-                                            <button
-                                              onClick={() =>
-                                                addNewOptionDetail(optionIndex)
-                                              }
-                                              css={s.addOptionDetail}
+                                              <div>옵션 추가</div>
+                                              <button
+                                                onClick={() =>
+                                                  addNewOptionDetail(
+                                                    optionIndex
+                                                  )
+                                                }
+                                                css={s.addOptionDetail}
                                               >
-                                              <AddIcon />
-                                            </button>
+                                                <AddIcon />
+                                              </button>
+                                            </div>
                                           </div>
-                                              </div>
                                         ) : (
                                           <div>not1</div>
                                         )}
@@ -1007,17 +1007,18 @@ export default function MenuModal({
                                   </div>
                                 )
                               )}
-                              <div>
-                                <button onClick={addNewOption} css={s.addOptionDetail}>
-                                  옵션 추가
-                                </button>
+                              <div css={s.confirmButton}>
+                                <div>
+                                  <button onClick={addNewOption}>
+                                    옵션그룹 추가
+                                  </button>
+                                </div>
+                                <div>
+                                  <button onClick={closeOptionModal}>
+                                    확인
+                                  </button>
+                                </div>
                               </div>
-                              <button
-                                onClick={closeOptionModal}
-                                css={s.categorySubmit}
-                              >
-                                확인
-                              </button>
                             </div>
                           ) : (
                             <div>not2</div>
@@ -1040,238 +1041,327 @@ export default function MenuModal({
 
       {/* 업데이트 모달창 부분 */}
       <Modal open={updateModalState} onClose={updateModalClose}>
-        <div css={s.inputMenu}>
-          <div>
-            <div>메뉴명</div>
-            <input
-              css={s.submitMenu}
-              type="text"
-              name="menuName"
-              value={updateMenu.menuName}
-              onChange={changeUpdateHandler}
-              required
-            />
-          </div>
-          <div>
-            <div>이미지</div>
-            <input type="file" onChange={handleFileChange} required />
-          </div>
-          <div>
-            <div>메뉴 설명</div>
-            <input
-              css={s.submitMenu}
-              type="text"
-              name="menuDescription"
-              value={updateMenu.menuDescription}
-              onChange={changeUpdateHandler}
-              required
-            />
-          </div>
-          <div>
-            <div>메뉴 가격</div>
-            <input
-              css={s.submitMenu}
-              type="number"
-              name="menuPrice"
-              value={updateMenu.menuPrice}
-              onChange={changeUpdateHandler}
-              required
-            />
-          </div>
-          <div>
-            <div>메뉴 카테고리 선택</div>
-            <select
-              css={s.submitMenu}
-              name="categoryId"
-              onChange={changeUpdateHandler}
-              value={updateMenu.categoryId}
-            >
-              <option value="0">옵션 없음</option>
-              {categories.map((category, index) => (
-                <option key={index} value={category.id}>
-                  {category.menuCategory}
-                </option>
-              ))}
-            </select>
-          </div>
-          <FormControlLabel
-            control={
-              <Switch checked={updateChecked} onChange={handleUpdateChange} />
-            }
-            label="옵션 추가"
-          />
-          <Modal
-            open={updateChecked}
-            onClose={(_, reason) => closeUpdateModal(reason)}
-          >
-            <div css={s.optionModal}>
-              <Box sx={{ display: "flex" }}>
-                <Fade in={updateChecked}>
-                  {updateChecked ? (
-                    <div>
-                      {updateMenu.menuOptions &&
-                        updateMenu.menuOptions.length > 0 &&
-                        updateMenu.menuOptions.map((option, optionIndex) => (
-                          <div key={optionIndex} css={s.option}>
-                            <div>
-                              <div>
-                                옵션 카테고리
-                                <button
-                                  onClick={() =>
-                                    removeUpdateOption(optionIndex)
-                                  }
-                                >
-                                  옵션 삭제
-                                </button>
-                              </div>
-
-                              <input
-                                type="text"
-                                css={s.submitMenu}
-                                name="optionName"
-                                value={option.optionName}
-                                onChange={(event) =>
-                                  changeOptionUpdateHandler(event, optionIndex)
-                                }
-                              />
-                            </div>
-                            <FormControlLabel
-                              control={
-                                <Switch
-                                  checked={updateOptionChecked[optionIndex]}
-                                  onChange={(event) =>
-                                    updateOptionChange(event, optionIndex)
-                                  }
-                                />
-                              }
-                              label="옵션 정보 추가"
-                            />
-                            <Box sx={{ display: "flex" }}>
-                              <Fade in={updateOptionChecked[optionIndex]}>
-                                {updateOptionChecked[optionIndex] ? (
-                                  <div css={s.optionDetail}>
-                                    {option.optionDetails &&
-                                      option.optionDetails.length > 0 &&
-                                      option.optionDetails.map(
-                                        (detail, detailIndex) =>
-                                          detail.detailName &&
-                                          detail.detailName.length > 0 &&
-                                          detail.detailName.map(
-                                            (detailName, detailNameIndex) => (
-                                              <div
-                                                key={detailIndex}
-                                                css={s.optionAdd}
-                                              >
-                                                <div>추가 옵션명</div>
-
-                                                <input
-                                                  type="text"
-                                                  css={s.submitMenu}
-                                                  name="optionDetailName"
-                                                  value={
-                                                    detailName.optionDetailName
-                                                  }
-                                                  onChange={(event) =>
-                                                    changeUpdateDetailHandler(
-                                                      event,
-                                                      optionIndex,
-                                                      detailIndex,
-                                                      detailNameIndex
-                                                    )
-                                                  }
-                                                />
-                                                <div css={s.optionAdd}>
-                                                  추가 옵션 가격
-                                                </div>
-                                                <input
-                                                  type="number"
-                                                  css={s.submitMenu}
-                                                  name="additionalFee"
-                                                  value={
-                                                    detailName.additionalFee
-                                                  }
-                                                  onChange={(event) =>
-                                                    changeUpdateDetailHandler(
-                                                      event,
-                                                      optionIndex,
-                                                      detailIndex,
-                                                      detailNameIndex
-                                                    )
-                                                  }
-                                                />
-                                                <button
-                                                  onClick={() =>
-                                                    removeUpdateOptionDetail(
-                                                      optionIndex,
-                                                      detailIndex
-                                                    )
-                                                  }
-                                                >
-                                                  추가 옵션 삭제
-                                                </button>
-                                              </div>
-                                            )
-                                          )
-                                      )}
-                                    <button
-                                      onClick={() =>
-                                        addDetailOption(optionIndex)
-                                      }
-                                    >
-                                      추가 옵션 추가
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <div>not3</div>
-                                )}
-                              </Fade>
-                            </Box>
-                          </div>
-                        ))}
-                      <div>
-                        <button
-                          onClick={() => addNewUpdateOption(selectedMenuId)}
-                        >
-                          옵션 추가
-                        </button>
-                      </div>
-                      <div css={s.optionConfirm}>
+        <>
+          <div css={s.inputMenu}>
+            <div css={s.categoryHeader}>
+              <div css={s.categoryCancle}>
+                <button onClick={updateModalClose}>
+                  <ClearIcon />
+                </button>
+              </div>
+            </div>
+            <div>
+              <div css={s.categoryBody}>
+                <div>메뉴명</div>
+                <input
+                  css={s.submitMenu}
+                  type="text"
+                  name="menuName"
+                  value={updateMenu.menuName}
+                  onChange={changeUpdateHandler}
+                  required
+                />
+              </div>
+              <div>
+                <div css={s.addMenuBody}>이미지</div>
+                {imgPreview ? (
+                  <img
+                    src={imgPreview}
+                    alt="이미지 예시"
+                    onClick={handleImageClick}
+                    css={s.imgPreview}
+                  />
+                ) : (
+                  <label css={s.imageLabel} htmlFor="imageUrl">
+                    <span>사진 수정</span>
+                    <button css={s.image} onClick={onClickUpload}>
+                      <AddIcon />
+                    </button>
+                  </label>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  id="imageUrl"
+                  onChange={handleFileChange}
+                  required
+                  style={{
+                    display: "none",
+                  }}
+                />
+              </div>
+              <div>
+                <div css={s.addMenuBody}>메뉴 설명</div>
+                <input
+                  css={s.submitMenu}
+                  type="text"
+                  name="menuDescription"
+                  value={updateMenu.menuDescription}
+                  onChange={changeUpdateHandler}
+                  required
+                />
+              </div>
+              <div>
+                <div css={s.addMenuBody}>메뉴 가격</div>
+                <input
+                  css={s.submitMenu}
+                  type="number"
+                  name="menuPrice"
+                  value={updateMenu.menuPrice}
+                  onChange={changeUpdateHandler}
+                  required
+                />
+              </div>
+              <div>
+                <div css={s.addMenuBody}>메뉴 카테고리 선택</div>
+                <select
+                  css={s.submitMenu}
+                  name="categoryId"
+                  onChange={changeUpdateHandler}
+                  value={updateMenu.categoryId}
+                >
+                  <option value="0">옵션 없음</option>
+                  {categories.map((category, index) => (
+                    <option key={index} value={category.id}>
+                      {category.menuCategory}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={updateChecked}
+                    onChange={handleUpdateChange}
+                  />
+                }
+                label="옵션 그룹 보기"
+              />
+              <Modal
+                open={updateChecked}
+                onClose={(_, reason) => closeUpdateModal(reason)}
+              >
+                <>
+                  <div css={s.optionModal}>
+                    <div css={s.categoryHeader}>
+                      <div css={s.categoryCancle}>
                         <button
                           onClick={() => closeUpdateModal("closeButtonClick")}
                         >
-                          확인
+                          <ClearIcon />
                         </button>
                       </div>
                     </div>
-                  ) : (
-                    <div>not4</div>
-                  )}
-                </Fade>
-              </Box>
-            </div>
-          </Modal>
-          <div css={s.modalButton}>
-            <div>
-              <button
-                css={s.modalSubmitButton}
-                onClick={() => {
-                  if (selectedMenuId !== null) {
-                    menuUpdate(selectedMenuId);
-                  } else {
-                    console.error("menuId가 선택되지 않았습니다.");
-                  }
-                }}
-              >
-                저장
-              </button>
-            </div>
-            <div>
-              <button css={s.modalCancleButton} onClick={updateModalClose}>
-                취소
-              </button>
+                    <div css={s.categoryBody}>
+                      <Box sx={{ display: "flex" }}>
+                        <Fade in={updateChecked}>
+                          {updateChecked ? (
+                            <div>
+                              {updateMenu.menuOptions &&
+                                updateMenu.menuOptions.length > 0 &&
+                                updateMenu.menuOptions.map(
+                                  (option, optionIndex) => (
+                                    <div key={optionIndex} css={s.option}>
+                                      <div>
+                                        <div css={s.imageLabel}>
+                                          <div>옵션 그룹명</div>
+                                          <div css={s.addCategory}>
+                                            <button
+                                              onClick={() =>
+                                                removeUpdateOption(optionIndex)
+                                              }
+                                            >
+                                              <ClearIcon />
+                                            </button>
+                                          </div>
+                                        </div>
+
+                                        <input
+                                          type="text"
+                                          css={s.submitMenu}
+                                          name="optionName"
+                                          value={option.optionName}
+                                          onChange={(event) =>
+                                            changeOptionUpdateHandler(
+                                              event,
+                                              optionIndex
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                      <FormControlLabel
+                                        control={
+                                          <Switch
+                                            checked={
+                                              updateOptionChecked[optionIndex]
+                                            }
+                                            onChange={(event) =>
+                                              updateOptionChange(
+                                                event,
+                                                optionIndex
+                                              )
+                                            }
+                                          />
+                                        }
+                                        label="옵션 보기"
+                                      />
+                                      <Box sx={{ display: "flex" }}>
+                                        <Fade
+                                          in={updateOptionChecked[optionIndex]}
+                                        >
+                                          {updateOptionChecked[optionIndex] ? (
+                                            <div css={s.optionDetail}>
+                                              {option.optionDetails &&
+                                                option.optionDetails.length >
+                                                  0 &&
+                                                option.optionDetails.map(
+                                                  (detail, detailIndex) =>
+                                                    detail.detailName &&
+                                                    detail.detailName.length >
+                                                      0 &&
+                                                    detail.detailName.map(
+                                                      (
+                                                        detailName,
+                                                        detailNameIndex
+                                                      ) => (
+                                                        <div
+                                                          key={detailIndex}
+                                                          css={s.optionAdd}
+                                                        >
+                                                          <div>옵션</div>
+
+                                                          <input
+                                                            type="text"
+                                                            css={s.submitMenu}
+                                                            name="optionDetailName"
+                                                            value={
+                                                              detailName.optionDetailName
+                                                            }
+                                                            onChange={(event) =>
+                                                              changeUpdateDetailHandler(
+                                                                event,
+                                                                optionIndex,
+                                                                detailIndex,
+                                                                detailNameIndex
+                                                              )
+                                                            }
+                                                          />
+                                                          <div
+                                                            css={s.optionAdd}
+                                                          >
+                                                            옵션 가격
+                                                          </div>
+                                                          <div
+                                                            css={
+                                                              s.deleteOptionDetail
+                                                            }
+                                                          >
+                                                            <input
+                                                              type="number"
+                                                              css={s.submitMenu}
+                                                              name="additionalFee"
+                                                              value={
+                                                                detailName.additionalFee
+                                                              }
+                                                              onChange={(
+                                                                event
+                                                              ) =>
+                                                                changeUpdateDetailHandler(
+                                                                  event,
+                                                                  optionIndex,
+                                                                  detailIndex,
+                                                                  detailNameIndex
+                                                                )
+                                                              }
+                                                            />
+                                                            <div
+                                                              css={
+                                                                s.addCategory
+                                                              }
+                                                            >
+                                                              <button
+                                                                onClick={() =>
+                                                                  removeUpdateOptionDetail(
+                                                                    optionIndex,
+                                                                    detailIndex
+                                                                  )
+                                                                }
+                                                              >
+                                                                <ClearIcon />
+                                                              </button>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      )
+                                                    )
+                                                )}
+                                              <div css={s.optionDetailAdd}>
+                                                <div>옵션 추가</div>
+                                                <button
+                                                  onClick={() =>
+                                                    addDetailOption(optionIndex)
+                                                  }
+                                                  css={s.addOptionDetail}
+                                                >
+                                                  <AddIcon />
+                                                </button>
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <div>not3</div>
+                                          )}
+                                        </Fade>
+                                      </Box>
+                                    </div>
+                                  )
+                                )}
+                              <div css={s.confirmButton}>
+                                <div>
+                                  <button
+                                    onClick={() =>
+                                      addNewUpdateOption(selectedMenuId)
+                                    }
+                                  >
+                                    옵션그룹 추가
+                                  </button>
+                                </div>
+                                <div>
+                                  <button
+                                    onClick={() =>
+                                      closeUpdateModal("closeButtonClick")
+                                    }
+                                  >
+                                    확인
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div>not4</div>
+                          )}
+                        </Fade>
+                      </Box>
+                    </div>
+                  </div>
+                </>
+              </Modal>
+              <div css={s.modalButton}>
+                <button
+                  css={s.modalSubmitButton}
+                  onClick={() => {
+                    if (selectedMenuId !== null) {
+                      menuUpdate(selectedMenuId);
+                    } else {
+                      console.error("menuId가 선택되지 않았습니다.");
+                    }
+                  }}
+                >
+                  저장
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       </Modal>
     </>
   );
