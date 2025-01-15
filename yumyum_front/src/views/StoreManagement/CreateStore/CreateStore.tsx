@@ -20,8 +20,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
-import useStoreImage from "../../../Store/storeImg.store";
-import defaultImage from "../../../img/default_Profile_Img.webp";
+import useStoreImage from "../../../store/storeImg.store";
+import defaultImage from "../../../images/default_Profile_Img.webp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from '@fortawesome/free-regular-svg-icons';
 
@@ -32,7 +32,6 @@ export default function Store() {
   const [imgPreview, setImgPreview] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [base64, setBase64] = useState<string | null>();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [zoneCode, setZoneCode] = useState("");
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
@@ -86,6 +85,7 @@ export default function Store() {
     }
   };
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleImageClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();

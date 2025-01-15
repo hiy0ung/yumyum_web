@@ -1,6 +1,6 @@
 import {css} from "@emotion/react";
-import ex1 from "../../img/food1.webp"
-import defaultImg from "../../img/default_Profile_Img2.webp"
+import ex1 from "../../images/food1.webp"
+import defaultImg from "../../images/default_Profile_Img2.webp"
 export const reviewContainer = css`
     padding: 70px 30px 0 30px;
     display: flex;

@@ -5,7 +5,7 @@ import * as css from "./Style";
 import {useCookies} from "react-cookie";
 import axios from "axios";
 import {TimeInfo} from "../../types/Store";
-import useStoreImage from "../../Store/storeImg.store";
+import useStoreImage from "../../store/storeImg.store";
 
 export default function Header() {
     const [status, setStatus] = useState<"OPEN" | "BREAK" | "CLOSE">("OPEN");

@@ -1,3 +1,26 @@
+export interface UserSignUpInfo {
+  userId: string;
+  userPw: string;
+  checkPw: string;
+  userName : string;
+  userEmail : string;
+  userPhone : string;
+  userBusinessNumber : string;
+  privacyPolicyAgreed : boolean;
+  marketingAgreed : boolean;
+}
+
+export interface Errors {
+  userId: string;
+  userPw: string;
+  checkPw: string;
+  userName : string;
+  userEmail : string;
+  userPhone : string;
+  userBusinessNumber : string;
+  form?: string;
+}
+
 export interface PasswordStrength {
   strength: string;
   color: string;

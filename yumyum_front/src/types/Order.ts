@@ -1,3 +1,9 @@
+export interface CurrentStore {
+  storeDate: string;
+  storeCompletedCount: number;
+  storeTotalPrice: number;
+}
+
 export interface OrderInfo {
   orderId: number;
   storeId: number;

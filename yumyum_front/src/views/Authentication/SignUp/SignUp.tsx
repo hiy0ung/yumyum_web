@@ -1,16 +1,10 @@
 /** @jsxImportSource @emotion/react */
+
 import React, {useEffect, useState} from "react";
-import {Errors, UserSignUpInfo} from "../../../types";
 import {useNavigate} from "react-router-dom";
-import useScrollTop from "../../../hooks/useScrollTop";
+import axios from "axios";
 import {
-    Box,
-    Button,
-    TextField,
-    Checkbox,
-    InputAdornment,
-    Typography,
-    Modal,
+    Box, Button, TextField, Checkbox, InputAdornment, Typography, Modal,
 } from "@mui/material";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
@@ -22,10 +16,10 @@ import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-import * as css from "./Style";
-import axios from "axios";
 import {MAIN_PATH} from "../../../constants";
-import {DuplicationStatus, PasswordStrength, Success} from "../../../types/SignUp";
+import useScrollTop from "../../../hooks/scroll/useScrollToTop";
+import {Errors, UserSignUpInfo, DuplicationStatus, PasswordStrength, Success} from "../../../types/SignUp";
+import * as css from "./Style";
 
 function SignUp() {
 

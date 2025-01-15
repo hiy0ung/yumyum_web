@@ -26,9 +26,9 @@ import {
 } from "recharts";
 import { useCookies } from "react-cookie";
 import Calendar from "react-calendar";
-import "../../../assets/src/Calendar.css";
+import "../../../styles/Calendar.css";
 import moment from "moment";
-import useScrollTop from "../../../hooks/useScrollTop";
+import useScrollTop from "../../../hooks/scroll/useScrollToTop";
 
 export default function TimeStats() {
   const convertDate = new Date().toISOString().slice(0, 10);

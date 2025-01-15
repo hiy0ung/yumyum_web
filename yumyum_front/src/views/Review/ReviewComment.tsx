@@ -5,11 +5,11 @@ import * as css from './Style';
 import {useCookies} from 'react-cookie';
 import 'quill/dist/quill.snow.css';
 import moment from 'moment';
-import defaultImg from "../../img/default_Profile_Img.webp"
-import defaultImg2 from "../../img/default_Profile_Img2.webp"
-import defaultImg3 from "../../img/ex1.webp";
+import defaultImg from "../../images/default_Profile_Img.webp"
+import defaultImg2 from "../../images/default_Profile_Img2.webp"
+import defaultImg3 from "../../images/ex1.webp";
 import ReviewNotice from "./ReviewNotice";
-import useScrollTop from "../../hooks/useScrollTop";
+import useScrollTop from "../../hooks/scroll/useScrollToTop";
 
 interface ReviewsList {
     comment_date: string | null;

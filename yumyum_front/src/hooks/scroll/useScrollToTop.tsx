@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 
-const UseScrollTop = () => {
+const UseScrollToTop = () => {
 
     return useCallback(() => {
         window.scrollTo({
@@ -10,4 +10,4 @@ const UseScrollTop = () => {
     }, []);
 };
 
-export default UseScrollTop;
+export default UseScrollToTop;

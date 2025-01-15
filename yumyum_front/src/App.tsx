@@ -21,8 +21,8 @@ import {
     FIND_ID_PATH,
     FIND_PW_PATH
 } from "./constants";
-import Header from "./layouts/Header/index";
-import SideBar from "./layouts/SideBar";
+import Header from "./layouts/Header/Header";
+import SideBar from "./layouts/SideBar/SideBar";
 import Store from "./views/StoreManagement/GetStore/GetStore";
 import CreateStore from "./views/StoreManagement/CreateStore/CreateStore";
 import UpdateStore from "./views/StoreManagement/UpdateStore/UpdateStore";
@@ -31,20 +31,20 @@ import MenusStats from "./views/Stats/Menus/MenusStats";
 import PeriodStats from "./views/Stats/Period/PeriodStats";
 import TimeStats from "./views/Stats/Time/TimeStats";
 import Contact from "./views/Contact/Contact";
-import * as css from "./Styles/MainStyle";
+import * as css from "./styles/MainStyle";
 import Order from "./views/Order/Order";
 import SignUp from "./views/Authentication/SignUp/SignUp";
 import AuthUser from "./views/Authentication/Login/Login";
 import Mypage from "./views/MyPage/Mypage";
 import MypageUpdate from "./views/MyPage/MypageUpdate";
-import Review from "./views/Review/Review";
+
 import Main from "./views/Main/Main";
 import { useCookies } from "react-cookie";
 import FindId from "./views/Authentication/FIndID/FindID";
 import FindPW from "./views/Authentication/FindPW/FindPW";
 import ChangePassword from "./views/Authentication/PasswordReset/ChangePassword";
 import HaveFound from "./views/Authentication/HaveFound/HaveFound";
-import ScrollPathTop from "./hooks/ScrollPathTop";
+import Review from "./views/Review/Review";
 
 function App() {
     const [cookies] = useCookies(["token"]);

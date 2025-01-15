@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import * as css from "./Style";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {IErrors} from "../../../types/FindId";
+import {FindID, RequestFindId} from "../../../types/FindId";
 
 const FindId = () => {
     const [userName, setUserName] = useState<string>("");
     const [userEmail, setUserEmail] = useState<string>("");
-    const [errors, setErrors] = useState<IErrors>({
+    const [errors, setErrors] = useState<FindID>({
         userName: "",
         userEmail: "",
     });
@@ -56,7 +56,7 @@ const FindId = () => {
             }
         }
 
-        setErrors((prev) => ({
+        setErrors((prev: any) => ({
             ...prev,
             [name]: error,
         }));
@@ -74,7 +74,7 @@ const FindId = () => {
 
 
     // 아이디 찾기 요청
-    const findFetchId  = async () : Promise<void> => {
+    const findFetchId  = async () => {
         if (!validateAllFields()) {
             alert("입력값을 확인해주세요.");
             return;
