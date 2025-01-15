@@ -8,7 +8,6 @@ import {
     DialogContentText,
     DialogTitle,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
@@ -17,6 +16,7 @@ import * as css from "./Style";
 import {useNavigate} from "react-router-dom";
 import {HOME_PATH, UPDATE_STORE_PATH} from "../../../constants";
 import useStoreImage from "../../../Store/storeImg.store";
+import useScrollTop from "../../../hooks/useScrollTop";
 
 export default function Store() {
     const navigate = useNavigate();
@@ -57,7 +57,11 @@ export default function Store() {
             console.error(e);
         }
     };
+    const scrollToTop = useScrollTop();
 
+    useEffect(() => {
+        scrollToTop();
+    }, []);
     useEffect(() => {
         fetchStore();
     }, []);

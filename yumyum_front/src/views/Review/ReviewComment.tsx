@@ -9,6 +9,7 @@ import defaultImg from "../../img/default_Profile_Img.webp"
 import defaultImg2 from "../../img/default_Profile_Img2.webp"
 import defaultImg3 from "../../img/ex1.webp";
 import ReviewNotice from "./ReviewNotice";
+import useScrollTop from "../../hooks/useScrollTop";
 
 interface ReviewsList {
     comment_date: string | null;
@@ -34,7 +35,11 @@ function ReviewComment() {
     const [commentText, setCommentText] = useState<{ [key: number]: string }>({});
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [modalImage, setModalImage] = useState<string>('');
+    const scrollToTop = useScrollTop();
 
+    useEffect(() => {
+        scrollToTop();
+    }, []);
 
     const handleTabChange = (tab: string) => {
         setTabMenu(tab);
