@@ -100,6 +100,7 @@ export const modalSubmitButton = css`
   width: 100%;
   border: none;
   background-color: #1976D2;
+  color: #fff;
   border-radius: 5px;
   padding: 10px 0;
   cursor: pointer;
@@ -197,6 +198,7 @@ export const categorySubmit = css`
   width: 100%;
   border: none;
   background-color: #1976D2;
+  color: #fff;
   border-radius: 5px;
   padding: 10px 0;
   cursor: pointer;
@@ -206,6 +208,7 @@ export const addOptionDetail = css`
   width: 100%;
   border: none;
   background-color: #1976D2;
+  color: #fff;
   border-radius: 5px;
   cursor: pointer;
 `
@@ -295,14 +298,6 @@ export const optionDetail = css`
 export const optionAdd = css`
   margin: 5px 0 5px 0;
 `
-
-export const optionConfirm = css`
-  position: relative;
-  display: flex;
-  padding: 10px;
-  right: -110px;
-`
-
 
 export const menuImage = css`
   height: 125px;
@@ -434,6 +429,7 @@ export const addMenuButton = css`
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: #1976D2;
+  color: #fff;
   opacity: 0.8;
   
   cursor: pointer;
@@ -491,6 +487,26 @@ export const optionDetailAdd = css`
     justify-content: center;
     align-items: center;
     aspect-ratio: 1;
+    cursor: pointer;
+  }
+`
+
+export const confirmButton = css`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 15px;
+
+  & > div {
+    margin: 0 0 0 10px;
+  }
+
+  & > div > button {
+    border: none;
+    background-color: #1976D2;
+    border-radius: 3px;
+    color: #fff;
+    padding: 5px 10px;
     cursor: pointer;
   }
 `
