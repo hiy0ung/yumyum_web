@@ -13,7 +13,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { AUTH_PATH_LOGIN } from "../../constants";
-import { updateModalStore } from "../../Store/menuModal.store";
+import { updateModalStore } from "../../store/menuModal.store";
 import {
   MenuModalProps,
   AddMenu,
