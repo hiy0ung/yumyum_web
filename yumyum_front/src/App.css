@@ -55,12 +55,12 @@ a {
 	height: 5px;
 }
 ::-webkit-scrollbar-button {
-	width: 0px;
-	height: 0px;
+	width: 0;
+	height: 0;
 }
 ::-webkit-scrollbar-thumb {
 	background: #cfcfcf;
-	border: 0px none #ffffff;
+	border: 0 none #ffffff;
 	border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -71,7 +71,7 @@ a {
 }
 ::-webkit-scrollbar-track {
 	background: #ffffff;
-	border: 0px none #ffffff;
+	border: 0 none #ffffff;
 	border-radius: 100px;
 }
 ::-webkit-scrollbar-track:hover {
