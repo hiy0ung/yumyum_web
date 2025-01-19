@@ -199,45 +199,51 @@ export default function Order() {
   const renderTable = () => {
     return (
       <div css={css.tableContainer}>
-        <table css={css.table}>
-          <tbody>
-            {FilterOrder.map((order) => (
-              <tr key={order.orderId} css={css.tr}>
-                <td css={css.td}>
-                  <p>{order.orderId}</p>
-                </td>
-                <td css={css.td}>
-                  <p>{order.deliveryAddress}</p>
-                </td>
-                <td css={css.td}>
-                  <p>{order.orderDate}</p>
-                </td>
-                <td css={css.td}>
-                  <p>{order.sumTotalPrice}</p>
-                </td>
-                <td css={css.td}>
-                  {order.orderState === "0" ? (
-                    <button
-                      css={css.buttons}
-                      onClick={() => openModal(order.orderId)}
-                    >
-                      접수
-                    </button>
-                  ) : (
-                    currentTab !== "2" && (
+        {FilterOrder.length > 0 ? (
+          <table css={css.table}>
+            <tbody>
+              {FilterOrder.map((order) => (
+                <tr key={order.orderId} css={css.tr}>
+                  <td css={css.td}>
+                    <p>{order.orderId}</p>
+                  </td>
+                  <td css={css.td}>
+                    <p>{order.deliveryAddress}</p>
+                  </td>
+                  <td css={css.td}>
+                    <p>{order.orderDate}</p>
+                  </td>
+                  <td css={css.td}>
+                    <p>{order.sumTotalPrice}</p>
+                  </td>
+                  <td css={css.td}>
+                    {order.orderState === "0" ? (
                       <button
                         css={css.buttons}
-                        onClick={() => updateOrderState(order.orderId, "2")}
+                        onClick={() => openModal(order.orderId)}
                       >
-                        완료
+                        접수
                       </button>
-                    )
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    ) : (
+                      currentTab !== "2" && (
+                        <button
+                          css={css.buttons}
+                          onClick={() => updateOrderState(order.orderId, "2")}
+                        >
+                          완료
+                        </button>
+                      )
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div style={{ display: 'flex'}}>
+          <p style={{ marginTop: '30px', margin: '30px auto', fontWeight: 'bold', fontSize: '20px' }}>주문이 없습니다</p> 
+          </div>
+        )}
         {isModalOpen && (
           <div css={css.modal}>
             <div css={css.modalContent}>
@@ -310,6 +316,7 @@ export default function Order() {
       </div>
     );
   };
+  
 
   const handleStateTabClick = (stateTab: string) => {
     setCurrentTab(stateTab);
