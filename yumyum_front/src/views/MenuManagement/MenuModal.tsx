@@ -363,7 +363,7 @@ export default function MenuModal({
           : prev.menuOptions,
     }));
     if (optionIndex === 0) {
-      alert("옵션은 최소 한개 이상이여야 합니다.");
+      alert("옵션 그룹은 최소 한개 이상이여야 합니다.");
     }
   };
 
@@ -422,7 +422,7 @@ export default function MenuModal({
       ),
     }));
     if (detailIndex === 0) {
-      alert("디테일 옵션은 최소 한개 이상이여야 합니다.");
+      alert("옵션은 최소 한개 이상이여야 합니다.");
     }
   };
   const removeUpdateOptionDetail = async (
