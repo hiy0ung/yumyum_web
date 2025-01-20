@@ -153,6 +153,8 @@ export default function Mypage() {
                 </div>
                 <div css={s.sort}>
                     <div>비밀번호</div>
+                    <div>
+
                     <div css={s.user}>
                         <input
                             type="password"
@@ -163,9 +165,13 @@ export default function Mypage() {
                         />
                     </div>
                     {errorMsg.userPw && <div css={s.errorMsg}>{errorMsg.userPw}</div>}
+                    </div>
+
                 </div>
                 <div css={s.sort}>
                     <div>비밀번호 확인</div>
+                    <div>
+
                     <div css={s.user}>
                         <input
                             type="password"
@@ -181,6 +187,8 @@ export default function Mypage() {
                         <div css={s.errorMsg}>{errorMsg.userConfirmPw}</div>
                     )}
                 </div>
+                </div>
+
 
                 <div css={s.sort}>
                     <div>이름</div>

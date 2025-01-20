@@ -18,7 +18,7 @@ interface User {
 }
 
 export default function Mypage() {
-    const [cookies] = useCookies(['token'])
+    const [cookies, , removeCookie] = useCookies(['token'])
 
     const [user, setUser] = useState<User>({
         userId: "",
@@ -32,6 +32,7 @@ export default function Mypage() {
 
     const handleCheckBox = () => {
         user.marketingAgreed = !user.marketingAgreed;
+        return false;
     };
 
     const navigate = useNavigate();
@@ -44,6 +45,7 @@ export default function Mypage() {
                         Authorization: `Bearer ${token}`
                     }
                 });
+        removeCookie('token');
       } catch (e) {
         console.log("해당 아이디가 없습니다.");
       }
