@@ -302,30 +302,25 @@ export default function Order() {
                   <p css={css.address}>
                     주소: {orderDetail[0].deliveryAddress}
                   </p>
-                  {orderDetail.map((order) => {
-                    if (order.orderState !== "2") {
-                      return (
-                        <div css={css.modalButtons} key={order.orderId}>
-                          <button
-                            css={css.modalButton}
-                            onClick={() =>
-                              updateOrderState(orderDetail[0].orderId, "1")
-                            }
-                          >
-                            접수
-                          </button>
-                          <button
-                            css={css.modalButton}
-                            onClick={() =>
-                              alert("거절 시 본사에 문의해주세요.")
-                            }
-                          >
-                            거절
-                          </button>
-                        </div>
-                      );
-                    }
-                  })}
+                  {orderDetail.length > 0 &&
+                    orderDetail[0].orderState !== "2" && (
+                      <div css={css.modalButtons}>
+                        <button
+                          css={css.modalButton}
+                          onClick={() =>
+                            updateOrderState(orderDetail[0].orderId, "1")
+                          }
+                        >
+                          접수
+                        </button>
+                        <button
+                          css={css.modalButton}
+                          onClick={() => alert("거절 시 본사에 문의해주세요.")}
+                        >
+                          거절
+                        </button>
+                      </div>
+                    )}
                 </div>
               ) : (
                 <p>로딩 중..</p>
