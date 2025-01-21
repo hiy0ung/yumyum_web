@@ -49,7 +49,7 @@ export default function Order() {
 
   const fetchOrder = async () => {
     try {
-      const response = await axios.get("http://localhost:4041/api/v1/orders/", {
+      const response = await axios.get("http://localhost:4041/api/v1/orders", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
