@@ -10,6 +10,7 @@ import axios from "axios";
 import {
   AUTH_PATH_SIGN_UP, FIND_ID_PATH, FIND_PW_PATH,
   HOME_PATH,
+  READY_SIGN_UP,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../store/auth.store";
@@ -150,7 +151,7 @@ export default function Login() {
               </div>
             </Box>
             <Box css={css.link}>
-              <Link css={css.linkText} to={AUTH_PATH_SIGN_UP}>
+              <Link css={css.linkText} to={READY_SIGN_UP}>
                 회원가입
               </Link>
               <p css={css.linkText}>/</p>

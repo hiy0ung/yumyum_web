@@ -27,7 +27,7 @@ export const user = css`
     margin: 5px 10px;
     border: 1px solid #dbdbdb;
     border-radius: 5px;
-    width: 50%;
+    width: 96%;
     height: 50px;
     font-size: 19px;
     justify-content: left;
@@ -130,7 +130,7 @@ export const errorMsg = css`
     color: red;
     font-size: 12px;
     margin-top: 5px;
-    margin-left: 270px;
+    margin-left: 15px;
 
 
 `
@@ -139,5 +139,5 @@ export const successMsg = css`
     color: green;
     font-size: 12px;
     margin-top: 5px;
-    margin-left: 270px;
+    margin-left: 15px;
 `

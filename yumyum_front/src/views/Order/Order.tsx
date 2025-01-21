@@ -23,7 +23,6 @@ export default function Order() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [currentDate] = useState<string>(moment().format("YYYY-MM-DD"));
 
-
   useEffect(() => {
     const storeCurrentInfo = localStorage.getItem("currentStore");
 
@@ -199,45 +198,64 @@ export default function Order() {
   const renderTable = () => {
     return (
       <div css={css.tableContainer}>
-        <table css={css.table}>
-          <tbody>
-            {FilterOrder.map((order) => (
-              <tr key={order.orderId} css={css.tr}>
-                <td css={css.td}>
-                  <p>{order.orderId}</p>
-                </td>
-                <td css={css.td}>
-                  <p>{order.deliveryAddress}</p>
-                </td>
-                <td css={css.td}>
-                  <p>{order.orderDate}</p>
-                </td>
-                <td css={css.td}>
-                  <p>{order.sumTotalPrice}</p>
-                </td>
-                <td css={css.td}>
-                  {order.orderState === "0" ? (
-                    <button
-                      css={css.buttons}
-                      onClick={() => openModal(order.orderId)}
-                    >
-                      접수
-                    </button>
-                  ) : (
-                    currentTab !== "2" && (
+        {FilterOrder.length > 0 ? (
+          <table css={css.table}>
+            <tbody>
+              {FilterOrder.map((order, index) => (
+                <tr key={order.orderId} css={css.tr}>
+                  <td css={css.td}>
+                    <p>{order.deliveryAddress}</p>
+                  </td>
+                  <td css={css.td}>
+                    <p>{order.orderDate}</p>
+                  </td>
+                  <td css={css.td}>
+                    <p>{order.sumTotalPrice}</p>
+                  </td>
+                  <td css={css.td}>
+                    {order.orderState === "0" ? (
+                      <button
+                        css={css.buttons}
+                        onClick={() => openModal(order.orderId)}
+                      >
+                        접수
+                      </button>
+                    ) : currentTab !== "2" ? (
                       <button
                         css={css.buttons}
                         onClick={() => updateOrderState(order.orderId, "2")}
                       >
                         완료
                       </button>
-                    )
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    ) : (
+                      order.orderState === "2" && (
+                        <span
+                          css={css.detailButton}
+                          onClick={() => openModal(order.orderId)}
+                        >
+                          자세히
+                        </span>
+                      )
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div style={{ display: "flex" }}>
+            <p
+              style={{
+                marginTop: "30px",
+                margin: "30px auto",
+                fontWeight: "bold",
+                fontSize: "20px",
+              }}
+            >
+              주문이 없습니다
+            </p>
+          </div>
+        )}
         {isModalOpen && (
           <div css={css.modal}>
             <div css={css.modalContent}>
@@ -256,7 +274,7 @@ export default function Order() {
                       <div
                         style={{ margin: "10px", display: "flex", gap: "10px" }}
                       >
-                        <span> {order.menuName} </span>
+                        <span>{order.menuName}</span>
                         <span>{order.quantity}개</span>
                         <span>{order.menuPrice}원</span>
                       </div>
@@ -284,22 +302,25 @@ export default function Order() {
                   <p css={css.address}>
                     주소: {orderDetail[0].deliveryAddress}
                   </p>
-                  <div css={css.modalButtons}>
-                    <button
-                      css={css.modalButton}
-                      onClick={() =>
-                        updateOrderState(orderDetail[0].orderId, "1")
-                      }
-                    >
-                      접수
-                    </button>
-                    <button
-                      css={css.modalButton}
-                      onClick={() => alert("거절 시 본사에 문의해주세요.")}
-                    >
-                      거절
-                    </button>
-                  </div>
+                  {orderDetail.length > 0 &&
+                    orderDetail[0].orderState !== "2" && (
+                      <div css={css.modalButtons}>
+                        <button
+                          css={css.modalButton}
+                          onClick={() =>
+                            updateOrderState(orderDetail[0].orderId, "1")
+                          }
+                        >
+                          접수
+                        </button>
+                        <button
+                          css={css.modalButton}
+                          onClick={() => alert("거절 시 본사에 문의해주세요.")}
+                        >
+                          거절
+                        </button>
+                      </div>
+                    )}
                 </div>
               ) : (
                 <p>로딩 중..</p>
