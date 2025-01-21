@@ -13,7 +13,7 @@ import {
   READY_SIGN_UP,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
-import useAuthStore from "../../../store/auth.store";
+import useAuthStore from "../../../stores/auth.store";
 import kakao from "../../../images/kakao.png";
 import naver from "../../../images/naver.png";
 

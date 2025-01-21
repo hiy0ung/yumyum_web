@@ -15,7 +15,7 @@ import {StoreInfo} from "../../../types/Store";
 import * as css from "./Style";
 import {useNavigate} from "react-router-dom";
 import {HOME_PATH, UPDATE_STORE_PATH} from "../../../constants";
-import useStoreImage from "../../../store/storeImg.store";
+import useStoreImage from "../../../stores/storeImg.store";
 import useScrollTop from "../../../hooks/scroll/useScrollToTop";
 
 export default function Store() {
