@@ -2,6 +2,7 @@ export const MAIN_PATH = "/main";
 export const HOME_PATH = "/home";
 
 
+export const READY_SIGN_UP = '/auth/ready/signUp'
 export const AUTH_PATH_LOGIN = '/auth/logIn';
 export const AUTH_PATH_SIGN_UP = '/auth/signUp';
 
