@@ -102,7 +102,7 @@ export default function MenuManagement() {
   const fetchData = async () => {
     const token = cookies.token;
     try {
-      const data = await axios.get(`http://localhost:4041/api/v1/menus/`, {
+      const data = await axios.get(`http://localhost:4041/api/v1/menus`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
