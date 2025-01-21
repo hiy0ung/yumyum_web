@@ -131,10 +131,10 @@ export default function Order() {
     }
   });
 
-  const openModal = async (id: number) => {
+  const openModal = async (orderId: number) => {
     try {
       const response = await axios.get(
-        `http://localhost:4041/api/v1/orders/detail/${id}`,
+        `http://localhost:4041/api/v1/orders/detail/${orderId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
