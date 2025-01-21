@@ -47,7 +47,7 @@ function ReviewComment() {
 
     const fetchReviews = async () => {
         try {
-            const response = await axios.get('http://localhost:4041/api/v1/reviews/', {
+            const response = await axios.get('http://localhost:4041/api/v1/reviews', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
