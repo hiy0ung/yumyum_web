@@ -19,6 +19,7 @@ export interface OrderDetailInfo {
   orderDetailId: number;
   deliveryAddress: string;
   menuName: string;
+  orderState: string;
   menuPrice: number;
   quantity: number;
   menuOptionName: string;

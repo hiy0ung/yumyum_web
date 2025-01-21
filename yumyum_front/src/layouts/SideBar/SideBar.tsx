@@ -28,8 +28,8 @@ import defaultProfileImg from "../../images/default_Profile_Img.webp";
 import {useCookies} from "react-cookie";
 import axios from "axios";
 import YumYumLogoImg from "../../images/yumyumLogo2.webp";
-import useAuthStore from "../../store/auth.store";
-import useStoreImage from "../../store/storeImg.store";
+import useAuthStore from "../../stores/auth.store";
+import useStoreImage from "../../stores/storeImg.store";
 
 export default function SideBar() {
     const [pathValue, setPathValue] = useState("");

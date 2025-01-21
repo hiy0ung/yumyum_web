@@ -6,7 +6,7 @@ import yumyumLogo2 from "../../images/yumyumLogo2.webp";
 import img1 from "../../images/foodImg9.webp";
 import img2 from "../../images/foodImg10.webp";
 import {Link} from "react-router-dom";
-import {AUTH_PATH_SIGN_UP} from "../../constants";
+import {AUTH_PATH_SIGN_UP, READY_SIGN_UP} from "../../constants";
 import Login from "../Authentication/Login/Login";
 import useScrollYCheck from "../../hooks/scroll/useScrollYCheck"
 import Footer from "../../layouts/Footer/Footer";
@@ -105,7 +105,7 @@ const Main = () => {
                         </h1>
                         <div css={css.headerRightContainer}>
                             <button onClick={() => sectionHandler("logIn")} css={css.logIn}>LOGIN</button>
-                            <Link to={AUTH_PATH_SIGN_UP} css={css.signUp}>SIGNUP</Link>
+                            <Link to={READY_SIGN_UP} css={css.signUp}>SIGNUP</Link>
                         </div>
                     </div>
                 </header>

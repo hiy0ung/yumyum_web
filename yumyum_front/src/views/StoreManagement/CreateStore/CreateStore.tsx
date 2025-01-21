@@ -20,7 +20,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
-import useStoreImage from "../../../store/storeImg.store";
+import useStoreImage from "../../../stores/storeImg.store";
 import defaultImage from "../../../images/default_Profile_Img.webp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from '@fortawesome/free-regular-svg-icons';

@@ -5,7 +5,7 @@ import * as css from "./Style";
 import {useCookies} from "react-cookie";
 import axios from "axios";
 import {TimeInfo} from "../../types/Store";
-import useStoreImage from "../../store/storeImg.store";
+import useStoreImage from "../../stores/storeImg.store";
 
 export default function Header() {
     const [status, setStatus] = useState<"OPEN" | "BREAK" | "CLOSE">("OPEN");
@@ -42,7 +42,7 @@ export default function Header() {
                 }
             }
         } catch (e) {
-            console.error("Error fetching store data:", e);
+            console.error("Error fetching stores data:", e);
         }
     };
     

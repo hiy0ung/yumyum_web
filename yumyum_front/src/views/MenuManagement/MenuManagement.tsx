@@ -9,7 +9,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Modal from "@mui/material/Modal";
 import { Box, Fade, FormControlLabel, Switch } from "@mui/material";
 import MenuModal from "./MenuModal";
-import { updateModalStore, useModalStore } from "../../store/menuModal.store";
+import { updateModalStore, useModalStore } from "../../stores/menuModal.store";
 import { useCookies } from "react-cookie";
 import {
   Menus,

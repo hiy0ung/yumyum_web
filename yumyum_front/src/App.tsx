@@ -19,7 +19,8 @@ import {
     UPDATE_STORE_PATH,
     HOME_PATH,
     FIND_ID_PATH,
-    FIND_PW_PATH
+    FIND_PW_PATH,
+    READY_SIGN_UP
 } from "./constants";
 import Header from "./layouts/Header/Header";
 import SideBar from "./layouts/SideBar/SideBar";
@@ -39,6 +40,7 @@ import Mypage from "./views/MyPage/Mypage";
 import MypageUpdate from "./views/MyPage/MypageUpdate";
 
 import Main from "./views/Main/Main";
+import ReadySignUp from "./views/Authentication/ReadySignUp/ReadySignUp";
 import { useCookies } from "react-cookie";
 import FindId from "./views/Authentication/FIndID/FindID";
 import FindPW from "./views/Authentication/FindPW/FindPW";
@@ -52,7 +54,7 @@ function App() {
 
     const navigate = useNavigate();
 
-    const EXCLUDED_PATHS = [FIND_PW_PATH, FIND_ID_PATH, AUTH_PATH_SIGN_UP];
+    const EXCLUDED_PATHS = [FIND_PW_PATH, FIND_ID_PATH, AUTH_PATH_SIGN_UP, READY_SIGN_UP];
 
     useEffect(() => {
         const currentPath = window.location.pathname;
@@ -93,6 +95,7 @@ function App() {
                         <div>
                             <Routes>
                                 <Route path={MAIN_PATH} element={<Main />} />
+                                <Route path={READY_SIGN_UP} element={<ReadySignUp />} />
                                 <Route path={AUTH_PATH_SIGN_UP} element={<SignUp />} />
                                 <Route path={FIND_ID_PATH} element={<FindId />} />
                                 <Route path={FIND_PW_PATH} element={<FindPW />} />

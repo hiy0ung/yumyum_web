@@ -106,6 +106,13 @@ export const buttons = css`
   }
 `;
 
+
+export const detailButton = css`
+  font-size: 12px;
+  color: #999;
+  cursor: pointer;
+`;
+
 // 모달 스타일
 export const modal = css`
   position: fixed;
