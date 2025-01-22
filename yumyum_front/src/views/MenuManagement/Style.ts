@@ -6,14 +6,17 @@ export const menuAll = css`
   min-width: 800px;
   margin: 0 auto;
   position: relative;
+  padding: 20px;
 `
 
 export const menu = css`
   display: flex;
   font-size: 12px;
-  border: 1px solid #000;
-  border-radius: 8px;
-  margin: 3px;
+  background-color: #eff6ff;
+  box-shadow: 0 0 10px 1px #e9e9e9;
+  border: 1px solid #e9e9e9;
+  border-radius: 10px;
+  margin: 5px;
   align-items: center;
   justify-content: space-between;
 `
@@ -34,10 +37,14 @@ export const addMenu = css`
 
   & > div {
     margin-right: 5px;
+    background-color: #eff6ff;
+    padding: 10px;
+    border-radius: 3px;
+    font-weight: bold;
   }
 
   & > button {
-    background-color: #1976D2;
+    background-color: #58CCFF;
     border: none;
     border-radius: 3px;
     color: #fff;
@@ -99,7 +106,7 @@ export const modalSubmitButton = css`
   margin-top: 10px;
   width: 100%;
   border: none;
-  background-color: #1976D2;
+  background-color: #58CCFF;
   color: #fff;
   border-radius: 5px;
   padding: 10px 0;
@@ -197,7 +204,7 @@ export const categorySubmit = css`
   margin-top: 10px;
   width: 100%;
   border: none;
-  background-color: #1976D2;
+  background-color: #58CCFF;
   color: #fff;
   border-radius: 5px;
   padding: 10px 0;
@@ -207,7 +214,7 @@ export const categorySubmit = css`
 export const addOptionDetail = css`
   width: 100%;
   border: none;
-  background-color: #1976D2;
+  background-color: #58CCFF;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
@@ -302,31 +309,36 @@ export const optionAdd = css`
 export const menuImage = css`
   height: 125px;
   width: 125px;
-  border: 1px solid #000;
+  border: 1px solid #e4e4e4;
   margin: 5px;
   overflow: hidden;
   position: relative;
 `
 
 export const menuName = css`
-  border: 1px solid #000;
+  box-shadow: 0 0 5px 1px #e9e9e9;
   border-radius: 3px;
+  border: 1px solid #e4e4e4;
   font-size: 18px;
   height: 40px;
+  line-height: 40px;
 `
 
 export const menuBody = css`
   flex: 1;
   min-width: 300px;
   margin: 5px;
+  background-color: #ffffff;
 `
 
 export const menuDescription = css`
   margin-top: 5px;
   font-size: 14px;
-  border: 1px solid #000;
+  box-shadow: 0 0 5px 1px #e9e9e9;
   border-radius: 3px;
+  border: 1px solid #e4e4e4;
   height: calc(125px - 45px);
+  padding: 5px;
 `
 
 export const menuPrice = css`
@@ -387,19 +399,24 @@ export const imageUpload = css`
 
 export const categoryName = css`
   font-size: 24px;
+  padding: 5px;
+  border-radius: 5px;
 `
 
 export const topCategory = css`
   margin-top: 20px;
   display: flex;
+  align-items: center;
 `
 
 export const updateButton = css`
   color: #2222ff;
+  background-color: #EFF6FF !important;
 `
 
 export const deleteButton = css`
   color: #ff2222;
+  background-color: #EFF6FF !important;
 `
 
 
@@ -428,14 +445,14 @@ export const addMenuButton = css`
   height: 30px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  background-color: #1976D2;
+  background-color: #58CCFF;
   color: #fff;
   opacity: 0.8;
   
   cursor: pointer;
 
   &:hover {
-    background-color: #0966a2;
+    background-color: rgb(85, 193, 255);
   }
 `
 
