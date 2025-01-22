@@ -4,14 +4,23 @@ import * as css from "./Style";
 import kakao from "../../../images/kakao.png";
 import naver from "../../../images/naver.png";
 import yumyum from "../../../images/yumyumLogo2.webp";
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import { AUTH_PATH_SIGN_UP } from "../../../constants";
 import {SIGN_UP_SNS_API} from "../../../apis/snsLogInAndSignUp";
+=======
+import { Link, useNavigate } from "react-router-dom";
+import { AUTH_PATH_SIGN_UP, SIGN_UP_SNS_API } from "../../../constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faBackward} from "@fortawesome/free-solid-svg-icons";
+>>>>>>> f80b83677f01f721f24f34eede8594b8cc190de8
 
 export default function ReadySignUp() {
   const onSnsButtonClickHandler = (sns: "kakao" | "naver") => {
     window.location.href = `${SIGN_UP_SNS_API}${sns}`;
   };
+
+  const navigate = useNavigate();
 
   return (
     <div css={css.container}>
@@ -35,6 +44,10 @@ export default function ReadySignUp() {
         >
           <img src={naver} alt="네이버 심볼"></img>
           <span>네이버 회원가입</span>
+        </div>
+        <div css={css.backButton} onClick={() => navigate(-1)}>
+        <FontAwesomeIcon icon={faBackward} css={css.back} />
+        <span css={css.back}>뒤로가기</span>
         </div>
       </div>
     </div>
