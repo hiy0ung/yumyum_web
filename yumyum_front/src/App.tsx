@@ -20,7 +20,7 @@ import {
     HOME_PATH,
     FIND_ID_PATH,
     FIND_PW_PATH,
-    READY_SIGN_UP
+    READY_SIGN_UP, AUTH_REDIRECT_PATH, SNS_SUCCESS_PATH, FIND_ID_SUCCESS, FIND_PW_SUCCESS
 } from "./constants";
 import Header from "./layouts/Header/Header";
 import SideBar from "./layouts/SideBar/SideBar";
@@ -98,14 +98,14 @@ function App() {
                             <Routes>
                                 <Route path={MAIN_PATH} element={<Main />} />
                                 <Route path={READY_SIGN_UP} element={<ReadySignUp />} />
-                                <Route path='/auth' element={<AuthRedirectHandler />} />
-                                <Route path='/sns-success' element={<SnsSuccess />} />
+                                <Route path={AUTH_REDIRECT_PATH} element={<AuthRedirectHandler />} />
+                                <Route path={SNS_SUCCESS_PATH} element={<SnsSuccess />} />
                                 <Route path={AUTH_PATH_SIGN_UP} element={<SignUp />} />
                                 <Route path={FIND_ID_PATH} element={<FindId />} />
                                 <Route path={FIND_PW_PATH} element={<FindPW />} />
                                 <Route path={AUTH_PATH_LOGIN} element={<AuthUser />} />
-                                <Route path="/findPassword" element={<ChangePassword />} />
-                                <Route path="/findId" element={<HaveFound />} />
+                                <Route path={FIND_ID_SUCCESS} element={<HaveFound />} />
+                                <Route path={FIND_PW_SUCCESS} element={<ChangePassword />} />
                             </Routes>
                         </div>
                     )

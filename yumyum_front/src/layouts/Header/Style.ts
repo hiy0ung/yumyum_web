@@ -46,7 +46,7 @@ export const statusToggleButtonStyles = css`
     font-size: 14px;
     font-weight: bold;
     border: none;
-    padding: 7px;
+    padding: 5px 8px;
     height: 30px;
     border-radius: 15px;
     transition: all 0.3s ease;
