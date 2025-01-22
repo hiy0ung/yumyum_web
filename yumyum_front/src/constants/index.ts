@@ -2,14 +2,11 @@ export const MAIN_PATH = "/main";
 export const HOME_PATH = "/home";
 export const SNS_SUCCESS_PATH = "/sns-success";
 
-
 export const READY_SIGN_UP = '/auth/ready/signUp';
 export const AUTH_REDIRECT_PATH = '/auth';
 
-
 export const AUTH_PATH_LOGIN = '/auth/logIn';
 export const AUTH_PATH_SIGN_UP = '/auth/signUp';
-
 
 export const STORE_PATH = '/stores'
 export const CREATE_STORE_PATH = '/stores/create'
