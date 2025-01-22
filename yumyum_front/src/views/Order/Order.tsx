@@ -143,6 +143,12 @@ export default function Order() {
       );
       if (response.data) {
         const data = response.data.data;
+
+        const uniqueOrderDetail = data.filter(
+          (item: OrderDetailInfo, index: number, self: OrderDetailInfo[]) =>
+            index === self.findIndex((o) => o.orderId === item.orderId)
+        );
+  
         setOrderDetail(data);
         setIsModalOpen(true);
       }
