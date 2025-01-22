@@ -22,6 +22,11 @@ export interface OrderDetailInfo {
   orderState: string;
   menuPrice: number;
   quantity: number;
+}
+
+export interface OrderDetailOptionInfo {
+  orderDetailId: number;
+  menuName: string;
   menuOptionName: string;
   menuOptionDetailName: string;
   additionalFee: number;
