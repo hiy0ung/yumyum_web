@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {
     Box, Button, TextField, Checkbox, InputAdornment, Typography, Modal,
@@ -23,6 +23,11 @@ import * as css from "./Style";
 
 function SignUp() {
 
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const snsId = params.get("snsId");
+    const joinPath = params.get("joinPath");
+
     const [userSignUpInfo, setUserSignUpInfo] = useState<UserSignUpInfo>({
         userId: "",
         userPw: "",
@@ -33,6 +38,8 @@ function SignUp() {
         userBusinessNumber: "",
         privacyPolicyAgreed: false,
         marketingAgreed: false,
+        snsId: snsId,
+        joinPath: joinPath ? joinPath : "Home",
     });
 
     const [errorsMsg, setErrorsMsg] = useState<Errors>({

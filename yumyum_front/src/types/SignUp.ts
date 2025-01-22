@@ -8,6 +8,8 @@ export interface UserSignUpInfo {
   userBusinessNumber : string;
   privacyPolicyAgreed : boolean;
   marketingAgreed : boolean;
+  snsId: string | null;
+  joinPath: string;
 }
 
 export interface Errors {

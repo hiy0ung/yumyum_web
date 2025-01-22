@@ -47,6 +47,8 @@ import FindPW from "./views/Authentication/FindPW/FindPW";
 import ChangePassword from "./views/Authentication/PasswordReset/ChangePassword";
 import HaveFound from "./views/Authentication/HaveFound/HaveFound";
 import Review from "./views/Review/Review";
+import AuthRedirectHandler from "./views/Authentication/SignUp/AuthRedirectHandler";
+import SnsSuccess from "./views/Authentication/Login/SnsSuccess";
 
 function App() {
     const [cookies] = useCookies(["token"]);
@@ -96,6 +98,8 @@ function App() {
                             <Routes>
                                 <Route path={MAIN_PATH} element={<Main />} />
                                 <Route path={READY_SIGN_UP} element={<ReadySignUp />} />
+                                <Route path='/auth' element={<AuthRedirectHandler />} />
+                                <Route path='/sns-success' element={<SnsSuccess />} />
                                 <Route path={AUTH_PATH_SIGN_UP} element={<SignUp />} />
                                 <Route path={FIND_ID_PATH} element={<FindId />} />
                                 <Route path={FIND_PW_PATH} element={<FindPW />} />
