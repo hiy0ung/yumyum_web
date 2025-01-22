@@ -69,6 +69,7 @@ export default function Mypage() {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(userData);
       setUser(userData.data.data);
     } catch (e) {
       console.error("데이터를 불러오지 못했습니다.", e);

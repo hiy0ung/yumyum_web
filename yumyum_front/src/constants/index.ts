@@ -5,6 +5,8 @@ export const HOME_PATH = "/home";
 export const READY_SIGN_UP = '/auth/ready/signUp'
 export const AUTH_PATH_LOGIN = '/auth/logIn';
 export const AUTH_PATH_SIGN_UP = '/auth/signUp';
+export const SIGN_UP_SNS_API = `http://localhost:4041/api/v1/auth/sns-sign-in/`; 
+export const SIGN_IN_SNS_API = `http://localhost:4041/api/v1/auth/sns-sign-in/`; 
 
 export const STORE_PATH = '/stores'
 export const CREATE_STORE_PATH = '/stores/create'

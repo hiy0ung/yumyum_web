@@ -49,7 +49,7 @@ export default function Order() {
 
   const fetchOrder = async () => {
     try {
-      const response = await axios.get("http://localhost:4041/api/v1/orders/", {
+      const response = await axios.get("http://localhost:4041/api/v1/orders", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -131,10 +131,10 @@ export default function Order() {
     }
   });
 
-  const openModal = async (id: number) => {
+  const openModal = async (orderId: number) => {
     try {
       const response = await axios.get(
-        `http://localhost:4041/api/v1/orders/detail/${id}`,
+        `http://localhost:4041/api/v1/orders/detail/${orderId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -143,6 +143,12 @@ export default function Order() {
       );
       if (response.data) {
         const data = response.data.data;
+
+        const uniqueOrderDetail = data.filter(
+          (item: OrderDetailInfo, index: number, self: OrderDetailInfo[]) =>
+            index === self.findIndex((o) => o.orderId === item.orderId)
+        );
+  
         setOrderDetail(data);
         setIsModalOpen(true);
       }
