@@ -60,10 +60,11 @@ export default function Store() {
     const scrollToTop = useScrollTop();
 
     useEffect(() => {
-        scrollToTop();
-    }, []);
-    useEffect(() => {
         fetchStore();
+    }, []);
+    
+    useEffect(() => {
+        scrollToTop();
     }, []);
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -103,7 +104,6 @@ export default function Store() {
 
     return (
         <>
-
             <h2 css={css.storeTitle}>가게 정보</h2>
             <div css={css.StoreInfo}>
                 {store.logoUrl && (
