@@ -291,7 +291,7 @@ export default function MenusStats() {
                             >
                                 <div>
                                     <div css={css.todayContainer}>
-                                        <EventAvailableIcon sx={{fontSize: 26, margin: "10px 5px 0  5px",}}/>
+                                        <EventAvailableIcon sx={{fontSize: 26, marginRight : "2px"}}/>
                                         <span>일</span>
                                     </div>
                                     <div
@@ -316,7 +316,7 @@ export default function MenusStats() {
                                 }}>
                                 <div>
                                     <div css={css.monthContainer}>
-                                        <EventAvailableIcon sx={{fontSize: 26, margin: "10px 5px 0  5px",}}/>
+                                        <EventAvailableIcon sx={{fontSize: 26, marginRight : "2px"}}/>
                                         <span>월</span>
                                     </div>
                                     <div

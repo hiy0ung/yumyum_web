@@ -7,10 +7,6 @@ export const container = css`
   padding: 50px;
   align-items: center;
   background-color: #f0f4f8;
-
-  & * {
-    font-family: "SB-어그로-L" !important;
-  }
 `;
 
 export const signUpTitle = css`
@@ -21,10 +17,11 @@ export const signUpTitle = css`
   `;
 
 export const formContainer = css`
+  min-width: 800px;
   width: 60%;
-  padding: 30px;
+  padding: 40px 100px;
   background-color: #ffffff;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   `;
 
@@ -51,9 +48,8 @@ export const gridRow = css`
 export const gridLabel = css`
   grid-area: label;
   text-align: left;
-  font-weight: bold;
   position: relative;
-  padding-right: 10px;
+  min-width: 250px;
   align-items: center;
   line-height: 60px;
   height: 100px;
@@ -181,7 +177,6 @@ export const modalCloseBtn = css`
   margin: 20px auto 0;
   width: 40%;
   text-align: center;
-  font-family: "SB-어그로-L";
   background-color: #58cdff;
 
   &:hover {
@@ -191,7 +186,7 @@ export const modalCloseBtn = css`
 
 export const submitButton = css`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   height: 56px;
   width: 100%;

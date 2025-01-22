@@ -47,8 +47,7 @@ export const categoryContainer = css`
     }
 
     & > nav > ul > li > a > span {
-        margin-top: 3px;
-        margin-left: 10px;
+        margin-left: 20px;
         color: black;
         font-size: 18px;
     }

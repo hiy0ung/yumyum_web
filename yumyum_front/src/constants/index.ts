@@ -1,12 +1,15 @@
 export const MAIN_PATH = "/main";
 export const HOME_PATH = "/home";
+export const SNS_SUCCESS_PATH = "/sns-success";
 
 
-export const READY_SIGN_UP = '/auth/ready/signUp'
+export const READY_SIGN_UP = '/auth/ready/signUp';
+export const AUTH_REDIRECT_PATH = '/auth';
+
+
 export const AUTH_PATH_LOGIN = '/auth/logIn';
 export const AUTH_PATH_SIGN_UP = '/auth/signUp';
-export const SIGN_UP_SNS_API = `http://localhost:4041/api/v1/auth/sns-sign-in/`; 
-export const SIGN_IN_SNS_API = `http://localhost:4041/api/v1/auth/sns-sign-in/`; 
+
 
 export const STORE_PATH = '/stores'
 export const CREATE_STORE_PATH = '/stores/create'
@@ -27,4 +30,7 @@ export const MY_PAGE = '/mypage'
 export const MY_PAGE_UPDATE = '/update'
 
 export const FIND_ID_PATH = '/find/id';
+export const FIND_ID_SUCCESS = '/findId';
+
 export const FIND_PW_PATH = '/find/password';
+export const FIND_PW_SUCCESS = '/findPassword';

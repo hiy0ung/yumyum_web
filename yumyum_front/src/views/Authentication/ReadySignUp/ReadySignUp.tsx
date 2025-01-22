@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { Box } from "@mui/material";
 import React from "react";
 import * as css from "./Style";
 import kakao from "../../../images/kakao.png";
 import naver from "../../../images/naver.png";
 import yumyum from "../../../images/yumyumLogo2.webp";
 import { Link } from "react-router-dom";
-import { AUTH_PATH_SIGN_UP, SIGN_UP_SNS_API } from "../../../constants";
+import { AUTH_PATH_SIGN_UP } from "../../../constants";
+import {SIGN_UP_SNS_API} from "../../../apis/snsLogInAndSignUp";
 
 export default function ReadySignUp() {
   const onSnsButtonClickHandler = (sns: "kakao" | "naver") => {
