@@ -110,3 +110,15 @@ export const naverButton = css`
     font-size: 14px;
   }
 `;
+
+export const backButton = css`
+  display: flex;
+  justify-content: space-around;
+  width: 70px;
+`;
+
+export const back = css`
+    font-size: 12px;
+    color: #999;
+    cursor: pointer;
+`;

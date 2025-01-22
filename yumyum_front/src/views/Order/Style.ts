@@ -170,9 +170,8 @@ export const orderInfo = css`
   border-radius: 5px;
   margin-top: 10px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-
 `;
 
 export const price = css`
