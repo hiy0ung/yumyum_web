@@ -405,7 +405,7 @@ export default function MenuManagement() {
                 {categories.map((category, index) => (
                   <li key={category.id} css={s.addCategory}>
                     <div css={s.categoryValue}>
-                    {index + 1}. {category.menuCategory}
+                      {index + 1}. {category.menuCategory}
                     </div>
                     <button onClick={() => deleteCategory(category.id)}>
                       <ClearIcon />
@@ -472,71 +472,72 @@ export default function MenuManagement() {
                     </button>
                   </div>
                   <ul>
-                          <div>
-                    {menus && menus.length > 0 ? (
-                      menus
-                        .filter(
-                          (menu: Menus) =>
-                            menu.menuCategory === category.menuCategory
-                        )
-                        .map((menu: Menus) => (
-
-                          <li key={menu.menuId}>
-                            <div css={s.menu}>
-                              <div css={s.menuImage}>
-                                <img
-                                  src={
-                                    "http://localhost:4041/image" +
-                                    menu.imageUrl
-                                  }
-                                  alt="파일 처리 안됨"
-                                  css={s.imageUpload}
-                                />
-                              </div>
-                              <div css={s.menuBody}>
-                                <div css={s.menuName}>{menu.menuName}</div>
-                                <div css={s.menuDescription}>
-                                  {menu.menuDescription}
-                                </div>
-                              </div>
-                              <div css={s.menuFoot}>
-                                <div css={s.menuButtonContainer}>
-                                  <button
-                                    onClick={() =>
-                                      handleUpdateClick(menu.menuId)
+                    <div>
+                      {menus && menus.length > 0 ? (
+                        menus
+                          .filter(
+                            (menu: Menus) =>
+                              menu.menuCategory === category.menuCategory
+                          )
+                          .map((menu: Menus) => (
+                            <li key={menu.menuId}>
+                              <div css={s.menu}>
+                                <div css={s.menuImage}>
+                                  <img
+                                    src={
+                                      "http://localhost:4041/image" +
+                                      menu.imageUrl
                                     }
-                                    css={s.updateButton}
-                                  >
-                                    수정
-                                  </button>
-                                  <button
-                                    onClick={() => deleteMenu(menu.menuId)}
-                                    css={s.deleteButton}
-                                  >
-                                    삭제
-                                  </button>
-                                </div>
-                                <div css={s.menuIsAvailable}>
-                                  메뉴 판매 가능 여부
-                                  <Switch
-                                    checked={menu.isAvailable}
-                                    onClick={() =>
-                                      stateIsAvailable(menu.menuId)
-                                    }
+                                    alt="파일 처리 안됨"
+                                    css={s.imageUpload}
                                   />
                                 </div>
-                                <div css={s.menuPrice}>
-                                  가격: {menu.menuPrice}원
+                                <div css={s.menuBody}>
+                                  <div css={s.menuName}>{menu.menuName}</div>
+                                  <div css={s.menuDescription}>
+                                    {menu.menuDescription}
+                                  </div>
+                                </div>
+                                <div css={s.menuFoot}>
+                                  <div css={s.menuButtonContainer}>
+                                    <button
+                                      onClick={() =>
+                                        handleUpdateClick(menu.menuId)
+                                      }
+                                      css={s.updateButton}
+                                    >
+                                      수정
+                                    </button>
+                                    <button
+                                      onClick={() => deleteMenu(menu.menuId)}
+                                      css={s.deleteButton}
+                                    >
+                                      삭제
+                                    </button>
+                                  </div>
+                                  <div css={s.menuIsAvailable}>
+                                    메뉴 판매 가능 여부
+                                    <Switch
+                                      checked={menu.isAvailable}
+                                      onClick={() =>
+                                        stateIsAvailable(menu.menuId)
+                                      }
+                                    />
+                                  </div>
+                                  <div css={s.menuPrice}>
+                                    가격: {menu.menuPrice}원
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </li>
-                        ))
+                            </li>
+                          ))
                       ) : (
                         <li>메뉴 없음</li>
                       )}
                     </div>
-                    <button onClick={openModal} css={s.addMenuButton}><AddIcon /></button>
+                    <button onClick={openModal} css={s.addMenuButton}>
+                      <AddIcon />
+                    </button>
                   </ul>
                 </li>
               ))
@@ -546,7 +547,7 @@ export default function MenuManagement() {
               </>
             )}
           </ul>
-          
+
           <MenuModal
             modalStatus={isModalOpen}
             closeModal={closeModal}
