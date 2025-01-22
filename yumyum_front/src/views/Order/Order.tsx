@@ -283,42 +283,32 @@ export default function Order() {
               {orderDetail.length > 0 ? (
                 <div>
                   <div css={css.orderInfo}>
-                    <div>
-                      {orderDetail.map((order) => (
-                        <div
-                          style={{
-                            margin: "10px",
-                            display: "flex",
-                            gap: "10px",
-                          }}
-                        >
+                    {orderDetail.map((order) => (
+                      <div key={order.orderDetailId} style={{ margin: "10px" }}>
+                        <div css={css.orderDetail}>
                           <span>{order.menuName}</span>
                           <span>{order.quantity}개</span>
                           <span>{order.menuPrice}원</span>
                         </div>
-                      ))}
-                    </div>
-                    {optionDetail.some(
-                      (order) => order.menuOptionDetailName
-                    ) && (
-                      <div>
-                        {optionDetail.map((order) =>
-                          order.menuOptionDetailName ? (
-                            <div
-                              style={{
-                                margin: "10px",
-                                display: "flex",
-                                gap: "10px",
-                              }}
-                            >
-                              <span>{order.menuOptionName}</span>
-                              <span>{order.menuOptionDetailName}</span>
-                              <span>{order.additionalFee}원</span>
-                            </div>
-                          ) : null
-                        )}
+                        <div>
+                          {optionDetail
+                            .filter(
+                              (option) =>
+                                option.orderDetailId === order.orderDetailId
+                            )
+                            .map((option, idx) => (
+                              <div
+                                key={idx}
+                                css={css.optionDetail}
+                              >
+                                <span>{option.menuOptionName}</span>
+                                <span>{option.menuOptionDetailName}</span>
+                                <span>+{option.additionalFee}원</span>
+                              </div>
+                            ))}
+                        </div>
                       </div>
-                    )}
+                    ))}
                   </div>
                   <p css={css.address}>
                     주소: {orderDetail[0].deliveryAddress}

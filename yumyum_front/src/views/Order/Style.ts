@@ -168,9 +168,27 @@ export const orderInfo = css`
   border: 1px solid black;
   border-radius: 5px;
   margin-top: 10px;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
+`;
+
+export const orderDetail = css`
+  margin: 5px;
+
+  & > span {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+`;
+
+export const optionDetail = css`
+  margin-left: 5px;
+
+  &> span {
+    margin: 5px;
+  }
+
 `;
 
 export const price = css`
