@@ -681,6 +681,7 @@ export default function MenuModal({
             );
           }
         }
+        setImgPreview("");
       }
 
       const formData = new FormData();
@@ -753,6 +754,11 @@ export default function MenuModal({
       console.error(e);
     }
   };
+
+  const modalCloseEvent = () => {
+    setImgPreview("");
+    updateModalClose();
+  }
 
   const onClickUpload = () => {
     let myInput = document.getElementById("imageUrl");
@@ -1045,7 +1051,7 @@ export default function MenuModal({
           <div css={s.inputMenu}>
             <div css={s.categoryHeader}>
               <div css={s.categoryCancle}>
-                <button onClick={updateModalClose}>
+                <button onClick={() => modalCloseEvent()}>
                   <ClearIcon />
                 </button>
               </div>
@@ -1073,9 +1079,9 @@ export default function MenuModal({
                   />
                 ) : (
                   <label css={s.imageLabel} htmlFor="imageUrl">
-                    <span>사진 수정</span>
-                    <button css={s.image} onClick={onClickUpload}>
-                      <AddIcon />
+                    <span hidden>사진 수정</span>
+                    <img src={"http://localhost:4041/image" + updateMenu.imageUrl} alt="사진 수정" style={{height: "200px", width: "200px", objectFit: "cover", objectPosition: "center"}}/>
+                    <button css={s.image} onClick={onClickUpload} style={{display: "none"}}>
                     </button>
                   </label>
                 )}
