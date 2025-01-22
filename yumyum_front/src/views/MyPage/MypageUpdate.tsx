@@ -91,7 +91,7 @@ export default function Mypage() {
   const fetchData = async () => {
     try {
       const token = cookies.token;
-      const userData = await axios.get(`http://localhost:4041/api/v1/mypage/`, {
+      const userData = await axios.get(`http://localhost:4041/api/v1/mypage`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -150,14 +150,14 @@ export default function Mypage() {
                 type="checkbox"
                 checked
                 onClick={handleCheckBox}
-                readOnly
+                disabled
               />
             ) : (
               <input
                 css={s.checkBoxInput}
                 type="checkbox"
                 onClick={handleCheckBox}
-                readOnly
+                disabled
               />
             )}
             <div css={s.myProfile_market_div}>
