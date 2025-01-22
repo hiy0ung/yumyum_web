@@ -14,7 +14,6 @@ export const container = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${colors.background};
   min-height: 100vh;
   padding: 20px;
 `;
