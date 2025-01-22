@@ -168,7 +168,6 @@ export const orderInfo = css`
   border: 1px solid black;
   border-radius: 5px;
   margin-top: 10px;
-  /* display: flex; */
   justify-content: center;
   align-items: center;
 `;
