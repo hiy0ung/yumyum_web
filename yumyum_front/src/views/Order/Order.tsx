@@ -200,10 +200,10 @@ export default function Order() {
   const currentOrderInfo = () => {
     return (
       <>
-        <p className="completedCount">
-          오늘의 주문 건수는 {completedCount} 건 입니다!
-        </p>
-        <p className="totalPrice">오늘의 매출은 {totalPrice} 원 입니다!</p>
+        <div css={css.todayTotal} >
+          <p>주문 수 : {completedCount} 건 </p>
+          <p>매출 : {totalPrice} 원</p>
+        </div>
       </>
     );
   };
