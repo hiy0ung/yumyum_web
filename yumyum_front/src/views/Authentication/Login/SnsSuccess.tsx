@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import useAuthStore from '../../../stores/auth.store';
 
 export default function SnsSuccess() {
-  const [, setCookies] = useCookies(["token"]);
+  const [cookies, setCookies] = useCookies(["token"]);
+  const token = cookies.token;
 
   const [queryParam] = useSearchParams();
   const accessToken = queryParam.get('accessToken');
   const expiration = queryParam.get('expiration');
 
   const navigator = useNavigate();
+
+  const { login } = useAuthStore();
 
   useEffect(() => {
       if (accessToken && expiration) {
@@ -20,11 +24,14 @@ export default function SnsSuccess() {
             expires,
           });;
 
-          navigator('/main');
+          login({
+            token: token,
+          });
+
+          navigator('/home');
       }
-      else navigator("/signUp");
+      else navigator("/auth/signUp");
   }, [accessToken, expiration, navigator, setCookies]);
 
-  // render: Sns Success 컴포넌트 렌더링 //
   return <></>;
 }

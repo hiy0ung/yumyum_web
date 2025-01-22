@@ -8,9 +8,12 @@ import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import * as css from "./Style";
 import axios from "axios";
 import {
-  AUTH_PATH_SIGN_UP, FIND_ID_PATH, FIND_PW_PATH,
+  AUTH_PATH_SIGN_UP,
+  FIND_ID_PATH,
+  FIND_PW_PATH,
   HOME_PATH,
   READY_SIGN_UP,
+  SIGN_IN_SNS_API,
 } from "../../../constants";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
@@ -50,7 +53,7 @@ export default function Login() {
       if (response.data && response.data.data) {
         signInSuccessResponse(response.data.data);
         console.log(response.data.data);
-      } 
+      }
     } catch (e) {
       setError("아이디 또는 비밀번호가 잘못되었습니다.");
     }
@@ -58,7 +61,7 @@ export default function Login() {
 
   const setToken = (token: string, exprTime: number) => {
     const expires = new Date(Date.now() + exprTime);
-    console.log("토큰", token, "만료시간", expires)
+    console.log("토큰", token, "만료시간", expires);
     setCookies("token", token, { path: "/", expires });
   };
 
@@ -79,6 +82,9 @@ export default function Login() {
     }
   };
 
+  const onSnsButtonClickHandler = (sns: "kakao" | "naver") => {
+    window.location.href = `${SIGN_IN_SNS_API}${sns}`;
+  };
 
   return (
     <>
@@ -134,18 +140,25 @@ export default function Login() {
                 onClick={handleSubmit}
                 variant="contained"
                 color="primary"
-              >로그인
+              >
+                로그인
               </Button>
             </Box>
             <div css={css.snsContainer}>
               <span>SNS</span>
             </div>
             <Box css={css.oauthButtons}>
-              <div css={css.kakaoButton}>
-                <img src={kakao} alt="카카오 심볼"/>
+              <div
+                css={css.kakaoButton}
+                onClick={() => onSnsButtonClickHandler("kakao")}
+              >
+                <img src={kakao} alt="카카오 심볼" />
                 <span>카카오톡 로그인</span>
               </div>
-              <div css={css.naverButton}>
+              <div
+                css={css.naverButton}
+                onClick={() => onSnsButtonClickHandler("naver")}
+              >
                 <img src={naver} alt="네이버 심볼"></img>
                 <span>네이버 로그인</span>
               </div>

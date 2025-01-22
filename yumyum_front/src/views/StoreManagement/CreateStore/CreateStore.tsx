@@ -240,7 +240,7 @@ export default function Store() {
                   <MenuItem value="아시안">아시안</MenuItem>
                   <MenuItem value="돈까스_회">돈까스/회</MenuItem>
                   <MenuItem value="찜_탕">찜/탕</MenuItem>
-                  <MenuItem value="족발_보쌈">족빌/보쌈</MenuItem>
+                  <MenuItem value="족발_보쌈">족발/보쌈</MenuItem>
                   <MenuItem value="고기">고기</MenuItem>
                   <MenuItem value="야식">야식</MenuItem>
                   <MenuItem value="도시락">도시락</MenuItem>

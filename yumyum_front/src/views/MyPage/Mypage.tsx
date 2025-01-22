@@ -64,11 +64,12 @@ export default function Mypage() {
   const fetchData = async () => {
     try {
       const token = cookies.token;
-      const userData = await axios.get(`http://localhost:4041/api/v1/mypage/`, {
+      const userData = await axios.get(`http://localhost:4041/api/v1/mypage`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(userData);
       setUser(userData.data.data);
     } catch (e) {
       console.error("데이터를 불러오지 못했습니다.", e);
