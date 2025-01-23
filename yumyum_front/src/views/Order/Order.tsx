@@ -200,7 +200,7 @@ export default function Order() {
   const currentOrderInfo = () => {
     return (
       <>
-        <div css={css.todayTotal} >
+        <div css={css.todayTotal}>
           <p>주문 수 : {completedCount} 건 </p>
           <p>매출 : {totalPrice} 원</p>
         </div>
@@ -297,10 +297,7 @@ export default function Order() {
                                 option.orderDetailId === order.orderDetailId
                             )
                             .map((option, idx) => (
-                              <div
-                                key={idx}
-                                css={css.optionDetail}
-                              >
+                              <div key={idx} css={css.optionDetail}>
                                 <span>{option.menuOptionName}</span>
                                 <span>{option.menuOptionDetailName}</span>
                                 <span>+{option.additionalFee}원</span>
