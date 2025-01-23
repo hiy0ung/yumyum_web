@@ -260,7 +260,7 @@ export default function Store() {
         </Box>
         <Box>
           <div>
-            <tr style={{ display: "inline" }}>
+            <div style={{ display: "inline" }}>
               <input
                 id="address_kakao"
                 onClick={clickButton}
@@ -291,7 +291,7 @@ export default function Store() {
                   </div>
                 )}
               </div>
-            </tr>
+            </div>
             <Box sx={{ margin: "10px 0px" }}>
               <tr style={{ width: "100%" }}>
                 <td>
