@@ -580,6 +580,7 @@ export default function MenuModal({
           setMenuChecked([false]);
           closeModal();
           fetchData();
+          setImgPreview("");
         }
       } catch (e) {
         if (axios.isAxiosError(e)) {
