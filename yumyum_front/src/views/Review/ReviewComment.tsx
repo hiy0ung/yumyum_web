@@ -23,7 +23,7 @@ interface ReviewsList {
   reviewDate: string;
   reviewPhotos: string[];
   reviewText: string;
-  menuCounts?: { [key: string]: number }; // 추가된 필드
+  menuCounts?: { [key: string]: number };
 }
 
 function ReviewComment() {
@@ -44,7 +44,7 @@ function ReviewComment() {
 
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [])
 
 
   const toggleCommentTab = (id: number) => {
@@ -75,7 +75,6 @@ function ReviewComment() {
           return new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime();
         });
 
-        // 메뉴 이름을 카운트하여 중복 정보를 추가
         const processedData = sortedData.map((review: ReviewsList) => {
           const menuCounts = review.menuNames.reduce((acc: { [key: string]: number }, menu: string) => {
             acc[menu] = (acc[menu] || 0) + 1;
@@ -86,10 +85,8 @@ function ReviewComment() {
             menuCounts,
           };
         });
-
-        setData(processedData); // sortedData에서 processedData로 변경
+        setData(processedData);
       }
-      console.log(response.data.data);
     } catch (error) {
       console.log(error);
     }

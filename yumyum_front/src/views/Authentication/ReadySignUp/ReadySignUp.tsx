@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import * as css from "./Style";
-import kakao from "../../../images/kakao.png";
-import naver from "../../../images/naver.png";
+import kakao from "../../../images/kakao.webp";
+import naver from "../../../images/naver.webp";
 import yumyum from "../../../images/yumyumLogo2.webp";
 import { Link, useNavigate } from "react-router-dom";
 import { AUTH_PATH_SIGN_UP} from "../../../constants";
@@ -40,10 +40,7 @@ export default function ReadySignUp() {
           <img src={naver} alt="네이버 심볼"></img>
           <span>네이버 회원가입</span>
         </div>
-        <div css={css.backButton} onClick={() => navigate(-1)}>
-        <FontAwesomeIcon icon={faBackward} css={css.back} />
-        <span css={css.back}>뒤로가기</span>
-        </div>
+          <button onClick={() => navigate(-1)} css={css.backButton}>뒤로가기</button>
       </div>
     </div>
   );
