@@ -17,7 +17,7 @@ import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
 import kakao from "../../../images/kakao.png";
 import naver from "../../../images/naver.png";
-import {SIGN_IN_SNS_API} from "../../../apis/snsLogInAndSignUp";
+import { SIGN_IN_SNS_API } from "../../../apis/snsLogInAndSignUp";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -44,8 +44,8 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-          `http://localhost:4041/api/v1/auth/login`,
-          userLogInInfo
+        `http://localhost:4041/api/v1/auth/login`,
+        userLogInInfo
       );
       console.log("로그인 응답:", response.data.data);
 
@@ -86,98 +86,98 @@ export default function Login() {
   };
 
   return (
-      <>
-        <div css={css.container}>
-          <div css={css.backgroundStyle}>
-            <h2 css={css.logInTitle}>로그인</h2>
-            <Box css={css.formStyle} component="form">
-              <Box css={css.duplicatedContainer}>
-                <TextField
-                    placeholder="ID"
-                    type="text"
-                    name="userId"
-                    variant="outlined"
-                    value={userLogInInfo.userId}
-                    onChange={handleInputChange}
-                    autoComplete="off"
-                    css={css.customInputStyle}
-                    slotProps={{
-                      input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                              <PermIdentityIcon />
-                            </InputAdornment>
-                        ),
-                      },
-                    }}
-                />
-              </Box>
+    <>
+      <div css={css.container}>
+        <div css={css.backgroundStyle}>
+          <h2 css={css.logInTitle}>로그인</h2>
+          <Box css={css.formStyle} component="form">
+            <Box css={css.duplicatedContainer}>
               <TextField
-                  placeholder="PASSWORD"
-                  type="password"
-                  name="userPw"
-                  variant="outlined"
-                  value={userLogInInfo.userPw}
-                  onChange={handleInputChange}
-                  autoComplete="off"
-                  css={css.customInputStyle}
-                  slotProps={{
-                    input: {
-                      startAdornment: (
-                          <InputAdornment position="start">
-                            <VpnKeyOutlinedIcon />
-                          </InputAdornment>
-                      ),
-                    },
-                  }}
+                placeholder="ID"
+                type="text"
+                name="userId"
+                variant="outlined"
+                value={userLogInInfo.userId}
+                onChange={handleInputChange}
+                autoComplete="off"
+                css={css.customInputStyle}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermIdentityIcon />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
               />
-              {error && <p css={css.errorMessage}>{error}</p>}
-              <Box>
-                <Button
-                    css={css.submitButton}
-                    type="submit"
-                    onClick={handleSubmit}
-                    variant="contained"
-                    color="primary"
-                >
-                  로그인
-                </Button>
-              </Box>
-              <div css={css.snsContainer}>
-                <span>SNS</span>
-              </div>
-              <Box css={css.oauthButtons}>
-                <div
-                    css={css.kakaoButton}
-                    onClick={() => onSnsButtonClickHandler("kakao")}
-                >
-                  <img src={kakao} alt="카카오 심볼" />
-                  <span>카카오톡 로그인</span>
-                </div>
-                <div
-                    css={css.naverButton}
-                    onClick={() => onSnsButtonClickHandler("naver")}
-                >
-                  <img src={naver} alt="네이버 심볼"></img>
-                  <span>네이버 로그인</span>
-                </div>
-              </Box>
-              <Box css={css.link}>
-                <Link css={css.linkText} to={READY_SIGN_UP}>
-                  회원가입
-                </Link>
-                <p css={css.linkText}>/</p>
-                <Link css={css.linkText} to={FIND_ID_PATH}>
-                  아이디 찾기
-                </Link>
-                <p css={css.linkText}>/</p>
-                <Link css={css.linkText} to={FIND_PW_PATH}>
-                  비밀번호 찾기
-                </Link>
-              </Box>
             </Box>
-          </div>
+            <TextField
+              placeholder="PASSWORD"
+              type="password"
+              name="userPw"
+              variant="outlined"
+              value={userLogInInfo.userPw}
+              onChange={handleInputChange}
+              autoComplete="off"
+              css={css.customInputStyle}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <VpnKeyOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            {error && <p css={css.errorMessage}>{error}</p>}
+            <Box>
+              <Button
+                css={css.submitButton}
+                type="submit"
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+              >
+                로그인
+              </Button>
+            </Box>
+            <div css={css.snsContainer}>
+              <span>SNS</span>
+            </div>
+            <Box css={css.oauthButtons}>
+              <div
+                css={css.kakaoButton}
+                onClick={() => onSnsButtonClickHandler("kakao")}
+              >
+                <img src={kakao} alt="카카오 심볼" />
+                <span>카카오톡 로그인</span>
+              </div>
+              <div
+                css={css.naverButton}
+                onClick={() => onSnsButtonClickHandler("naver")}
+              >
+                <img src={naver} alt="네이버 심볼"></img>
+                <span>네이버 로그인</span>
+              </div>
+            </Box>
+            <Box css={css.link}>
+              <Link css={css.linkText} to={READY_SIGN_UP}>
+                회원가입
+              </Link>
+              <p css={css.linkText}>/</p>
+              <Link css={css.linkText} to={FIND_ID_PATH}>
+                아이디 찾기
+              </Link>
+              <p css={css.linkText}>/</p>
+              <Link css={css.linkText} to={FIND_PW_PATH}>
+                비밀번호 찾기
+              </Link>
+            </Box>
+          </Box>
         </div>
-      </>
+      </div>
+    </>
   );
 }
