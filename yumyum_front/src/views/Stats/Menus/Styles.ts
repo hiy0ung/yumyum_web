@@ -247,3 +247,15 @@ export const totalPrice = css`
         box-shadow: 5px 0 10px -5px #e9e9e9;
     }
 `;
+
+export const chartDataNone = css`
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  color: #333333;
+  font-size: 35px;
+  opacity: 0.4;
+  aspect-ratio: 1;
+  margin: 20px;
+  border-radius: 30px;
+`;
