@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import * as css from "./Style";
 import ReactQuill from "react-quill-new";
 import moment from "moment/moment";
@@ -88,6 +88,7 @@ const ReviewNotice = () => {
         return new File([u8arr], filename, {type: mime});
     };
 
+
     const noticeGetFetch = async () => {
         try {
             const response = await axios.get(`http://localhost:4041/api/v1/reviews/notice`,
@@ -103,9 +104,8 @@ const ReviewNotice = () => {
                 setButton("change");
                 setNoticeId(response.data.data.id)
             }
-            console.log(editorContent)
         } catch (error) {
-            console.error("이미지 URL을 가져오는 중 오류 발생:", error);
+            console.error(error);
         }
     };
 
@@ -129,23 +129,25 @@ const ReviewNotice = () => {
         }
     };
 
+    const processedContent = useMemo(() => {
+        return editorContent.replace(/<img[^>]+src="([^"]+)"[^>]*>/g, (match, src) => {
+            if (!src.startsWith("http")) {
+                return match.replace(src, `http://localhost:4041/image/upload/${imgUrl}`);
+            }
+            return match;
+        });
+    }, [editorContent, imgUrl]);
 
     useEffect(() => {
-        if (quillRef.current && button === "changeUpdate" && editorContent) {
+        if (quillRef.current && button === "changeUpdate") {
             const editor = quillRef.current.getEditor();
-            const processedHtml = editorContent.replace(/<img[^>]+src="([^"]+)"[^>]*>/g, (match, src) => {
-                if (!src.startsWith('http')) {
-                    return match.replace(src, `http://localhost:4041/image/upload/${imgUrl}`); //http://localhost:4041/image/upload/notice/aa91636b-3ff6-4d60-b31d-2bdaf81ca591_image_0.png
-                }
-                return match;
-            });
-            editor.clipboard.dangerouslyPasteHTML(processedHtml);
+            editor.clipboard.dangerouslyPasteHTML(processedContent);
         }
-    }, [button, editorContent]);
+    }, [button, processedContent]);
 
     useEffect(() => {
         noticeGetFetch();
-    }, []);
+    }, [noticeGetFetch]);
 
     const renderChangeView = () => (
         <>
@@ -185,7 +187,7 @@ const ReviewNotice = () => {
             </div>
             <div css={css.reviewNoticeDeleteButtonContainer}>
                 <button
-                    css={css.reviewNoticeUploadButton}
+                    css={css.reviewNoticeUploadButtonDelete}
                     onClick={() => noticeDeleteFetch()}
                 >
                     삭제
@@ -215,7 +217,7 @@ const ReviewNotice = () => {
             />
             <div css={css.reviewNoticeUploadButtonContainer}>
                 <button
-                    css={css.reviewNoticeUploadButton}
+                    css={css.reviewNoticeUploadButtonSave}
                     onClick={() => noticeCreateFetch()}
                 >
                     저장

@@ -67,7 +67,7 @@ const Main = () => {
   const cardInfoBottomList3ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList3Container, 0.84);
 
   const cardInfoBottomList4Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList4ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList4Container, 0.9);
+  const cardInfoBottomList4ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList4Container, 0.88);
 
 
   const memoVideo = useMemo(() => (
@@ -92,7 +92,7 @@ const Main = () => {
   };
 
   useEffect(() => {
-    // scrollToTop();
+    scrollToTop();
   }, []);
   return (
       <>
@@ -197,7 +197,7 @@ const Main = () => {
                     css={[css.cardInfoCommonLayout,
                       css.cardInfoTopList4Container,
                       cardInfoTopList4ContainerIsVisible && css.visibleZBox]}>
-                  <div>코딩싫다</div>
+                  <div>사고싶다</div>
                 </li>
               </ul>
               <ul css={css.cardInfoTopBottomContainer}>

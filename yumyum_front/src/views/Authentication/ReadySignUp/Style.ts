@@ -112,13 +112,11 @@ export const naverButton = css`
 `;
 
 export const backButton = css`
-  display: flex;
-  justify-content: space-around;
-  width: 70px;
-`;
-
-export const back = css`
-    font-size: 12px;
-    color: #999;
-    cursor: pointer;
+  border: none;
+  background: white;
+  box-shadow: 0 0 5px 1px #e9e9e9;
+  border-radius: 5px;
+  padding: 14px 20px;
+  width: 400px;
+  display: inline-block;
 `;

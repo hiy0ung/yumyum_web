@@ -15,8 +15,8 @@ import {
 } from "../../../constants";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
-import kakao from "../../../images/kakao.png";
-import naver from "../../../images/naver.png";
+import kakao from "../../../images/kakao.webp";
+import naver from "../../../images/naver.webp";
 import { SIGN_IN_SNS_API } from "../../../apis/snsLogInAndSignUp";
 
 export default function Login() {
