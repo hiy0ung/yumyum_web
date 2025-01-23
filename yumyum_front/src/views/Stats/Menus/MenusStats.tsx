@@ -175,6 +175,7 @@ export default function MenusStats() {
                 setSelectDate(moment().format("YYYY-MM-DD"));
 
             } else {
+                setData([]);
                 console.log("오늘 데이터가 없습니다.");
             }
         } catch (error) {
@@ -210,6 +211,7 @@ export default function MenusStats() {
             if (response.data.data.length > 0) {
                 dataController(response);
             } else {
+                setData([]);
                 console.log(`${selectMonth} 해당 달의 데이터가 없습니다.`);
             }
         } catch (error) {
@@ -217,14 +219,16 @@ export default function MenusStats() {
         }
     };
     useEffect(() => {
-        fetchMonth();
-    }, [selectMonth]);
+        fetchToday()
+    }, [selectToday]);
     useEffect(() => {
         fetchDay();
     }, [selectDay]);
     useEffect(() => {
-        fetchToday()
-    }, [selectToday]);
+        fetchMonth();
+    }, [selectMonth]);
+
+
 
     const handleDateDayChange = (date: any) => {
         setSelectDay(moment(date).format('YYYY-MM-DD'));
@@ -371,8 +375,8 @@ export default function MenusStats() {
                                             dataKey="sumQuantity"
                                             onMouseEnter={onPieEnter}
                                             stroke="none"
-                                            cornerRadius={5}
-                                            paddingAngle={5}
+                                            cornerRadius={15}
+                                            paddingAngle={2}
                                         />
                                     </PieChart>
                                 </ResponsiveContainer>
@@ -391,7 +395,7 @@ export default function MenusStats() {
                     <div css={css.menuStatsRightTitle}>메뉴별 판매 현황</div>
                     <div css={css.menuStatsRightAllResult}>
                         <div>판매 개수 : {totalData.totalQuantitySold}</div>
-                        <div>결제 금액 : {totalData.totalPriceSold}원</div>
+                        <div>결제 금액 : {totalData.totalPriceSold.toLocaleString("ko-KR")}원</div>
                     </div>
                     <div css={css.menuStatsRightTextContainer}>
                         <div css={css.orderProductName}>
@@ -416,7 +420,7 @@ export default function MenusStats() {
                             <div>총 판매 가격</div>
                             {data.map((item: any, index: number) => (
                                 <div key={index}>
-                                    {item.sumPrice}
+                                    {item.sumPrice.toLocaleString("ko-KR")}
                                 </div>
                             ))}
                         </div>

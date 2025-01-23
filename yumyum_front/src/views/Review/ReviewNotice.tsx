@@ -120,11 +120,10 @@ const ReviewNotice = () => {
 
             if (response.data.data) {
                 setImgUrl("");
-                setEditorContent(""); // 에디터 데이터 설정
+                setEditorContent("");
                 setButton("save");
                 setNoticeId(0)
             }
-            console.log(editorContent)
         } catch (error) {
             console.error("이미지 URL을 가져오는 중 오류 발생:", error);
         }
@@ -146,7 +145,7 @@ const ReviewNotice = () => {
 
     useEffect(() => {
         noticeGetFetch();
-    }, [noticeDeleteFetch]);
+    }, []);
 
     const renderChangeView = () => (
         <>

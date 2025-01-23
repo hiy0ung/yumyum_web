@@ -154,13 +154,10 @@ export const valueTextStyle = css`
 //* 차트 데이터 없을 때
 export const chartDataNone = css`
   position: relative;
-  height: 100vh;
-  line-height: 50vh;
   display: flex; 
+  height: 79.1vh;
   justify-content: center; 
   align-items: center;
   color: #333333;
   font-size: 35px;
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0.4;
 `;

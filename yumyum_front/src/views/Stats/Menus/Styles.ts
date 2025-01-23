@@ -36,6 +36,7 @@ export const menuStatsLeftTopLeft = css`
         box-shadow: 0 0 10px 1px #e9e9e9;
         border: 1px solid #e9e9e9;
         font-size: 16px;
+      line-height: 2.2;
     }
 `;
 
@@ -142,7 +143,7 @@ export const menuStatsRightTitle = css`
     background-color: #eff6ff;
     font-size: 18px;
     height: 46px;
-    line-height: 46px;
+  line-height: 2.3;
     width: 50%;
     text-align: center;
     box-shadow: 0 0 10px 1px #e9e9e9;

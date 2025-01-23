@@ -202,7 +202,7 @@ export default function Order() {
       <>
         <div css={css.todayTotal}>
           <p>주문 수 : {completedCount} 건 </p>
-          <p>매출 : {totalPrice} 원</p>
+          <p>매출 : {totalPrice.toLocaleString("ko-KR")} 원</p>
         </div>
       </>
     );
@@ -223,7 +223,7 @@ export default function Order() {
                     <p>{order.orderDate}</p>
                   </td>
                   <td css={css.td}>
-                    <p>{order.sumTotalPrice}</p>
+                    <p>{order.sumTotalPrice.toLocaleString("ko-KR")}</p>
                   </td>
                   <td css={css.td}>
                     {order.orderState === "0" ? (
