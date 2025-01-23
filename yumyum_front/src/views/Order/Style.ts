@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 const colors = {
   background: "#F5F5F5",
-  primary: "rgba(252, 183, 54)",
+  primary: "#FF6A7B",
   text: "#333333",
   button: "#58CCFF",
   buttonHover: "rgb(85, 193, 255)",
@@ -14,7 +14,6 @@ export const container = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${colors.background};
   min-height: 100vh;
   padding: 20px;
 `;
@@ -29,10 +28,6 @@ export const currentInfoContainer = css`
   margin-bottom: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 40px;
-
-  .completedCount {
-    padding-bottom: 15px;
-  }
 `;
 
 // 주문 테이블 컨테이너 스타일
@@ -169,19 +164,26 @@ export const orderInfo = css`
   border: 1px solid black;
   border-radius: 5px;
   margin-top: 10px;
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-
 `;
 
-export const price = css`
-  margin-top: 30px;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
+export const orderDetail = css`
+  margin: 5px;
+
+  & > span {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+`;
+
+export const optionDetail = css`
+  margin-left: 5px;
+
+  &> span {
+    margin: 5px;
+  }
+
 `;
 
 export const address = css`
@@ -225,3 +227,11 @@ export const buttonActive = css`
     color: ${colors.text};
   }
 `
+
+export const todayTotal = css`
+  display: flex;
+  justify-content: space-between;
+  & > p:nth-of-type(1) {
+    margin-right: 50px;
+  }
+`;

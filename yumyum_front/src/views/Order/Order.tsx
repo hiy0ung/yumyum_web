@@ -8,7 +8,12 @@ import { useCookies } from "react-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 
-import { CurrentStore, OrderInfo, OrderDetailInfo } from "../../types/Order";
+import {
+  CurrentStore,
+  OrderInfo,
+  OrderDetailInfo,
+  OrderDetailOptionInfo,
+} from "../../types/Order";
 import * as css from "./Style";
 
 export default function Order() {
@@ -18,6 +23,7 @@ export default function Order() {
   const [orders, setOrders] = useState<OrderInfo[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderDetail, setOrderDetail] = useState<OrderDetailInfo[]>([]);
+  const [optionDetail, setOptionDetail] = useState<OrderDetailOptionInfo[]>([]);
 
   const [completedCount, setCompletedCount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -146,10 +152,12 @@ export default function Order() {
 
         const uniqueOrderDetail = data.filter(
           (item: OrderDetailInfo, index: number, self: OrderDetailInfo[]) =>
-            index === self.findIndex((o) => o.orderId === item.orderId)
+            index ===
+            self.findIndex((o) => o.orderDetailId === item.orderDetailId)
         );
-  
-        setOrderDetail(data);
+
+        setOrderDetail(uniqueOrderDetail);
+        setOptionDetail(data);
         setIsModalOpen(true);
       }
     } catch (e) {
@@ -181,7 +189,6 @@ export default function Order() {
       );
       if (response.data) {
         currentInfo(orderId, updateOrderState);
-        console.log(token);
         fetchOrder();
         closeModal();
       }
@@ -193,10 +200,10 @@ export default function Order() {
   const currentOrderInfo = () => {
     return (
       <>
-        <p className="completedCount">
-          오늘의 주문 건수는 {completedCount} 건 입니다!
-        </p>
-        <p className="totalPrice">오늘의 매출은 {totalPrice} 원 입니다!</p>
+        <div css={css.todayTotal} >
+          <p>주문 수 : {completedCount} 건 </p>
+          <p>매출 : {totalPrice} 원</p>
+        </div>
       </>
     );
   };
@@ -277,34 +284,32 @@ export default function Order() {
                 <div>
                   <div css={css.orderInfo}>
                     {orderDetail.map((order) => (
-                      <div
-                        style={{ margin: "10px", display: "flex", gap: "10px" }}
-                      >
-                        <span>{order.menuName}</span>
-                        <span>{order.quantity}개</span>
-                        <span>{order.menuPrice}원</span>
+                      <div key={order.orderDetailId} style={{ margin: "10px" }}>
+                        <div css={css.orderDetail}>
+                          <span>{order.menuName}</span>
+                          <span>{order.quantity}개</span>
+                          <span>{order.menuPrice}원</span>
+                        </div>
+                        <div>
+                          {optionDetail
+                            .filter(
+                              (option) =>
+                                option.orderDetailId === order.orderDetailId
+                            )
+                            .map((option, idx) => (
+                              <div
+                                key={idx}
+                                css={css.optionDetail}
+                              >
+                                <span>{option.menuOptionName}</span>
+                                <span>{option.menuOptionDetailName}</span>
+                                <span>+{option.additionalFee}원</span>
+                              </div>
+                            ))}
+                        </div>
                       </div>
                     ))}
                   </div>
-                  {orderDetail.some((order) => order.menuOptionDetailName) && (
-                    <div css={css.orderInfo}>
-                      {orderDetail.map((order) =>
-                        order.menuOptionDetailName ? (
-                          <div
-                            style={{
-                              margin: "10px",
-                              display: "flex",
-                              gap: "10px",
-                            }}
-                          >
-                            <span>{order.menuOptionName}</span>
-                            <span>{order.menuOptionDetailName}</span>
-                            <span>{order.additionalFee}원</span>
-                          </div>
-                        ) : null
-                      )}
-                    </div>
-                  )}
                   <p css={css.address}>
                     주소: {orderDetail[0].deliveryAddress}
                   </p>
