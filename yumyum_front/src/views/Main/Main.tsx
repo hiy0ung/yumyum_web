@@ -49,25 +49,25 @@ const Main = () => {
   const cardInfoTopList1ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList1Container, 0.7);
 
   const cardInfoTopList2Container = useRef<HTMLLIElement>(null);
-  const cardInfoTopList2ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList2Container, 0.8);
+  const cardInfoTopList2ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList2Container, 0.77);
 
   const cardInfoTopList3Container = useRef<HTMLLIElement>(null);
-  const cardInfoTopList3ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList3Container, 0.9);
+  const cardInfoTopList3ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList3Container, 0.84);
 
   const cardInfoTopList4Container = useRef<HTMLLIElement>(null);
-  const cardInfoTopList4ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList4Container, 0.10);
+  const cardInfoTopList4ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList4Container, 0.9);
 
   const cardInfoBottomList1Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList1ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList1Container, 0.8);
+  const cardInfoBottomList1ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList1Container, 0.7);
 
   const cardInfoBottomList2Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList2ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList2Container, 0.8);
+  const cardInfoBottomList2ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList2Container, 0.77);
 
   const cardInfoBottomList3Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList3ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList3Container, 0.8);
+  const cardInfoBottomList3ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList3Container, 0.84);
 
   const cardInfoBottomList4Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList4ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList4Container, 0.8);
+  const cardInfoBottomList4ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList4Container, 0.9);
 
 
   const memoVideo = useMemo(() => (

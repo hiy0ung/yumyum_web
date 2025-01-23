@@ -146,7 +146,7 @@ const ReviewNotice = () => {
 
     useEffect(() => {
         noticeGetFetch();
-    }, []);
+    }, [noticeDeleteFetch]);
 
     const renderChangeView = () => (
         <>
