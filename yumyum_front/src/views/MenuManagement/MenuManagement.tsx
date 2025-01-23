@@ -525,7 +525,7 @@ export default function MenuManagement() {
                                     />
                                   </div>
                                   <div css={s.menuPrice}>
-                                    가격: {menu.menuPrice}원
+                                    가격: {menu.menuPrice.toLocaleString("ko-KR")}원
                                   </div>
                                 </div>
                               </div>

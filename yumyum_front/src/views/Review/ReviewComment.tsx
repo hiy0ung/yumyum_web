@@ -23,6 +23,7 @@ interface ReviewsList {
   reviewDate: string;
   reviewPhotos: string[];
   reviewText: string;
+  menuCounts?: { [key: string]: number }; // 추가된 필드
 }
 
 function ReviewComment() {
@@ -40,29 +41,6 @@ function ReviewComment() {
     scrollToTop();
   }, []);
 
-  const handleTabChange = (tab: string) => {
-    setTabMenu(tab);
-  };
-
-  const fetchReviews = async () => {
-    try {
-      const response = await axios.get('http://localhost:4041/api/v1/reviews', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.data.data) {
-
-        const sortedData = response.data.data.sort((a: ReviewsList, b: ReviewsList) => {
-          return new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime();
-        });
-        setData(sortedData);
-      }
-      console.log(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     fetchReviews();
@@ -79,6 +57,42 @@ function ReviewComment() {
     setCommentText((prev) => ({
       ...prev, [id]: text,
     }))
+  };
+  const handleTabChange = (tab: string) => {
+    setTabMenu(tab);
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get('http://localhost:4041/api/v1/reviews', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.data.data) {
+
+        const sortedData = response.data.data.sort((a: ReviewsList, b: ReviewsList) => {
+          return new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime();
+        });
+
+        // 메뉴 이름을 카운트하여 중복 정보를 추가
+        const processedData = sortedData.map((review: ReviewsList) => {
+          const menuCounts = review.menuNames.reduce((acc: { [key: string]: number }, menu: string) => {
+            acc[menu] = (acc[menu] || 0) + 1;
+            return acc;
+          }, {});
+          return {
+            ...review,
+            menuCounts,
+          };
+        });
+
+        setData(processedData); // sortedData에서 processedData로 변경
+      }
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const addComment = async (reviewId: any) => {
     const commentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
@@ -198,16 +212,17 @@ function ReviewComment() {
                   }
 
                   {
-                    item.menuNames.length > 0 ? (
-                            <ul css={css.menuNamesContainer}>
-                              {
-                                item.menuNames.map((menu, index) => (
-                                    <li css={css.menuNames} key={index}>{menu}</li>))
-                              }
-                            </ul>)
-                        : (
-                            <div>메뉴 정보 없음</div>
-                        )
+                    item.menuCounts && Object.entries(item.menuCounts).length > 0 ? (
+                        <ul css={css.menuNamesContainer}>
+                          {Object.entries(item.menuCounts).map(([menu, count], index) => (
+                              <li css={css.menuNames} key={index}>
+                                {menu} {count > 1 ? `X ${count}` : ''}
+                              </li>
+                          ))}
+                        </ul>
+                    ) : (
+                        <div>메뉴 정보 없음</div>
+                    )
                   }
                   {
                     commentTab[item.id] ? (
@@ -254,7 +269,7 @@ function ReviewComment() {
                                 </div>
                               </div>
                               <div css={css.reviewAddCommentButtonContainer}>
-                                <button onClick={(e) => {
+                                <button style={{backgroundColor:"#FB8494"}} onClick={(e) => {
                                   const parent = e.currentTarget.closest('li');
                                   const id = parent?.dataset.id;
                                   return deleteComment(id);
@@ -325,16 +340,17 @@ function ReviewComment() {
                       }
 
                       {
-                        item.menuNames.length > 0 ? (
-                                <ul css={css.menuNamesContainer}>
-                                  {
-                                    item.menuNames.map((menu, index) => (
-                                        <li css={css.menuNames} key={index}>{menu}</li>))
-                                  }
-                                </ul>)
-                            : (
-                                <div>메뉴 정보 없음</div>
-                            )
+                        item.menuCounts && Object.entries(item.menuCounts).length > 0 ? (
+                            <ul css={css.menuNamesContainer}>
+                              {Object.entries(item.menuCounts).map(([menu, count], index) => (
+                                  <li css={css.menuNames} key={index}>
+                                    {menu} {count > 1 ? `X ${count}` : ''}
+                                  </li>
+                              ))}
+                            </ul>
+                        ) : (
+                            <div>메뉴 정보 없음</div>
+                        )
                       }
                       {
                         commentTab[item.id] ? (
