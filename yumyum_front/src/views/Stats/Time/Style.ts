@@ -161,7 +161,6 @@ export const chartDataNone = css`
   align-items: center;
   color: #333333;
   font-size: 35px;
-  font-family: "SB-어그로-M";
   background-color: rgba(0, 0, 0, 0.4);
   opacity: 0.4;
 `;

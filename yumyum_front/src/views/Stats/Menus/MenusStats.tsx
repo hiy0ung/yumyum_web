@@ -175,7 +175,7 @@ export default function MenusStats() {
                 setSelectDate(moment().format("YYYY-MM-DD"));
 
             } else {
-                console.log("fetch error");
+                console.log("오늘 데이터가 없습니다.");
             }
         } catch (error) {
             console.error("data :", error);
@@ -188,10 +188,11 @@ export default function MenusStats() {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log(selectDay);
             if (response.data.data.length > 0) {
                 dataController(response);
             } else {
-                console.log("fetch error");
+                console.log(`${selectDay} 해당 일의 데이터가 없습니다.`);
             }
         } catch
             (error) {
@@ -205,10 +206,11 @@ export default function MenusStats() {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log(response);
             if (response.data.data.length > 0) {
                 dataController(response);
             } else {
-                console.log("fetch error");
+                console.log(`${selectMonth} 해당 달의 데이터가 없습니다.`);
             }
         } catch (error) {
             console.error("fetch error:", error);
@@ -245,8 +247,7 @@ export default function MenusStats() {
         fetchMonth();
     };
     useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        console.log("마우스 이벤트");
+        document.addEventListener("mousedown", handleClickOutside);;
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -348,30 +349,40 @@ export default function MenusStats() {
 
 
                     <div css={css.chartResultLeftContainer}>
-                        <ResponsiveContainer width="100%" aspect={1}>
-                            <PieChart
-                                style={{
-                                    filter: "drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.3))",
-                                    borderRadius: "10px",
-                                    padding: "30px",
-                                    boxSizing: "border-box",
-                                }}>
-                                <Pie
-                                    activeIndex={activeIndex}
-                                    activeShape={renderActiveShape}
-                                    data={data}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={100}
-                                    outerRadius={250}
-                                    dataKey="sumQuantity"
-                                    onMouseEnter={onPieEnter}
-                                    stroke="none"
-                                    cornerRadius={5}
-                                    paddingAngle={5}
-                                />
-                            </PieChart>
-                        </ResponsiveContainer>
+                        {
+                            data.length > 0 ?
+                            (
+                                <ResponsiveContainer width="100%" aspect={1}>
+                                    <PieChart
+                                        style={{
+                                            filter: "drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.3))",
+                                            borderRadius: "10px",
+                                            padding: "30px",
+                                            boxSizing: "border-box",
+                                        }}>
+                                        <Pie
+                                            activeIndex={activeIndex}
+                                            activeShape={renderActiveShape}
+                                            data={data}
+                                            cx="50%"
+                                            cy="50%"
+                                            innerRadius={100}
+                                            outerRadius={250}
+                                            dataKey="sumQuantity"
+                                            onMouseEnter={onPieEnter}
+                                            stroke="none"
+                                            cornerRadius={5}
+                                            paddingAngle={5}
+                                        />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                    <div css={css.chartDataNone}>
+                                        해당 날짜에 데이터가 없습니다!
+                                    </div>
+                                )
+                        }
+
                     </div>
                 </div>
                 <div>
