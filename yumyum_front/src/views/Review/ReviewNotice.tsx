@@ -130,58 +130,6 @@ const ReviewNotice = () => {
         }
     };
 
-    // const noticeUpdate = async () => {
-    //     console.log("수정완료 버튼 클릭됨");
-    //     if (!quillRef.current) {
-    //         console.error("Quill reference is null");
-    //         return;
-    //     }
-    //     const editor = quillRef.current.getEditor();
-    //     const editorContentHTML = editor.root.innerHTML;
-    //
-    //     const base64ImageRegex = /<images[^>]+src="data:image\/[^">]+"[^>]*>/g;
-    //     const srcExtractRegex = /src="([^"]+)"/;
-    //
-    //     let newHTML = editorContentHTML;
-    //
-    //     const formData = new FormData();
-    //     const matches = editorContentHTML.match(base64ImageRegex) || [];
-    //     matches.forEach((imgTag, index) => {
-    //         const srcMatch = imgTag.match(srcExtractRegex);
-    //         if (!srcMatch) return;
-    //         const base64URL = srcMatch[1];
-    //         const file = dataURLtoFile(base64URL, `image_${index}.png`);
-    //         const newImgTag = imgTag.replace(base64URL, `image_${index}.png`);
-    //         newHTML = newHTML.replace(imgTag, newImgTag);
-    //         formData.append('noticePhotoUrl', file);
-    //     });
-    //
-    //     const noticeDate = moment().format('YYYY-MM-DDTHH:mm:ss');
-    //     formData.append('noticeDate', noticeDate);
-    //     formData.append('noticeText', newHTML);
-    //
-    //     try {
-    //         console.log('업로드할 FormData:', formData);
-    //
-    //         const response = await axios.post('http://localhost:4041/api/v1/reviews/notice/update,', formData,
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`,
-    //                     'Content-Type': 'multipart/form-data',
-    //             },
-    //         });
-    //
-    //         alert('공지사항 등록 완료');
-    //         console.log('서버 응답:', response.data);
-    //         setImgUrl(response.data.data.noticePhotoUrl);
-    //         setEditorContent(response.data.data.noticeText || ""); // 에디터 데이터 설정
-    //         setButton("change");
-    //
-    //     } catch (error) {
-    //         console.error(error);
-    //         alert('업로드 중 문제가 발생했습니다.');
-    //     }
-    // }
 
     useEffect(() => {
         if (quillRef.current && button === "changeUpdate" && editorContent) {
@@ -277,40 +225,11 @@ const ReviewNotice = () => {
         </>
     );
 
-    // const renderChangeUpdateView = () => (
-    //     <>
-    //         <ReactQuill
-    //             ref={quillRef}
-    //             css={css.quill}
-    //             modules={{
-    //                 toolbar: [
-    //                     ["image", "link"],
-    //                     [{header: [1, 2, 3, false]}],
-    //                     ["bold", "italic", "underline", "strike"],
-    //                     [{list: "ordered"}, {list: "bullet"}],
-    //                     [{align: []}, {color: []}, {background: []}],
-    //                     ["clean"],
-    //                 ],
-    //                 resize: {},
-    //             }}
-    //             theme="snow"
-    //             placeholder="리뷰 공지사항을 작성해주세요"
-    //         />
-    //         <button
-    //             css={css.reviewNoticeUploadButton}
-    //             onClick={() => noticeUpdate}
-    //         >
-    //             수정 완료
-    //         </button>
-    //     </>
-    // );
-
     return (
         <>
             <div css={css.quillContainer}>
                 {button === "change" && renderChangeView()}
                 {button === "save" && renderSaveView()}
-                {/*{button === "changeUpdate" && renderChangeUpdateView()}*/}
             </div>
         </>
     )
