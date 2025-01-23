@@ -1,6 +1,6 @@
 import {css} from "@emotion/react";
 import img1 from "../../images/foodImg11.webp"
-import img2 from "../../images/chartImg.webp"
+import img2 from "../../images/11.jpg"
 import food1 from "../../images/food1.webp"
 import food2 from "../../images/food2.webp"
 import food3 from "../../images/food3.webp"
@@ -260,9 +260,13 @@ export const listMenu2Title = css`
     margin-left: 50px;
 `;
 export const cardInfoContainer = css`
-    padding: 150px 0;
-    background: url(${img2}) no-repeat center center;
-    background-size: cover;
+  background: url(${img2}) no-repeat center center;
+  background-size: cover;
+`;
+export const cardInfoContainerRgba = css`
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 250px 0;
 `;
 export const visibleZBox = css`
     opacity: 1;
@@ -286,6 +290,7 @@ export const cardInfoCommonLayout = css`
         font-size: 30px;
         font-weight: 600;
         color: white;
+      margin-bottom: 10px
     }
 `;
 export const cardInfoTopBottomContainer = css`
