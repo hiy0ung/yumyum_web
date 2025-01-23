@@ -153,13 +153,15 @@ export const modalBoxStyle = css`
 `;
 
 export const modalTitle = css`
+  padding: 0 15px;
   margin-bottom: 16px;
-  font-family: "SB-어그로-M";
 `;
 
 export const modalText = css`
+  height: 200px;
   margin-bottom: 16px;
-  font-family: "SB-어그로-L";
+  padding: 0 15px;
+  overflow-y: scroll;
 `;
 
 export const modalOpenBtn = css`
