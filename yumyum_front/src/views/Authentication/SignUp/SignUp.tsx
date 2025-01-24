@@ -32,7 +32,7 @@ import {
   Success,
 } from "../../../types/SignUp";
 import * as css from "./Style";
-import { MARKETING_AGREED, PRIVACY_POLICY_AGREED } from "../../../constants/AgreedText";
+import { MARKETING_AGREED, PRIVACY_POLICY_AGREED } from "../../../constants/agreedText";
 
 function SignUp() {
   const location = useLocation();
