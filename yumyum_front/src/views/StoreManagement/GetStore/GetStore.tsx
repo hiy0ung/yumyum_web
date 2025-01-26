@@ -41,7 +41,7 @@ export default function Store() {
   const fetchStore = async () => {
     try {
       const response = await axios.get(
-          "http://localhost:4041/api/v1/stores/get",
+          "http://localhost:4041/api/v1/stores/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -82,7 +82,7 @@ export default function Store() {
   const deleteStore = async () => {
     try {
       const response = await axios.delete(
-          "http://localhost:4041/api/v1/stores/delete",
+          "http://localhost:4041/api/v1/stores",
           {
             headers: {
               "Content-Type": "application/json",

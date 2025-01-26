@@ -55,7 +55,7 @@ export default function Store() {
   const fetchStore = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4041/api/v1/stores/get",
+        "http://localhost:4041/api/v1/stores/",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -199,7 +199,7 @@ export default function Store() {
     }
     try {
       const response = await axios.put(
-        "http://localhost:4041/api/v1/stores/update",
+        "http://localhost:4041/api/v1/stores",
         formData,
         {
           headers: {

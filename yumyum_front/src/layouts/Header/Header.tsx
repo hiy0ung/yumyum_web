@@ -21,7 +21,7 @@ export default function Header() {
 
     const fetchStore = async () => {
         try {
-            const response = await axios.get("http://localhost:4041/api/v1/stores/get", {
+            const response = await axios.get("http://localhost:4041/api/v1/stores/", {
                 headers: { Authorization: `Bearer ${token}` },
             });
     
