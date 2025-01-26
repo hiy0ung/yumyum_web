@@ -165,7 +165,7 @@ export default function Store() {
     }
     try {
       const response = await axios.post(
-        "http://localhost:4041/api/v1/stores/create",
+        "http://localhost:4041/api/v1/stores",
         formData,
         {
           headers: {
