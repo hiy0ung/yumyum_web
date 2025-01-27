@@ -7,6 +7,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useCookies } from "react-cookie";
 import useScrollTop from "../../../hooks/scroll/useScrollToTop";
+import { PERIOD_STATS_API } from "../../../apis";
 
 interface DailyStat {
   orderDay: string;
@@ -70,7 +71,7 @@ export default function DailyStats() {
     const token = cookies.token;
     try {
       const responseDay = await axios.get(
-        `http://localhost:4041/api/v1/stats/daily/${orderDate}`,
+        PERIOD_STATS_API.DAILY(orderDate as string),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -78,7 +79,7 @@ export default function DailyStats() {
         }
       );
       const responseMonth = await axios.get(
-        `http://localhost:4041/api/v1/stats/month/${orderDate}`,
+        PERIOD_STATS_API.MONTHLY(orderDate as string),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -86,23 +87,17 @@ export default function DailyStats() {
         }
       );
       const responseYear = await axios.get(
-        `http://localhost:4041/api/v1/stats/year/${orderDate}`,
+        PERIOD_STATS_API.YEARLY(orderDate as string),
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      // const responseStroeTime = await axios.get(
-      //   `http://localhost:4041/api/v1/stores`
-      // )
-
       setResponseDailyData(responseDay.data.data);
       setResponseMonthData(responseMonth.data.data);
       setResponseYearData(responseYear.data.data);
-      // setStoreTime(responseStroeTime.data.data);
-      // console.log(responseStroeTime.data.data);
+
     } catch (error) {
       console.error("데이터를 불러오지 못했습니다.", error);
     }
@@ -124,59 +119,59 @@ export default function DailyStats() {
   }));
 
   return (
-    <>
-      <div className="body" style={{ padding: "0 20px" }}>
-        <div style={{ display: "flex" }}>
-          <div>
-            <Calendar
-              calendarType="gregory"
-              view="year"
-              className="year-view-calendar"
-              prev2Label={null}
-              next2Label={null}
-              maxDate={new Date()}
-              onClickMonth={(value) => handleClickMonth(value)}
-              tileClassName={({ date, view }) => {
-                if (
-                  view === "year" &&
-                  selectedDate &&
-                  date.getMonth() === selectedDate.getMonth() &&
-                  date.getFullYear() === selectedDate.getFullYear()
-                ) {
-                  return "selected";
-                }
-                return null;
-              }}
-            />
-            <div className="salesContainer">
-              {responseMonthData && responseMonthData.length > 0 ? (
-                <h2 className="monthSales">
-                  월 매출: {formatNumber(responseMonthData[0].monthSales)}원
-                </h2>
-              ) : (
-                <h2 className="monthSales">월 매출: 0원</h2>
-              )}
+      <>
+        <div className="body" style={{ padding: "0 20px" }}>
+          <div style={{ display: "flex" }}>
+            <div>
+              <Calendar
+                  calendarType="gregory"
+                  view="year"
+                  className="year-view-calendar"
+                  prev2Label={null}
+                  next2Label={null}
+                  maxDate={new Date()}
+                  onClickMonth={(value) => handleClickMonth(value)}
+                  tileClassName={({ date, view }) => {
+                    if (
+                        view === "year" &&
+                        selectedDate &&
+                        date.getMonth() === selectedDate.getMonth() &&
+                        date.getFullYear() === selectedDate.getFullYear()
+                    ) {
+                      return "selected";
+                    }
+                    return null;
+                  }}
+              />
+              <div className="salesContainer">
+                {responseMonthData && responseMonthData.length > 0 ? (
+                    <h2 className="monthSales">
+                      월 매출: {formatNumber(responseMonthData[0].monthSales)}원
+                    </h2>
+                ) : (
+                    <h2 className="monthSales">월 매출: 0원</h2>
+                )}
 
-              {responseYearData && responseYearData.length > 0 ? (
-                <h2 className="yearSales">
-                  연 매출: {formatNumber(responseYearData[0].yearSales)}원
-                </h2>
-              ) : (
-                <h2 className="yearSales">연 매출: 0원</h2>
-              )}
+                {responseYearData && responseYearData.length > 0 ? (
+                    <h2 className="yearSales">
+                      연 매출: {formatNumber(responseYearData[0].yearSales)}원
+                    </h2>
+                ) : (
+                    <h2 className="yearSales">연 매출: 0원</h2>
+                )}
+              </div>
+            </div>
+            <div className="full-calendar">
+              <FullCalendar
+                  initialView="dayGridMonth"
+                  height={"100%"}
+                  plugins={[dayGridPlugin]}
+                  events={events}
+                  ref={fullCalendarRef}
+              />
             </div>
           </div>
-          <div className="full-calendar">
-            <FullCalendar
-              initialView="dayGridMonth"
-              height={"100%"}
-              plugins={[dayGridPlugin]}
-              events={events}
-              ref={fullCalendarRef}
-            />
-          </div>
         </div>
-      </div>
-    </>
+      </>
   );
 }

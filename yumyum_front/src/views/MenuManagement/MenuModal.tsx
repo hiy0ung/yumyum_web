@@ -22,6 +22,7 @@ import {
 } from "../../types/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
+import { MENU_API, MENU_OPTION_API, IMAGE_API } from '../../apis';
 
 export default function MenuModal({
   modalStatus,
@@ -374,12 +375,13 @@ export default function MenuModal({
           ? prev.menuOptions.filter((_, index) => index !== optionIndex)
           : prev.menuOptions,
     }));
+    
     try {
       if (optionIndex === 0) {
         alert("옵션은 최소 한개 이상이여야 합니다");
       } else {
         const response = await axios.get(
-          `http://localhost:4041/api/v1/menus/${selectedMenuId}`,
+          MENU_API.GET_MENU(selectedMenuId),
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -388,8 +390,9 @@ export default function MenuModal({
         );
         const data = response.data.data;
         const deleteOptionId = data.menuOptions[optionIndex].menuOptionId;
+        
         await axios.delete(
-          `http://localhost:4041/api/v1/menus/options/delete/${deleteOptionId}`,
+          MENU_OPTION_API.DELETE_OPTION(deleteOptionId),
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -449,7 +452,7 @@ export default function MenuModal({
         alert("디테일 옵션은 최소 한개 이상이여야 합니다");
       } else {
         const response = await axios.get(
-          `http://localhost:4041/api/v1/menus/${selectedMenuId}`,
+          MENU_API.GET_MENU(selectedMenuId),
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -461,7 +464,7 @@ export default function MenuModal({
           data.menuOptions[optionIndex].optionDetails[detailIndex].detailId;
 
         await axios.delete(
-          `http://localhost:4041/api/v1/menus/options/details/delete/${deleteDetailId}`,
+          MENU_OPTION_API.DELETE_OPTION_DETAIL(deleteDetailId),
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -545,7 +548,7 @@ export default function MenuModal({
           return;
         } else {
           await axios.post(
-            `http://localhost:4041/api/v1/menus/add`,
+            MENU_API.ADD_MENU,
             formData,
             {
               headers: {
@@ -581,11 +584,7 @@ export default function MenuModal({
           setImgPreview("");
         }
       } catch (e) {
-        if (axios.isAxiosError(e)) {
-          console.error("사진 추가 안됨", e);
-        } else {
-          console.error("사진 추가 안됨", e);
-        }
+        console.error("사진 추가 안됨", e);
       }
     } catch (e) {
       console.error("토큰 없음");
@@ -599,7 +598,7 @@ export default function MenuModal({
     try {
       const token = cookies.token;
       const response = await axios.get(
-        `http://localhost:4041/api/v1/menus/${menuId}`,
+        MENU_API.GET_MENU(menuId),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -614,7 +613,7 @@ export default function MenuModal({
           i++
         ) {
           const result2 = await axios.post(
-            `http://localhost:4041/api/v1/menus/options/add`,
+            MENU_OPTION_API.ADD_OPTION,
             {
               menuId: menuId,
               optionName: "",
@@ -627,7 +626,7 @@ export default function MenuModal({
             }
           );
           await axios.post(
-            `http://localhost:4041/api/v1/menus/options/details/add`,
+            MENU_OPTION_API.ADD_OPTION_DETAIL,
             {
               menuOptionId: result2.data.data.menuOptionId,
               optionDetailName: "",
@@ -641,7 +640,15 @@ export default function MenuModal({
           );
         }
       }
-      
+
+      const response1 = await axios.get(
+        MENU_API.GET_MENU(menuId),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       for (let i = 0; i < updateMenu.menuOptions.length; i++) {
         if (
           updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] >
@@ -659,7 +666,7 @@ export default function MenuModal({
             i++
           ) {
             await axios.post(
-              `http://localhost:4041/api/v1/menus/options/details/add`,
+              MENU_OPTION_API.ADD_OPTION_DETAIL,
               {
                 menuOptionId: result.menuOptions[i].menuOptionId,
                 optionDetailName: "",
@@ -730,7 +737,7 @@ export default function MenuModal({
         return;
       }
       await axios.post(
-        `http://localhost:4041/api/v1/menus/update/${menuId}`,
+        MENU_API.UPDATE_MENU(menuId),
         formData,
         {
           headers: {
@@ -1072,7 +1079,7 @@ export default function MenuModal({
                 ) : (
                   <label css={s.imageLabel} htmlFor="imageUrl">
                     <span hidden>사진 수정</span>
-                    <img src={"http://localhost:4041/image" + updateMenu.imageUrl} alt="사진 수정" style={{height: "200px", width: "200px", objectFit: "cover", objectPosition: "center"}}/>
+                    <img src={IMAGE_API.GET_IMAGE_PATH(updateMenu.imageUrl)} alt="사진 수정" style={{height: "200px", width: "200px", objectFit: "cover", objectPosition: "center"}}/>
                     <button css={s.image} onClick={onClickUpload} style={{display: "none"}}>
                     </button>
                   </label>

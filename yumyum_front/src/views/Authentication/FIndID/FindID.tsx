@@ -4,6 +4,7 @@ import * as css from "./Style";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {FindID, RequestFindId} from "../../../types/FindId";
+import { AUTH_API } from '../../../apis';
 
 const FindId = () => {
   const [userName, setUserName] = useState<string>("");
@@ -78,7 +79,7 @@ const FindId = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:4041/api/v1/mail/send/id", {
+      const response = await axios.post(AUTH_API.FIND_ID, {
         userName,
         userEmail
       });

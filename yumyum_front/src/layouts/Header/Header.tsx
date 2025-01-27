@@ -6,6 +6,7 @@ import {useCookies} from "react-cookie";
 import axios from "axios";
 import {TimeInfo} from "../../types/Store";
 import useStoreImage from "../../stores/storeImg.store";
+import { STORE_API } from "../../apis";
 
 export default function Header() {
     const [status, setStatus] = useState<"OPEN" | "BREAK" | "CLOSE">("OPEN");
@@ -21,7 +22,7 @@ export default function Header() {
 
     const fetchStore = async () => {
         try {
-            const response = await axios.get("http://localhost:4041/api/v1/stores/get", {
+            const response = await axios.get(STORE_API.GET_STORE, {
                 headers: { Authorization: `Bearer ${token}` },
             });
     

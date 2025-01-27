@@ -9,6 +9,7 @@ import defaultImg from "../../images/default_Profile_Img.webp"
 import defaultImg3 from "../../images/ex1.webp";
 import ReviewNotice from "./ReviewNotice";
 import useScrollTop from "../../hooks/scroll/useScrollToTop";
+import { REVIEW_API } from "../../apis";
 
 interface ReviewsList {
   comment_date: string | null;
@@ -23,7 +24,7 @@ interface ReviewsList {
   reviewDate: string;
   reviewPhotos: string[];
   reviewText: string;
-  menuCounts?: { [key: string]: number }; // 추가된 필드
+  menuCounts?: { [key: string]: number };
 }
 
 function ReviewComment() {
@@ -44,7 +45,7 @@ function ReviewComment() {
 
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [])
 
 
   const toggleCommentTab = (id: number) => {
@@ -64,18 +65,16 @@ function ReviewComment() {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('http://localhost:4041/api/v1/reviews', {
+      const response = await axios.get(REVIEW_API.GET_REVIEWS, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       if (response.data.data) {
-
         const sortedData = response.data.data.sort((a: ReviewsList, b: ReviewsList) => {
           return new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime();
         });
 
-        // 메뉴 이름을 카운트하여 중복 정보를 추가
         const processedData = sortedData.map((review: ReviewsList) => {
           const menuCounts = review.menuNames.reduce((acc: { [key: string]: number }, menu: string) => {
             acc[menu] = (acc[menu] || 0) + 1;
@@ -86,27 +85,29 @@ function ReviewComment() {
             menuCounts,
           };
         });
-
-        setData(processedData); // sortedData에서 processedData로 변경
+        setData(processedData);
       }
-      console.log(response.data.data);
     } catch (error) {
       console.log(error);
     }
   };
+
   const addComment = async (reviewId: any) => {
     const commentDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS');
-    console.log(reviewId);
     try {
-      const response = await axios.post(`http://localhost:4041/api/v1/reviews/comment/create/${reviewId}`, {
-        commentText: commentText[reviewId],
-        commentDate,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
+      const response = await axios.post(
+        REVIEW_API.ADD_COMMENT(reviewId),
+        {
+          commentText: commentText[reviewId],
+          commentDate,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+        }
+      );
 
       console.log('댓글 추가 성공:', response.data);
       alert('댓글이 추가되었습니다.');
@@ -117,16 +118,18 @@ function ReviewComment() {
       console.error('댓글 추가 실패:', error);
       alert('댓글 추가에 실패했습니다.');
     }
-
   };
 
   const deleteComment = async (reviewId: any) => {
     try {
-      const response = await axios.delete(`http://localhost:4041/api/v1/reviews/comment/delete/${reviewId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.delete(
+        REVIEW_API.DELETE_COMMENT(reviewId),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       console.log('댓글 삭제 성공:', response.data);
       alert('댓글이 삭제 되었습니다.');

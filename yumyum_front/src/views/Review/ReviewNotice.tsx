@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState, useCallback} from 'react';
 import * as css from "./Style";
 import ReactQuill from "react-quill-new";
 import moment from "moment/moment";
@@ -9,6 +9,7 @@ import 'react-quill/dist/quill.snow.css';
 import QuillResizeImage from "quill-resize-image";
 import Quill from "quill";
 import useScrollTop from "../../hooks/scroll/useScrollToTop";
+import { REVIEW_NOTICE_API, REVIEW_NOTICE_IMAGE_UPLOAD } from "../../apis";
 
 Quill.register('modules/resize', QuillResizeImage);
 
@@ -58,9 +59,10 @@ const ReviewNotice = () => {
         try {
             console.log('업로드할 FormData:', formData);
 
-            const response = await axios.post('http://localhost:4041/api/v1/reviews/notice/create', formData, {
+            const response = await axios.post(REVIEW_NOTICE_API.CREATE, formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
                 },
             });
 
@@ -88,14 +90,14 @@ const ReviewNotice = () => {
         return new File([u8arr], filename, {type: mime});
     };
 
-    const noticeGetFetch = async () => {
+
+    const noticeGetFetch = useCallback(async () => {
         try {
-            const response = await axios.get(`http://localhost:4041/api/v1/reviews/notice`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                });
+            const response = await axios.get(REVIEW_NOTICE_API.GET, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
 
             if (response.data.data) {
                 setImgUrl(response.data.data.noticePhotoUrl);
@@ -103,15 +105,18 @@ const ReviewNotice = () => {
                 setButton("change");
                 setNoticeId(response.data.data.id)
             }
-            console.log(editorContent)
         } catch (error) {
-            console.error("이미지 URL을 가져오는 중 오류 발생:", error);
+            console.error(error);
         }
-    };
+    }, [token]);
+
+    useEffect(() => {
+        noticeGetFetch();
+    }, [noticeGetFetch]);
 
     const noticeDeleteFetch = async () => {
         try {
-            const response = await axios.delete(`http://localhost:4041/api/v1/reviews/notice/delete/${noticeId}`,
+            const response = await axios.delete(REVIEW_NOTICE_API.DELETE(noticeId),
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -129,23 +134,21 @@ const ReviewNotice = () => {
         }
     };
 
+    const processedContent = useMemo(() => {
+        return editorContent.replace(/<img[^>]+src="([^"]+)"[^>]*>/g, (match, src) => {
+            if (!src.startsWith("http")) {
+                return match.replace(src, REVIEW_NOTICE_IMAGE_UPLOAD.UPLOAD(imgUrl));
+            }
+            return match;
+        });
+    }, [editorContent, imgUrl]);
 
     useEffect(() => {
-        if (quillRef.current && button === "changeUpdate" && editorContent) {
+        if (quillRef.current && button === "changeUpdate") {
             const editor = quillRef.current.getEditor();
-            const processedHtml = editorContent.replace(/<img[^>]+src="([^"]+)"[^>]*>/g, (match, src) => {
-                if (!src.startsWith('http')) {
-                    return match.replace(src, `http://localhost:4041/image/upload/${imgUrl}`); //http://localhost:4041/image/upload/notice/aa91636b-3ff6-4d60-b31d-2bdaf81ca591_image_0.png
-                }
-                return match;
-            });
-            editor.clipboard.dangerouslyPasteHTML(processedHtml);
+            editor.clipboard.dangerouslyPasteHTML(processedContent);
         }
-    }, [button, editorContent]);
-
-    useEffect(() => {
-        noticeGetFetch();
-    }, []);
+    }, [button, processedContent]);
 
     const renderChangeView = () => (
         <>
@@ -158,9 +161,9 @@ const ReviewNotice = () => {
                     dangerouslySetInnerHTML={{
                         __html: editorContent
                             .replace(
-                                /<img[^>]+src="([^"]+)"[^>]*>/g, (match : string, src : any) => {
+                                /<img[^>]+src="([^"]+)"[^>]*>/g, (match, src) => {
                                     if (!src.startsWith("http")) {
-                                        return match.replace(src, `http://localhost:4041/image/upload/${imgUrl}`)
+                                        return match.replace(src, REVIEW_NOTICE_IMAGE_UPLOAD.UPLOAD(imgUrl))
                                     }
                                     return match;
                                 }
@@ -185,7 +188,7 @@ const ReviewNotice = () => {
             </div>
             <div css={css.reviewNoticeDeleteButtonContainer}>
                 <button
-                    css={css.reviewNoticeUploadButton}
+                    css={css.reviewNoticeUploadButtonDelete}
                     onClick={() => noticeDeleteFetch()}
                 >
                     삭제
@@ -215,7 +218,7 @@ const ReviewNotice = () => {
             />
             <div css={css.reviewNoticeUploadButtonContainer}>
                 <button
-                    css={css.reviewNoticeUploadButton}
+                    css={css.reviewNoticeUploadButtonSave}
                     onClick={() => noticeCreateFetch()}
                 >
                     저장

@@ -6,7 +6,7 @@ import yumyumLogo2 from "../../images/yumyumLogo2.webp";
 import img1 from "../../images/foodImg9.webp";
 import img2 from "../../images/foodImg10.webp";
 import {Link} from "react-router-dom";
-import {AUTH_PATH_SIGN_UP, READY_SIGN_UP} from "../../constants";
+import {READY_SIGN_UP} from "../../constants";
 import Login from "../Authentication/Login/Login";
 import useScrollYCheck from "../../hooks/scroll/useScrollYCheck"
 import Footer from "../../layouts/Footer/Footer";
@@ -46,28 +46,28 @@ const Main = () => {
   const listMenu2IsVisible = useScrollElementsAnimation(listMenu2, 0.9);
 
   const cardInfoTopList1Container = useRef<HTMLLIElement>(null);
-  const cardInfoTopList1ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList1Container, 0.7);
+  const cardInfoTopList1ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList1Container, 0.8);
 
   const cardInfoTopList2Container = useRef<HTMLLIElement>(null);
-  const cardInfoTopList2ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList2Container, 0.77);
+  const cardInfoTopList2ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList2Container, 0.76);
 
   const cardInfoTopList3Container = useRef<HTMLLIElement>(null);
-  const cardInfoTopList3ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList3Container, 0.84);
+  const cardInfoTopList3ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList3Container, 0.73);
 
   const cardInfoTopList4Container = useRef<HTMLLIElement>(null);
-  const cardInfoTopList4ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList4Container, 0.9);
+  const cardInfoTopList4ContainerIsVisible = useScrollElementsAnimation(cardInfoTopList4Container, 0.7);
 
   const cardInfoBottomList1Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList1ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList1Container, 0.7);
+  const cardInfoBottomList1ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList1Container, 0.8);
 
   const cardInfoBottomList2Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList2ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList2Container, 0.77);
+  const cardInfoBottomList2ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList2Container, 0.76);
 
   const cardInfoBottomList3Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList3ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList3Container, 0.84);
+  const cardInfoBottomList3ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList3Container, 0.73);
 
   const cardInfoBottomList4Container = useRef<HTMLLIElement>(null);
-  const cardInfoBottomList4ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList4Container, 0.9);
+  const cardInfoBottomList4ContainerIsVisible = useScrollElementsAnimation(cardInfoBottomList4Container, 0.7);
 
 
   const memoVideo = useMemo(() => (
@@ -92,7 +92,7 @@ const Main = () => {
   };
 
   useEffect(() => {
-    // scrollToTop();
+    scrollToTop();
   }, []);
   return (
       <>
@@ -197,7 +197,7 @@ const Main = () => {
                     css={[css.cardInfoCommonLayout,
                       css.cardInfoTopList4Container,
                       cardInfoTopList4ContainerIsVisible && css.visibleZBox]}>
-                  <div>코딩싫다</div>
+                  <div>사고싶다</div>
                 </li>
               </ul>
               <ul css={css.cardInfoTopBottomContainer}>

@@ -15,9 +15,9 @@ import {
 } from "../../../constants";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../../stores/auth.store";
-import kakao from "../../../images/kakao.png";
-import naver from "../../../images/naver.png";
-import { SIGN_IN_SNS_API } from "../../../apis/snsLogInAndSignUp";
+import kakao from "../../../images/kakao.webp";
+import naver from "../../../images/naver.webp";
+import { AUTH_API } from "../../../apis";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:4041/api/v1/auth/login`,
+      AUTH_API.LOGIN,
         userLogInInfo
       );
       console.log("로그인 응답:", response.data.data);
@@ -82,7 +82,7 @@ export default function Login() {
   };
 
   const onSnsButtonClickHandler = (sns: "kakao" | "naver") => {
-    window.location.href = `${SIGN_IN_SNS_API}${sns}`;
+    window.location.href = `${AUTH_API.SNS_SIGN_IN}${sns}`;
   };
 
   return (

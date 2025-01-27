@@ -14,6 +14,7 @@ import {
     MenuStatsFetchData,
     MenuStatsFetchDataTotal
 } from "../../../types/Stats";
+import { MENU_STATS_API } from "../../../apis";
 
 const calendarStyles = {
     ".react-calendar__month-view__weekdays": {
@@ -163,7 +164,7 @@ export default function MenusStats() {
 
     const fetchToday = async () => {
         try {
-            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/today`, {
+            const response = await axios.get(MENU_STATS_API.TODAY, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -173,7 +174,6 @@ export default function MenusStats() {
                 dataController(response);
                 setSelectToday(moment().format("YYYY-MM-DD"));
                 setSelectDate(moment().format("YYYY-MM-DD"));
-
             } else {
                 setData([]);
                 console.log("오늘 데이터가 없습니다.");
@@ -184,25 +184,24 @@ export default function MenusStats() {
     };
     const fetchDay = async () => {
         try {
-            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/day/${selectDay}`, {
+            const response = await axios.get(MENU_STATS_API.DAY(selectDay), {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log(selectDay);
             if (response.data.data.length > 0) {
                 dataController(response);
             } else {
-                console.log(`${selectDay} 해당 일의 데이터가 없습니다.`);
+                setData([]);
+                alert(`${selectDay} 해당 일의 데이터가 없습니다.`);
             }
-        } catch
-            (error) {
+        } catch (error) {
             console.error("data :", error);
         }
     };
     const fetchMonth = async () => {
         try {
-            const response = await axios.get(`http://localhost:4041/api/v1/stats/menus/month/${selectMonth}`, {
+            const response = await axios.get(MENU_STATS_API.MONTH(selectMonth), {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

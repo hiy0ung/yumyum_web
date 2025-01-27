@@ -24,6 +24,7 @@ import useStoreImage from "../../../stores/storeImg.store";
 import defaultImage from "../../../images/default_Profile_Img.webp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
+import { STORE_API } from "../../../apis";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -165,7 +166,7 @@ export default function Store() {
     }
     try {
       const response = await axios.post(
-        "http://localhost:4041/api/v1/stores/create",
+        STORE_API.CREATE_STORE,
         formData,
         {
           headers: {

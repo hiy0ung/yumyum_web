@@ -4,12 +4,12 @@ import * as css from "./Styles";
 import {useSearchParams, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {MAIN_PATH} from "../../../constants";
+import { AUTH_API } from '../../../apis';
 
 const ChangePassword = () => {
     const [token, setToken] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMsg, setErrorMsg] = useState("");
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ const ChangePassword = () => {
     const handlePasswordChange = async () => {
 
         try {
-            const response = await axios.post('http://localhost:4041/api/v1/password/change', {
+            const response = await axios.post(AUTH_API.CHANGE_PASSWORD, {
                 token,
                 newPassword,
                 confirmPassword,
