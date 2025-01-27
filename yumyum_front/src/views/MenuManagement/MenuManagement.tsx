@@ -17,9 +17,9 @@ import {
   AddCategory,
   UpdateMenu,
   MenuOptions,
-  MenuData,
 } from "../../types/Menu";
 import useScrollTop from "../../hooks/scroll/useScrollToTop";
+import { CATEGORY_API, IMAGE_API, MENU_API } from "../../apis";
 
 export default function MenuManagement() {
   const [cookies] = useCookies(["token"]);
@@ -33,7 +33,7 @@ export default function MenuManagement() {
     scrollToTop();
   }, []);
   const [menus, setMenus] = useState<Menus[]>([]);
-  const [menuImg, setMenuImg] = useState<any>(null);
+  const [ setMenuImg] = useState<any>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryModalOepn, setIsCategoryModalOpen] = useState(false);
   const [checked, setChecked] = useState(true);
@@ -74,8 +74,7 @@ export default function MenuManagement() {
     }
   }, [categories]);
 
-  const { updateModalState, updateModalOpen, updateModalClose } =
-    updateModalStore();
+  const { updateModalOpen } = updateModalStore();
   const { isModalOpen, openModal, closeModal } = useModalStore();
 
   const categoryOpenModal = () => setIsCategoryModalOpen(true);
@@ -86,7 +85,7 @@ export default function MenuManagement() {
     const token = cookies.token;
     try {
       const data = await axios.get(
-        `http://localhost:4041/api/v1/categories/get`,
+        CATEGORY_API.GET_CATEGORIES,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -102,7 +101,7 @@ export default function MenuManagement() {
   const fetchData = async () => {
     const token = cookies.token;
     try {
-      const data = await axios.get(`http://localhost:4041/api/v1/menus`, {
+      const data = await axios.get(MENU_API.GET_MENUS, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -135,7 +134,7 @@ export default function MenuManagement() {
           updateIsAvailable.menuCategory
         );
         await axios.put(
-          `http://localhost:4041/api/v1/menus/update/${menuId}`,
+          MENU_API.UPDATE_MENU(menuId),
           {
             categoryId: categoryId,
             menuName: updateIsAvailable.menuName,
@@ -169,7 +168,7 @@ export default function MenuManagement() {
     const token = cookies.token;
     for (const category of updatedCategories) {
       await axios.put(
-        `http://localhost:4041/api/v1/categories/sequence`,
+        CATEGORY_API.UPDATE_SEQUENCE,
         {
           id: category.id,
           menuCategorySequence: category.menuCategorySequence,
@@ -204,7 +203,7 @@ export default function MenuManagement() {
         return;
       }
       await axios.post(
-        `http://localhost:4041/api/v1/categories/post`,
+        CATEGORY_API.CREATE_CATEGORY,
         {
           menuCategory: AddCategory.menuCategory,
           menuCategorySequence: AddCategory.menuCategorySequence,
@@ -226,7 +225,7 @@ export default function MenuManagement() {
   const deleteCategory = async (categoryId: number) => {
     try {
       await axios.delete(
-        `http://localhost:4041/api/v1/categories/delete/${categoryId}`
+        CATEGORY_API.DELETE_CATEGORY(categoryId)
       );
     } catch (e) {
       console.error(e);
@@ -326,7 +325,7 @@ export default function MenuManagement() {
     }
     try {
       const data = await axios.get(
-        `http://localhost:4041/api/v1/menus/${menuId}`
+        MENU_API.GET_MENU(menuId)
       );
       const result = data.data.data;
       const updatedMenuData = {
@@ -357,7 +356,7 @@ export default function MenuManagement() {
     if (window.confirm("정말 삭제하시겠습니까?")) {
       try {
         await axios.delete(
-          `http://localhost:4041/api/v1/menus/delete/${menuId}`,
+          MENU_API.DELETE_MENU(menuId),
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -484,11 +483,8 @@ export default function MenuManagement() {
                               <div css={s.menu}>
                                 <div css={s.menuImage}>
                                   <img
-                                    src={
-                                      "http://localhost:4041/image" +
-                                      menu.imageUrl
-                                    }
-                                    alt="파일 처리 안됨"
+                                    src={IMAGE_API.GET_IMAGE_PATH(menu.imageUrl)}
+                                    alt="메뉴 이미지"
                                     css={s.imageUpload}
                                   />
                                 </div>

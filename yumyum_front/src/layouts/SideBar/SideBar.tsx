@@ -30,6 +30,7 @@ import axios from "axios";
 import YumYumLogoImg from "../../images/yumyumLogo2.webp";
 import useAuthStore from "../../stores/auth.store";
 import useStoreImage from "../../stores/storeImg.store";
+import { STORE_API } from "../../apis";
 
 export default function SideBar() {
     const [pathValue, setPathValue] = useState("");
@@ -87,7 +88,7 @@ export default function SideBar() {
     const checkStore = async (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.get("http://localhost:4041/api/v1/stores", {
+            const response = await axios.get(STORE_API.GET_STORE, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

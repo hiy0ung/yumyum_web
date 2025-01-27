@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import * as css from "./Style";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AUTH_API } from "../../../apis";
+import axios from "axios";
 
 const FindPW = () => {
     const [userName, setUserName] = useState("");
@@ -93,7 +94,7 @@ const FindPW = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:4041/api/v1/mail/send/password", {
+            const response = await axios.post(AUTH_API.FIND_PASSWORD, {
                 userId,
                 userName,
                 userEmail,

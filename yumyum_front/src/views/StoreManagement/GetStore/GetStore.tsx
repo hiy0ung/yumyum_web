@@ -17,6 +17,7 @@ import {useNavigate} from "react-router-dom";
 import {HOME_PATH, UPDATE_STORE_PATH} from "../../../constants";
 import useStoreImage from "../../../stores/storeImg.store";
 import useScrollTop from "../../../hooks/scroll/useScrollToTop";
+import { STORE_API } from '../../../apis';
 
 export default function Store() {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export default function Store() {
   const fetchStore = async () => {
     try {
       const response = await axios.get(
-          "http://localhost:4041/api/v1/stores/",
+          STORE_API.GET_STORE,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -82,7 +83,7 @@ export default function Store() {
   const deleteStore = async () => {
     try {
       const response = await axios.delete(
-          "http://localhost:4041/api/v1/stores",
+          STORE_API.DELETE_STORE,
           {
             headers: {
               "Content-Type": "application/json",

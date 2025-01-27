@@ -15,6 +15,7 @@ import {
   OrderDetailOptionInfo,
 } from "../../types/Order";
 import * as css from "./Style";
+import { ORDER_API } from "../../apis";
 
 export default function Order() {
   const [currentTab, setCurrentTab] = useState("0");
@@ -55,7 +56,7 @@ export default function Order() {
 
   const fetchOrder = async () => {
     try {
-      const response = await axios.get("http://localhost:4041/api/v1/orders", {
+      const response = await axios.get(ORDER_API.GET_ORDERS, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -140,7 +141,7 @@ export default function Order() {
   const openModal = async (orderId: number) => {
     try {
       const response = await axios.get(
-        `http://localhost:4041/api/v1/orders/detail/${orderId}`,
+        ORDER_API.GET_ORDER_DETAIL(orderId),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -176,7 +177,7 @@ export default function Order() {
   ) => {
     try {
       const response = await axios.put(
-        `http://localhost:4041/api/v1/orders/update/state/${orderId}`,
+        ORDER_API.UPDATE_ORDER_STATE(orderId),
         {},
         {
           params: {

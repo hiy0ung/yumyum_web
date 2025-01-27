@@ -7,6 +7,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useCookies } from "react-cookie";
 import useScrollTop from "../../../hooks/scroll/useScrollToTop";
+import { PERIOD_STATS_API } from "../../../apis";
 
 interface DailyStat {
   orderDay: string;
@@ -70,39 +71,33 @@ export default function DailyStats() {
     const token = cookies.token;
     try {
       const responseDay = await axios.get(
-          `http://localhost:4041/api/v1/stats/daily/${orderDate}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        PERIOD_STATS_API.DAILY(orderDate as string),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const responseMonth = await axios.get(
-          `http://localhost:4041/api/v1/stats/month/${orderDate}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        PERIOD_STATS_API.MONTHLY(orderDate as string),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const responseYear = await axios.get(
-          `http://localhost:4041/api/v1/stats/year/${orderDate}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        PERIOD_STATS_API.YEARLY(orderDate as string),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-
-      // const responseStroeTime = await axios.get(
-      //   `http://localhost:4041/api/v1/stores`
-      // )
-
       setResponseDailyData(responseDay.data.data);
       setResponseMonthData(responseMonth.data.data);
       setResponseYearData(responseYear.data.data);
-      // setStoreTime(responseStroeTime.data.data);
-      // console.log(responseStroeTime.data.data);
+
     } catch (error) {
       console.error("데이터를 불러오지 못했습니다.", error);
     }
