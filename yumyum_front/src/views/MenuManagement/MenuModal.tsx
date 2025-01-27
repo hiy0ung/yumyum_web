@@ -18,9 +18,7 @@ import {
   MenuModalProps,
   AddMenu,
   UpdateMenu,
-  Menus,
   MenuOptions,
-  MenuOptionDetails,
 } from "../../types/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -288,7 +286,7 @@ export default function MenuModal({
     }));
     setMenuChecked([...menuChecked, false]);
   };
-  const addNewUpdateOption = (selectMenuId: number) => {
+  const addNewUpdateOption = () => {
     setUpdateMenu((prev) => ({
       ...prev,
       menuOptions: [
@@ -546,7 +544,7 @@ export default function MenuModal({
           alert("메뉴 카테고리를 선택해주세요");
           return;
         } else {
-          const response = await axios.post(
+          await axios.post(
             `http://localhost:4041/api/v1/menus/add`,
             formData,
             {
@@ -643,14 +641,7 @@ export default function MenuModal({
           );
         }
       }
-      const response1 = await axios.get(
-        `http://localhost:4041/api/v1/menus/${menuId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      
       for (let i = 0; i < updateMenu.menuOptions.length; i++) {
         if (
           updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] >
@@ -1325,8 +1316,8 @@ export default function MenuModal({
                               <div css={s.confirmButton}>
                                 <div>
                                   <button
-                                    onClick={() =>
-                                      addNewUpdateOption(selectedMenuId)
+                                    onClick={
+                                      addNewUpdateOption
                                     }
                                   >
                                     옵션그룹 추가
