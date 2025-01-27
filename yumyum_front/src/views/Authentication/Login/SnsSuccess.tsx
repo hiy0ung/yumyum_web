@@ -25,12 +25,12 @@ export default function SnsSuccess() {
       });
 
       login({
-        token: token,
+        token: accessToken,
       });
 
       navigator("/home");
     } else navigator("/auth/signUp");
-  }, [accessToken, expiration, navigator, setCookies]);
+  }, [accessToken, expiration, navigator, setCookies, login]);
 
   return <></>;
 }

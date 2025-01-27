@@ -32,7 +32,8 @@ import {
   Success,
 } from "../../../types/SignUp";
 import * as css from "./Style";
-import { MARKETING_AGREED, PRIVACY_POLICY_AGREED } from "../../../constants/agreedText";
+import { MARKETING_AGREED, PRIVACY_POLICY_AGREED } from "../../../assets/agreedText";
+import { AUTH_API } from "../../../apis";
 
 function SignUp() {
   const location = useLocation();
@@ -132,7 +133,7 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        `http://localhost:4041/api/v1/auth/signUp/search/userId`,
+        AUTH_API.SIGN_UP_SEARCH_USER_ID,
         { userId: userSignUpInfo.userId }
       );
       if (response.data.data.duplicatedStatus) {
@@ -170,7 +171,7 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        `http://localhost:4041/api/v1/auth/signUp/search/userEmail`,
+        AUTH_API.SIGN_UP_SEARCH_USER_EMAIL,
         { userEmail: userSignUpInfo.userEmail }
       );
       if (response.data.data.duplicatedStatus) {
@@ -199,7 +200,7 @@ function SignUp() {
     }
     try {
       const response = await axios.post(
-        `http://localhost:4041/api/v1/auth/signUp/search/userBusinessNumber`,
+        AUTH_API.SIGN_UP_SEARCH_USER_BUSINESS_NUMBER,
         { userBusinessNumber: userSignUpInfo.userBusinessNumber }
       );
       if (response.data.data.duplicatedStatus) {
@@ -408,7 +409,7 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        `http://localhost:4041/api/v1/auth/signUp`,
+        AUTH_API.SIGNUP,
         userSignUpInfo
       );
       if (response.data.data) {

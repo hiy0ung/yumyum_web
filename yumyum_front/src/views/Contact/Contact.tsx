@@ -4,6 +4,7 @@ import * as css from "./Style";
 import {Button} from "@mui/material";
 import axios from "axios";
 import {useCookies} from "react-cookie";
+import { CONTACT_API } from '../../apis';
 
 const Contact = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const Contact = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:4041/api/v1/contact",
+      const response = await axios.post(CONTACT_API.SEND_CONTACT,
           {
             email,
             title,

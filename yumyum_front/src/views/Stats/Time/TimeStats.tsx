@@ -29,6 +29,7 @@ import Calendar from "react-calendar";
 import "../../../styles/Calendar.css";
 import moment from "moment";
 import useScrollTop from "../../../hooks/scroll/useScrollToTop";
+import { TIME_STATS_API } from "../../../apis";
 
 export default function TimeStats() {
   const [calendarBox, setCalendarBox] = useState<Calender>({ calendar: false });
@@ -45,19 +46,19 @@ export default function TimeStats() {
   const fetchChart1 = async () => {
     try {
       const response = await axios.get(
-          `http://localhost:4041/api/v1/stats/time/revenue/${orderDate}T00:00:00`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        TIME_STATS_API.REVENUE(orderDate),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const revenueStatsTimes: ResponseRevenueStatsTime[] = response.data.data;
       setRevenueStats(
-          revenueStatsTimes.map((revenueStatsTime) => ({
-            name: revenueStatsTime.hour,
-            revenue: revenueStatsTime.revenue,
-          }))
+        revenueStatsTimes.map((revenueStatsTime) => ({
+          name: revenueStatsTime.hour,
+          revenue: revenueStatsTime.revenue,
+        }))
       );
     } catch (e) {
       console.error(e);
@@ -67,20 +68,19 @@ export default function TimeStats() {
   const fetchChart2 = async () => {
     try {
       const response = await axios.get(
-          `http://localhost:4041/api/v1/stats/time/quantity/${orderDate}T00:00:00`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        TIME_STATS_API.QUANTITY(orderDate),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      const quantityStatsTimes: ResponseQuantityStatsTime[] =
-          response.data.data;
+      const quantityStatsTimes: ResponseQuantityStatsTime[] = response.data.data;
       setQuantityStats(
-          quantityStatsTimes.map((quantityStatsTime) => ({
-            name: quantityStatsTime.hour,
-            quantity: quantityStatsTime.quantity,
-          }))
+        quantityStatsTimes.map((quantityStatsTime) => ({
+          name: quantityStatsTime.hour,
+          quantity: quantityStatsTime.quantity,
+        }))
       );
     } catch (e) {
       console.error(e);

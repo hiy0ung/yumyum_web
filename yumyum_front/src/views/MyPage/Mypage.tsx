@@ -4,13 +4,12 @@ import React, { useEffect, useState } from "react";
 import * as s from "./MypageCss";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  HOME_PATH,
   MAIN_PATH,
   MY_PAGE_UPDATE,
-  UPDATE_STORE_PATH,
 } from "../../constants";
 import { Cookies, useCookies } from "react-cookie";
 import { Button } from "@mui/material";
+import { MYPAGE_API } from "../../apis";
 
 interface User {
   userId: string;
@@ -45,7 +44,7 @@ export default function Mypage() {
     const token = cookies.token;
     if (window.confirm("정말 삭제하시겠습니까?")) {
       try {
-        await axios.delete(`http://localhost:4041/api/v1/mypage/delete`, {
+        await axios.delete(MYPAGE_API.DELETE_USER, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -64,7 +63,7 @@ export default function Mypage() {
   const fetchData = async () => {
     try {
       const token = cookies.token;
-      const userData = await axios.get(`http://localhost:4041/api/v1/mypage`, {
+      const userData = await axios.get(MYPAGE_API.GET_USER, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

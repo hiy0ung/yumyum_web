@@ -20,6 +20,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { STORE_PATH } from "../../../constants";
+import { STORE_API } from "../../../apis";
 
 export default function Store() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function Store() {
   const fetchStore = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4041/api/v1/stores/get",
+        STORE_API.GET_STORE,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -199,7 +200,7 @@ export default function Store() {
     }
     try {
       const response = await axios.put(
-        "http://localhost:4041/api/v1/stores/update",
+        STORE_API.UPDATE_STORE,
         formData,
         {
           headers: {

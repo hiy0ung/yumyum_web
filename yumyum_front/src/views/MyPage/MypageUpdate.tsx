@@ -7,6 +7,7 @@ import { MY_PAGE } from "../../constants";
 import { useCookies } from "react-cookie";
 import { Button } from "@mui/material";
 import useScrollTop from "../../hooks/scroll/useScrollToTop";
+import { MYPAGE_API } from "../../apis";
 
 interface User {
   userId: string;
@@ -91,7 +92,7 @@ export default function Mypage() {
   const fetchData = async () => {
     try {
       const token = cookies.token;
-      const userData = await axios.get(`http://localhost:4041/api/v1/mypage`, {
+      const userData = await axios.get(MYPAGE_API.GET_USER, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -121,7 +122,7 @@ export default function Mypage() {
     }
     try {
       const token = cookies.token;
-      await axios.put(`http://localhost:4041/api/v1/mypage/update`, user, {
+      await axios.put(MYPAGE_API.UPDATE_USER, user, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
