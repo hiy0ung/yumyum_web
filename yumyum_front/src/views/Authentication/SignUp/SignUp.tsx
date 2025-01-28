@@ -32,7 +32,7 @@ import {
   Success,
 } from "../../../types/SignUp";
 import * as css from "./Style";
-import { MARKETING_AGREED, PRIVACY_POLICY_AGREED } from "../../../assets/agreedText";
+import { MARKETING_AGREED, PRIVACY_POLICY_AGREED } from "../../../assets/indtx";
 import { AUTH_API } from "../../../apis";
 
 function SignUp() {

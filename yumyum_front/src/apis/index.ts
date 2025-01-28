@@ -1,17 +1,23 @@
 export const BASE_URL = 'http://localhost:4041/api/v1';
 
 export const AUTH_API = {
-  LOGIN: `${BASE_URL}/auth/login`,
-  SIGNUP: `${BASE_URL}/auth/signup`,
+  LOGIN: `${BASE_URL}/auth/log-in`, // 완
+  SIGNUP: `${BASE_URL}/auth/signup`, 
   FIND_ID: `${BASE_URL}/mail/send/id`,
-  FIND_PASSWORD: `${BASE_URL}/mail/send/password`,
-  CHANGE_PASSWORD: `${BASE_URL}/auth/password/change`,
+  FIND_PASSWORD: `${BASE_URL}/mail/send/password`, 
+  RESET_PASSWORD: `${BASE_URL}/auth/password/reset`, // 완료
   SNS_SIGN_UP: `${BASE_URL}/auth/sns-sign-in/`,
   SNS_SIGN_IN: `${BASE_URL}/auth/sns-sign-in/`,
   SIGN_UP_SEARCH_USER_ID: `${BASE_URL}/auth/signUp/search/userId`,
   SIGN_UP_SEARCH_USER_EMAIL: `${BASE_URL}/auth/signUp/search/userEmail`,
   SIGN_UP_SEARCH_USER_BUSINESS_NUMBER: `${BASE_URL}/auth/signUp/search/userBusinessNumber`,
 
+};
+
+export const MYPAGE_API = {
+  GET_USER: `${BASE_URL}/mypage`, // 완료
+  DELETE_USER: `${BASE_URL}/mypage`, // 완료
+  UPDATE_USER: `${BASE_URL}/mypage`, // 완료
 };
 
 export const STORE_API = {
@@ -67,11 +73,7 @@ export const ORDER_API = {
   UPDATE_ORDER_STATE: (orderId: number) => `${BASE_URL}/orders/update/state/${orderId}`,
 };
 
-export const MYPAGE_API = {
-  GET_USER: `${BASE_URL}/mypage`,
-  DELETE_USER: `${BASE_URL}/mypage/delete`,
-  UPDATE_USER: `${BASE_URL}/mypage/update`,
-};
+
 
 export const CATEGORY_API = {
   GET_CATEGORIES: `${BASE_URL}/categories/get`,
