@@ -32,7 +32,7 @@ const ChangePassword = () => {
     const handlePasswordChange = async () => {
 
         try {
-            const response = await axios.post(AUTH_API.CHANGE_PASSWORD, {
+            const response = await axios.post(AUTH_API.RESET_PASSWORD, {
                 token,
                 newPassword,
                 confirmPassword,
