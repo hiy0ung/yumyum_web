@@ -287,7 +287,7 @@ export default function MenuModal({
     }));
     setMenuChecked([...menuChecked, false]);
   };
-  const addNewUpdateOption = (selectMenuId: number) => {
+  const addNewUpdateOption = () => {
     setUpdateMenu((prev) => ({
       ...prev,
       menuOptions: [
@@ -640,6 +640,7 @@ export default function MenuModal({
           );
         }
       }
+
       const response1 = await axios.get(
         MENU_API.GET_MENU(menuId),
         {
@@ -1322,8 +1323,8 @@ export default function MenuModal({
                               <div css={s.confirmButton}>
                                 <div>
                                   <button
-                                    onClick={() =>
-                                      addNewUpdateOption(selectedMenuId)
+                                    onClick={
+                                      addNewUpdateOption
                                     }
                                   >
                                     옵션그룹 추가

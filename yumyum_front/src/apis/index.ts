@@ -87,6 +87,7 @@ export const MENU_API = {
   GET_MENU: (menuId: number) => `${BASE_URL}/menus/${menuId}`,
   ADD_MENU: `${BASE_URL}/menus/add`,
   UPDATE_MENU: (menuId: number) => `${BASE_URL}/menus/update/${menuId}`,
+  UPDATE_MENU_STATE: (menuId: number) => `${BASE_URL}/menus/update/state/${menuId}`,
   DELETE_MENU: (menuId: number) => `${BASE_URL}/menus/delete/${menuId}`,
 };
 

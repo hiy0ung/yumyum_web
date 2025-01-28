@@ -129,24 +129,17 @@ export default function MenuManagement() {
     if (updateIsAvailable) {
       menuId = updateIsAvailable.menuId;
       try {
-        const token = cookies.token;
-        const categoryId = getCategoryIdFromName(
-          updateIsAvailable.menuCategory
-        );
+        const token = cookies.token; 
+
         await axios.put(
-          MENU_API.UPDATE_MENU(menuId),
+          MENU_API.UPDATE_MENU_STATE(menuId),
           {
-            categoryId: categoryId,
-            menuName: updateIsAvailable.menuName,
-            imageUrl: updateIsAvailable.imageUrl,
-            menuDescription: updateIsAvailable.menuDescription,
-            menuPrice: updateIsAvailable.menuPrice,
-            isAvailable: !updateIsAvailable.isAvailable,
-            menuOptions: updateIsAvailable.menuOptions,
+            isAvailable: !updateIsAvailable.isAvailable
           },
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
             },
           }
         );
@@ -154,13 +147,6 @@ export default function MenuManagement() {
         console.error("오류");
       }
     }
-  };
-
-  const getCategoryIdFromName = (categoryName: string) => {
-    const category = categories.find(
-      (cate) => cate.menuCategory === categoryName
-    );
-    return category ? category.id : null;
   };
 
   const updateCategorySequence = async (updatedCategories: Category[]) => {
