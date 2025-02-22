@@ -85,7 +85,7 @@ export default function SideBar() {
         pathHandle(location.pathname);
     }, [location.pathname]);
 
-    const checkStore = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const checkStore = async (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
         e.preventDefault();
         try {
             const response = await axios.get(STORE_API.GET_STORE, {
@@ -93,13 +93,14 @@ export default function SideBar() {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (response.data) {
-                navigate(STORE_PATH)
-            } else {
-                navigate(CREATE_STORE_PATH);
-            }
+            navigate(path);
         } catch (e) {
-            console.error(e);
+            if (axios.isAxiosError(e) && e.response?.status === 400) {
+                alert("가게를 먼저 등록해주세요!")
+                navigate(CREATE_STORE_PATH);
+            } else {
+                console.error(e)
+            }
         }
     };
 
@@ -124,7 +125,7 @@ export default function SideBar() {
                     <li css={pathValue === STORE_PATH && css.categoriesStyle}>
                         <Link
                             onClick={(e) => {
-                                checkStore(e);
+                                checkStore(e, STORE_PATH);
                             }}
                             to={STORE_PATH}
                         >
@@ -134,8 +135,8 @@ export default function SideBar() {
                     </li>
                     <li css={pathValue === MENU_PATH && css.categoriesStyle}>
                         <Link
-                            onClick={() => {
-                                pathHandle(MENU_PATH);
+                            onClick={(e) => {
+                                checkStore(e, MENU_PATH);
                             }}
                             to={MENU_PATH}
                         >
@@ -145,8 +146,8 @@ export default function SideBar() {
                     </li>
                     <li css={pathValue.startsWith(STATS_PATH) && css.categoriesStyle}>
                         <Link
-                            onClick={() => {
-                                pathHandle(STATS_PERIOD_PATH);
+                            onClick={(e) => {
+                                checkStore(e, STATS_PATH);
                             }}
                             to={STATS_PERIOD_PATH}
                         >
@@ -205,8 +206,8 @@ export default function SideBar() {
                     </li>
                     <li css={pathValue === REVIEW_PATH && css.categoriesStyle}>
                         <Link
-                            onClick={() => {
-                                pathHandle(REVIEW_PATH);
+                            onClick={(e) => {
+                                checkStore(e, REVIEW_PATH);
                             }}
                             to={REVIEW_PATH}
                         >
