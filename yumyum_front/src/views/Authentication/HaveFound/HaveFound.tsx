@@ -17,7 +17,7 @@ const HaveFound = () => {
     }, []);
     return (
         <>
-            <div css={css.found}>당신의 아이디는 {userId} 입니다</div>
+            <div css={css.found}>당신의 아이디는 {userId} 입니다.</div>
         </>
     );
 };
