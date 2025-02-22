@@ -10,7 +10,7 @@ export const AUTH_API = {
   SNS_SIGN_IN: `${BASE_URL}/auth/sns-sign-in/`,
   SIGN_UP_SEARCH_USER_ID: `${BASE_URL}/auth/sign-up/search/user-id`,
   SIGN_UP_SEARCH_USER_EMAIL: `${BASE_URL}/auth/sign-up/search/user-email`,
-  SIGN_UP_SEARCH_USER_BUSINESS_NUMBER: `${BASE_URL}/auth/sign-up/search/user-businessNumber`,
+  SIGN_UP_SEARCH_USER_BUSINESS_NUMBER: `${BASE_URL}/auth/sign-up/search/user-business-number`,
 
 };
 
