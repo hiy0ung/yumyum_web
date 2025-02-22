@@ -2,15 +2,15 @@ export const BASE_URL = 'http://localhost:4041/api/v1';
 
 export const AUTH_API = {
   LOGIN: `${BASE_URL}/auth/login`,
-  SIGNUP: `${BASE_URL}/auth/signup`,
+  SIGNUP: `${BASE_URL}/auth/sign-up`,
   FIND_ID: `${BASE_URL}/mail/send/id`,
   FIND_PASSWORD: `${BASE_URL}/mail/send/password`,
   CHANGE_PASSWORD: `${BASE_URL}/auth/password/change`,
   SNS_SIGN_UP: `${BASE_URL}/auth/sns-sign-in/`,
   SNS_SIGN_IN: `${BASE_URL}/auth/sns-sign-in/`,
-  SIGN_UP_SEARCH_USER_ID: `${BASE_URL}/auth/signUp/search/userId`,
-  SIGN_UP_SEARCH_USER_EMAIL: `${BASE_URL}/auth/signUp/search/userEmail`,
-  SIGN_UP_SEARCH_USER_BUSINESS_NUMBER: `${BASE_URL}/auth/signUp/search/userBusinessNumber`,
+  SIGN_UP_SEARCH_USER_ID: `${BASE_URL}/auth/sign-up/search/user-id`,
+  SIGN_UP_SEARCH_USER_EMAIL: `${BASE_URL}/auth/sign-up/search/user-email`,
+  SIGN_UP_SEARCH_USER_BUSINESS_NUMBER: `${BASE_URL}/auth/sign-up/search/user-businessNumber`,
 
 };
 
