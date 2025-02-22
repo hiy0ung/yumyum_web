@@ -12,7 +12,6 @@ export const AUTH_API = {
   SIGN_UP_SEARCH_USER_ID: `${API_BASE_URL}/auth/sign-up/search/user-id`, 
   SIGN_UP_SEARCH_USER_EMAIL: `${API_BASE_URL}/auth/sign-up/search/user-email`, 
   SIGN_UP_SEARCH_USER_BUSINESS_NUMBER: `${API_BASE_URL}/auth/sign-up/search/user-business-number`,
-
 };
 
 export const MYPAGE_API = {
