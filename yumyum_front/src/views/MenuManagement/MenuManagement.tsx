@@ -403,6 +403,14 @@ export default function MenuManagement() {
                       checked={checked}
                       onChange={handleChange}
                       css={s.modalCategory}
+                      sx={{
+                        "& .MuiSwitch-switchBase.Mui-checked": {
+                          color: "#58ccff",
+                        },
+                        "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                          backgroundColor: "#58ccff", 
+                        },
+                      }}
                     />
                   }
                   label="카테고리 추가"
@@ -417,6 +425,7 @@ export default function MenuManagement() {
                           name="menuCategory"
                           value={AddCategory.menuCategory}
                           onChange={categoryChangeHandler}
+                          style={{ border: "1px solid #ccc"}}
                         />
                         <input
                           type="number"
