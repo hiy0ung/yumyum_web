@@ -22,7 +22,7 @@ import {
 } from "../../types/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
-import { MENU_API, MENU_OPTION_API, IMAGE_API } from '../../apis';
+import { MENU_API, MENU_OPTION_API, IMAGE_API } from "../../apis";
 
 export default function MenuModal({
   modalStatus,
@@ -375,30 +375,24 @@ export default function MenuModal({
           ? prev.menuOptions.filter((_, index) => index !== optionIndex)
           : prev.menuOptions,
     }));
-    
+
     try {
       if (optionIndex === 0) {
         alert("옵션은 최소 한개 이상이여야 합니다");
       } else {
-        const response = await axios.get(
-          MENU_API.GET_MENU(selectedMenuId),
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(MENU_API.GET_MENU(selectedMenuId), {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = response.data.data;
         const deleteOptionId = data.menuOptions[optionIndex].menuOptionId;
-        
-        await axios.delete(
-          MENU_OPTION_API.DELETE_OPTION(deleteOptionId),
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+
+        await axios.delete(MENU_OPTION_API.DELETE_OPTION(deleteOptionId), {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       }
     } catch (e) {
       console.error(e);
@@ -451,14 +445,11 @@ export default function MenuModal({
       if (detailIndex === 0) {
         alert("디테일 옵션은 최소 한개 이상이여야 합니다");
       } else {
-        const response = await axios.get(
-          MENU_API.GET_MENU(selectedMenuId),
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(MENU_API.GET_MENU(selectedMenuId), {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = response.data.data;
         const deleteDetailId =
           data.menuOptions[optionIndex].optionDetails[detailIndex].detailId;
@@ -547,16 +538,12 @@ export default function MenuModal({
           alert("메뉴 카테고리를 선택해주세요");
           return;
         } else {
-          await axios.post(
-            MENU_API.ADD_MENU,
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
+          await axios.post(MENU_API.ADD_MENU, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          });
           setAddMenu({
             categoryId: 0,
             menuName: "",
@@ -597,14 +584,11 @@ export default function MenuModal({
   const menuUpdate = async (menuId: number) => {
     try {
       const token = cookies.token;
-      const response = await axios.get(
-        MENU_API.GET_MENU(menuId),
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(MENU_API.GET_MENU(menuId), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const result = response.data.data;
       if (updateMenu.menuOptions.length > result.menuOptions.length) {
         for (
@@ -641,14 +625,11 @@ export default function MenuModal({
         }
       }
 
-      const response1 = await axios.get(
-        MENU_API.GET_MENU(menuId),
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response1 = await axios.get(MENU_API.GET_MENU(menuId), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       for (let i = 0; i < updateMenu.menuOptions.length; i++) {
         if (
           updateMenu.menuOptions.map((menu) => menu.optionDetails.length)[i] >
@@ -736,16 +717,12 @@ export default function MenuModal({
         alert("카테고리를 선택해주세요");
         return;
       }
-      await axios.post(
-        MENU_API.UPDATE_MENU(menuId),
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.post(MENU_API.UPDATE_MENU(menuId), formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       alert("성공적으로 변경되었습니다.");
       updateModalClose();
       fetchData();
@@ -757,7 +734,7 @@ export default function MenuModal({
   const modalCloseEvent = () => {
     setImgPreview("");
     updateModalClose();
-  }
+  };
 
   const onClickUpload = () => {
     let myInput = document.getElementById("imageUrl");
@@ -778,7 +755,7 @@ export default function MenuModal({
             </div>
             <div css={s.categoryBody}>
               <div>
-                <div>메뉴명</div>
+                <div css={s.addMenuBody}>메뉴명</div>
                 <input
                   css={s.submitMenu}
                   type="text"
@@ -864,7 +841,21 @@ export default function MenuModal({
                 />
               </div>
               <FormControlLabel
-                control={<Switch checked={checked} onChange={handleChange} />}
+                control={
+                  <Switch
+                    checked={checked}
+                    onChange={handleChange}
+                    sx={{
+                      "& .MuiSwitch-switchBase.Mui-checked": {
+                        color: "#58ccff",
+                      },
+                      "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                        {
+                          backgroundColor: "#58ccff",
+                        },
+                    }}
+                  />
+                }
                 label="옵션 그룹 보기"
               />
               <Modal open={checked} onClose={closeOptionModal}>
@@ -918,6 +909,16 @@ export default function MenuModal({
                                           onChange={(event) =>
                                             menuHandleChange(event, optionIndex)
                                           }
+                                          sx={{
+                                            "& .MuiSwitch-switchBase.Mui-checked":
+                                              {
+                                                color: "#58ccff",
+                                              },
+                                            "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                                              {
+                                                backgroundColor: "#58ccff",
+                                              },
+                                          }}
                                         />
                                       }
                                       label="옵션 보기"
@@ -1014,12 +1015,18 @@ export default function MenuModal({
                               )}
                               <div css={s.confirmButton}>
                                 <div>
-                                  <button onClick={addNewOption}>
+                                  <button
+                                    onClick={addNewOption}
+                                    style={{ backgroundColor: "#58ccff" }}
+                                  >
                                     옵션그룹 추가
                                   </button>
                                 </div>
                                 <div>
-                                  <button onClick={closeOptionModal}>
+                                  <button
+                                    onClick={closeOptionModal}
+                                    style={{ backgroundColor: "#58ccff" }}
+                                  >
                                     확인
                                   </button>
                                 </div>
@@ -1079,9 +1086,21 @@ export default function MenuModal({
                 ) : (
                   <label css={s.imageLabel} htmlFor="imageUrl">
                     <span hidden>사진 수정</span>
-                    <img src={IMAGE_API.GET_IMAGE_PATH(updateMenu.imageUrl)} alt="사진 수정" style={{height: "200px", width: "200px", objectFit: "cover", objectPosition: "center"}}/>
-                    <button css={s.image} onClick={onClickUpload} style={{display: "none"}}>
-                    </button>
+                    <img
+                      src={IMAGE_API.GET_IMAGE_PATH(updateMenu.imageUrl)}
+                      alt="사진 수정"
+                      style={{
+                        height: "200px",
+                        width: "200px",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      }}
+                    />
+                    <button
+                      css={s.image}
+                      onClick={onClickUpload}
+                      style={{ display: "none" }}
+                    ></button>
                   </label>
                 )}
                 <input
@@ -1322,11 +1341,7 @@ export default function MenuModal({
                                 )}
                               <div css={s.confirmButton}>
                                 <div>
-                                  <button
-                                    onClick={
-                                      addNewUpdateOption
-                                    }
-                                  >
+                                  <button onClick={addNewUpdateOption}>
                                     옵션그룹 추가
                                   </button>
                                 </div>

@@ -123,11 +123,20 @@ export const modalCancleButton = css`
   margin-top: 10px;
 `;
 
+
 export const submitMenu = css`
   border: 1px solid #000;
   border-radius: 5px;
   padding: 5px 10px;
   margin-bottom: 5px;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  -moz-appearance: textfield;
 `;
 
 export const submitOptionMenu = css`
@@ -138,6 +147,7 @@ export const submitOptionMenu = css`
 
 export const addMenuBody = css`
   margin-top: 10px;
+  margin-bottom: 5px;
 `;
 
 export const isAvailable = css`
@@ -204,7 +214,7 @@ export const categorySubmit = css`
 export const addOptionDetail = css`
   width: 100%;
   border: none;
-  background-color: #58ccff;
+  background-color: #58ccff !important;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
@@ -433,7 +443,7 @@ export const addMenuButton = css`
 `;
 
 export const image = css`
-  background-color: #1976d2;
+  background-color: #58ccff;
   border: none;
   border-radius: 3px;
   color: #fff;
