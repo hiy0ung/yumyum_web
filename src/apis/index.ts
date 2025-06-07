@@ -21,7 +21,7 @@ export const MYPAGE_API = {
 };
 
 export const STORE_API = {
-  GET_STORE: `${API_BASE_URL}/stores/`,
+  GET_STORE: `${API_BASE_URL}/stores/info`,
   CREATE_STORE: `${API_BASE_URL}/stores`, 
   UPDATE_STORE: `${API_BASE_URL}/stores`, 
   DELETE_STORE: `${API_BASE_URL}/stores`, 
