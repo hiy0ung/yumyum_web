@@ -21,7 +21,7 @@ export const MYPAGE_API = {
 };
 
 export const STORE_API = {
-  GET_STORE: `${API_BASE_URL}/stores/`,
+  GET_STORE: `${API_BASE_URL}/stores/info`,
   CREATE_STORE: `${API_BASE_URL}/stores`, 
   UPDATE_STORE: `${API_BASE_URL}/stores`, 
   DELETE_STORE: `${API_BASE_URL}/stores`, 
@@ -38,10 +38,10 @@ export const PERIOD_STATS_API = {
   YEARLY: (date: string) => `${API_BASE_URL}/stats/year/${date}`, 
 };
 
-export const TIME_STATS_API = {
-  REVENUE: (date: string) => `${API_BASE_URL}/stats/revenue/${date}T00:00:00`,
-  QUANTITY: (date: string) => `${API_BASE_URL}/stats/time/quantity/${date}T00:00:00`,
-};
+// export const TIME_STATS_API = {
+//   REVENUE: (date: string) => `${API_BASE_URL}/stats/time/revenue/${date}`,
+//   QUANTITY: (date: string) => `${API_BASE_URL}/stats/time/quantity/${date}`,
+// };
 
 export const MENU_STATS_API = {
   TODAY: `${API_BASE_URL}/stats/menus/today`,
@@ -64,7 +64,7 @@ export const REVIEW_NOTICE_API = {
 };
 
 export const REVIEW_NOTICE_IMAGE_UPLOAD = {
-  UPLOAD: (imgUrl: string) => `${API_BASE_URL}/image/upload/${imgUrl}`,
+  UPLOAD: (imgUrl: string) => `${API_BASE_URL}/image/upload/notice/${imgUrl}`,
 };
 
 export const ORDER_API = {

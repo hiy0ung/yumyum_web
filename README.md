@@ -1,46 +1,119 @@
-# Getting Started with Create React App
+# YumYumTrack 🧑‍🍳
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**[산대특] IoT 기반 웹솔루션 개발자 과정 - 코리아아이티아카데미 부산**
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 💡 프로젝트 개요
+**가게 운영자들을 위한 관리 웹 서비스**
 
-### `npm start`
+매출 및 주문 데이터를 분석하고 효율적인 운영을 지원하는 것을 목표로 합니다.
+운영자는 실시간 매출 및 주문 현황을 확인할 수 있고, 직관적인 차트와 통계 데이터를 기반으로 고객 선호도를 알 수 있고, 메뉴 및 주문 관리 기능을 통해 운영 효율성을 높일 수 있습니다.
+또한, 고객 리뷰를 통해 서비스 품질을 개선하고, 서비스 만족도를 높일 수 있습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+> 데이터 분석 및 시각화
+- **실시간 매출 데이터 분석**: 시간별, 기간별, 메뉴별 매출 데이터를 분석하여 직관적인 차트로 제공
+- **주문 통계 제공**: 특정 기간 동안의 주문 수, 인기 메뉴, 평균 주문 금액 등의 통계 데이터 제공
+- **고객 리뷰 분석**: 고객 리뷰 데이터를 바탕으로 별점 평균, 긍정/부정 리뷰 분석 결과 제공
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+> 운영 관리
+- **매장 관리**: 매장 정보 등록, 수정, 삭제, 조회 기능 제공
+- **메뉴 관리**: 메뉴 추가, 수정, 삭제, 가격 조정, 메뉴 이미지 등록 및 조회 기능 제공
+- **주문 관리**: 주문 목록 조회, 주문 상태 관리 기능 제공
 
-### `npm test`
+> 리뷰 및 고객 피드백 관리
+- **리뷰 관리**: 고객이 작성한 리뷰 확인, 별점 및 내용 조회, 정렬 및 검색 기능 제공
+- **리뷰 코멘트 작성**: 매장 운영자가 고객 리뷰에 대한 답변(코멘트) 작성 및 수정 가능
+- **리뷰 이벤트 관리**: 리뷰 작성 유도를 위한 이벤트 등록 및 관리 기능 제공
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🔗 데모
+- [화면 구현](./public/yumyum_화면구현.png)
+- [배포 링크]()
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🛠️ 기술 스택
+- React.js
+- TypeScript
+- React Router
+- React Cookie
+- Zustand
+- Axios
+- React Query
+- MUI (Material UI)
+- Emotion (CSS-in-JS)
+- React Quill
+- react-daum-postcode
+- FullCalendar
+- Day.js
+- Recharts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 📌 주요 기능
+- 주문 완료된 하루 주문 건수 및 매출 데이터 업데이트
+- 시간대별 매출 및 주문 건수 통계 API 연동 및 차트 시각화
+- 회원가입 폼 UI 구현 및 로직 처리
+- 비밀번호 강도 검사 및 회원가입 입력값 유효성 검증 (중복 체크, 형식 오류 시 에러 메시지 출력)
+- 받은 주문 내역 조회 기능 및 관련 API 연동
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📌 담당 기능
+- 주문 완료된 하루 주문 건수, 매출 업데이트
+- 시간대별 매출과 주문 건수 통계 API 연동 및 차트 시각화
+- 회원가입 폼 UI 및 로직 구현
+- 회원가입 비밀번호 강도 검사 및 입력값 유효성 검증 (중복 체크, 형식 오류 시 에러 메시지 처리)
+- 받은 주문 내역 조회 기능 및 관련 API 연동
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 💻 프로젝트 실행 방법
+### 클론 및 폴더 이동
+```bash
+git clone https://github.com/hiy0ung/yumyum_web.git
+cd yumyum_web
+```
 
-## Learn More
+### 패키지 설치
+```bash
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 개발 서버 실행
+```bash
+npm run start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 빌드 방법
+```bash
+npm run build
+```
+
+## 📁 폴더 구조
+```md
+yumyum_web
+├── 📂 public
+├── 📂 src
+│   ├── 📂 apis
+│   ├── 📂 assets
+│   ├── 📂 constants
+│   ├── 📂 fonts
+│   ├── 📂 hooks
+│   ├── 📂 images
+│   ├── 📂 layouts
+│   ├── 📂 stores
+│   ├── 📂 styles
+│   ├── 📂 types
+│   ├── 📂 views
+│   ├── 📃 App.css
+│   ├── 🧪 App.test.tsx
+│   ├── ⚙️ App.tsx
+│   ├── 📃 index.css
+│   └── 📃 index.tsx
+├── 📦 package-lock.json
+├── 📦 package.json
+└── 🧭 tsconfig.json
+```
