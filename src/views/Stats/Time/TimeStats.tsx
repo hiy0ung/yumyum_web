@@ -29,7 +29,6 @@ import Calendar from "react-calendar";
 import "../../../styles/Calendar.css";
 import moment from "moment";
 import useScrollTop from "../../../hooks/scroll/useScrollToTop";
-import { TIME_STATS_API } from "../../../apis";
 
 export default function TimeStats() {
   const [calendarBox, setCalendarBox] = useState<Calender>({ calendar: false });
@@ -46,7 +45,7 @@ export default function TimeStats() {
   const fetchChart1 = async () => {
     try {
       const response = await axios.get(
-        TIME_STATS_API.REVENUE(orderDate),
+        `http://localhost:4041/api/v1/stats/time/revenue/${orderDate}T00:00:00`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -68,7 +67,7 @@ export default function TimeStats() {
   const fetchChart2 = async () => {
     try {
       const response = await axios.get(
-        TIME_STATS_API.QUANTITY(orderDate),
+        `http://localhost:4041/api/v1/stats/time/quantity/${orderDate}T00:00:00`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

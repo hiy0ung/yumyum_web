@@ -1,6 +1,6 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
+  "name": "yumyum",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@emotion/babel-plugin": "^11.12.0",

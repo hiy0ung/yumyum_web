@@ -193,7 +193,6 @@ export default function MenusStats() {
                 dataController(response);
             } else {
                 setData([]);
-                alert(`${selectDay} 해당 일의 데이터가 없습니다.`);
             }
         } catch (error) {
             console.error("data :", error);

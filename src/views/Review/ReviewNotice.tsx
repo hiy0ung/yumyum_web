@@ -98,6 +98,7 @@ const ReviewNotice = () => {
                     Authorization: `Bearer ${token}`
                 },
             });
+            console.log(response.data);
 
             if (response.data.data) {
                 setImgUrl(response.data.data.noticePhotoUrl);
