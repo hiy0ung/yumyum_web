@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/static/css/main.8af83c13.css",
+    "main.js": "/static/js/main.8a013393.js",
+    "static/media/NotoSansKR-Light.ttf": "/static/media/NotoSansKR-Light.eef1c4b85baf52cc28a7.ttf",
+    "static/media/NotoSansKR-Regular.ttf": "/static/media/NotoSansKR-Regular.9bc92a36ed81392f698b.ttf",
+    "static/media/NotoSansKR-Bold.ttf": "/static/media/NotoSansKR-Bold.f064e139058bfd9df2fb.ttf",
+    "static/media/food6.webp": "/static/media/food6.eef0936e72c234f3c491.webp",
+    "static/media/foodImg11.webp": "/static/media/foodImg11.47c49e5bbaa3d79e4101.webp",
+    "static/media/foodImg9.webp": "/static/media/foodImg9.15fb3c973cc68a790a4e.webp",
+    "static/media/food7.webp": "/static/media/food7.45465bf6ba3cb96f461d.webp",
+    "static/media/mainCardSectionBackgroundImg.webp": "/static/media/mainCardSectionBackgroundImg.e0694bc685cf4a6231d3.webp",
+    "static/media/food5.webp": "/static/media/food5.10eab51b2e4fa99005cc.webp",
+    "static/media/food3.webp": "/static/media/food3.61613d85f807d0a35c6d.webp",
+    "static/media/food8.webp": "/static/media/food8.ef90820f6cfc5bfe97ff.webp",
+    "static/media/food2.webp": "/static/media/food2.87565f7094a756779c8d.webp",
+    "static/media/food1.webp": "/static/media/food1.33bcbccd68a9bb539d22.webp",
+    "static/media/ex1.webp": "/static/media/ex1.1b4218164ae5f61fa3a7.webp",
+    "static/media/food4.webp": "/static/media/food4.395bcd07fd613e62bc2b.webp",
+    "static/media/yumyumLogo2.webp": "/static/media/yumyumLogo2.8b78d358cf2354434b26.webp",
+    "static/media/foodImg10.webp": "/static/media/foodImg10.5e19ce7d50d54355059b.webp",
+    "static/media/star.webp": "/static/media/star.c552b5c2accba77ebb81.webp",
+    "static/media/default_Profile_Img2.webp": "/static/media/default_Profile_Img2.42f9eeb5c05604154357.webp",
+    "static/media/kakao.webp": "/static/media/kakao.9e644bdb42c853a0b9eb.webp",
+    "static/media/default_Profile_Img.webp": "/static/media/default_Profile_Img.468bc2f6fe5fcfd7266e.webp",
+    "static/media/naver.webp": "/static/media/naver.eaabe200f83849dcdec4.webp",
+    "index.html": "/index.html",
+    "main.8af83c13.css.map": "/static/css/main.8af83c13.css.map",
+    "main.8a013393.js.map": "/static/js/main.8a013393.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8af83c13.css",
+    "static/js/main.8a013393.js"
+  ]
+}

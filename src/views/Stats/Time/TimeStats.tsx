@@ -41,11 +41,12 @@ export default function TimeStats() {
   const calendarRef = useRef<HTMLDivElement>(null);
   const scrollToTop = useScrollTop();
 
+  const BASE_URL = process.env.REACT_APP_API_DOMAIN ?? 'http://localhost:4041'; // fallback
 
   const fetchChart1 = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4041/api/v1/stats/time/revenue/${orderDate}T00:00:00`,
+        `${BASE_URL}/api/v1/stats/time/revenue/${orderDate}T00:00:00`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +68,7 @@ export default function TimeStats() {
   const fetchChart2 = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4041/api/v1/stats/time/quantity/${orderDate}T00:00:00`,
+        `${BASE_URL}/api/v1/stats/time/quantity/${orderDate}T00:00:00`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
