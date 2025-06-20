@@ -52,7 +52,7 @@ function SignUp() {
     privacyPolicyAgreed: false,
     marketingAgreed: false,
     snsId: snsId,
-    joinPath: joinPath ? joinPath : "Home",
+    joinPath: joinPath ? joinPath : "home",
   });
 
   const [errorsMsg, setErrorsMsg] = useState<Errors>({
